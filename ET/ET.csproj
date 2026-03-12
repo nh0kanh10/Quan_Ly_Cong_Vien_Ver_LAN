@@ -48,6 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="ET_TroChoi.cs" />
+    <Compile Include="ET_KhuVuc.cs" />
+    <Compile Include="ET_LoaiVe.cs" />
+    <Compile Include="ET_ComboDetailView.cs" />
+    <Compile Include="ET_TaiKhoan.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

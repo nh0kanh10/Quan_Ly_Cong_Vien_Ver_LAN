@@ -1,4 +1,4 @@
-﻿using ET;
+using ET;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,144 +26,195 @@ namespace DAL
                 instance = value;
             }
         }
-        QLKVCGTDataContext db = new QLKVCGTDataContext();
-
-
 
         public List<ET_TroChoi> loadDS()
         {
-            var ds = from tc in db.TroChois
-                     join kv in db.KhuVucs on tc.MaKhuVuc equals kv.MaKhuVuc
-                     select new ET_TroChoi
-                     {
-                         MaTroChoi = tc.MaTroChoi,
-                         MaCode = tc.MaCode,
-                         TenTroChoi = tc.TenTroChoi,
-                         MaKhuVuc = tc.MaKhuVuc,
-                         LoaiTroChoi = tc.LoaiTroChoi,
-                         SucChua = tc.SucChua,
-                         TuoiToiThieu = tc.TuoiToiThieu,
-                         ChieuCaoToiThieu = tc.ChieuCaoToiThieu,
-                         ThoiGianLuot = tc.ThoiGianLuot,
-                         MoTa = tc.MoTa,
-                         TrangThai = tc.TrangThai,
-                         NgayTao = tc.NgayTao,
-                         NgayCapNhat = tc.NgayCapNhat
-                     };
-            return ds.ToList();
+            using (QLKVCGTDataContext db = new QLKVCGTDataContext())
+            {
+                var ds = from tc in db.TroChois
+                         join kv in db.KhuVucs on tc.MaKhuVuc equals kv.MaKhuVuc
+                         select new ET_TroChoi
+                         {
+                             MaTroChoi = tc.MaTroChoi,
+                             MaCode = tc.MaCode,
+                             TenTroChoi = tc.TenTroChoi,
+                             MaKhuVuc = tc.MaKhuVuc,
+                             LoaiTroChoi = tc.LoaiTroChoi,
+                             SucChua = tc.SucChua,
+                             TuoiToiThieu = tc.TuoiToiThieu,
+                             ChieuCaoToiThieu = tc.ChieuCaoToiThieu,
+                             ThoiGianLuot = tc.ThoiGianLuot,
+                             MoTa = tc.MoTa,
+                             TrangThai = tc.TrangThai,
+                             NgayTao = tc.NgayTao,
+                             NgayCapNhat = tc.NgayCapNhat
+                         };
+                return ds.ToList();
+            }
         }
 
-        public int LayMaTroChoiLonNhat()
+        /// <summary>
+        /// Tìm kiếm trò chơi theo tên (không phân biệt hoa-thường)
+        /// </summary>
+        public List<ET_TroChoi> TimKiem(string tuKhoa)
         {
-            return db.TroChois.Max(x => (int?)x.MaTroChoi) ?? 0;
+            using (QLKVCGTDataContext db = new QLKVCGTDataContext())
+            {
+                var ds = from tc in db.TroChois
+                         join kv in db.KhuVucs on tc.MaKhuVuc equals kv.MaKhuVuc
+                         where tc.TenTroChoi.Contains(tuKhoa)
+                            || tc.MaCode.Contains(tuKhoa)
+                         select new ET_TroChoi
+                         {
+                             MaTroChoi = tc.MaTroChoi,
+                             MaCode = tc.MaCode,
+                             TenTroChoi = tc.TenTroChoi,
+                             MaKhuVuc = tc.MaKhuVuc,
+                             LoaiTroChoi = tc.LoaiTroChoi,
+                             SucChua = tc.SucChua,
+                             TuoiToiThieu = tc.TuoiToiThieu,
+                             ChieuCaoToiThieu = tc.ChieuCaoToiThieu,
+                             ThoiGianLuot = tc.ThoiGianLuot,
+                             MoTa = tc.MoTa,
+                             TrangThai = tc.TrangThai,
+                             NgayTao = tc.NgayTao,
+                             NgayCapNhat = tc.NgayCapNhat
+                         };
+                return ds.ToList();
+            }
         }
 
+        /// <summary>
+        /// Tạo mã code tiếp theo theo format G + 3 chữ số (G001, G002...)
+        /// </summary>
         public string LayMaCodeTiepTheo()
         {
-            string maxMaDatPhong = db.TroChois
-            .Select(t => t.MaCode)
-            .ToList()
-            // Sắp xếp giảm dần và lấy bản ghi đầu tiên
-            .OrderByDescending(t => int.TryParse(t.Substring(2), out int num) ? num : 0)
-            .FirstOrDefault(); // Trả về mã lớn nhất, hoặc null nếu không có bản ghi nào
-
-            // Xử lý trường hợp bảng rỗng
-            if (string.IsNullOrEmpty(maxMaDatPhong))
+            using (QLKVCGTDataContext db = new QLKVCGTDataContext())
             {
-                maxMaDatPhong = "TC000";
-            }
+                string maxMaCode = db.TroChois
+                    .Select(t => t.MaCode)
+                    .ToList()
+                    .OrderByDescending(t => int.TryParse(t.Substring(1), out int num) ? num : 0)
+                    .FirstOrDefault();
 
-            // --- Logic tạo mã tiếp theo (Tương tự như trước) ---
-            int maxNumber = 0;
-            if (maxMaDatPhong.Length >= 4)
+                if (string.IsNullOrEmpty(maxMaCode))
+                {
+                    maxMaCode = "G000";
+                }
+
+                int maxNumber = 0;
+                if (maxMaCode.Length >= 2)
+                {
+                    string numberPart = maxMaCode.Substring(1);
+                    int.TryParse(numberPart, out maxNumber);
+                }
+
+                int nextNumber = maxNumber + 1;
+                string nextMaCode = "G" + nextNumber.ToString().PadLeft(3, '0');
+
+                return nextMaCode;
+            }
+        }
+
+        /// <summary>
+        /// Kiểm tra tên trò chơi trùng trong cùng khu vực.
+        /// maCodeHienTai = null khi thêm mới, = MaCode hiện tại khi sửa.
+        /// </summary>
+        public bool KiemTraTrungTen(string tenTroChoi, int maKhuVuc, string maCodeHienTai = null)
+        {
+            using (QLKVCGTDataContext db = new QLKVCGTDataContext())
             {
-                string numberPart = maxMaDatPhong.Substring(2);
-                int.TryParse(numberPart, out maxNumber);
+                var query = db.TroChois.Where(
+                    tc => tc.TenTroChoi == tenTroChoi && tc.MaKhuVuc == maKhuVuc);
+
+                if (!string.IsNullOrEmpty(maCodeHienTai))
+                {
+                    query = query.Where(tc => tc.MaCode != maCodeHienTai);
+                }
+
+                return query.Any();
             }
-
-            int nextNumber = maxNumber + 1;
-            string nextMaDatPhong = "TC" + nextNumber.ToString().PadLeft(3, '0');
-
-            return nextMaDatPhong;
         }
 
         public bool ThemTroChoi(ET_TroChoi et)
         {
             try
             {
-                string nextMaCode = LayMaCodeTiepTheo();
-                int nextMaTC = LayMaTroChoiLonNhat();
-                TroChoi tc = new TroChoi
+                using (QLKVCGTDataContext db = new QLKVCGTDataContext())
                 {
-                    //gán mã tự động
-                    MaCode = nextMaCode,
-                    MaKhuVuc = et.MaKhuVuc,
-                    TenTroChoi = et.TenTroChoi,
-                    LoaiTroChoi = et.LoaiTroChoi,
-                    SucChua = et.SucChua,
-                    TuoiToiThieu = et.TuoiToiThieu,
-                    ChieuCaoToiThieu = et.ChieuCaoToiThieu,
-                    ThoiGianLuot = et.ThoiGianLuot,
-                    MoTa = et.MoTa,
-                    TrangThai = et.TrangThai,
-                    NgayTao = et.NgayTao,
-                    NgayCapNhat = et.NgayCapNhat,
-                };
-                db.TroChois.InsertOnSubmit(tc);
-                db.SubmitChanges();
-                return true;
+                    string nextMaCode = LayMaCodeTiepTheo();
+                    TroChoi tc = new TroChoi
+                    {
+                        MaCode = nextMaCode,
+                        MaKhuVuc = et.MaKhuVuc,
+                        TenTroChoi = et.TenTroChoi,
+                        LoaiTroChoi = et.LoaiTroChoi,
+                        SucChua = et.SucChua,
+                        TuoiToiThieu = et.TuoiToiThieu,
+                        ChieuCaoToiThieu = et.ChieuCaoToiThieu,
+                        ThoiGianLuot = et.ThoiGianLuot,
+                        MoTa = et.MoTa,
+                        TrangThai = et.TrangThai,
+                        NgayTao = DateTime.Now,
+                        NgayCapNhat = null,
+                    };
+                    db.TroChois.InsertOnSubmit(tc);
+                    db.SubmitChanges();
+                    return true;
+                }
             }
             catch
             {
                 return false;
             }
         }
+
         public bool SuaTroChoi(ET_TroChoi et)
         {
             try
             {
-                TroChoi t = db.TroChois.SingleOrDefault(x => x.MaCode == et.MaCode);
-                if(t != null)
+                using (QLKVCGTDataContext db = new QLKVCGTDataContext())
                 {
-                    //gán mã tự động
-
-                    t.MaKhuVuc = et.MaKhuVuc;
-                    t.TenTroChoi = et.TenTroChoi;
-                    t.LoaiTroChoi = et.LoaiTroChoi;
-                    t.SucChua = et.SucChua;
-                    t.TuoiToiThieu = et.TuoiToiThieu;
-                    t.ChieuCaoToiThieu = et.ChieuCaoToiThieu;
-                    t.ThoiGianLuot = et.ThoiGianLuot;
-                    t.MoTa = et.MoTa;
-                    t.TrangThai = et.TrangThai;
-                    t.NgayTao = et.NgayTao;
-                    t.NgayCapNhat = et.NgayCapNhat;
-                    db.SubmitChanges();
-                    return true;
+                    TroChoi t = db.TroChois.SingleOrDefault(x => x.MaCode == et.MaCode);
+                    if (t != null)
+                    {
+                        t.MaKhuVuc = et.MaKhuVuc;
+                        t.TenTroChoi = et.TenTroChoi;
+                        t.LoaiTroChoi = et.LoaiTroChoi;
+                        t.SucChua = et.SucChua;
+                        t.TuoiToiThieu = et.TuoiToiThieu;
+                        t.ChieuCaoToiThieu = et.ChieuCaoToiThieu;
+                        t.ThoiGianLuot = et.ThoiGianLuot;
+                        t.MoTa = et.MoTa;
+                        t.TrangThai = et.TrangThai;
+                        // NgayTao giữ nguyên, chỉ cập nhật NgayCapNhat
+                        t.NgayCapNhat = DateTime.Now;
+                        db.SubmitChanges();
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-
-
             }
             catch
             {
                 return false;
             }
         }
+
         public bool xoaTC(string maCode)
         {
             try
             {
-                var xoa = from tc in db.TroChois
-                         where tc.MaCode == maCode
-                         select tc;
-
-                foreach(var item in xoa)
+                using (QLKVCGTDataContext db = new QLKVCGTDataContext())
                 {
-                    db.TroChois.DeleteOnSubmit(item);
-                    db.SubmitChanges();
+                    var troChoi = db.TroChois.SingleOrDefault(tc => tc.MaCode == maCode);
+                    if (troChoi != null)
+                    {
+                        db.TroChois.DeleteOnSubmit(troChoi);
+                        db.SubmitChanges();
+                    }
+                    return true;
                 }
-                return true;
             }
             catch (System.Data.SqlClient.SqlException ex)
             {

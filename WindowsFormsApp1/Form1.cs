@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using ET;
 
 namespace WindowsFormsApp1
 {
@@ -85,12 +86,33 @@ namespace WindowsFormsApp1
 
         private void btnSach_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new frmQuanLyVe(), sender);
+            OpenChildForm(new frmLoaiVe(), sender);
         }
 
         private void btnLinhVuc_Click(object sender, EventArgs e)
         {
             OpenChildForm(new frmKhuVuc(), sender);
+        }
+
+        private void btnKhachHang_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new frmTroChoi(), sender);
+        }
+
+        private void btnTaiKhoan_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new frmQuanLyTaiKhoan(), sender);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            if (this.Tag is ET_TaiKhoan tk)
+            {
+                if (tk.VaiTro != "Admin")
+                {
+                    btnTaiKhoan.Visible = false;
+                }
+            }
         }
     }
 }

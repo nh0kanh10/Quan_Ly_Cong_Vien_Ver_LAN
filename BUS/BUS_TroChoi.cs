@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,17 +30,81 @@ namespace BUS
         {
             return DAL_TroChoi.Instance.loadDS();
         }
+
+        public List<ET_TroChoi> loadDSTheoKhuVuc(int maKhuVuc)
+        {
+            return DAL_TroChoi.Instance.loadDS()
+                .Where(tc => tc.MaKhuVuc == maKhuVuc).ToList();
+        }
+
+        public List<ET_TroChoi> timKiem(string tuKhoa)
+        {
+            return DAL_TroChoi.Instance.TimKiem(tuKhoa);
+        }
+
+        public List<ET_TroChoi> timKiemTheoKhuVuc(string tuKhoa, int maKhuVuc)
+        {
+            return DAL_TroChoi.Instance.TimKiem(tuKhoa)
+                .Where(tc => tc.MaKhuVuc == maKhuVuc).ToList();
+        }
+
         public string layMaCodeTiepTheo()
         {
             return DAL_TroChoi.Instance.LayMaCodeTiepTheo();
         }
-        public int layMaTroChoiLonNhat()
+
+        /// <summary>
+        /// Validate dữ liệu trò chơi trước khi thêm/sửa.
+        /// Return: chuỗi rỗng = hợp lệ, ngược lại = thông báo lỗi.
+        /// </summary>
+        public string ValidateTroChoi(ET_TroChoi et, bool laThem = true)
         {
-            return DAL_TroChoi.Instance.LayMaTroChoiLonNhat();
+            // Rule 1: Tên trò chơi bỏ trống
+            if (string.IsNullOrWhiteSpace(et.TenTroChoi))
+                return "Vui lòng nhập tên trò chơi";
+
+            // Rule 6: Tên > 150 ký tự
+            if (et.TenTroChoi.Trim().Length > 150)
+                return "Tên trò chơi không được vượt quá 150 ký tự";
+
+            // Rule 2: Chưa chọn khu vực
+            if (et.MaKhuVuc <= 0)
+                return "Vui lòng chọn khu vực";
+
+            // Rule 3: Chưa chọn loại trò chơi
+            if (string.IsNullOrWhiteSpace(et.LoaiTroChoi))
+                return "Vui lòng chọn loại trò chơi";
+
+            // Rule 4: Sức chứa <= 0
+            if (et.SucChua <= 0)
+                return "Sức chứa phải lớn hơn 0";
+
+            // Rule 8: Tuổi tối thiểu < 0
+            if (et.TuoiToiThieu < 0)
+                return "Tuổi tối thiểu không được âm";
+
+            // Rule 9: Chiều cao < 0
+            if (et.ChieuCaoToiThieu < 0)
+                return "Chiều cao tối thiểu không được âm";
+
+            // Rule: Thời gian lượt <= 0
+            if (et.ThoiGianLuot <= 0)
+                return "Thời gian lượt phải lớn hơn 0";
+
+            // Rule 7: Mô tả > 500 ký tự
+            if (!string.IsNullOrEmpty(et.MoTa) && et.MoTa.Length > 500)
+                return "Mô tả không được vượt quá 500 ký tự";
+
+            // Rule 5: Tên trùng trong cùng khu vực
+            if (DAL_TroChoi.Instance.KiemTraTrungTen(et.TenTroChoi.Trim(), et.MaKhuVuc, laThem ? null : et.MaCode))
+                return "Tên trò chơi đã tồn tại trong khu vực này";
+
+            return "";
         }
 
         public bool themTroChoi(ET_TroChoi et)
         {
+            et.TenTroChoi = et.TenTroChoi.Trim();
             return DAL_TroChoi.Instance.ThemTroChoi(et);
         }
 
@@ -50,6 +114,7 @@ namespace BUS
         }
         public bool capNhatTroChoi(ET_TroChoi et)
         {
+            et.TenTroChoi = et.TenTroChoi.Trim();
             return DAL_TroChoi.Instance.SuaTroChoi(et);
         }
     }

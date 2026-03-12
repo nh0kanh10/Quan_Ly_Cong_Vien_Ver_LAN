@@ -33,5 +33,16 @@ namespace DAL.Properties {
                 return ((string)(this["QuanLyCongVienConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=Admin-PC\\SQLEXPRESS;Initial Catalog=QuanLyCongVien;User ID=admin;Pass" +
+            "word=123456;Encrypt=True;TrustServerCertificate=True")]
+        public string QuanLyCongVienConnectionString1 {
+            get {
+                return ((string)(this["QuanLyCongVienConnectionString1"]));
+            }
+        }
     }
 }
