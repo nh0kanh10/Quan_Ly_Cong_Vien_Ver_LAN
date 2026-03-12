@@ -30,15 +30,18 @@ namespace DAL
 		
     #region Extensibility Method Definitions
     partial void OnCreated();
+    partial void InsertCaLam(CaLam instance);
+    partial void UpdateCaLam(CaLam instance);
+    partial void DeleteCaLam(CaLam instance);
     partial void InsertBaoTri(BaoTri instance);
     partial void UpdateBaoTri(BaoTri instance);
     partial void DeleteBaoTri(BaoTri instance);
     partial void InsertTroChoi(TroChoi instance);
     partial void UpdateTroChoi(TroChoi instance);
     partial void DeleteTroChoi(TroChoi instance);
-    partial void InsertCaLam(CaLam instance);
-    partial void UpdateCaLam(CaLam instance);
-    partial void DeleteCaLam(CaLam instance);
+    partial void InsertCaLam1(CaLam1 instance);
+    partial void UpdateCaLam1(CaLam1 instance);
+    partial void DeleteCaLam1(CaLam1 instance);
     partial void InsertChiTietCombo(ChiTietCombo instance);
     partial void UpdateChiTietCombo(ChiTietCombo instance);
     partial void DeleteChiTietCombo(ChiTietCombo instance);
@@ -78,7 +81,7 @@ namespace DAL
     #endregion
 		
 		public QLKVCGTDataContext() : 
-				base(global::DAL.Properties.Settings.Default.QuanLyCongVienConnectionString, mappingSource)
+				base(global::DAL.Properties.Settings.Default.QuanLyCongVienConnectionString2, mappingSource)
 		{
 			OnCreated();
 		}
@@ -107,6 +110,14 @@ namespace DAL
 			OnCreated();
 		}
 		
+		public System.Data.Linq.Table<CaLam> CaLams
+		{
+			get
+			{
+				return this.GetTable<CaLam>();
+			}
+		}
+		
 		public System.Data.Linq.Table<BaoTri> BaoTris
 		{
 			get
@@ -123,11 +134,11 @@ namespace DAL
 			}
 		}
 		
-		public System.Data.Linq.Table<CaLam> CaLams
+		public System.Data.Linq.Table<CaLam1> CaLam1s
 		{
 			get
 			{
-				return this.GetTable<CaLam>();
+				return this.GetTable<CaLam1>();
 			}
 		}
 		
@@ -225,6 +236,216 @@ namespace DAL
 			{
 				return this.GetTable<TaiKhoan>();
 			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CaLam")]
+	public partial class CaLam : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _MaCaLam;
+		
+		private string _TenCaLam;
+		
+		private System.TimeSpan _GioBatDau;
+		
+		private System.TimeSpan _GioKetThuc;
+		
+		private System.DateTime _NgayTao;
+		
+		private System.Nullable<System.DateTime> _NgayCapNhat;
+		
+		private EntitySet<PhanCa> _PhanCas;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnMaCaLamChanging(int value);
+    partial void OnMaCaLamChanged();
+    partial void OnTenCaLamChanging(string value);
+    partial void OnTenCaLamChanged();
+    partial void OnGioBatDauChanging(System.TimeSpan value);
+    partial void OnGioBatDauChanged();
+    partial void OnGioKetThucChanging(System.TimeSpan value);
+    partial void OnGioKetThucChanged();
+    partial void OnNgayTaoChanging(System.DateTime value);
+    partial void OnNgayTaoChanged();
+    partial void OnNgayCapNhatChanging(System.Nullable<System.DateTime> value);
+    partial void OnNgayCapNhatChanged();
+    #endregion
+		
+		public CaLam()
+		{
+			this._PhanCas = new EntitySet<PhanCa>(new Action<PhanCa>(this.attach_PhanCas), new Action<PhanCa>(this.detach_PhanCas));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MaCaLam", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int MaCaLam
+		{
+			get
+			{
+				return this._MaCaLam;
+			}
+			set
+			{
+				if ((this._MaCaLam != value))
+				{
+					this.OnMaCaLamChanging(value);
+					this.SendPropertyChanging();
+					this._MaCaLam = value;
+					this.SendPropertyChanged("MaCaLam");
+					this.OnMaCaLamChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_TenCaLam", DbType="NVarChar(50) NOT NULL", CanBeNull=false)]
+		public string TenCaLam
+		{
+			get
+			{
+				return this._TenCaLam;
+			}
+			set
+			{
+				if ((this._TenCaLam != value))
+				{
+					this.OnTenCaLamChanging(value);
+					this.SendPropertyChanging();
+					this._TenCaLam = value;
+					this.SendPropertyChanged("TenCaLam");
+					this.OnTenCaLamChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GioBatDau", DbType="Time NOT NULL")]
+		public System.TimeSpan GioBatDau
+		{
+			get
+			{
+				return this._GioBatDau;
+			}
+			set
+			{
+				if ((this._GioBatDau != value))
+				{
+					this.OnGioBatDauChanging(value);
+					this.SendPropertyChanging();
+					this._GioBatDau = value;
+					this.SendPropertyChanged("GioBatDau");
+					this.OnGioBatDauChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_GioKetThuc", DbType="Time NOT NULL")]
+		public System.TimeSpan GioKetThuc
+		{
+			get
+			{
+				return this._GioKetThuc;
+			}
+			set
+			{
+				if ((this._GioKetThuc != value))
+				{
+					this.OnGioKetThucChanging(value);
+					this.SendPropertyChanging();
+					this._GioKetThuc = value;
+					this.SendPropertyChanged("GioKetThuc");
+					this.OnGioKetThucChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayTao", DbType="DateTime NOT NULL")]
+		public System.DateTime NgayTao
+		{
+			get
+			{
+				return this._NgayTao;
+			}
+			set
+			{
+				if ((this._NgayTao != value))
+				{
+					this.OnNgayTaoChanging(value);
+					this.SendPropertyChanging();
+					this._NgayTao = value;
+					this.SendPropertyChanged("NgayTao");
+					this.OnNgayTaoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NgayCapNhat", DbType="DateTime")]
+		public System.Nullable<System.DateTime> NgayCapNhat
+		{
+			get
+			{
+				return this._NgayCapNhat;
+			}
+			set
+			{
+				if ((this._NgayCapNhat != value))
+				{
+					this.OnNgayCapNhatChanging(value);
+					this.SendPropertyChanging();
+					this._NgayCapNhat = value;
+					this.SendPropertyChanged("NgayCapNhat");
+					this.OnNgayCapNhatChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CaLam_PhanCa", Storage="_PhanCas", ThisKey="MaCaLam", OtherKey="MaCaLam")]
+		public EntitySet<PhanCa> PhanCas
+		{
+			get
+			{
+				return this._PhanCas;
+			}
+			set
+			{
+				this._PhanCas.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_PhanCas(PhanCa entity)
+		{
+			this.SendPropertyChanging();
+			entity.CaLam = this;
+		}
+		
+		private void detach_PhanCas(PhanCa entity)
+		{
+			this.SendPropertyChanging();
+			entity.CaLam = null;
 		}
 	}
 	
@@ -1032,7 +1253,7 @@ namespace DAL
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.CaLam")]
-	public partial class CaLam : INotifyPropertyChanging, INotifyPropertyChanged
+	public partial class CaLam1 : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
@@ -1069,7 +1290,7 @@ namespace DAL
     partial void OnNgayCapNhatChanged();
     #endregion
 		
-		public CaLam()
+		public CaLam1()
 		{
 			this._PhanCas = new EntitySet<PhanCa>(new Action<PhanCa>(this.attach_PhanCas), new Action<PhanCa>(this.detach_PhanCas));
 			OnCreated();
@@ -1195,7 +1416,7 @@ namespace DAL
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CaLam_PhanCa", Storage="_PhanCas", ThisKey="MaCaLam", OtherKey="MaCaLam")]
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CaLam1_PhanCa", Storage="_PhanCas", ThisKey="MaCaLam", OtherKey="MaCaLam")]
 		public EntitySet<PhanCa> PhanCas
 		{
 			get
@@ -1231,13 +1452,13 @@ namespace DAL
 		private void attach_PhanCas(PhanCa entity)
 		{
 			this.SendPropertyChanging();
-			entity.CaLam = this;
+			entity.CaLam1 = this;
 		}
 		
 		private void detach_PhanCas(PhanCa entity)
 		{
 			this.SendPropertyChanging();
-			entity.CaLam = null;
+			entity.CaLam1 = null;
 		}
 	}
 	
@@ -4346,6 +4567,8 @@ namespace DAL
 		
 		private EntityRef<CaLam> _CaLam;
 		
+		private EntityRef<CaLam1> _CaLam1;
+		
 		private EntityRef<NhanVien> _NhanVien;
 		
     #region Extensibility Method Definitions
@@ -4371,6 +4594,7 @@ namespace DAL
 		public PhanCa()
 		{
 			this._CaLam = default(EntityRef<CaLam>);
+			this._CaLam1 = default(EntityRef<CaLam1>);
 			this._NhanVien = default(EntityRef<NhanVien>);
 			OnCreated();
 		}
@@ -4430,7 +4654,7 @@ namespace DAL
 			{
 				if ((this._MaCaLam != value))
 				{
-					if (this._CaLam.HasLoadedOrAssignedValue)
+					if ((this._CaLam.HasLoadedOrAssignedValue || this._CaLam1.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -4553,6 +4777,40 @@ namespace DAL
 						this._MaCaLam = default(int);
 					}
 					this.SendPropertyChanged("CaLam");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="CaLam1_PhanCa", Storage="_CaLam1", ThisKey="MaCaLam", OtherKey="MaCaLam", IsForeignKey=true)]
+		public CaLam1 CaLam1
+		{
+			get
+			{
+				return this._CaLam1.Entity;
+			}
+			set
+			{
+				CaLam1 previousValue = this._CaLam1.Entity;
+				if (((previousValue != value) 
+							|| (this._CaLam1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._CaLam1.Entity = null;
+						previousValue.PhanCas.Remove(this);
+					}
+					this._CaLam1.Entity = value;
+					if ((value != null))
+					{
+						value.PhanCas.Add(this);
+						this._MaCaLam = value.MaCaLam;
+					}
+					else
+					{
+						this._MaCaLam = default(int);
+					}
+					this.SendPropertyChanged("CaLam1");
 				}
 			}
 		}

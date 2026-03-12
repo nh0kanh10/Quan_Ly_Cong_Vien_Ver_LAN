@@ -33,5 +33,27 @@ namespace DAL.Properties {
                 return ((string)(this["QuanLyCongVienConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=Admin-PC\\SQLEXPRESS;Initial Catalog=QuanLyCongVien;User ID=admin;Pass" +
+            "word=123456;TrustServerCertificate=True")]
+        public string QuanLyCongVienConnectionString1 {
+            get {
+                return ((string)(this["QuanLyCongVienConnectionString1"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=LAPTOP-4K31QLOO\\SQLEXPRESS;Initial Catalog=QuanLyCongVien;Integrated " +
+            "Security=True;Encrypt=True;TrustServerCertificate=True")]
+        public string QuanLyCongVienConnectionString2 {
+            get {
+                return ((string)(this["QuanLyCongVienConnectionString2"]));
+            }
+        }
     }
 }

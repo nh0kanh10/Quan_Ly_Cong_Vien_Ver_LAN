@@ -1,5 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="QuanLyCongVien" Class="QLKVCGTDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-4K31QLOO\SQLEXPRESS;Initial Catalog=QuanLyCongVien;Integrated Security=True;Trust Server Certificate=True" SettingsObjectName="DAL.Properties.Settings" SettingsPropertyName="QuanLyCongVienConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=LAPTOP-4K31QLOO\SQLEXPRESS;Initial Catalog=QuanLyCongVien;Integrated Security=True;Encrypt=True;Trust Server Certificate=True" SettingsObjectName="DAL.Properties.Settings" SettingsPropertyName="QuanLyCongVienConnectionString2" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.CaLam" Member="CaLams">
+    <Type Name="CaLam">
+      <Column Name="MaCaLam" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenCaLam" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="GioBatDau" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
+      <Column Name="GioKetThuc" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
+      <Column Name="NgayTao" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="NgayCapNhat" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="CaLam_PhanCa" Member="PhanCas" ThisKey="MaCaLam" OtherKey="MaCaLam" Type="PhanCa" />
+    </Type>
+  </Table>
   <Table Name="dbo.BaoTri" Member="BaoTris">
     <Type Name="BaoTri">
       <Column Name="MaBaoTri" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -36,15 +47,15 @@
       <Association Name="KhuVuc_TroChoi" Member="KhuVuc" ThisKey="MaKhuVuc" OtherKey="MaKhuVuc" Type="KhuVuc" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.CaLam" Member="CaLams">
-    <Type Name="CaLam">
+  <Table Name="dbo.CaLam" Member="CaLam1s">
+    <Type Name="CaLam1">
       <Column Name="MaCaLam" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TenCaLam" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
       <Column Name="GioBatDau" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
       <Column Name="GioKetThuc" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
       <Column Name="NgayTao" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="NgayCapNhat" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
-      <Association Name="CaLam_PhanCa" Member="PhanCas" ThisKey="MaCaLam" OtherKey="MaCaLam" Type="PhanCa" />
+      <Association Name="CaLam1_PhanCa" Member="PhanCas" ThisKey="MaCaLam" OtherKey="MaCaLam" Type="PhanCa" />
     </Type>
   </Table>
   <Table Name="dbo.ChiTietCombo" Member="ChiTietCombos">
@@ -199,6 +210,7 @@
       <Column Name="NgayTao" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="NgayCapNhat" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Association Name="CaLam_PhanCa" Member="CaLam" ThisKey="MaCaLam" OtherKey="MaCaLam" Type="CaLam" IsForeignKey="true" />
+      <Association Name="CaLam1_PhanCa" Member="CaLam1" ThisKey="MaCaLam" OtherKey="MaCaLam" Type="CaLam1" IsForeignKey="true" />
       <Association Name="NhanVien_PhanCa" Member="NhanVien" ThisKey="MaNhanVien" OtherKey="MaNhanVien" Type="NhanVien" IsForeignKey="true" />
     </Type>
   </Table>
