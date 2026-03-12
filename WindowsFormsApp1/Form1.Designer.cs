@@ -104,6 +104,7 @@
             this.btnKhachHang.Text = "TRÒ CHƠI";
             this.btnKhachHang.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnKhachHang.UseVisualStyleBackColor = false;
+            this.btnKhachHang.Click += new System.EventHandler(this.btnKhachHang_Click);
             // 
             // btnLinhVuc
             // 
@@ -195,6 +196,7 @@
             this.pnlDesktop.Name = "pnlDesktop";
             this.pnlDesktop.Size = new System.Drawing.Size(962, 673);
             this.pnlDesktop.TabIndex = 2;
+            this.pnlDesktop.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlDesktop_Paint);
             // 
             // Form1
             // 

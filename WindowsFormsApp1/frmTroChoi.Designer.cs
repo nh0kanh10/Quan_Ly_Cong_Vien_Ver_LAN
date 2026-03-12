@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.dgvTroChoi = new System.Windows.Forms.DataGridView();
             this.pnlTimKiem = new System.Windows.Forms.Panel();
             this.txtTimKiem = new System.Windows.Forms.TextBox();
@@ -67,11 +68,13 @@
             this.btnXoa = new System.Windows.Forms.Button();
             this.btnSua = new System.Windows.Forms.Button();
             this.btnThem = new System.Windows.Forms.Button();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTroChoi)).BeginInit();
             this.pnlTimKiem.SuspendLayout();
             this.panel1.SuspendLayout();
             this.gbThongTin.SuspendLayout();
             this.pnlChucNang.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // dgvTroChoi
@@ -184,6 +187,7 @@
             // 
             // txtMaKV
             // 
+            this.txtMaKV.Enabled = false;
             this.txtMaKV.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtMaKV.Location = new System.Drawing.Point(994, 46);
             this.txtMaKV.Name = "txtMaKV";
@@ -197,6 +201,8 @@
             this.txtSucChua.Name = "txtSucChua";
             this.txtSucChua.Size = new System.Drawing.Size(218, 30);
             this.txtSucChua.TabIndex = 42;
+            this.txtSucChua.TextChanged += new System.EventHandler(this.txtSucChua_TextChanged);
+            this.txtSucChua.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtSucChua_KeyPress);
             // 
             // label4
             // 
@@ -216,6 +222,7 @@
             this.cboLoaiTC.Name = "cboLoaiTC";
             this.cboLoaiTC.Size = new System.Drawing.Size(218, 24);
             this.cboLoaiTC.TabIndex = 40;
+            this.cboLoaiTC.SelectedIndexChanged += new System.EventHandler(this.cboLoaiTC_SelectedIndexChanged);
             // 
             // richTextBox1
             // 
@@ -261,6 +268,8 @@
             this.txtThoiGianLuot.Name = "txtThoiGianLuot";
             this.txtThoiGianLuot.Size = new System.Drawing.Size(218, 30);
             this.txtThoiGianLuot.TabIndex = 35;
+            this.txtThoiGianLuot.TextChanged += new System.EventHandler(this.txtThoiGianLuot_TextChanged);
+            this.txtThoiGianLuot.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtThoiGianLuot_KeyPress);
             // 
             // label1
             // 
@@ -303,6 +312,7 @@
             this.dtpNgayTao.Name = "dtpNgayTao";
             this.dtpNgayTao.Size = new System.Drawing.Size(218, 30);
             this.dtpNgayTao.TabIndex = 31;
+            this.dtpNgayTao.ValueChanged += new System.EventHandler(this.dtpNgayTao_ValueChanged);
             // 
             // txtMaCode
             // 
@@ -320,6 +330,8 @@
             this.txtTuoi.Name = "txtTuoi";
             this.txtTuoi.Size = new System.Drawing.Size(218, 30);
             this.txtTuoi.TabIndex = 29;
+            this.txtTuoi.TextChanged += new System.EventHandler(this.txtTuoi_TextChanged);
+            this.txtTuoi.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTuoi_KeyPress);
             // 
             // lblMaNV
             // 
@@ -357,6 +369,8 @@
             this.txtTenTC.Name = "txtTenTC";
             this.txtTenTC.Size = new System.Drawing.Size(218, 30);
             this.txtTenTC.TabIndex = 3;
+            this.txtTenTC.TextChanged += new System.EventHandler(this.txtTenTC_TextChanged);
+            this.txtTenTC.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtTenTC_KeyPress);
             // 
             // lblNgaySinh
             // 
@@ -436,6 +450,7 @@
             this.dtpNgayCapNhat.Name = "dtpNgayCapNhat";
             this.dtpNgayCapNhat.Size = new System.Drawing.Size(218, 30);
             this.dtpNgayCapNhat.TabIndex = 25;
+            this.dtpNgayCapNhat.ValueChanged += new System.EventHandler(this.dtpNgayCapNhat_ValueChanged);
             // 
             // pnlChucNang
             // 
@@ -520,6 +535,10 @@
             this.btnThem.UseVisualStyleBackColor = false;
             this.btnThem.Click += new System.EventHandler(this.btnThem_Click);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // frmTroChoi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -529,7 +548,7 @@
             this.Controls.Add(this.pnlTimKiem);
             this.Controls.Add(this.panel1);
             this.Name = "frmTroChoi";
-            this.Text = "frmTroChoi";
+            this.Text = "TRÒ CHƠI";
             this.Load += new System.EventHandler(this.frmTroChoi_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvTroChoi)).EndInit();
             this.pnlTimKiem.ResumeLayout(false);
@@ -538,6 +557,7 @@
             this.gbThongTin.ResumeLayout(false);
             this.gbThongTin.PerformLayout();
             this.pnlChucNang.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -583,5 +603,6 @@
         private System.Windows.Forms.TextBox txtSucChua;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox txtMaKV;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }

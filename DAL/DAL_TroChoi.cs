@@ -86,29 +86,32 @@ namespace DAL
 
             return nextMaDatPhong;
         }
-
+        private TroChoi layDuLieu(ET_TroChoi et)
+        {
+            return new TroChoi
+            {
+                
+                MaKhuVuc = et.MaKhuVuc,
+                TenTroChoi = et.TenTroChoi,
+                LoaiTroChoi = et.LoaiTroChoi,
+                SucChua = et.SucChua,
+                TuoiToiThieu = et.TuoiToiThieu,
+                ChieuCaoToiThieu = et.ChieuCaoToiThieu,
+                ThoiGianLuot = et.ThoiGianLuot,
+                MoTa = et.MoTa,
+                TrangThai = et.TrangThai,
+                NgayTao = et.NgayTao,
+                NgayCapNhat = et.NgayCapNhat,
+            };
+        }
         public bool ThemTroChoi(ET_TroChoi et)
         {
             try
-            {
-                string nextMaCode = LayMaCodeTiepTheo();
+            {                
                 int nextMaTC = LayMaTroChoiLonNhat();
-                TroChoi tc = new TroChoi
-                {
-                    //gán mã tự động
-                    MaCode = nextMaCode,
-                    MaKhuVuc = et.MaKhuVuc,
-                    TenTroChoi = et.TenTroChoi,
-                    LoaiTroChoi = et.LoaiTroChoi,
-                    SucChua = et.SucChua,
-                    TuoiToiThieu = et.TuoiToiThieu,
-                    ChieuCaoToiThieu = et.ChieuCaoToiThieu,
-                    ThoiGianLuot = et.ThoiGianLuot,
-                    MoTa = et.MoTa,
-                    TrangThai = et.TrangThai,
-                    NgayTao = et.NgayTao,
-                    NgayCapNhat = et.NgayCapNhat,
-                };
+                TroChoi tc = layDuLieu(et);
+                tc.MaCode = LayMaCodeTiepTheo();
+
                 db.TroChois.InsertOnSubmit(tc);
                 db.SubmitChanges();
                 return true;
@@ -138,6 +141,8 @@ namespace DAL
                     t.TrangThai = et.TrangThai;
                     t.NgayTao = et.NgayTao;
                     t.NgayCapNhat = et.NgayCapNhat;
+
+                   
                     db.SubmitChanges();
                     return true;
                 }
@@ -173,6 +178,17 @@ namespace DAL
                 }
                 return false;
             }
+        }
+
+        public string layMaKVTheoLoaiTC(string loai)
+        {
+            var kv = db.KhuVucs.FirstOrDefault(x => x.TenKhuVuc.Contains(loai));
+            if(kv != null)
+            {
+                return kv.MaKhuVuc.ToString();
+            }
+            return "";
+
         }
     }
 }

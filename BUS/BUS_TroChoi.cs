@@ -52,5 +52,10 @@ namespace BUS
         {
             return DAL_TroChoi.Instance.SuaTroChoi(et);
         }
+
+        public string layMaKVTheoLoaiTC(string loai)
+        {
+            return DAL_TroChoi.Instance.layMaKVTheoLoaiTC(loai);
+        }
     }
 }

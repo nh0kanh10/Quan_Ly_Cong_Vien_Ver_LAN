@@ -92,5 +92,15 @@ namespace WindowsFormsApp1
         {
             OpenChildForm(new frmKhuVuc(), sender);
         }
+
+        private void pnlDesktop_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnKhachHang_Click(object sender, EventArgs e)
+        {
+            OpenChildForm(new frmTroChoi(), sender);
+        }
     }
 }
