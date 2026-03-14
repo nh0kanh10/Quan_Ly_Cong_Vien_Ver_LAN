@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,7 +14,7 @@ namespace ET
         private DateTime? ngayCapNhat;
 
         public ET_TroChoi() { }
-        public ET_TroChoi(int maTroChoi, int maKhuVuc, int sucChua, int tuoiToiThieu, int chieuCaoToiThieu, int thoiGianLuot, string maCode, string tenTroChoi, string loaiTroChoi, string moTa, string trangThai, DateTime ngayTao, DateTime ngayCapNhat)
+        public ET_TroChoi(int maTroChoi, int maKhuVuc, int sucChua, int tuoiToiThieu, int chieuCaoToiThieu, int thoiGianLuot, string maCode, string tenTroChoi, string loaiTroChoi, string moTa, string trangThai, DateTime ngayTao, DateTime? ngayCapNhat)
         {
             this.MaTroChoi = maTroChoi;
             this.MaKhuVuc = maKhuVuc;
