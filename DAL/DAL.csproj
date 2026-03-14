@@ -32,33 +32,48 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System"/>
-    
     <Reference Include="System.Core"/>
     <Reference Include="System.Xml.Linq"/>
     <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
     <Reference Include="Microsoft.CSharp"/>
-    
     <Reference Include="System.Data"/>
-    
     <Reference Include="System.Net.Http"/>
-    
     <Reference Include="System.Xml"/>
+    <Reference Include="System.Data.Linq"/>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-<<<<<<< Updated upstream
-=======
-    <Compile Include="DAL_KhuVuc.cs" />
-    <Compile Include="DAL_TroChoi.cs" />
-    <Compile Include="DAL_LoaiVe.cs" />
-    <Compile Include="DAL_ChiTietCombo.cs" />
-    <Compile Include="DAL_TaiKhoan.cs" />
+    <ProjectReference Include="..\ET\ET.csproj">
+      <Project>{290f6b89-6058-450f-a492-c9431c34a2f7}</Project>
+      <Name>ET</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="ConnectionManager.cs" />
+    <Compile Include="DAL_ChiTietCombo.cs" />
+    <Compile Include="DAL_KhuVuc.cs" />
+    <Compile Include="DAL_LoaiVe.cs" />
+    <Compile Include="DAL_TaiKhoan.cs" />
+    <Compile Include="DAL_TroChoi.cs" />
     <Compile Include="QLKVCGTDataContext_Partial.cs" />
->>>>>>> Stashed changes
+    <Compile Include="QLKVCGT.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QLKVCGT.dbml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="QLKVCGT.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>QLKVCGT.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="QLKVCGT.dbml.layout">
+      <DependentUpon>QLKVCGT.dbml</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-6AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>

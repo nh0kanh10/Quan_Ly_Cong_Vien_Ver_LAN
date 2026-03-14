@@ -32,31 +32,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System"/>
-    
     <Reference Include="System.Core"/>
     <Reference Include="System.Xml.Linq"/>
     <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
     <Reference Include="Microsoft.CSharp"/>
-    
     <Reference Include="System.Data"/>
-    
     <Reference Include="System.Net.Http"/>
-    
     <Reference Include="System.Xml"/>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-<<<<<<< Updated upstream
-=======
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{478062a4-212c-4709-8fb8-5cc590172155}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ET\ET.csproj">
+      <Project>{290f6b89-6058-450f-a492-c9431c34a2f7}</Project>
+      <Name>ET</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BUS_Connection.cs" />
     <Compile Include="BUS_KhuVuc.cs" />
-    <Compile Include="BUS_TroChoi.cs" />
     <Compile Include="BUS_LoaiVe.cs" />
     <Compile Include="BUS_TaiKhoan.cs" />
-    <Compile Include="BUS_Connection.cs" />
->>>>>>> Stashed changes
+    <Compile Include="BUS_TroChoi.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>
