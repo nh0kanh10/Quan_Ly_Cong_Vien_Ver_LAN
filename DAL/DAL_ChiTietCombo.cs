@@ -17,9 +17,7 @@ namespace DAL
             }
         }
 
-        /// <summary>
-        /// Load danh sách vé con của 1 combo (theo MaLoaiVe của cha)
-        /// </summary>
+    
         public List<ComboDetailView> LoadVeConTheoCombo(int maLoaiVeCha)
         {
             using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
@@ -34,22 +32,20 @@ namespace DAL
                              MaLoaiVeCon = ct.MaLoaiVeCon,
                              TenVeCon = lv.TenLoaiVe,
                              MaCodeVeCon = lv.MaCode,
+                             GiaVe = lv.GiaVe,
                              SoLuotChoPhep = ct.SoLuotChoPhep
                          };
                 return ds.ToList();
             }
         }
 
-        /// <summary>
-        /// Thêm 1 vé con vào combo
-        /// </summary>
+       
         public bool ThemVeCon(int maLoaiVeCha, int maLoaiVeCon, int soLuot)
         {
             try
             {
                 using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
                 {
-                    // Kiểm tra đã tồn tại chưa
                     bool daTonTai = db.ChiTietCombos.Any(
                         x => x.MaLoaiVeCha == maLoaiVeCha && x.MaLoaiVeCon == maLoaiVeCon);
                     if (daTonTai) return false;
@@ -69,9 +65,7 @@ namespace DAL
             catch { return false; }
         }
 
-        /// <summary>
-        /// Xóa 1 vé con khỏi combo
-        /// </summary>
+        
         public bool XoaVeCon(int maChiTietCombo)
         {
             try
@@ -90,9 +84,7 @@ namespace DAL
             catch { return false; }
         }
 
-        /// <summary>
-        /// Xóa tất cả vé con của 1 combo
-        /// </summary>
+        
         public bool XoaTatCaVeCon(int maLoaiVeCha)
         {
             try
@@ -108,9 +100,7 @@ namespace DAL
             catch { return false; }
         }
 
-        /// <summary>
-        /// Load danh sách vé KHÔNG phải combo (để chọn làm vé con)
-        /// </summary>
+        
         public List<ET_LoaiVe> LoadDSVeThuong()
         {
             using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))

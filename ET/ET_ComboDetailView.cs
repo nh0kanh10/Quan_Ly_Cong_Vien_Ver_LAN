@@ -10,6 +10,7 @@ namespace ET
         public int MaLoaiVeCon { get; set; }
         public string MaCodeVeCon { get; set; }
         public string TenVeCon { get; set; }
+        public decimal GiaVe { get; set; }
         public int SoLuotChoPhep { get; set; }
     }
 }

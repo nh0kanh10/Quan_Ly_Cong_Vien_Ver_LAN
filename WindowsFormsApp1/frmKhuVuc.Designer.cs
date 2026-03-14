@@ -1,4 +1,4 @@
-﻿namespace WindowsFormsApp1
+namespace WindowsFormsApp1
 {
     partial class frmKhuVuc
     {
@@ -36,22 +36,24 @@
             this.pnlTopContainer = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.gbThongTin = new System.Windows.Forms.GroupBox();
+            this.cboTrangThai = new System.Windows.Forms.ComboBox();
+            this.lblTrangThai = new System.Windows.Forms.Label();
             this.btnThoat = new System.Windows.Forms.Button();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.txtMoTa = new System.Windows.Forms.RichTextBox();
             this.btnLamMoi = new System.Windows.Forms.Button();
             this.dtpNgayTao = new System.Windows.Forms.DateTimePicker();
             this.btnXoa = new System.Windows.Forms.Button();
             this.txtMaCode = new System.Windows.Forms.TextBox();
             this.btnSua = new System.Windows.Forms.Button();
-            this.lblMaNV = new System.Windows.Forms.Label();
+            this.lblMaKV = new System.Windows.Forms.Label();
             this.btnThem = new System.Windows.Forms.Button();
             this.txtMaKV = new System.Windows.Forms.TextBox();
-            this.lblTenNV = new System.Windows.Forms.Label();
+            this.lblTenKV = new System.Windows.Forms.Label();
             this.txtTenKV = new System.Windows.Forms.TextBox();
-            this.lblNgaySinh = new System.Windows.Forms.Label();
-            this.lblGioiTinh = new System.Windows.Forms.Label();
-            this.lblEmail = new System.Windows.Forms.Label();
-            this.lblSDT = new System.Windows.Forms.Label();
+            this.lblMaCode = new System.Windows.Forms.Label();
+            this.lblNgayTao = new System.Windows.Forms.Label();
+            this.lblMoTa = new System.Windows.Forms.Label();
+            this.lblNgayCapNhat = new System.Windows.Forms.Label();
             this.dtpNgayCapNhat = new System.Windows.Forms.DateTimePicker();
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhuVuc)).BeginInit();
             this.pnlTimKiem.SuspendLayout();
@@ -70,7 +72,7 @@
             this.dgvKhuVuc.ColumnHeadersHeight = 29;
             this.dgvKhuVuc.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvKhuVuc.Location = new System.Drawing.Point(0, 252);
-            this.dgvKhuVuc.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dgvKhuVuc.Margin = new System.Windows.Forms.Padding(2);
             this.dgvKhuVuc.Name = "dgvKhuVuc";
             this.dgvKhuVuc.ReadOnly = true;
             this.dgvKhuVuc.RowHeadersVisible = false;
@@ -78,7 +80,7 @@
             this.dgvKhuVuc.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvKhuVuc.Size = new System.Drawing.Size(999, 233);
             this.dgvKhuVuc.TabIndex = 3;
-            this.dgvKhuVuc.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvKhachHang_CellContentClick);
+            this.dgvKhuVuc.Click += new System.EventHandler(this.dgvKhuVuc_Click);
             // 
             // pnlTimKiem
             // 
@@ -88,17 +90,16 @@
             this.pnlTimKiem.Controls.Add(this.lblTimKiem);
             this.pnlTimKiem.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTimKiem.Location = new System.Drawing.Point(0, 211);
-            this.pnlTimKiem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlTimKiem.Margin = new System.Windows.Forms.Padding(2);
             this.pnlTimKiem.Name = "pnlTimKiem";
-            this.pnlTimKiem.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.pnlTimKiem.Padding = new System.Windows.Forms.Padding(6);
             this.pnlTimKiem.Size = new System.Drawing.Size(999, 41);
             this.pnlTimKiem.TabIndex = 4;
-            this.pnlTimKiem.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlTimKiem_Paint);
             // 
             // txtTimKiem
             // 
             this.txtTimKiem.Location = new System.Drawing.Point(75, 12);
-            this.txtTimKiem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTimKiem.Margin = new System.Windows.Forms.Padding(2);
             this.txtTimKiem.Name = "txtTimKiem";
             this.txtTimKiem.Size = new System.Drawing.Size(301, 20);
             this.txtTimKiem.TabIndex = 0;
@@ -109,12 +110,13 @@
             this.btnTimKiem.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTimKiem.ForeColor = System.Drawing.Color.White;
             this.btnTimKiem.Location = new System.Drawing.Point(390, 8);
-            this.btnTimKiem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnTimKiem.Margin = new System.Windows.Forms.Padding(2);
             this.btnTimKiem.Name = "btnTimKiem";
             this.btnTimKiem.Size = new System.Drawing.Size(75, 24);
             this.btnTimKiem.TabIndex = 1;
             this.btnTimKiem.Text = "   Tìm";
             this.btnTimKiem.UseVisualStyleBackColor = false;
+            this.btnTimKiem.Click += new System.EventHandler(this.btnTimKiem_Click);
             // 
             // lblTimKiem
             // 
@@ -131,67 +133,89 @@
             this.pnlTopContainer.Controls.Add(this.panel1);
             this.pnlTopContainer.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTopContainer.Location = new System.Drawing.Point(0, 0);
-            this.pnlTopContainer.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlTopContainer.Margin = new System.Windows.Forms.Padding(2);
             this.pnlTopContainer.Name = "pnlTopContainer";
-            this.pnlTopContainer.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.pnlTopContainer.Padding = new System.Windows.Forms.Padding(8);
             this.pnlTopContainer.Size = new System.Drawing.Size(999, 211);
             this.pnlTopContainer.TabIndex = 5;
-            this.pnlTopContainer.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlTopContainer_Paint);
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.gbThongTin);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel1.Location = new System.Drawing.Point(8, 8);
-            this.panel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.panel1.Margin = new System.Windows.Forms.Padding(2);
             this.panel1.Name = "panel1";
-            this.panel1.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
-            this.panel1.Size = new System.Drawing.Size(1316, 260);
+            this.panel1.Padding = new System.Windows.Forms.Padding(8);
+            this.panel1.Size = new System.Drawing.Size(983, 195);
             this.panel1.TabIndex = 3;
             // 
             // gbThongTin
             // 
+            this.gbThongTin.Controls.Add(this.cboTrangThai);
+            this.gbThongTin.Controls.Add(this.lblTrangThai);
             this.gbThongTin.Controls.Add(this.btnThoat);
-            this.gbThongTin.Controls.Add(this.richTextBox1);
+            this.gbThongTin.Controls.Add(this.txtMoTa);
             this.gbThongTin.Controls.Add(this.btnLamMoi);
             this.gbThongTin.Controls.Add(this.dtpNgayTao);
             this.gbThongTin.Controls.Add(this.btnXoa);
             this.gbThongTin.Controls.Add(this.txtMaCode);
             this.gbThongTin.Controls.Add(this.btnSua);
-            this.gbThongTin.Controls.Add(this.lblMaNV);
+            this.gbThongTin.Controls.Add(this.lblMaKV);
             this.gbThongTin.Controls.Add(this.btnThem);
             this.gbThongTin.Controls.Add(this.txtMaKV);
-            this.gbThongTin.Controls.Add(this.lblTenNV);
+            this.gbThongTin.Controls.Add(this.lblTenKV);
             this.gbThongTin.Controls.Add(this.txtTenKV);
-            this.gbThongTin.Controls.Add(this.lblNgaySinh);
-            this.gbThongTin.Controls.Add(this.lblGioiTinh);
-            this.gbThongTin.Controls.Add(this.lblEmail);
-            this.gbThongTin.Controls.Add(this.lblSDT);
+            this.gbThongTin.Controls.Add(this.lblMaCode);
+            this.gbThongTin.Controls.Add(this.lblNgayTao);
+            this.gbThongTin.Controls.Add(this.lblMoTa);
+            this.gbThongTin.Controls.Add(this.lblNgayCapNhat);
             this.gbThongTin.Controls.Add(this.dtpNgayCapNhat);
             this.gbThongTin.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbThongTin.Location = new System.Drawing.Point(8, 8);
-            this.gbThongTin.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.gbThongTin.Margin = new System.Windows.Forms.Padding(2);
             this.gbThongTin.Name = "gbThongTin";
-            this.gbThongTin.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
-            this.gbThongTin.Size = new System.Drawing.Size(983, 195);
+            this.gbThongTin.Padding = new System.Windows.Forms.Padding(2);
+            this.gbThongTin.Size = new System.Drawing.Size(967, 179);
             this.gbThongTin.TabIndex = 0;
             this.gbThongTin.TabStop = false;
             this.gbThongTin.Text = "Thông tin khu vực";
             // 
+            // cboTrangThai
+            // 
+            this.cboTrangThai.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboTrangThai.FormattingEnabled = true;
+            this.cboTrangThai.Location = new System.Drawing.Point(135, 113);
+            this.cboTrangThai.Name = "cboTrangThai";
+            this.cboTrangThai.Size = new System.Drawing.Size(151, 21);
+            this.cboTrangThai.TabIndex = 34;
+            // 
+            // lblTrangThai
+            // 
+            this.lblTrangThai.AutoSize = true;
+            this.lblTrangThai.Location = new System.Drawing.Point(52, 116);
+            this.lblTrangThai.Name = "lblTrangThai";
+            this.lblTrangThai.Size = new System.Drawing.Size(58, 13);
+            this.lblTrangThai.TabIndex = 33;
+            this.lblTrangThai.Text = "Trạng thái:";
+            // 
+            // btnThoat
+            // 
             this.btnThoat.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold);
-            this.btnThoat.ForeColor = System.Drawing.Color.White;
+            this.btnThoat.ForeColor = System.Drawing.Color.Black;
             this.btnThoat.Location = new System.Drawing.Point(855, 146);
-            this.btnThoat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnThoat.Margin = new System.Windows.Forms.Padding(2);
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.Size = new System.Drawing.Size(90, 28);
             this.btnThoat.TabIndex = 4;
             this.btnThoat.Text = "Thoát";
             this.btnThoat.UseVisualStyleBackColor = false;
+            this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
             // 
-            // richTextBox1
+            // txtMoTa
             // 
             this.txtMoTa.Location = new System.Drawing.Point(616, 32);
-            this.txtMoTa.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMoTa.Margin = new System.Windows.Forms.Padding(2);
             this.txtMoTa.Name = "txtMoTa";
             this.txtMoTa.Size = new System.Drawing.Size(188, 103);
             this.txtMoTa.TabIndex = 32;
@@ -204,21 +228,22 @@
             this.btnLamMoi.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold);
             this.btnLamMoi.ForeColor = System.Drawing.Color.White;
             this.btnLamMoi.Location = new System.Drawing.Point(855, 110);
-            this.btnLamMoi.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLamMoi.Margin = new System.Windows.Forms.Padding(2);
             this.btnLamMoi.Name = "btnLamMoi";
             this.btnLamMoi.Size = new System.Drawing.Size(90, 28);
             this.btnLamMoi.TabIndex = 0;
             this.btnLamMoi.Text = "Làm mới";
             this.btnLamMoi.UseVisualStyleBackColor = false;
+            this.btnLamMoi.Click += new System.EventHandler(this.btnLamMoi_Click);
             // 
             // dtpNgayTao
             // 
             this.dtpNgayTao.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpNgayTao.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpNgayTao.Location = new System.Drawing.Point(398, 73);
-            this.dtpNgayTao.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpNgayTao.Margin = new System.Windows.Forms.Padding(2);
             this.dtpNgayTao.Name = "dtpNgayTao";
-            this.dtpNgayTao.Size = new System.Drawing.Size(151, 20);
+            this.dtpNgayTao.Size = new System.Drawing.Size(151, 26);
             this.dtpNgayTao.TabIndex = 31;
             // 
             // btnXoa
@@ -228,18 +253,19 @@
             this.btnXoa.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold);
             this.btnXoa.ForeColor = System.Drawing.Color.White;
             this.btnXoa.Location = new System.Drawing.Point(855, 73);
-            this.btnXoa.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnXoa.Margin = new System.Windows.Forms.Padding(2);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(90, 28);
             this.btnXoa.TabIndex = 1;
             this.btnXoa.Text = "Xóa";
             this.btnXoa.UseVisualStyleBackColor = false;
+            this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
             // 
             // txtMaCode
             // 
             this.txtMaCode.Enabled = false;
             this.txtMaCode.Location = new System.Drawing.Point(398, 32);
-            this.txtMaCode.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMaCode.Margin = new System.Windows.Forms.Padding(2);
             this.txtMaCode.Name = "txtMaCode";
             this.txtMaCode.Size = new System.Drawing.Size(151, 20);
             this.txtMaCode.TabIndex = 30;
@@ -251,22 +277,23 @@
             this.btnSua.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSua.ForeColor = System.Drawing.Color.Black;
             this.btnSua.Location = new System.Drawing.Point(855, 37);
-            this.btnSua.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSua.Margin = new System.Windows.Forms.Padding(2);
             this.btnSua.Name = "btnSua";
             this.btnSua.Size = new System.Drawing.Size(90, 28);
             this.btnSua.TabIndex = 2;
             this.btnSua.Text = "Sửa";
             this.btnSua.UseVisualStyleBackColor = false;
+            this.btnSua.Click += new System.EventHandler(this.btnSua_Click);
             // 
-            // lblMaNV
+            // lblMaKV
             // 
-            this.lblMaKV_ID.AutoSize = true;
-            this.lblMaKV_ID.Location = new System.Drawing.Point(52, 35);
-            this.lblMaKV_ID.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.lblMaKV_ID.Name = "lblMaKV_ID";
-            this.lblMaKV_ID.Size = new System.Drawing.Size(67, 13);
-            this.lblMaKV_ID.TabIndex = 0;
-            this.lblMaKV_ID.Text = "Mã khu vực:";
+            this.lblMaKV.AutoSize = true;
+            this.lblMaKV.Location = new System.Drawing.Point(52, 35);
+            this.lblMaKV.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblMaKV.Name = "lblMaKV";
+            this.lblMaKV.Size = new System.Drawing.Size(67, 13);
+            this.lblMaKV.TabIndex = 0;
+            this.lblMaKV.Text = "Mã khu vực:";
             // 
             // btnThem
             // 
@@ -275,7 +302,7 @@
             this.btnThem.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold);
             this.btnThem.ForeColor = System.Drawing.Color.White;
             this.btnThem.Location = new System.Drawing.Point(855, 4);
-            this.btnThem.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnThem.Margin = new System.Windows.Forms.Padding(2);
             this.btnThem.Name = "btnThem";
             this.btnThem.Size = new System.Drawing.Size(90, 28);
             this.btnThem.TabIndex = 3;
@@ -287,12 +314,12 @@
             // 
             this.txtMaKV.Enabled = false;
             this.txtMaKV.Location = new System.Drawing.Point(135, 32);
-            this.txtMaKV.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtMaKV.Margin = new System.Windows.Forms.Padding(2);
             this.txtMaKV.Name = "txtMaKV";
             this.txtMaKV.Size = new System.Drawing.Size(151, 20);
             this.txtMaKV.TabIndex = 1;
             // 
-            // lblTenNV
+            // lblTenKV
             // 
             this.lblTenKV.AutoSize = true;
             this.lblTenKV.Location = new System.Drawing.Point(52, 76);
@@ -305,12 +332,12 @@
             // txtTenKV
             // 
             this.txtTenKV.Location = new System.Drawing.Point(135, 73);
-            this.txtTenKV.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.txtTenKV.Margin = new System.Windows.Forms.Padding(2);
             this.txtTenKV.Name = "txtTenKV";
             this.txtTenKV.Size = new System.Drawing.Size(151, 20);
             this.txtTenKV.TabIndex = 3;
             // 
-            // lblNgaySinh
+            // lblMaCode
             // 
             this.lblMaCode.AutoSize = true;
             this.lblMaCode.Location = new System.Drawing.Point(315, 35);
@@ -320,7 +347,7 @@
             this.lblMaCode.TabIndex = 4;
             this.lblMaCode.Text = "Mã code:";
             // 
-            // lblGioiTinh
+            // lblNgayTao
             // 
             this.lblNgayTao.AutoSize = true;
             this.lblNgayTao.Location = new System.Drawing.Point(315, 76);
@@ -330,7 +357,7 @@
             this.lblNgayTao.TabIndex = 6;
             this.lblNgayTao.Text = "Ngày tạo:";
             // 
-            // lblEmail
+            // lblMoTa
             // 
             this.lblMoTa.AutoSize = true;
             this.lblMoTa.Location = new System.Drawing.Point(562, 35);
@@ -340,7 +367,7 @@
             this.lblMoTa.TabIndex = 10;
             this.lblMoTa.Text = "Mô tả:";
             // 
-            // lblSDT
+            // lblNgayCapNhat
             // 
             this.lblNgayCapNhat.AutoSize = true;
             this.lblNgayCapNhat.Location = new System.Drawing.Point(315, 116);
@@ -355,9 +382,9 @@
             this.dtpNgayCapNhat.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dtpNgayCapNhat.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpNgayCapNhat.Location = new System.Drawing.Point(398, 114);
-            this.dtpNgayCapNhat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.dtpNgayCapNhat.Margin = new System.Windows.Forms.Padding(2);
             this.dtpNgayCapNhat.Name = "dtpNgayCapNhat";
-            this.dtpNgayCapNhat.Size = new System.Drawing.Size(151, 20);
+            this.dtpNgayCapNhat.Size = new System.Drawing.Size(151, 26);
             this.dtpNgayCapNhat.TabIndex = 25;
             // 
             // frmKhuVuc
@@ -368,9 +395,10 @@
             this.Controls.Add(this.dgvKhuVuc);
             this.Controls.Add(this.pnlTimKiem);
             this.Controls.Add(this.pnlTopContainer);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "frmKhuVuc";
             this.Text = "Quản lý khu vực";
+            this.Load += new System.EventHandler(this.frmKhuVuc_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvKhuVuc)).EndInit();
             this.pnlTimKiem.ResumeLayout(false);
             this.pnlTimKiem.PerformLayout();
@@ -394,20 +422,22 @@
         private System.Windows.Forms.GroupBox gbThongTin;
         private System.Windows.Forms.DateTimePicker dtpNgayTao;
         private System.Windows.Forms.TextBox txtMaCode;
-        private System.Windows.Forms.Label lblMaNV;
+        private System.Windows.Forms.Label lblMaKV;
         private System.Windows.Forms.TextBox txtMaKV;
-        private System.Windows.Forms.Label lblTenNV;
+        private System.Windows.Forms.Label lblTenKV;
         private System.Windows.Forms.TextBox txtTenKV;
-        private System.Windows.Forms.Label lblNgaySinh;
-        private System.Windows.Forms.Label lblGioiTinh;
-        private System.Windows.Forms.Label lblEmail;
-        private System.Windows.Forms.Label lblSDT;
+        private System.Windows.Forms.Label lblMaCode;
+        private System.Windows.Forms.Label lblNgayTao;
+        private System.Windows.Forms.Label lblMoTa;
+        private System.Windows.Forms.Label lblNgayCapNhat;
         private System.Windows.Forms.DateTimePicker dtpNgayCapNhat;
         private System.Windows.Forms.Button btnThoat;
         private System.Windows.Forms.Button btnLamMoi;
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnThem;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.RichTextBox txtMoTa;
+        private System.Windows.Forms.ComboBox cboTrangThai;
+        private System.Windows.Forms.Label lblTrangThai;
     }
 }

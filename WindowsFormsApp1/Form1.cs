@@ -1,4 +1,5 @@
-﻿using System;
+using ET;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,12 @@ namespace WindowsFormsApp1
         // Biến lưu trữ form con đang mở
         private Form activeForm;
         private Button currentButton;
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
         private void OpenChildForm(Form childForm, object btnSender)
         {
             if (activeForm != null)
@@ -61,6 +68,7 @@ namespace WindowsFormsApp1
                 }
             }
         }
+
         // Hàm trả lại màu mặc định cho nút
         private void DisableButton()
         {
@@ -75,10 +83,7 @@ namespace WindowsFormsApp1
                 }
             }
         }
-        public Form1()
-        {
-            InitializeComponent();
-        }
+
         private void btnThoat_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show("Bạn có chắc chắn muốn thoát chương trình?", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
@@ -90,7 +95,7 @@ namespace WindowsFormsApp1
 
         private void btnSach_Click(object sender, EventArgs e)
         {
-            OpenChildForm(new frmQuanLyVe(), sender);
+            OpenChildForm(new frmLoaiVe(), sender);
         }
 
         private void btnLinhVuc_Click(object sender, EventArgs e)
@@ -154,7 +159,6 @@ namespace WindowsFormsApp1
             }
         }
 
-        // Đảm bảo tắt hẳn ứng dụng khi bấm nút X đỏ của Form1
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
@@ -179,18 +183,6 @@ namespace WindowsFormsApp1
                     menuHeThong.Visible = false;
                 }
             }
-        }
-
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // Form1
-            // 
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Name = "Form1";
-            this.ResumeLayout(false);
-
         }
     }
 }

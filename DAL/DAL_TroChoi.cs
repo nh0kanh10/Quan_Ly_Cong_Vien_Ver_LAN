@@ -1,4 +1,4 @@
-﻿using ET;
+using ET;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,9 +26,6 @@ namespace DAL
                 instance = value;
             }
         }
-        QLKVCGTDataContext db = new QLKVCGTDataContext();
-
-
 
         public List<ET_TroChoi> loadDS()
         {
@@ -56,7 +53,7 @@ namespace DAL
             }
         }
 
-        public int LayMaTroChoiLonNhat()
+        public List<ET_TroChoi> TimKiem(string tuKhoa)
         {
             using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
             {
@@ -88,25 +85,34 @@ namespace DAL
         {
             using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
             {
-                maxMaDatPhong = "TC000";
-            }
+                string maxMaCode = db.TroChois
+                    .Select(tc => tc.MaCode)
+                    .ToList()
+                    .OrderByDescending(mc => int.TryParse(mc.Substring(2), out int num) ? num : 0)
+                    .FirstOrDefault();
 
-        /// <summary>
-        /// Kiểm tra tên trò chơi trùng trong cùng khu vực.
-        /// maCodeHienTai = null khi thêm mới, = MaCode hiện tại khi sửa.
-        /// </summary>
+                if (string.IsNullOrEmpty(maxMaCode))
+                    maxMaCode = "TC000";
+
+                int maxNumber = 0;
+                if (maxMaCode.Length >= 3)
+                    int.TryParse(maxMaCode.Substring(2), out maxNumber);
+
+                return "TC" + (maxNumber + 1).ToString("D3");
+            }
+        }
+
         public bool KiemTraTrungTen(string tenTroChoi, int maKhuVuc, string maCodeHienTai = null)
         {
             using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
             {
-                string numberPart = maxMaDatPhong.Substring(2);
-                int.TryParse(numberPart, out maxNumber);
+                var query = db.TroChois.Where(tc => tc.TenTroChoi == tenTroChoi && tc.MaKhuVuc == maKhuVuc);
+                if (!string.IsNullOrEmpty(maCodeHienTai))
+                {
+                    query = query.Where(tc => tc.MaCode != maCodeHienTai);
+                }
+                return query.Any();
             }
-
-            int nextNumber = maxNumber + 1;
-            string nextMaDatPhong = "TC" + nextNumber.ToString().PadLeft(3, '0');
-
-            return nextMaDatPhong;
         }
 
         public bool ThemTroChoi(ET_TroChoi et)
@@ -114,7 +120,7 @@ namespace DAL
             try
             {
                 using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-                {                  
+                {
                     string nextMaCode = LayMaCodeTiepTheo();
                     TroChoi tc = new TroChoi
                     {
@@ -141,57 +147,68 @@ namespace DAL
                 return false;
             }
         }
+
         public bool SuaTroChoi(ET_TroChoi et)
         {
             try
             {
                 using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
                 {
-                    //gán mã tự động
-
-                    t.MaKhuVuc = et.MaKhuVuc;
-                    t.TenTroChoi = et.TenTroChoi;
-                    t.LoaiTroChoi = et.LoaiTroChoi;
-                    t.SucChua = et.SucChua;
-                    t.TuoiToiThieu = et.TuoiToiThieu;
-                    t.ChieuCaoToiThieu = et.ChieuCaoToiThieu;
-                    t.ThoiGianLuot = et.ThoiGianLuot;
-                    t.MoTa = et.MoTa;
-                    t.TrangThai = et.TrangThai;
-                    t.NgayTao = et.NgayTao;
-                    t.NgayCapNhat = et.NgayCapNhat;
-                    db.SubmitChanges();
-                    return true;
+                    var t = db.TroChois.SingleOrDefault(x => x.MaCode == et.MaCode);
+                    if (t != null)
+                    {
+                        t.MaKhuVuc = et.MaKhuVuc;
+                        t.TenTroChoi = et.TenTroChoi;
+                        t.LoaiTroChoi = et.LoaiTroChoi;
+                        t.SucChua = et.SucChua;
+                        t.TuoiToiThieu = et.TuoiToiThieu;
+                        t.ChieuCaoToiThieu = et.ChieuCaoToiThieu;
+                        t.ThoiGianLuot = et.ThoiGianLuot;
+                        t.MoTa = et.MoTa;
+                        t.TrangThai = et.TrangThai;
+                        t.NgayCapNhat = DateTime.Now;
+                        db.SubmitChanges();
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-
-
             }
             catch
             {
                 return false;
             }
         }
+
         public bool xoaTC(string maCode)
         {
             try
             {
                 using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
                 {
-                    db.TroChois.DeleteOnSubmit(item);
-                    db.SubmitChanges();
+                    var item = db.TroChois.SingleOrDefault(x => x.MaCode == maCode);
+                    if (item != null)
+                    {
+                        db.TroChois.DeleteOnSubmit(item);
+                        db.SubmitChanges();
+                    }
                 }
                 return true;
             }
             catch (System.Data.SqlClient.SqlException ex)
             {
+                // Foreign key constraint failure
                 if (ex.Number == 547)
                 {
                     return false;
                 }
                 return false;
             }
+            catch
+            {
+                return false;
+            }
         }
+
         public int LayMaTroChoiLonNhat()
         {
             using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))

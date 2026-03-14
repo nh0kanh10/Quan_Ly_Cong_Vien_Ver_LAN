@@ -15,7 +15,6 @@ namespace WindowsFormsApp1
             InitializeComponent();
         }
 
-        // ============== LOAD & REFRESH ==============
         private void loadDS()
         {
             dgvLoaiVe.DataSource = BUS_LoaiVe.Instance.LoadDS();
@@ -114,6 +113,21 @@ namespace WindowsFormsApp1
         private void loadDSVeCon(int maLoaiVeCha)
         {
             dgvVeCon.DataSource = DAL_ChiTietCombo.Instance.LoadVeConTheoCombo(maLoaiVeCha);
+
+            // Ẩn các mã ID không cần thiết
+            if (dgvVeCon.Columns["MaChiTietCombo"] != null) dgvVeCon.Columns["MaChiTietCombo"].Visible = false;
+            if (dgvVeCon.Columns["MaLoaiVeCha"] != null) dgvVeCon.Columns["MaLoaiVeCha"].Visible = false;
+            if (dgvVeCon.Columns["MaLoaiVeCon"] != null) dgvVeCon.Columns["MaLoaiVeCon"].Visible = false;
+
+            // Đổi tên tiêu đề hiển thị
+            if (dgvVeCon.Columns["MaCodeVeCon"] != null) dgvVeCon.Columns["MaCodeVeCon"].HeaderText = "Mã Code";
+            if (dgvVeCon.Columns["TenVeCon"] != null) dgvVeCon.Columns["TenVeCon"].HeaderText = "Tên vé con";
+            if (dgvVeCon.Columns["GiaVe"] != null)
+            {
+                dgvVeCon.Columns["GiaVe"].HeaderText = "Giá vé";
+                dgvVeCon.Columns["GiaVe"].DefaultCellStyle.Format = "N0";
+            }
+            if (dgvVeCon.Columns["SoLuotChoPhep"] != null) dgvVeCon.Columns["SoLuotChoPhep"].HeaderText = "Số lượt";
         }
 
         private void btnThemVeCon_Click(object sender, EventArgs e)
