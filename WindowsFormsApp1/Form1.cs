@@ -97,8 +97,6 @@ namespace WindowsFormsApp1
         {
             OpenChildForm(new frmKhuVuc(), sender);
         }
-<<<<<<< Updated upstream
-=======
 
         private void btnKhachHang_Click(object sender, EventArgs e)
         {
@@ -183,6 +181,16 @@ namespace WindowsFormsApp1
             }
         }
 
->>>>>>> Stashed changes
+        private void InitializeComponent()
+        {
+            this.SuspendLayout();
+            // 
+            // Form1
+            // 
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Name = "Form1";
+            this.ResumeLayout(false);
+
+        }
     }
 }
