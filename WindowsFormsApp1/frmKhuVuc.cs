@@ -56,7 +56,7 @@ namespace WindowsFormsApp1
             txtMaCode.Text = BUS_KhuVuc.Instance.LayMaCodeTiepTheo();
             txtTenKV.Clear();
             txtMoTa.Clear();
-            cboTrangThai.SelectedIndex = 0;
+            cboTrangThai.SelectedIndex = -1;
             dtpNgayTao.Value = DateTime.Now;
             dtpNgayCapNhat.Value = DateTime.Now;
             txtTimKiem.Clear();

@@ -141,7 +141,7 @@ namespace DAL
             try
             {
                 using (QLKVCGTDataContext db = new QLKVCGTDataContext())
-                {
+                {                  
                     string nextMaCode = LayMaCodeTiepTheo();
                     TroChoi tc = new TroChoi
                     {
@@ -223,6 +223,17 @@ namespace DAL
                     return false;
                 }
                 return false;
+            }
+        }
+        public int LayMaTroChoiLonNhat()
+        {
+            using (QLKVCGTDataContext db = new QLKVCGTDataContext())
+            {
+                var nextId = db.ExecuteQuery<decimal>(
+                    "SELECT IDENT_CURRENT('TroChoi') + IDENT_INCR('TroChoi')"
+                ).First();
+
+                return Convert.ToInt32(nextId);
             }
         }
     }

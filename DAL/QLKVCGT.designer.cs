@@ -78,7 +78,7 @@ namespace DAL
     #endregion
 		
 		public QLKVCGTDataContext() : 
-				base(global::DAL.Properties.Settings.Default.QuanLyCongVienConnectionString1, mappingSource)
+				base(global::DAL.Properties.Settings.Default.QuanLyCongVienConnectionString2, mappingSource)
 		{
 			OnCreated();
 		}

@@ -63,28 +63,89 @@ namespace BUS
             if (string.IsNullOrWhiteSpace(et.TenTroChoi))
                 return "Vui lòng nhập tên trò chơi";
 
+            // Không cho khoảng trắng đầu
+            if (et.TenTroChoi.StartsWith(" "))
+                return "Tên trò chơi không được bắt đầu bằng khoảng trắng";
+
+            // Không cho 2 khoảng trắng liên tiếp
+            if (et.TenTroChoi.Contains("  "))
+                return "Tên trò chơi không được chứa 2 khoảng trắng liên tiếp";
+
+            // Không cho ký tự đặc biệt
+            if (!System.Text.RegularExpressions.Regex.IsMatch(et.TenTroChoi, @"^[\p{L}0-9 ]+$"))
+                return "Tên trò chơi không được chứa ký tự đặc biệt";
+
             // Rule 6: Tên > 150 ký tự
             if (et.TenTroChoi.Trim().Length > 150)
                 return "Tên trò chơi không được vượt quá 150 ký tự";
+
+            // Tên < 3 ký tự
+            if (et.TenTroChoi.Trim().Length < 3)
+                return "Tên trò chơi có ít nhất 3 ký tự";
+
+
+
+            //Tuổi dựa theo loại trò chơi
+            int tuoiMin = 0;
+
+            switch (et.LoaiTroChoi)
+            {
+                case "Trẻ em":
+                    tuoiMin = 3;
+                    break;
+
+                case "Gia đình":
+                    tuoiMin = 5;
+                    break;
+
+                case "Phiêu lưu":
+                    tuoiMin = 10;
+                    break;
+
+                case "Cảm giác mạnh":
+                    tuoiMin = 16;
+                    break;
+
+                case "Thể thao":
+                    tuoiMin = 12;
+                    break;
+
+                case "Nước":
+                    tuoiMin = 6;
+                    break;
+
+                case "Tham quan":
+                    tuoiMin = 6;
+                    break;
+
+                case "Trong nhà":
+                    tuoiMin = 10;
+                    break;
+            }
+
+            if (et.TuoiToiThieu < tuoiMin)
+            {
+                return $"Loại trò chơi {et.LoaiTroChoi} yêu cầu tuổi tối thiểu {tuoiMin}";
+            }
+
 
             // Rule 2: Chưa chọn khu vực
             if (et.MaKhuVuc <= 0)
                 return "Vui lòng chọn khu vực";
 
+
             // Rule 3: Chưa chọn loại trò chơi
             if (string.IsNullOrWhiteSpace(et.LoaiTroChoi))
                 return "Vui lòng chọn loại trò chơi";
+
 
             // Rule 4: Sức chứa <= 0
             if (et.SucChua <= 0)
                 return "Sức chứa phải lớn hơn 0";
 
-            // Rule 8: Tuổi tối thiểu < 0
-            if (et.TuoiToiThieu < 0)
-                return "Tuổi tối thiểu không được âm";
-
+           
             // Rule 9: Chiều cao < 0
-            if (et.ChieuCaoToiThieu < 0)
+            if (et.ChieuCaoToiThieu <= 0)
                 return "Chiều cao tối thiểu không được âm";
 
             // Rule: Thời gian lượt <= 0
@@ -98,6 +159,8 @@ namespace BUS
             // Rule 5: Tên trùng trong cùng khu vực
             if (DAL_TroChoi.Instance.KiemTraTrungTen(et.TenTroChoi.Trim(), et.MaKhuVuc, laThem ? null : et.MaCode))
                 return "Tên trò chơi đã tồn tại trong khu vực này";
+
+            
 
             return "";
         }
@@ -116,6 +179,10 @@ namespace BUS
         {
             et.TenTroChoi = et.TenTroChoi.Trim();
             return DAL_TroChoi.Instance.SuaTroChoi(et);
+        }
+        public int layMaTroChoiTiepTheo()
+        {
+            return DAL_TroChoi.Instance.LayMaTroChoiLonNhat();
         }
     }
 }

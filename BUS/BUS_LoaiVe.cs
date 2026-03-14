@@ -44,8 +44,24 @@ namespace BUS
             if (et.TenLoaiVe.Trim().Length > 100)
                 return "Tên loại vé không được vượt quá 100 ký tự";
 
+            // Không cho khoảng trắng đầu
+            if (et.TenLoaiVe.StartsWith(" "))
+                return "Tên loại vé không được bắt đầu bằng khoảng trắng";
+
+            // Không cho 2 khoảng trắng liên tiếp
+            if (et.TenLoaiVe.Contains("  "))
+                return "Tên loại vé không được chứa 2 khoảng trắng liên tiếp";
+
+            // Không cho ký tự đặc biệt
+            if (!System.Text.RegularExpressions.Regex.IsMatch(et.TenLoaiVe, @"^[\p{L}0-9 ]+$"))
+                return "Tên loại vé không được chứa ký tự đặc biệt";
+
+
             if (string.IsNullOrWhiteSpace(et.DoiTuong))
                 return "Vui lòng chọn đối tượng";
+
+            if (string.IsNullOrWhiteSpace(et.TrangThai))
+                return "Vui lòng chọn trạng thái";
 
             if (et.GiaVe < 0)
                 return "Giá vé không được âm";

@@ -69,6 +69,7 @@ namespace WindowsFormsApp1
             loadComboBoxes();
             loadDS();
             txtMaCode.Text = BUS_TroChoi.Instance.layMaCodeTiepTheo();
+            txtMaTC.Text = BUS_TroChoi.Instance.layMaTroChoiTiepTheo().ToString();
         }
 
         private void dgvTroChoi_Click(object sender, EventArgs e)
@@ -107,11 +108,12 @@ namespace WindowsFormsApp1
         {
             txtMaTC.Clear();
             txtMaCode.Text = BUS_TroChoi.Instance.layMaCodeTiepTheo();
+            txtMaTC.Text = BUS_TroChoi.Instance.layMaTroChoiTiepTheo().ToString();
             txtTenTC.Clear();
             cboKhuVuc.SelectedIndex = cboKhuVuc.Items.Count > 0 ? 0 : -1;
-            cboLoaiTC.SelectedIndex = 0;
-            cboChieuCao.SelectedIndex = 0;
-            cboTrangThai.SelectedIndex = 0;
+            cboLoaiTC.SelectedIndex = -1;
+            cboChieuCao.SelectedIndex = -1;
+            cboTrangThai.SelectedIndex = -1;
             txtSucChua.Clear();
             txtTuoi.Clear();
             txtThoiGianLuot.Clear();
