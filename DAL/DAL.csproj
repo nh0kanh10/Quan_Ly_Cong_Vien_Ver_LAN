@@ -48,6 +48,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+<<<<<<< Updated upstream
+=======
+    <Compile Include="DAL_KhuVuc.cs" />
+    <Compile Include="DAL_TroChoi.cs" />
+    <Compile Include="DAL_LoaiVe.cs" />
+    <Compile Include="DAL_ChiTietCombo.cs" />
+    <Compile Include="DAL_TaiKhoan.cs" />
+    <Compile Include="ConnectionManager.cs" />
+    <Compile Include="QLKVCGTDataContext_Partial.cs" />
+>>>>>>> Stashed changes
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

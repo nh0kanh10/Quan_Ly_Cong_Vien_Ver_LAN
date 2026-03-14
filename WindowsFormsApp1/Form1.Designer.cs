@@ -9,15 +9,19 @@
         private System.Windows.Forms.Panel pnlLogo; // Logo góc trên trái
         private System.Windows.Forms.Panel pnlTitleBar; // Thanh tiêu đề trên cùng
         private System.Windows.Forms.Panel pnlDesktop; // Panel chứa form con
-
-        // Các Label
-        private System.Windows.Forms.Label lblLogo;
         private System.Windows.Forms.Label lblTitle;
+        private System.Windows.Forms.Label lblUserInfo;
+        private System.Windows.Forms.Label lblUserRole;
 
         // Các Button Menu
         private System.Windows.Forms.Button btnSach;
         private System.Windows.Forms.Button btnLinhVuc;
         private System.Windows.Forms.Button btnKhachHang;
+<<<<<<< Updated upstream
+=======
+        private System.Windows.Forms.Button btnTaiKhoan;
+        private System.Windows.Forms.Button btnDangXuat;
+>>>>>>> Stashed changes
         private System.Windows.Forms.Button btnThoat;
       
 
@@ -42,112 +46,207 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pnlMenu = new System.Windows.Forms.Panel();
             this.btnThoat = new System.Windows.Forms.Button();
+<<<<<<< Updated upstream
+=======
+            this.btnTaiKhoan = new System.Windows.Forms.Button();
+            this.btnDangXuat = new System.Windows.Forms.Button();
+>>>>>>> Stashed changes
             this.btnKhachHang = new System.Windows.Forms.Button();
             this.btnLinhVuc = new System.Windows.Forms.Button();
             this.btnSach = new System.Windows.Forms.Button();
             this.pnlLogo = new System.Windows.Forms.Panel();
-            this.lblLogo = new System.Windows.Forms.Label();
             this.pnlTitleBar = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
+            this.lblUserRole = new System.Windows.Forms.Label();
+            this.lblUserInfo = new System.Windows.Forms.Label();
             this.pnlDesktop = new System.Windows.Forms.Panel();
+            this.panelControl1 = new DevExpress.XtraEditors.PanelControl();
+            this.mainMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.menuDanhMuc = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuBaoCao = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuHeThong = new System.Windows.Forms.ToolStripMenuItem();
+            this.popupMenu1 = new DevExpress.XtraBars.PopupMenu(this.components);
             this.pnlMenu.SuspendLayout();
-            this.pnlLogo.SuspendLayout();
             this.pnlTitleBar.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).BeginInit();
+            this.panelControl1.SuspendLayout();
+            this.mainMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlMenu
             // 
-            this.pnlMenu.BackColor = System.Drawing.Color.MediumTurquoise;
+            this.pnlMenu.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(30)))), ((int)(((byte)(68)))));
             this.pnlMenu.Controls.Add(this.btnThoat);
+<<<<<<< Updated upstream
+=======
+            this.pnlMenu.Controls.Add(this.btnTaiKhoan);
+            this.pnlMenu.Controls.Add(this.btnDangXuat);
+>>>>>>> Stashed changes
             this.pnlMenu.Controls.Add(this.btnKhachHang);
             this.pnlMenu.Controls.Add(this.btnLinhVuc);
             this.pnlMenu.Controls.Add(this.btnSach);
             this.pnlMenu.Controls.Add(this.pnlLogo);
             this.pnlMenu.Dock = System.Windows.Forms.DockStyle.Left;
+<<<<<<< Updated upstream
             this.pnlMenu.Location = new System.Drawing.Point(0, 0);
             this.pnlMenu.Name = "pnlMenu";
             this.pnlMenu.Size = new System.Drawing.Size(220, 753);
+=======
+            this.pnlMenu.Location = new System.Drawing.Point(0, 27);
+            this.pnlMenu.Margin = new System.Windows.Forms.Padding(2);
+            this.pnlMenu.Name = "pnlMenu";
+            this.pnlMenu.Size = new System.Drawing.Size(220, 585);
+>>>>>>> Stashed changes
             this.pnlMenu.TabIndex = 0;
             // 
             // btnThoat
             // 
             this.btnThoat.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.btnThoat.FlatAppearance.BorderSize = 0;
+            this.btnThoat.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
+            this.btnThoat.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Red;
             this.btnThoat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+<<<<<<< Updated upstream
             this.btnThoat.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThoat.ForeColor = System.Drawing.Color.Black;
             this.btnThoat.Location = new System.Drawing.Point(0, 693);
+=======
+            this.btnThoat.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnThoat.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnThoat.Location = new System.Drawing.Point(0, 525);
+            this.btnThoat.Margin = new System.Windows.Forms.Padding(2);
+>>>>>>> Stashed changes
             this.btnThoat.Name = "btnThoat";
             this.btnThoat.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
             this.btnThoat.Size = new System.Drawing.Size(220, 60);
             this.btnThoat.TabIndex = 7;
-            this.btnThoat.Text = "   Thoát";
+            this.btnThoat.Text = "🚪  Thoát";
             this.btnThoat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnThoat.UseVisualStyleBackColor = true;
             this.btnThoat.Click += new System.EventHandler(this.btnThoat_Click);
             // 
+<<<<<<< Updated upstream
+=======
+            // btnTaiKhoan
+            // 
+            this.btnTaiKhoan.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnTaiKhoan.FlatAppearance.BorderSize = 0;
+            this.btnTaiKhoan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTaiKhoan.Font = new System.Drawing.Font("Cascadia Mono SemiBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTaiKhoan.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnTaiKhoan.Location = new System.Drawing.Point(0, 305);
+            this.btnTaiKhoan.Margin = new System.Windows.Forms.Padding(2);
+            this.btnTaiKhoan.Name = "btnTaiKhoan";
+            this.btnTaiKhoan.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
+            this.btnTaiKhoan.Size = new System.Drawing.Size(220, 60);
+            this.btnTaiKhoan.TabIndex = 8;
+            this.btnTaiKhoan.Text = "👤  TÀI KHOẢN";
+            this.btnTaiKhoan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTaiKhoan.UseVisualStyleBackColor = false;
+            this.btnTaiKhoan.Click += new System.EventHandler(this.btnTaiKhoan_Click);
+            // 
+            // btnDangXuat
+            // 
+            this.btnDangXuat.Dock = System.Windows.Forms.DockStyle.Top;
+            this.btnDangXuat.FlatAppearance.BorderSize = 0;
+            this.btnDangXuat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDangXuat.Font = new System.Drawing.Font("Cascadia Mono SemiBold", 14.25F, System.Drawing.FontStyle.Bold);
+            this.btnDangXuat.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnDangXuat.Location = new System.Drawing.Point(0, 245);
+            this.btnDangXuat.Margin = new System.Windows.Forms.Padding(2);
+            this.btnDangXuat.Name = "btnDangXuat";
+            this.btnDangXuat.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
+            this.btnDangXuat.Size = new System.Drawing.Size(220, 60);
+            this.btnDangXuat.TabIndex = 9;
+            this.btnDangXuat.Text = "🔓  ĐĂNG SUẤT";
+            this.btnDangXuat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDangXuat.UseVisualStyleBackColor = false;
+            this.btnDangXuat.Click += new System.EventHandler(this.btnDangXuat_Click);
+            // 
+>>>>>>> Stashed changes
             // btnKhachHang
             // 
-            this.btnKhachHang.BackColor = System.Drawing.Color.MediumTurquoise;
             this.btnKhachHang.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnKhachHang.FlatAppearance.BorderSize = 0;
             this.btnKhachHang.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+<<<<<<< Updated upstream
             this.btnKhachHang.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnKhachHang.ForeColor = System.Drawing.Color.Black;
             this.btnKhachHang.Location = new System.Drawing.Point(0, 200);
+=======
+            this.btnKhachHang.Font = new System.Drawing.Font("Cascadia Mono SemiBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnKhachHang.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnKhachHang.Location = new System.Drawing.Point(0, 185);
+            this.btnKhachHang.Margin = new System.Windows.Forms.Padding(2);
+>>>>>>> Stashed changes
             this.btnKhachHang.Name = "btnKhachHang";
             this.btnKhachHang.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
             this.btnKhachHang.Size = new System.Drawing.Size(220, 60);
             this.btnKhachHang.TabIndex = 3;
-            this.btnKhachHang.Text = "TRÒ CHƠI";
+            this.btnKhachHang.Text = "🎡  TRÒ CHƠI";
             this.btnKhachHang.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnKhachHang.UseVisualStyleBackColor = false;
             // 
             // btnLinhVuc
             // 
-            this.btnLinhVuc.BackColor = System.Drawing.Color.MediumTurquoise;
             this.btnLinhVuc.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnLinhVuc.FlatAppearance.BorderSize = 0;
             this.btnLinhVuc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+<<<<<<< Updated upstream
             this.btnLinhVuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLinhVuc.ForeColor = System.Drawing.Color.Black;
             this.btnLinhVuc.Location = new System.Drawing.Point(0, 140);
+=======
+            this.btnLinhVuc.Font = new System.Drawing.Font("Cascadia Mono SemiBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLinhVuc.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnLinhVuc.Location = new System.Drawing.Point(0, 125);
+            this.btnLinhVuc.Margin = new System.Windows.Forms.Padding(2);
+>>>>>>> Stashed changes
             this.btnLinhVuc.Name = "btnLinhVuc";
             this.btnLinhVuc.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
             this.btnLinhVuc.Size = new System.Drawing.Size(220, 60);
             this.btnLinhVuc.TabIndex = 2;
-            this.btnLinhVuc.Text = "KHU VỰC";
+            this.btnLinhVuc.Text = "🗺️  KHU VỰC";
             this.btnLinhVuc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnLinhVuc.UseVisualStyleBackColor = false;
             this.btnLinhVuc.Click += new System.EventHandler(this.btnLinhVuc_Click);
             // 
             // btnSach
             // 
-            this.btnSach.BackColor = System.Drawing.Color.MediumTurquoise;
             this.btnSach.Dock = System.Windows.Forms.DockStyle.Top;
             this.btnSach.FlatAppearance.BorderSize = 0;
             this.btnSach.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+<<<<<<< Updated upstream
             this.btnSach.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSach.ForeColor = System.Drawing.Color.Black;
             this.btnSach.Location = new System.Drawing.Point(0, 80);
+=======
+            this.btnSach.Font = new System.Drawing.Font("Cascadia Mono SemiBold", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSach.ForeColor = System.Drawing.Color.Gainsboro;
+            this.btnSach.Location = new System.Drawing.Point(0, 65);
+            this.btnSach.Margin = new System.Windows.Forms.Padding(2);
+>>>>>>> Stashed changes
             this.btnSach.Name = "btnSach";
             this.btnSach.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
             this.btnSach.Size = new System.Drawing.Size(220, 60);
             this.btnSach.TabIndex = 1;
-            this.btnSach.Text = "QUẢN LÝ VÉ";
+            this.btnSach.Text = "🎫  QUẢN LÝ VÉ";
             this.btnSach.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSach.UseVisualStyleBackColor = false;
             this.btnSach.Click += new System.EventHandler(this.btnSach_Click);
             // 
             // pnlLogo
             // 
-            this.pnlLogo.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.pnlLogo.Controls.Add(this.lblLogo);
+            this.pnlLogo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(39)))), ((int)(((byte)(58)))));
+            this.pnlLogo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pnlLogo.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlLogo.ForeColor = System.Drawing.SystemColors.Desktop;
             this.pnlLogo.Location = new System.Drawing.Point(0, 0);
+<<<<<<< Updated upstream
             this.pnlLogo.Name = "pnlLogo";
             this.pnlLogo.Size = new System.Drawing.Size(220, 80);
             this.pnlLogo.TabIndex = 0;
@@ -164,60 +263,189 @@
             this.lblLogo.Text = "APM";
             this.lblLogo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+=======
+            this.pnlLogo.Margin = new System.Windows.Forms.Padding(2);
+            this.pnlLogo.Name = "pnlLogo";
+            this.pnlLogo.Size = new System.Drawing.Size(220, 65);
+            this.pnlLogo.TabIndex = 0;
+            // 
+>>>>>>> Stashed changes
             // pnlTitleBar
             // 
-            this.pnlTitleBar.BackColor = System.Drawing.Color.DarkTurquoise;
+            this.pnlTitleBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
             this.pnlTitleBar.Controls.Add(this.lblTitle);
             this.pnlTitleBar.Dock = System.Windows.Forms.DockStyle.Top;
+<<<<<<< Updated upstream
             this.pnlTitleBar.Location = new System.Drawing.Point(220, 0);
             this.pnlTitleBar.Name = "pnlTitleBar";
             this.pnlTitleBar.Size = new System.Drawing.Size(962, 80);
+=======
+            this.pnlTitleBar.Location = new System.Drawing.Point(220, 27);
+            this.pnlTitleBar.Margin = new System.Windows.Forms.Padding(2);
+            this.pnlTitleBar.Name = "pnlTitleBar";
+            this.pnlTitleBar.Size = new System.Drawing.Size(909, 65);
+>>>>>>> Stashed changes
             this.pnlTitleBar.TabIndex = 1;
             // 
             // lblTitle
             // 
             this.lblTitle.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblTitle.AutoSize = true;
+<<<<<<< Updated upstream
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.Black;
             this.lblTitle.Location = new System.Drawing.Point(169, 17);
             this.lblTitle.Name = "lblTitle";
             this.lblTitle.Size = new System.Drawing.Size(618, 38);
+=======
+            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 20.25F, System.Drawing.FontStyle.Bold);
+            this.lblTitle.ForeColor = System.Drawing.Color.White;
+            this.lblTitle.Location = new System.Drawing.Point(143, 14);
+            this.lblTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTitle.Name = "lblTitle";
+            this.lblTitle.Size = new System.Drawing.Size(596, 37);
+>>>>>>> Stashed changes
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "ỨNG DỤNG QUẢN LÝ KHU VUI CHƠI GIẢI TRÍ";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // lblUserRole
+            // 
+            this.lblUserRole.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblUserRole.AutoSize = true;
+            this.lblUserRole.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblUserRole.ForeColor = System.Drawing.Color.SlateGray;
+            this.lblUserRole.Location = new System.Drawing.Point(650, 8);
+            this.lblUserRole.Name = "lblUserRole";
+            this.lblUserRole.Size = new System.Drawing.Size(89, 17);
+            this.lblUserRole.TabIndex = 2;
+            this.lblUserRole.Text = "Quyền: Admin";
+            // 
+            // lblUserInfo
+            // 
+            this.lblUserInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblUserInfo.AutoSize = true;
+            this.lblUserInfo.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold);
+            this.lblUserInfo.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(51)))), ((int)(((byte)(76)))));
+            this.lblUserInfo.Location = new System.Drawing.Point(760, 8);
+            this.lblUserInfo.Name = "lblUserInfo";
+            this.lblUserInfo.Size = new System.Drawing.Size(86, 17);
+            this.lblUserInfo.TabIndex = 1;
+            this.lblUserInfo.Text = "Chào: admin";
+            // 
             // pnlDesktop
             // 
-            this.pnlDesktop.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlDesktop.BackColor = System.Drawing.Color.White;
             this.pnlDesktop.Dock = System.Windows.Forms.DockStyle.Fill;
+<<<<<<< Updated upstream
             this.pnlDesktop.Location = new System.Drawing.Point(220, 80);
             this.pnlDesktop.Name = "pnlDesktop";
             this.pnlDesktop.Size = new System.Drawing.Size(962, 673);
+=======
+            this.pnlDesktop.Location = new System.Drawing.Point(220, 92);
+            this.pnlDesktop.Margin = new System.Windows.Forms.Padding(2);
+            this.pnlDesktop.Name = "pnlDesktop";
+            this.pnlDesktop.Size = new System.Drawing.Size(909, 485);
+>>>>>>> Stashed changes
             this.pnlDesktop.TabIndex = 2;
+            // 
+            // panelControl1
+            // 
+            this.panelControl1.Appearance.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(242)))), ((int)(((byte)(245)))));
+            this.panelControl1.Appearance.Options.UseBackColor = true;
+            this.panelControl1.BorderStyle = DevExpress.XtraEditors.Controls.BorderStyles.NoBorder;
+            this.panelControl1.Controls.Add(this.lblUserInfo);
+            this.panelControl1.Controls.Add(this.lblUserRole);
+            this.panelControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelControl1.Location = new System.Drawing.Point(220, 577);
+            this.panelControl1.Name = "panelControl1";
+            this.panelControl1.Size = new System.Drawing.Size(909, 35);
+            this.panelControl1.TabIndex = 0;
+            // 
+            // mainMenuStrip
+            // 
+            this.mainMenuStrip.BackColor = System.Drawing.Color.White;
+            this.mainMenuStrip.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
+            this.mainMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.menuDanhMuc,
+            this.menuBaoCao,
+            this.menuHeThong});
+            this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.mainMenuStrip.Name = "mainMenuStrip";
+            this.mainMenuStrip.Size = new System.Drawing.Size(1129, 27);
+            this.mainMenuStrip.TabIndex = 3;
+            this.mainMenuStrip.Text = "menuStrip1";
+            // 
+            // menuDanhMuc
+            // 
+            this.menuDanhMuc.Name = "menuDanhMuc";
+            this.menuDanhMuc.Size = new System.Drawing.Size(121, 23);
+            this.menuDanhMuc.Text = "📁 DANH MỤC";
+            this.menuDanhMuc.Click += new System.EventHandler(this.menuDanhMuc_Click);
+            // 
+            // menuBaoCao
+            // 
+            this.menuBaoCao.Name = "menuBaoCao";
+            this.menuBaoCao.Size = new System.Drawing.Size(105, 23);
+            this.menuBaoCao.Text = "📊 BÁO CÁO";
+            this.menuBaoCao.Click += new System.EventHandler(this.menuBaoCao_Click);
+            // 
+            // menuHeThong
+            // 
+            this.menuHeThong.Name = "menuHeThong";
+            this.menuHeThong.Size = new System.Drawing.Size(116, 23);
+            this.menuHeThong.Text = "⚙️ HỆ THỐNG";
+            this.menuHeThong.Click += new System.EventHandler(this.menuHeThong_Click);
+            // 
+            // popupMenu1
+            // 
+            this.popupMenu1.Name = "popupMenu1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+<<<<<<< Updated upstream
             this.ClientSize = new System.Drawing.Size(1182, 753);
+=======
+            this.ClientSize = new System.Drawing.Size(1129, 612);
+>>>>>>> Stashed changes
             this.Controls.Add(this.pnlDesktop);
+            this.Controls.Add(this.panelControl1);
             this.Controls.Add(this.pnlTitleBar);
             this.Controls.Add(this.pnlMenu);
+<<<<<<< Updated upstream
+=======
+            this.Controls.Add(this.mainMenuStrip);
+            this.Margin = new System.Windows.Forms.Padding(2);
+>>>>>>> Stashed changes
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Hệ thống quản lý nhà sách";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.pnlMenu.ResumeLayout(false);
-            this.pnlLogo.ResumeLayout(false);
-            this.pnlLogo.PerformLayout();
             this.pnlTitleBar.ResumeLayout(false);
             this.pnlTitleBar.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.panelControl1)).EndInit();
+            this.panelControl1.ResumeLayout(false);
+            this.panelControl1.PerformLayout();
+            this.mainMenuStrip.ResumeLayout(false);
+            this.mainMenuStrip.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.popupMenu1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.MenuStrip mainMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem menuDanhMuc;
+        private System.Windows.Forms.ToolStripMenuItem menuBaoCao;
+        private System.Windows.Forms.ToolStripMenuItem menuHeThong;
+        private DevExpress.XtraEditors.PanelControl panelControl1;
+        private DevExpress.XtraBars.PopupMenu popupMenu1;
     }
 }
 

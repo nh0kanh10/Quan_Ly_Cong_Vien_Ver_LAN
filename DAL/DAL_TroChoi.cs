@@ -32,6 +32,7 @@ namespace DAL
 
         public List<ET_TroChoi> loadDS()
         {
+<<<<<<< Updated upstream
             var ds = from tc in db.TroChois
                      join kv in db.KhuVucs on tc.MaKhuVuc equals kv.MaKhuVuc
                      select new ET_TroChoi
@@ -51,15 +52,67 @@ namespace DAL
                          NgayCapNhat = tc.NgayCapNhat
                      };
             return ds.ToList();
+=======
+            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
+            {
+                var ds = from tc in db.TroChois
+                         join kv in db.KhuVucs on tc.MaKhuVuc equals kv.MaKhuVuc
+                         select new ET_TroChoi
+                         {
+                             MaTroChoi = tc.MaTroChoi,
+                             MaCode = tc.MaCode,
+                             TenTroChoi = tc.TenTroChoi,
+                             MaKhuVuc = tc.MaKhuVuc,
+                             LoaiTroChoi = tc.LoaiTroChoi,
+                             SucChua = tc.SucChua,
+                             TuoiToiThieu = tc.TuoiToiThieu,
+                             ChieuCaoToiThieu = tc.ChieuCaoToiThieu,
+                             ThoiGianLuot = tc.ThoiGianLuot,
+                             MoTa = tc.MoTa,
+                             TrangThai = tc.TrangThai,
+                             NgayTao = tc.NgayTao,
+                             NgayCapNhat = tc.NgayCapNhat
+                         };
+                return ds.ToList();
+            }
+>>>>>>> Stashed changes
         }
 
         public int LayMaTroChoiLonNhat()
         {
+<<<<<<< Updated upstream
             return db.TroChois.Max(x => (int?)x.MaTroChoi) ?? 0;
+=======
+            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
+            {
+                var ds = from tc in db.TroChois
+                         join kv in db.KhuVucs on tc.MaKhuVuc equals kv.MaKhuVuc
+                         where tc.TenTroChoi.Contains(tuKhoa)
+                            || tc.MaCode.Contains(tuKhoa)
+                         select new ET_TroChoi
+                         {
+                             MaTroChoi = tc.MaTroChoi,
+                             MaCode = tc.MaCode,
+                             TenTroChoi = tc.TenTroChoi,
+                             MaKhuVuc = tc.MaKhuVuc,
+                             LoaiTroChoi = tc.LoaiTroChoi,
+                             SucChua = tc.SucChua,
+                             TuoiToiThieu = tc.TuoiToiThieu,
+                             ChieuCaoToiThieu = tc.ChieuCaoToiThieu,
+                             ThoiGianLuot = tc.ThoiGianLuot,
+                             MoTa = tc.MoTa,
+                             TrangThai = tc.TrangThai,
+                             NgayTao = tc.NgayTao,
+                             NgayCapNhat = tc.NgayCapNhat
+                         };
+                return ds.ToList();
+            }
+>>>>>>> Stashed changes
         }
 
         public string LayMaCodeTiepTheo()
         {
+<<<<<<< Updated upstream
             string maxMaDatPhong = db.TroChois
             .Select(t => t.MaCode)
             .ToList()
@@ -69,13 +122,26 @@ namespace DAL
 
             // Xử lý trường hợp bảng rỗng
             if (string.IsNullOrEmpty(maxMaDatPhong))
+=======
+            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
+>>>>>>> Stashed changes
             {
                 maxMaDatPhong = "TC000";
             }
 
+<<<<<<< Updated upstream
             // --- Logic tạo mã tiếp theo (Tương tự như trước) ---
             int maxNumber = 0;
             if (maxMaDatPhong.Length >= 4)
+=======
+        /// <summary>
+        /// Kiểm tra tên trò chơi trùng trong cùng khu vực.
+        /// maCodeHienTai = null khi thêm mới, = MaCode hiện tại khi sửa.
+        /// </summary>
+        public bool KiemTraTrungTen(string tenTroChoi, int maKhuVuc, string maCodeHienTai = null)
+        {
+            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
+>>>>>>> Stashed changes
             {
                 string numberPart = maxMaDatPhong.Substring(2);
                 int.TryParse(numberPart, out maxNumber);
@@ -91,6 +157,7 @@ namespace DAL
         {
             try
             {
+<<<<<<< Updated upstream
                 string nextMaCode = LayMaCodeTiepTheo();
                 int nextMaTC = LayMaTroChoiLonNhat();
                 TroChoi tc = new TroChoi
@@ -112,6 +179,30 @@ namespace DAL
                 db.TroChois.InsertOnSubmit(tc);
                 db.SubmitChanges();
                 return true;
+=======
+                using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
+                {                  
+                    string nextMaCode = LayMaCodeTiepTheo();
+                    TroChoi tc = new TroChoi
+                    {
+                        MaCode = nextMaCode,
+                        MaKhuVuc = et.MaKhuVuc,
+                        TenTroChoi = et.TenTroChoi,
+                        LoaiTroChoi = et.LoaiTroChoi,
+                        SucChua = et.SucChua,
+                        TuoiToiThieu = et.TuoiToiThieu,
+                        ChieuCaoToiThieu = et.ChieuCaoToiThieu,
+                        ThoiGianLuot = et.ThoiGianLuot,
+                        MoTa = et.MoTa,
+                        TrangThai = et.TrangThai,
+                        NgayTao = DateTime.Now,
+                        NgayCapNhat = null,
+                    };
+                    db.TroChois.InsertOnSubmit(tc);
+                    db.SubmitChanges();
+                    return true;
+                }
+>>>>>>> Stashed changes
             }
             catch
             {
@@ -122,8 +213,12 @@ namespace DAL
         {
             try
             {
+<<<<<<< Updated upstream
                 TroChoi t = db.TroChois.SingleOrDefault(x => x.MaCode == et.MaCode);
                 if(t != null)
+=======
+                using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
+>>>>>>> Stashed changes
                 {
                     //gán mã tự động
 
@@ -154,11 +249,15 @@ namespace DAL
         {
             try
             {
+<<<<<<< Updated upstream
                 var xoa = from tc in db.TroChois
                          where tc.MaCode == maCode
                          select tc;
 
                 foreach(var item in xoa)
+=======
+                using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
+>>>>>>> Stashed changes
                 {
                     db.TroChois.DeleteOnSubmit(item);
                     db.SubmitChanges();
@@ -174,5 +273,19 @@ namespace DAL
                 return false;
             }
         }
+<<<<<<< Updated upstream
+=======
+        public int LayMaTroChoiLonNhat()
+        {
+            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
+            {
+                var nextId = db.ExecuteQuery<decimal>(
+                    "SELECT IDENT_CURRENT('TroChoi') + IDENT_INCR('TroChoi')"
+                ).First();
+
+                return Convert.ToInt32(nextId);
+            }
+        }
+>>>>>>> Stashed changes
     }
 }

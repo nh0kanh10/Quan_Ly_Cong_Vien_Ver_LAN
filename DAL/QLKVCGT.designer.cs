@@ -78,7 +78,11 @@ namespace DAL
     #endregion
 		
 		public QLKVCGTDataContext() : 
+<<<<<<< Updated upstream
 				base(global::DAL.Properties.Settings.Default.QuanLyCongVienConnectionString, mappingSource)
+=======
+				base(global::DAL.Properties.Settings.Default.QuanLyCongVienConnectionString1, mappingSource)
+>>>>>>> Stashed changes
 		{
 			OnCreated();
 		}
