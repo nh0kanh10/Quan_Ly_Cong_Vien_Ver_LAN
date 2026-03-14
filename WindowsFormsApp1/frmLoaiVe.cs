@@ -173,8 +173,8 @@ namespace WindowsFormsApp1
             txtTenLoaiVe.Clear();
             txtGiaVe.Clear();
             txtGiaCuoiTuan.Clear();
-            cboDoiTuong.SelectedIndex = 0;
-            cboTrangThai.SelectedIndex = 0;
+            cboDoiTuong.SelectedIndex = -1;
+            cboTrangThai.SelectedIndex = -1;
             chkLaCombo.Checked = false;
             dtpNgayTao.Value = DateTime.Now;
             dtpNgayCapNhat.Value = DateTime.Now;

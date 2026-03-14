@@ -68,3 +68,5 @@ VALUES
 
 INSERT INTO TaiKhoan (TenDangNhap, MatKhau, HoTen, VaiTro, TrangThai, NgayTao)
 VALUES ('admin', '123456', N'Quản trị viên', 'Admin', 1, GETDATE());
+
+SELECT MAX(MaTroChoi) FROM TroChoi
