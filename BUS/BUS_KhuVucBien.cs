@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
-using DAL;
+using System.Linq;
 using ET;
 
 namespace BUS
 {
     public class BUS_KhuVucBien : IBaseBUS<ET_KhuVucBien>
     {
+        private readonly IKhuVucBienGateway _gateway;
+
         private static BUS_KhuVucBien instance;
         public static BUS_KhuVucBien Instance
         {
@@ -17,10 +19,10 @@ namespace BUS
             }
         }
 
-        public List<ET_KhuVucBien> LoadDS()
-        {
-            return DAL_KhuVucBien.Instance.LoadDS();
-        }
+        public BUS_KhuVucBien() : this(new DefaultKhuVucBienGateway()) { }
+        public BUS_KhuVucBien(IKhuVucBienGateway gw) { _gateway = gw; }
+
+        public List<ET_KhuVucBien> LoadDS() => _gateway.LoadDS();
 
         public ResponseResult Them(ET_KhuVucBien et)
         {
@@ -33,7 +35,7 @@ namespace BUS
             if (et.DoSauToiDa < 0)
                 return new ResponseResult { IsSuccess = false, ErrorMessage = "Độ sâu không được nhỏ hơn 0m!" };
 
-            if (DAL_KhuVucBien.Instance.Them(et))
+            if (_gateway.Them(et))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi thêm vùng biển." };
         }
@@ -46,26 +48,20 @@ namespace BUS
             if (et.DoSauToiDa < 0)
                 return new ResponseResult { IsSuccess = false, ErrorMessage = "Độ sâu tối đa không được âm!" };
 
-            if (DAL_KhuVucBien.Instance.Sua(et))
+            if (_gateway.Sua(et))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi cập nhật thông tin biển." };
         }
 
         public ResponseResult Xoa(int id)
         {
-            if (DAL_KhuVucBien.Instance.Xoa(id))
+            if (_gateway.Xoa(id))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi xóa. Bãi biển này có thể đang liên kết với chòi cứu hộ / nghỉ mát!" };
         }
 
-        public List<ET_KhuVucBien> TimKiemNangCao(string keyword)
-        {
-            return DAL_KhuVucBien.Instance.TimKiem(keyword);
-        }
+        public List<ET_KhuVucBien> TimKiemNangCao(string keyword) => _gateway.TimKiem(keyword);
 
-        public List<ET_KhuVucBien> TimKiem(string kw, string filter)
-        {
-            return TimKiemNangCao(kw);
-        }
+        public List<ET_KhuVucBien> TimKiem(string kw, string filter) => TimKiemNangCao(kw);
     }
 }

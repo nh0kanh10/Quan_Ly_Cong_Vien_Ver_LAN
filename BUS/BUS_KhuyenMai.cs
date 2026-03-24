@@ -1,5 +1,4 @@
 using System;
-using DAL;
 using ET;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +7,8 @@ namespace BUS
 {
     public class BUS_KhuyenMai
     {
+        private readonly IKhuyenMaiGateway _gateway;
+
         private static BUS_KhuyenMai instance;
         public static BUS_KhuyenMai Instance
         {
@@ -18,9 +19,12 @@ namespace BUS
             }
         }
 
+        public BUS_KhuyenMai() : this(new DefaultKhuyenMaiGateway()) { }
+        public BUS_KhuyenMai(IKhuyenMaiGateway gw) { _gateway = gw; }
+
         public List<ET_KhuyenMai> LoadDS()
         {
-            return DAL_KhuyenMai.Instance.LoadDS().Where(x => !x.IsDeleted).ToList();
+            return _gateway.LoadDS().Where(x => !x.IsDeleted).ToList();
         }
 
         public ResponseResult ThemKhuyenMai(ET_KhuyenMai et)
@@ -29,25 +33,25 @@ namespace BUS
             et.CreatedAt = DateTime.Now;
             et.CreatedBy = (SessionManager.CurrentUser != null) ? (int?)SessionManager.CurrentUser.Id : null;
 
-            bool success = DAL_KhuyenMai.Instance.Them(et);
+            bool success = _gateway.Them(et);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể thêm khuyến mãi.");
         }
 
         public ResponseResult SuaKhuyenMai(ET_KhuyenMai et)
         {
-            bool success = DAL_KhuyenMai.Instance.Sua(et);
+            bool success = _gateway.Sua(et);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể cập nhật khuyến mãi.");
         }
 
         public ResponseResult XoaKhuyenMai(int id)
         {
-            bool success = DAL_KhuyenMai.Instance.Xoa(id);
+            bool success = _gateway.Xoa(id);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể xóa khuyến mãi.");
         }
 
         public ET_KhuyenMai KiemTraKhuyenMai(string code, decimal totalAmount)
         {
-            var km = DAL_KhuyenMai.Instance.LoadDS().FirstOrDefault(x => x.MaCode == code && !x.IsDeleted && x.TrangThai);
+            var km = _gateway.LoadDS().FirstOrDefault(x => x.MaCode == code && !x.IsDeleted && x.TrangThai);
             if (km == null) return null;
 
             if (DateTime.Now < km.NgayBatDau || DateTime.Now > km.NgayKetThuc) return null;
@@ -62,7 +66,7 @@ namespace BUS
         public ET_KhuyenMai GetBestActivePromotion(decimal totalAmount)
         {
             var now = DateTime.Now;
-            return DAL_KhuyenMai.Instance.LoadDS()
+            return _gateway.LoadDS()
                 .Where(x => !x.IsDeleted && x.TrangThai && x.NgayBatDau <= now && x.NgayKetThuc >= now
                             && (!x.DonToiThieu.HasValue || totalAmount >= x.DonToiThieu.Value))
                 .OrderByDescending(x => x.GiaTriGiam)

@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_Combo : IBaseBUS<ET_Combo>
     {
+        private readonly IComboGateway _gateway;
+        private readonly IComboChiTietGateway _ctGateway;
+
         private static BUS_Combo instance;
         public static BUS_Combo Instance
         {
@@ -18,17 +20,20 @@ namespace BUS
             }
         }
 
+        public BUS_Combo() : this(new DefaultComboGateway(), new DefaultComboChiTietGateway()) { }
+        public BUS_Combo(IComboGateway gw, IComboChiTietGateway ctGw)
+        {
+            _gateway = gw;
+            _ctGateway = ctGw;
+        }
+
         public List<ET_Combo> LoadDS()
         {
-            return DAL_Combo.Instance.LoadDS().Where(x => !x.IsDeleted).ToList();
+            return _gateway.LoadDS().Where(x => !x.IsDeleted).ToList();
         }
 
-        public ET_Combo GetById(int id)
-        {
-            return DAL_Combo.Instance.LayTheoId(id);
-        }
+        public ET_Combo GetById(int id) => _gateway.LayTheoId(id);
 
- 
         public ET_Combo GetByMaCode(string maCode)
         {
             if (string.IsNullOrEmpty(maCode)) return null;
@@ -39,20 +44,20 @@ namespace BUS
         {
             if (string.IsNullOrEmpty(et.Ten)) return ResponseResult.Error("Tên combo không được để trống.");
             et.CreatedAt = DateTime.Now;
-            bool success = DAL_Combo.Instance.Them(et);
+            bool success = _gateway.Them(et);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể thêm Combo.");
         }
 
         public ResponseResult Sua(ET_Combo et)
         {
             et.UpdatedAt = DateTime.Now;
-            bool success = DAL_Combo.Instance.Sua(et);
+            bool success = _gateway.Sua(et);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể cập nhật Combo.");
         }
 
         public ResponseResult Xoa(int id)
         {
-            bool success = DAL_Combo.Instance.Xoa(id);
+            bool success = _gateway.Xoa(id);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể xóa Combo.");
         }
 
@@ -74,7 +79,7 @@ namespace BUS
 
         public List<ET_ComboChiTiet> LayChiTiet(int idCombo)
         {
-            return DAL_ComboChiTiet.Instance.LoadDS().Where(x => x.IdCombo == idCombo).ToList();
+            return _ctGateway.LoadDS().Where(x => x.IdCombo == idCombo).ToList();
         }
 
         public ResponseResult ThemChiTiet(int idCombo, int idSanPham, int soLuong, decimal tyLePhanBo)
@@ -91,13 +96,13 @@ namespace BUS
                 SoLuong = soLuong,
                 TyLePhanBo = tyLePhanBo
             };
-            bool success = DAL_ComboChiTiet.Instance.Them(ct);
+            bool success = _ctGateway.Them(ct);
             return success ? ResponseResult.Success() : ResponseResult.Error("Lỗi thêm chi tiết combo.");
         }
         
         public ResponseResult XoaChiTiet(int idCT)
         {
-            bool success = DAL_ComboChiTiet.Instance.Xoa(idCT);
+            bool success = _ctGateway.Xoa(idCT);
             return success ? ResponseResult.Success() : ResponseResult.Error("Lỗi xóa chi tiết combo.");
         }
 
@@ -119,14 +124,14 @@ namespace BUS
                 return ResponseResult.Error($"Tổng tỷ lệ phân bổ phải = 100% (hiện tại: {tongTyLe:N2}%).");
 
             // Batch save: Delete all old → Insert all new
-            bool deleted = DAL_ComboChiTiet.Instance.XoaTheoCombo(idCombo);
+            bool deleted = _ctGateway.XoaTheoCombo(idCombo);
             if (!deleted)
                 return ResponseResult.Error("Lỗi khi xóa chi tiết cũ.");
 
             foreach (var item in items)
             {
                 item.IdCombo = idCombo;
-                bool inserted = DAL_ComboChiTiet.Instance.Them(item);
+                bool inserted = _ctGateway.Them(item);
                 if (!inserted)
                     return ResponseResult.Error($"Lỗi khi lưu chi tiết sản phẩm ID={item.IdSanPham}.");
             }

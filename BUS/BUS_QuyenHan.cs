@@ -1,13 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_QuyenHan
     {
+        private readonly IQuyenHanGateway _gateway;
+        private readonly IPhanQuyenGateway _phanQuyenGateway;
+
         private static BUS_QuyenHan instance;
         public static BUS_QuyenHan Instance
         {
@@ -18,10 +20,14 @@ namespace BUS
             }
         }
 
-        public List<ET_QuyenHan> LoadDS()
+        public BUS_QuyenHan() : this(new DefaultQuyenHanGateway(), new DefaultPhanQuyenGateway()) { }
+        public BUS_QuyenHan(IQuyenHanGateway gw, IPhanQuyenGateway pqGw)
         {
-            return DAL_QuyenHan.Instance.LoadDS();
+            _gateway = gw;
+            _phanQuyenGateway = pqGw;
         }
+
+        public List<ET_QuyenHan> LoadDS() => _gateway.LoadDS();
 
         // Cache ma quyen theo VaiTro để UI gọi nhiều lần không hit DB.
         private readonly Dictionary<int, HashSet<string>> _permissionsByRole = new Dictionary<int, HashSet<string>>();
@@ -32,7 +38,7 @@ namespace BUS
         {
             if (_knownPermissionKeysLoaded) return;
 
-            var all = DAL_QuyenHan.Instance.LoadDS();
+            var all = _gateway.LoadDS();
             _knownPermissionKeys = new HashSet<string>(all.Select(x => x.MaQuyen));
             _knownPermissionKeysLoaded = true;
         }
@@ -43,11 +49,11 @@ namespace BUS
                 return cached;
 
             // Lấy ánh xạ IdQuyen -> MaQuyen
-            var allQuyen = DAL_QuyenHan.Instance.LoadDS();
+            var allQuyen = _gateway.LoadDS();
             var idToKey = allQuyen.ToDictionary(x => x.Id, x => x.MaQuyen);
 
             // Lấy danh sách IdQuyen mà VaiTro có trong PhanQuyen
-            var listPQ = DAL_PhanQuyen.Instance.LoadDS().Where(x => x.IdVaiTro == idVaiTro);
+            var listPQ = _phanQuyenGateway.LoadDS().Where(x => x.IdVaiTro == idVaiTro);
             var keys = listPQ
                 .Select(x => x.IdQuyen)
                 .Where(idQuyen => idToKey.ContainsKey(idQuyen))
@@ -81,4 +87,3 @@ namespace BUS
         }
     }
 }
-

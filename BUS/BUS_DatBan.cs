@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using ET;
 using DAL;
@@ -18,6 +16,8 @@ namespace BUS
         private readonly IChiTietDonHangGateway _chiTietDonHangGateway;
         private readonly IPhieuThuGateway _phieuThuGateway;
         private readonly IDoanKhachDichVuGateway _doanKhachDichVuGateway;
+        private readonly IBUS_GiaoDichVi _giaoDichViService;
+        private readonly IBUS_DoanKhach _doanKhachService;
         
         private static BUS_DatBan instance;
         public static BUS_DatBan Instance
@@ -131,7 +131,7 @@ namespace BUS
                         if (ban != null)
                         {
                             // BUG FIX: CHỐNG OVERBOOKING (KHÁCH KHÁC ĐANG NGỒI HOẶC ĐÃ ĐẶT)
-                            if (ban.TrangThai != AppConstants.TrangThaiBanAn.Trong) return OperationResult<int>.Failed(string.Format("Lỗi an ninh: Bàn {0} không còn trống (Trạng thái: {1})", ban.TenBan, ban.TrangThai));
+                            if (ban.TrangThai != AppConstants.TrangThaiBanAn.Trong) return OperationResult<int>.Failed(string.Format("Lỗi an ninh: Bàn số ID {0} không còn trống (Trạng thái: {1})", ban.Id, ban.TrangThai));
 
                             ban.TrangThai = AppConstants.TrangThaiBanAn.DangSuDung;
                             _banAnGateway.Sua(ban);
@@ -179,12 +179,12 @@ namespace BUS
                     // Bước 0: Yêu cầu đóng băng tiền cọc vào tài khoản lưu trữ (Bảo lãnh RFID)
                     if (!string.IsNullOrEmpty(maRfid) && info.TienCoc > 0)
                     {
-                        var rfidResult = BUS.BUS_GiaoDichVi.Instance.DongBangTienVi(maRfid, info.TienCoc, idDonHang);
+                        var rfidResult = _giaoDichViService.DongBangTienVi(maRfid, info.TienCoc, idDonHang);
                         if (!rfidResult.IsSuccess)
                             return OperationResult<int>.Failed("Tiến trình đóng băng tiền cọc (RFID) không thành công: " + rfidResult.ErrorMessage);
                         
                         // Cấu hình mã định danh để phục vụ đối soát Hoàn Tiền / Khấu Trừ sau này
-                        var viResult = BUS.BUS_GiaoDichVi.Instance.TraCuuViTheoRFID(maRfid);
+                        var viResult = _giaoDichViService.TraCuuViTheoRFID(maRfid);
                         if (viResult.IsSuccess && viResult.Data != null)
                         {
                             info.IdKhachHang = viResult.Data.IdKhachHang;
@@ -216,7 +216,7 @@ namespace BUS
                         if (ban != null)
                         {
                             // BUG FIX: CHỐNG OVERBOOKING 
-                            if (ban.TrangThai != AppConstants.TrangThaiBanAn.Trong) return OperationResult<int>.Failed(string.Format("Lỗi an ninh: Bàn {0} không còn trống (Trạng thái: {1})", ban.TenBan, ban.TrangThai));
+                            if (ban.TrangThai != AppConstants.TrangThaiBanAn.Trong) return OperationResult<int>.Failed(string.Format("Lỗi an ninh: Bàn số ID {0} không còn trống (Trạng thái: {1})", ban.Id, ban.TrangThai));
 
                             ban.TrangThai = AppConstants.TrangThaiBanAn.DaDat;
                             _banAnGateway.Sua(ban);
@@ -237,38 +237,43 @@ namespace BUS
         {
             try
             {
-                var datBan = _datBanGateway.LayTheoId(idDatBan);
-                if (datBan == null) return OperationResult.Failed("Phiếu đặt bàn không tồn tại.");
-                if (datBan.TrangThai != AppConstants.TrangThaiBanAn.DaDat) return OperationResult.Failed("Trạng thái không hợp lệ để nhận.");
-
-                // Bước 1: Kích hoạt tình trạng hợp đồng phiếu giữ chỗ sang thực tế đi vào quy trình phục vụ dùng bữa (Chuyển Thành Đã Nhận)
-                datBan.TrangThai = "DaNhan";
-                _datBanGateway.Sua(datBan);
-
-                // Bước 2: Kéo mảng thông tin đơn hàng ảo chờ rỗng từ hệ thống hóa đơn ra mở mạng lưới ghi nhận order ẩm thực
-                var ctdh = _chiTietDonHangGateway.LayTheoId(datBan.IdChiTietDonHang);
-                if (ctdh != null)
+                using (var ts = new System.Transactions.TransactionScope())
                 {
-                    var donHang = _donHangGateway.LayTheoId(ctdh.IdDonHang);
-                    if (donHang != null)
-                    {
-                        donHang.TrangThai = AppConstants.TrangThaiDonHang.DangXuLy;
-                        _donHangGateway.Sua(donHang);
-                    }
-                }
+                    var datBan = _datBanGateway.LayTheoId(idDatBan);
+                    if (datBan == null) return OperationResult.Failed("Phiếu đặt bàn không tồn tại.");
+                    if (datBan.TrangThai != AppConstants.TrangThaiBanAn.DaDat) return OperationResult.Failed("Trạng thái không hợp lệ để nhận.");
 
-                // Bước 3: Đổi cờ báo hiệu mô phỏng trên sơ đồ thực tiễn nhà hàng về trạng thái Đang Phục Vụ để tránh xung đột lượt bố trí mới chặn va chạm
-                var dsCTDB = _chiTietDatBanGateway.LoadDS().Where(x => x.IdDatBan == idDatBan).ToList();
-                foreach (var ct in dsCTDB)
-                {
-                    var ban = _banAnGateway.LayTheoId(ct.IdBanAn);
-                    if (ban != null)
+                    // Bước 1: Kích hoạt tình trạng hợp đồng phiếu giữ chỗ sang thực tế đi vào quy trình phục vụ dùng bữa (Chuyển Thành Đã Nhận)
+                    datBan.TrangThai = "DaNhan";
+                    _datBanGateway.Sua(datBan);
+
+                    // Bước 2: Kéo mảng thông tin đơn hàng ảo chờ rỗng từ hệ thống hóa đơn ra mở mạng lưới ghi nhận order ẩm thực
+                    var ctdh = _chiTietDonHangGateway.LayTheoId(datBan.IdChiTietDonHang);
+                    if (ctdh != null)
                     {
-                        ban.TrangThai = AppConstants.TrangThaiBanAn.DangSuDung;
-                        _banAnGateway.Sua(ban);
+                        var donHang = _donHangGateway.LayTheoId(ctdh.IdDonHang);
+                        if (donHang != null)
+                        {
+                            donHang.TrangThai = AppConstants.TrangThaiDonHang.DangXuLy;
+                            _donHangGateway.Sua(donHang);
+                        }
                     }
+
+                    // Bước 3: Đổi cờ báo hiệu mô phỏng trên sơ đồ thực tiễn nhà hàng về trạng thái Đang Phục Vụ để tránh xung đột lượt bố trí mới chặn va chạm
+                    var dsCTDB = _chiTietDatBanGateway.LoadDS().Where(x => x.IdDatBan == idDatBan).ToList();
+                    foreach (var ct in dsCTDB)
+                    {
+                        var ban = _banAnGateway.LayTheoId(ct.IdBanAn);
+                        if (ban != null)
+                        {
+                            ban.TrangThai = AppConstants.TrangThaiBanAn.DangSuDung;
+                            _banAnGateway.Sua(ban);
+                        }
+                    }
+                    
+                    ts.Complete();
+                    return OperationResult.Success();
                 }
-                return OperationResult.Success();
             }
             catch (Exception ex) { return OperationResult.Failed("Lỗi nhận bàn: " + ex.Message); }
         }
@@ -283,12 +288,12 @@ namespace BUS
                     if (datBan == null) return OperationResult.Failed("Phiếu đặt bàn không tồn tại.");
 
                     var ctdh = _chiTietDonHangGateway.LayTheoId(datBan.IdChiTietDonHang);
-                    int? idDonHang = ctdh != null ? ctdh.IdDonHang : null;
+                    int? idDonHang = ctdh != null ? (int?)ctdh.IdDonHang : null;
 
                     // Bước 1: GIẢI TỎA TRẢ LẠI TIỀN CỌC NẾU KHÁCH CÓ THANH TOÁN BẢO LÃNH VÍ
                     if (datBan.TienCoc > 0 && datBan.IdKhachHang.HasValue)
                     {
-                        var hoanResult = BUS.BUS_GiaoDichVi.Instance.GiaiToaTienCoc(datBan.IdKhachHang.Value, datBan.TienCoc, idDonHang);
+                        var hoanResult = _giaoDichViService.GiaiToaTienCoc(datBan.IdKhachHang.Value, datBan.TienCoc, idDonHang);
                         if (!hoanResult.IsSuccess)
                             return OperationResult.Failed("Hoàn cọc thất bại: " + hoanResult.ErrorMessage);
                     }
@@ -298,7 +303,7 @@ namespace BUS
                     _datBanGateway.Sua(datBan);
 
                     // Bước 3: Hủy hệ quy chiếu đơn hàng nháp tĩnh do không có hóa đơn thu chi phát sinh hoàn thiện thành quả
-                    var ctdh = _chiTietDonHangGateway.LayTheoId(datBan.IdChiTietDonHang);
+                    ctdh = _chiTietDonHangGateway.LayTheoId(datBan.IdChiTietDonHang);
                     if (ctdh != null)
                     {
                         var donHang = _donHangGateway.LayTheoId(ctdh.IdDonHang);
@@ -378,7 +383,7 @@ namespace BUS
                     // BUG FIX: Chống bốc hơi tiền cọc khách hàng khi hợp nhất bill!
                     if (dbBiGhep.TienCoc > 0 && dbBiGhep.IdKhachHang.HasValue)
                     {
-                        var refundResult = BUS.BUS_GiaoDichVi.Instance.GiaiToaTienCoc(dbBiGhep.IdKhachHang.Value, dbBiGhep.TienCoc, idDonHangBiGhep);
+                        var refundResult = _giaoDichViService.GiaiToaTienCoc(dbBiGhep.IdKhachHang.Value, dbBiGhep.TienCoc, idDonHangBiGhep);
                         if (!refundResult.IsSuccess) return OperationResult.Failed("Cảnh báo thất thoát: Không thể hoàn cọc ví RFID cho bàn cũ bị ghép.");
                         dbBiGhep.TienCoc = 0; // Đặt về 0 để đóng quy trình cũ
                     }
@@ -419,21 +424,26 @@ namespace BUS
 
             try
             {
-                // Bước 1: Quy trình tạo dòng kê khai chi tiết mới thuộc phạm vi hóa đơn hiện hành
-                var ct = new ET_ChiTietDonHang
+                using (var ts = new System.Transactions.TransactionScope())
                 {
-                    IdDonHang = idDonHang,
-                    IdSanPham = idSanPham,
-                    SoLuong = soLuong,
-                    DonGiaGoc = donGia,
-                    TienGiamGiaDong = 0,
-                    DonGiaThucTe = donGia
-                };
-                bool ok = _chiTietDonHangGateway.Them(ct);
-                if (!ok) return OperationResult.Failed("Không thể thêm món.");
+                    // Bước 1: Quy trình tạo dòng kê khai chi tiết mới thuộc phạm vi hóa đơn hiện hành
+                    var ct = new ET_ChiTietDonHang
+                    {
+                        IdDonHang = idDonHang,
+                        IdSanPham = idSanPham,
+                        SoLuong = soLuong,
+                        DonGiaGoc = donGia,
+                        TienGiamGiaDong = 0,
+                        DonGiaThucTe = donGia
+                    };
+                    bool ok = _chiTietDonHangGateway.Them(ct);
+                    if (!ok) return OperationResult.Failed("Không thể thêm món.");
 
-                CapNhatTongTien(idDonHang);
-                return OperationResult.Success();
+                    CapNhatTongTien(idDonHang);
+                    
+                    ts.Complete();
+                    return OperationResult.Success();
+                }
             }
             catch (Exception ex)
             {
@@ -448,21 +458,26 @@ namespace BUS
 
             try
             {
-                var ct = new ET_ChiTietDonHang
+                using (var ts = new System.Transactions.TransactionScope())
                 {
-                    IdDonHang = idDonHang,
-                    IdSanPham = null,
-                    IdCombo = null,
-                    SoLuong = 1,
-                    DonGiaGoc = soTien,
-                    TienGiamGiaDong = 0,
-                    DonGiaThucTe = soTien
-                };
-                bool ok = _chiTietDonHangGateway.Them(ct);
-                if (!ok) return OperationResult.Failed("Không thể thêm phụ thu.");
+                    var ct = new ET_ChiTietDonHang
+                    {
+                        IdDonHang = idDonHang,
+                        IdSanPham = null,
+                        IdCombo = null,
+                        SoLuong = 1,
+                        DonGiaGoc = soTien,
+                        TienGiamGiaDong = 0,
+                        DonGiaThucTe = soTien
+                    };
+                    bool ok = _chiTietDonHangGateway.Them(ct);
+                    if (!ok) return OperationResult.Failed("Không thể thêm phụ thu.");
 
-                CapNhatTongTien(idDonHang);
-                return OperationResult.Success();
+                    CapNhatTongTien(idDonHang);
+                    
+                    ts.Complete();
+                    return OperationResult.Success();
+                }
             }
             catch (Exception ex)
             {
@@ -474,10 +489,16 @@ namespace BUS
         {
             try
             {
-                bool ok = _chiTietDonHangGateway.Xoa(idChiTiet);
-                if (!ok) return OperationResult.Failed("Không thể xóa món.");
-                CapNhatTongTien(idDonHang);
-                return OperationResult.Success();
+                using (var ts = new System.Transactions.TransactionScope())
+                {
+                    bool ok = _chiTietDonHangGateway.Xoa(idChiTiet);
+                    if (!ok) return OperationResult.Failed("Không thể xóa món.");
+                    
+                    CapNhatTongTien(idDonHang);
+                    
+                    ts.Complete();
+                    return OperationResult.Success();
+                }
             }
             catch (Exception ex)
             {
@@ -519,7 +540,7 @@ namespace BUS
                         // Tiêu hao cọc thật sự vào hóa đơn
                         if (db.TienCoc > 0 && db.IdKhachHang.HasValue)
                         {
-                            var thuResult = BUS.BUS_GiaoDichVi.Instance.KhauTruTienDongBang(db.IdKhachHang.Value, db.TienCoc, idDonHang);
+                            var thuResult = _giaoDichViService.KhauTruTienDongBang(db.IdKhachHang.Value, db.TienCoc, idDonHang);
                             if (!thuResult.IsSuccess) return OperationResult.Failed("Lỗi thanh khoản cọc: " + thuResult.ErrorMessage);
                         }
                     }
@@ -677,7 +698,7 @@ namespace BUS
 
             try
             {
-                var existingQuota = BUS_DoanKhach.Instance.LayQuotaTheoLoai(idDoan, AppConstants.LoaiDichVuDoan.AnUong);
+                var existingQuota = _doanKhachService.LayQuotaTheoLoai(idDoan, AppConstants.LoaiDichVuDoan.AnUong);
                 bool allotmentAlreadyPaid = (existingQuota != null);
 
                 var dichVu = new ET_DoanKhach_DichVu

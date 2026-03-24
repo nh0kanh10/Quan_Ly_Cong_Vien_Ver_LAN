@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_LichChoAn
     {
+        private readonly ILichChoAnGateway _gateway;
+
         private static BUS_LichChoAn instance;
         public static BUS_LichChoAn Instance
         {
@@ -17,15 +18,12 @@ namespace BUS
             }
         }
 
-        public List<ET_LichChoAn> LoadDS()
-        {
-            return DAL_LichChoAn.Instance.LoadDS();
-        }
+        public BUS_LichChoAn() : this(new DefaultLichChoAnGateway()) { }
+        public BUS_LichChoAn(ILichChoAnGateway gw) { _gateway = gw; }
 
-        public List<ET_LichChoAn> LoadTheoDongVat(int idDongVat)
-        {
-            return DAL_LichChoAn.Instance.LoadTheoDongVat(idDongVat);
-        }
+        public List<ET_LichChoAn> LoadDS() => _gateway.LoadDS();
+
+        public List<ET_LichChoAn> LoadTheoDongVat(int idDongVat) => _gateway.LoadTheoDongVat(idDongVat);
 
         public ResponseResult Them(ET_LichChoAn et)
         {
@@ -35,7 +33,7 @@ namespace BUS
             if (string.IsNullOrWhiteSpace(et.ThucAn))
                 return new ResponseResult { IsSuccess = false, ErrorMessage = "Vui lòng nhập thức ăn!" };
 
-            if (DAL_LichChoAn.Instance.Them(et))
+            if (_gateway.Them(et))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi thêm lịch cho ăn." };
         }
@@ -45,14 +43,14 @@ namespace BUS
             if (et.Id <= 0)
                 return new ResponseResult { IsSuccess = false, ErrorMessage = "ID không hợp lệ!" };
 
-            if (DAL_LichChoAn.Instance.Sua(et))
+            if (_gateway.Sua(et))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi cập nhật." };
         }
 
         public ResponseResult Xoa(int id)
         {
-            if (DAL_LichChoAn.Instance.Xoa(id))
+            if (_gateway.Xoa(id))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi xóa lịch cho ăn." };
         }

@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_ChatLuongNuoc
     {
+        private readonly IChatLuongNuocGateway _gateway;
+
         private static BUS_ChatLuongNuoc instance;
         public static BUS_ChatLuongNuoc Instance
         {
@@ -17,14 +18,14 @@ namespace BUS
             }
         }
 
-        public List<ET_ChatLuongNuoc> LoadDS()
-        {
-            return DAL_ChatLuongNuoc.Instance.LoadDS();
-        }
+        public BUS_ChatLuongNuoc() : this(new DefaultChatLuongNuocGateway()) { }
+        public BUS_ChatLuongNuoc(IChatLuongNuocGateway gw) { _gateway = gw; }
+
+        public List<ET_ChatLuongNuoc> LoadDS() => _gateway.LoadDS();
 
         public List<ET_ChatLuongNuoc> LoadTheoKhuVucBien(int idKhuVucBien)
         {
-            return DAL_ChatLuongNuoc.Instance.LoadDS().FindAll(x => x.IdKhuVucBien == idKhuVucBien);
+            return _gateway.LoadDS().FindAll(x => x.IdKhuVucBien == idKhuVucBien);
         }
 
         public ResponseResult Them(ET_ChatLuongNuoc et)
@@ -32,7 +33,7 @@ namespace BUS
             if (et.IdKhuVucBien <= 0)
                 return new ResponseResult { IsSuccess = false, ErrorMessage = "Vui lòng chọn khu vực biển!" };
 
-            if (DAL_ChatLuongNuoc.Instance.Them(et))
+            if (_gateway.Them(et))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi thêm chất lượng nước." };
         }
@@ -42,14 +43,14 @@ namespace BUS
             if (et.Id <= 0)
                 return new ResponseResult { IsSuccess = false, ErrorMessage = "ID không hợp lệ!" };
 
-            if (DAL_ChatLuongNuoc.Instance.Sua(et))
+            if (_gateway.Sua(et))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi cập nhật." };
         }
 
         public ResponseResult Xoa(int id)
         {
-            if (DAL_ChatLuongNuoc.Instance.Xoa(id))
+            if (_gateway.Xoa(id))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi xóa." };
         }

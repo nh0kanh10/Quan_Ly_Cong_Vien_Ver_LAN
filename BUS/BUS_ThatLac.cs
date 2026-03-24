@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_ThatLac
     {
+        private readonly IThatLacGateway _gateway;
+
         private static BUS_ThatLac instance;
         public static BUS_ThatLac Instance
         {
@@ -16,24 +17,12 @@ namespace BUS
             }
         }
 
-        public List<ET_ThatLac> LoadDS()
-        {
-            return DAL_ThatLac.Instance.LoadDS();
-        }
+        public BUS_ThatLac() : this(new DefaultThatLacGateway()) { }
+        public BUS_ThatLac(IThatLacGateway gw) { _gateway = gw; }
 
-        public bool Them(ET_ThatLac et)
-        {
-            return DAL_ThatLac.Instance.Them(et);
-        }
-
-        public bool Sua(ET_ThatLac et)
-        {
-            return DAL_ThatLac.Instance.Sua(et);
-        }
-
-        public bool Xoa(int id)
-        {
-            return DAL_ThatLac.Instance.Xoa(id);
-        }
+        public List<ET_ThatLac> LoadDS() => _gateway.LoadDS();
+        public bool Them(ET_ThatLac et) => _gateway.Them(et);
+        public bool Sua(ET_ThatLac et) => _gateway.Sua(et);
+        public bool Xoa(int id) => _gateway.Xoa(id);
     }
 }

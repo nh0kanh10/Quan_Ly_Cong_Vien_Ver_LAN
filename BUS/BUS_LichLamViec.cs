@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_LichLamViec
     {
+        private readonly ILichLamViecGateway _gateway;
+
         private static BUS_LichLamViec instance;
         public static BUS_LichLamViec Instance
         {
@@ -17,35 +18,20 @@ namespace BUS
             }
         }
 
-        public List<ET_LichLamViec> LoadTheoTuan(DateTime monday, string caLam)
-        {
-            return DAL_LichLamViec.Instance.LoadTheoTuan(monday, caLam);
-        }
+        public BUS_LichLamViec() : this(new DefaultLichLamViecGateway()) { }
+        public BUS_LichLamViec(ILichLamViecGateway gw) { _gateway = gw; }
 
-        public List<ET_LichLamViec> LoadTheoO(int idKhuVuc, DateTime ngay, string caLam)
-        {
-            return DAL_LichLamViec.Instance.LoadTheoO(idKhuVuc, ngay, caLam);
-        }
+        public List<ET_LichLamViec> LoadTheoTuan(DateTime monday, string caLam) => _gateway.LoadTheoTuan(monday, caLam);
 
-        public bool ThemNVVaoCa(int idNhanVien, int idKhuVuc, DateTime ngayLam, string caLam)
-        {
-            return DAL_LichLamViec.Instance.Them(idNhanVien, idKhuVuc, ngayLam, caLam);
-        }
+        public List<ET_LichLamViec> LoadTheoO(int idKhuVuc, DateTime ngay, string caLam) => _gateway.LoadTheoO(idKhuVuc, ngay, caLam);
 
-        public bool GoNVKhoiCa(int id)
-        {
-            return DAL_LichLamViec.Instance.Xoa(id);
-        }
+        public bool ThemNVVaoCa(int idNhanVien, int idKhuVuc, DateTime ngayLam, string caLam) => _gateway.Them(idNhanVien, idKhuVuc, ngayLam, caLam);
 
-        public int CopyTuan(DateTime mondayNguon, DateTime mondayDich, string caLam)
-        {
-            return DAL_LichLamViec.Instance.CopyTuan(mondayNguon, mondayDich, caLam);
-        }
+        public bool GoNVKhoiCa(int id) => _gateway.Xoa(id);
 
-        public List<int> LayDsIdNVDaPhanTrongNgay(DateTime ngay, string caLam)
-        {
-            return DAL_LichLamViec.Instance.LayDsIdNVDaPhanTrongNgay(ngay, caLam);
-        }
+        public int CopyTuan(DateTime mondayNguon, DateTime mondayDich, string caLam) => _gateway.CopyTuan(mondayNguon, mondayDich, caLam);
+
+        public List<int> LayDsIdNVDaPhanTrongNgay(DateTime ngay, string caLam) => _gateway.LayDsIdNVDaPhanTrongNgay(ngay, caLam);
 
         /// <summary>
         /// Lấy thứ 2 của tuần chứa ngày cho trước

@@ -8,6 +8,12 @@ namespace BUS
 {
     public class BUS_VeDienTu
     {
+        private readonly IVeDienTuGateway _veDienTuGateway;
+        private readonly IChiTietDonHangGateway _chiTietGateway;
+        private readonly IDonHangGateway _donHangGateway;
+        private readonly ISanPhamGateway _sanPhamGateway;
+        private readonly ISanPhamVeGateway _sanPhamVeGateway;
+
         private static BUS_VeDienTu instance;
         public static BUS_VeDienTu Instance
         {
@@ -18,16 +24,29 @@ namespace BUS
             }
         }
 
+        public BUS_VeDienTu() : this(new DefaultVeDienTuGateway(), new DefaultChiTietDonHangGateway(), 
+                                     new DefaultDonHangGateway(), new DefaultSanPhamGateway(), new DefaultSanPhamVeGateway()) { }
+
+        public BUS_VeDienTu(IVeDienTuGateway veDienTuGateway, IChiTietDonHangGateway chiTietGateway, 
+                            IDonHangGateway donHangGateway, ISanPhamGateway sanPhamGateway, ISanPhamVeGateway sanPhamVeGateway)
+        {
+            _veDienTuGateway = veDienTuGateway;
+            _chiTietGateway = chiTietGateway;
+            _donHangGateway = donHangGateway;
+            _sanPhamGateway = sanPhamGateway;
+            _sanPhamVeGateway = sanPhamVeGateway;
+        }
+
         #region Truy xuất Dữ liệu Cơ bản
 
         public List<ET_VeDienTu> LoadDS()
         {
-            return DAL_VeDienTu.Instance.LoadDS();
+            return _veDienTuGateway.LoadDS();
         }
 
         public ET_VeDienTu LayTheoId(Guid id)
         {
-            return DAL_VeDienTu.Instance.LayTheoId(id);
+            return _veDienTuGateway.LayTheoId(id);
         }
         #endregion
 
@@ -58,7 +77,7 @@ namespace BUS
             // Giai đoạn 2: Xử lý định danh Vé Lẻ cá nhân
             try
             {
-                veInfo = DAL_VeDienTu.Instance.LayTheoMaCode(maCode); 
+                veInfo = _veDienTuGateway.LayTheoMaCode(maCode); 
                 if (veInfo == null) return 3;
 
                 // Bước 1: Khảo sát trạng thái cờ logic (Ví dụ: Bị nhân viên tổng đài hủy)
@@ -66,21 +85,21 @@ namespace BUS
 
                 // Bước 2: Truy vết tuổi thọ của Vé Dịch Vụ
                 // Bắt buộc đối soát với thời gian xuất hóa đơn gốc để triệt tiêu việc tái sử dụng vé cũ ngày hôm trước.
-                var ctdh = DAL_ChiTietDonHang.Instance.LayTheoId(veInfo.IdChiTietDonHang);
+                var ctdh = _chiTietGateway.LayTheoId(veInfo.IdChiTietDonHang);
                 if (ctdh != null)
                 {
-                    var donHang = DAL_DonHang.Instance.LayTheoId(ctdh.IdDonHang);
+                    var donHang = _donHangGateway.LayTheoId(ctdh.IdDonHang);
                     if (donHang != null && donHang.ThoiGian.Date < DateTime.Today)
                     {
                         veInfo.TrangThai = AppConstants.TrangThaiVeDienTu.HetHan;
-                        DAL_VeDienTu.Instance.Sua(veInfo);
+                        _veDienTuGateway.Sua(veInfo);
                         return 2;
                     }
                 }
 
                 if (idKhuVucTramGac != null && veInfo.IdSanPham.HasValue)
                 {
-                    var sanPham = DAL_SanPham.Instance.LayTheoId(veInfo.IdSanPham.Value);
+                    var sanPham = _sanPhamGateway.LayTheoId(veInfo.IdSanPham.Value);
                     if (sanPham != null && sanPham.IdKhuVuc != idKhuVucTramGac)
                     {
                         return 1;
@@ -90,7 +109,7 @@ namespace BUS
                     // Một máy chơi trò chơi có thể dùng chung cấu hình cho nhiều vé khác nhau (Người lớn/Trẻ em)
                     if (idThietBi.HasValue)
                     {
-                        var spVe = DAL_SanPham_Ve.Instance.LayTheoIdSanPham(veInfo.IdSanPham.Value);
+                        var spVe = _sanPhamVeGateway.LayTheoIdSanPham(veInfo.IdSanPham.Value);
                         if (spVe == null || spVe.IdThietBi != idThietBi.Value)
                         {
                             return 4;
@@ -103,7 +122,7 @@ namespace BUS
                     if (veInfo.TrangThai != AppConstants.TrangThaiVeDienTu.DaSuDung)
                     {
                         veInfo.TrangThai = AppConstants.TrangThaiVeDienTu.DaSuDung;
-                        DAL_VeDienTu.Instance.Sua(veInfo);
+                        _veDienTuGateway.Sua(veInfo);
                     }
                     return 2;
                 }
@@ -116,7 +135,7 @@ namespace BUS
                 else
                     veInfo.TrangThai = AppConstants.TrangThaiVeDienTu.DangSuDung; 
 
-                if (DAL_VeDienTu.Instance.Sua(veInfo))
+                if (_veDienTuGateway.Sua(veInfo))
                     return 0;
                 return 3;
             }
@@ -190,7 +209,7 @@ namespace BUS
                 CreatedBy = createdBy        // Audit trail
             };
 
-            return DAL_VeDienTu.Instance.Them(ve);
+            return _veDienTuGateway.Them(ve);
             // Nếu INSERT fail -> return false -> BUS_DonHang ROLLBACK toàn bộ Transaction
         }
 
@@ -201,13 +220,13 @@ namespace BUS
         public List<TicketDisplayItem> LayVeTheoDonHang(int idDonHang)
         {
             // Query 1: Lấy ChiTietDonHang của đơn hàng này (targeted WHERE, not full table scan)
-            var chiTietList = DAL_ChiTietDonHang.Instance.LoadByDonHang(idDonHang);
+            var chiTietList = _chiTietGateway.LoadByDonHang(idDonHang);
             if (chiTietList.Count == 0) return new List<TicketDisplayItem>();
 
             var chiTietIds = chiTietList.Select(x => x.Id).ToHashSet();
 
             // Query 2: Lấy tất cả VeDienTu có IdChiTietDonHang thuộc đơn này
-            var allVe = DAL_VeDienTu.Instance.LoadDS()
+            var allVe = _veDienTuGateway.LoadDS()
                 .Where(v => chiTietIds.Contains(v.IdChiTietDonHang)).ToList();
             if (allVe.Count == 0) return new List<TicketDisplayItem>();
 
@@ -216,7 +235,7 @@ namespace BUS
             var spDict = new Dictionary<int, string>();
             foreach (var id in spIds)
             {
-                var sp = DAL_SanPham.Instance.LayTheoId(id);
+                var sp = _sanPhamGateway.LayTheoId(id);
                 if (sp != null) spDict[id] = sp.Ten;
             }
 

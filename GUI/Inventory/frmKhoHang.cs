@@ -11,7 +11,6 @@ namespace GUI
 {
     public partial class frmKhoHang : Form, IBaseForm, AI.IAIFormContext
     {
-        // ── AI Context ──
         public string AIContextName => "frmKhoHang";
         public string AIContextDescription =>
             "Form Kho Hàng: quản lý tồn kho, nhập/xuất kho, kiểm kê, đồng bộ tồn kho. " +

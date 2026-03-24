@@ -2,17 +2,39 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_ThueDo
     {
+        private readonly IThueDoChiTietGateway _thueDoGateway;
+        private readonly IDonHangGateway _donHangGateway;
+        private readonly IViDienTuGateway _viGateway;
+        private readonly IGiaoDichViGateway _giaoDichGateway;
+        private readonly IPhieuThuGateway _phieuThuGateway;
+        private readonly IPhieuChiGateway _phieuChiGateway;
+        private readonly IChiTietDonHangGateway _ctdhGateway;
+
         private static BUS_ThueDo instance;
         public static BUS_ThueDo Instance => instance ?? (instance = new BUS_ThueDo());
 
-        public List<ET_ThueDoChiTiet> LoadDS() => DAL_ThueDoChiTiet.Instance.LoadDS();
+        public BUS_ThueDo() : this(new DefaultThueDoChiTietGateway(), new DefaultDonHangGateway(), new DefaultViDienTuGateway(),
+                                   new DefaultGiaoDichViGateway(), new DefaultPhieuThuGateway(), new DefaultPhieuChiGateway(), new DefaultChiTietDonHangGateway()) { }
+
+        public BUS_ThueDo(IThueDoChiTietGateway tdGw, IDonHangGateway dhGw, IViDienTuGateway viGw,
+                          IGiaoDichViGateway gdGw, IPhieuThuGateway ptGw, IPhieuChiGateway pcGw, IChiTietDonHangGateway ctdhGw)
+        {
+            _thueDoGateway = tdGw;
+            _donHangGateway = dhGw;
+            _viGateway = viGw;
+            _giaoDichGateway = gdGw;
+            _phieuThuGateway = ptGw;
+            _phieuChiGateway = pcGw;
+            _ctdhGateway = ctdhGw;
+        }
+
+        public List<ET_ThueDoChiTiet> LoadDS() => _thueDoGateway.LoadDS();
 
         public OperationResult RentMultipleItems(ET_DonHang dh, List<ET.RentalCartItem> cart, string phuongThuc, int idNhanVien)
         {
@@ -26,7 +48,7 @@ namespace BUS
             {
                 using (var ts = new System.Transactions.TransactionScope())
                 {
-                    int idDonHang = DAL_DonHang.Instance.ThemVaLayId(dh);
+                    int idDonHang = _donHangGateway.ThemVaLayId(dh);
                     if (idDonHang <= 0) throw new Exception("Không thể tạo đơn hàng gốc.");
 
                     int? idGiaoDichCocChung = null;
@@ -34,32 +56,32 @@ namespace BUS
                     // 1. THANH TOÁN (Trừ tiền 1 lần duy nhất cho toàn bộ giỏ)
                     if (phuongThuc == AppConstants.PhuongThucThanhToan.ViRfid && dh.IdKhachHang != null)
                     {
-                        var vi = DAL_ViDienTu.Instance.LayTheoKhachHang(dh.IdKhachHang.Value);
+                        var vi = _viGateway.LayTheoKhachHang(dh.IdKhachHang.Value);
                         if (vi == null || vi.SoDuKhaDung < tongCong) throw new Exception("Số dư ví không đủ.");
 
                         vi.SoDuKhaDung -= tongThue; 
                         vi.SoDuKhaDung -= tongCoc;  
                         vi.SoDuDongBang += tongCoc;
                         
-                        if (!DAL_ViDienTu.Instance.Sua(vi)) throw new Exception("Lỗi cập nhật số dư ví.");
+                        if (!_viGateway.Sua(vi)) throw new Exception("Lỗi cập nhật số dư ví.");
 
                         if (tongThue > 0)
                         {
                             var gdThue = new ET_GiaoDichVi { MaCode = "GD-RENT-" + DateTime.Now.Ticks.ToString().Substring(10), IdVi = vi.Id, LoaiGiaoDich = AppConstants.LoaiGiaoDichVi.ThanhToanDichVu, SoTien = tongThue, IdDonHangLienQuan = idDonHang, ThoiGian = DateTime.Now, CreatedAt = DateTime.Now, CreatedBy = idNhanVien };
-                            if (DAL_GiaoDichVi.Instance.ThemVaLayId(gdThue) <= 0) throw new Exception("Lỗi ghi log thanh toán.");
+                            if (_giaoDichGateway.ThemVaLayId(gdThue) <= 0) throw new Exception("Lỗi ghi log thanh toán.");
                         }
                         
                         if (tongCoc > 0)
                         {
                             var gdCoc = new ET_GiaoDichVi { MaCode = "GD-DEP-" + DateTime.Now.Ticks.ToString().Substring(10), IdVi = vi.Id, LoaiGiaoDich = AppConstants.LoaiGiaoDichVi.ThuCoc, SoTien = tongCoc, IdDonHangLienQuan = idDonHang, ThoiGian = DateTime.Now, CreatedAt = DateTime.Now, CreatedBy = idNhanVien };
-                            idGiaoDichCocChung = DAL_GiaoDichVi.Instance.ThemVaLayId(gdCoc);
+                            idGiaoDichCocChung = _giaoDichGateway.ThemVaLayId(gdCoc);
                             if (idGiaoDichCocChung <= 0) throw new Exception("Lỗi ghi log cọc.");
                         }
                     }
                     else // Tiền mặt
                     {
                         var pt = new ET_PhieuThu { MaCode = "PT-RENT-" + DateTime.Now.Ticks.ToString().Substring(10), IdDonHang = idDonHang, SoTien = tongCong, PhuongThuc = phuongThuc, ThoiGian = DateTime.Now, CreatedAt = DateTime.Now, CreatedBy = idNhanVien };
-                        if (!DAL_PhieuThu.Instance.Them(pt)) throw new Exception("Không tạo được Phiếu Thu.");
+                        if (!_phieuThuGateway.Them(pt)) throw new Exception("Không tạo được Phiếu Thu.");
                     }
 
                     // 2. GHI NHẬN CHI TIẾT
@@ -80,7 +102,7 @@ namespace BUS
                                 TienGiamGiaDong = 0,
                                 DonGiaThucTe = tienThue1Mon
                             };
-                            int idCtdh = DAL_ChiTietDonHang.Instance.ThemVaLayId(ctdh);
+                            int idCtdh = _ctdhGateway.ThemVaLayId(ctdh);
                             if (idCtdh <= 0) throw new Exception("Tạo Line Item (Chi Tiết CTDH) thất bại.");
 
                             var td = new ET_ThueDoChiTiet
@@ -94,7 +116,7 @@ namespace BUS
                                 IdGiaoDichCoc = idGiaoDichCocChung,
                                 TienThueDaThu = tienThue1Mon
                             };
-                            if (!DAL_ThueDoChiTiet.Instance.Them(td)) throw new Exception("Lưu chi tiết thuê thất bại.");
+                            if (!_thueDoGateway.Them(td)) throw new Exception("Lưu chi tiết thuê thất bại.");
                         }
                     }
 
@@ -114,7 +136,7 @@ namespace BUS
             {
                 using (var ts = new System.Transactions.TransactionScope())
                 {
-                    var td = DAL_ThueDoChiTiet.Instance.LayTheoId(idThueDo);
+                    var td = _thueDoGateway.LayTheoId(idThueDo);
                     if (td == null) return OperationResult.Failed("Không tìm thấy dữ liệu thuê đồ.");
                     if (td.TrangThaiCoc != AppConstants.TrangThaiCoc.ChuaHoan) return OperationResult.Failed("Món này đã được hoàn cọc rồi.");
 
@@ -124,13 +146,13 @@ namespace BUS
 
                     if (td.IdGiaoDichCoc != null) // RFID
                     {
-                        var gdCoc = DAL_GiaoDichVi.Instance.LayTheoId(td.IdGiaoDichCoc.Value);
-                        var vi = DAL_ViDienTu.Instance.LayTheoId(gdCoc.IdVi);
+                        var gdCoc = _giaoDichGateway.LayTheoId(td.IdGiaoDichCoc.Value);
+                        var vi = _viGateway.LayTheoId(gdCoc.IdVi);
 
                         vi.SoDuDongBang -= td.SoTienCoc;
                         vi.SoDuKhaDung += tienHoanVeVi;
 
-                        DAL_ViDienTu.Instance.Sua(vi);
+                        _viGateway.Sua(vi);
 
                         // [VÁ BUG KẾ TOÁN]: Tiền trả về ví LUÔN LUÔN là Hoàn Cọc.
                         if (tienHoanVeVi > 0)
@@ -143,7 +165,7 @@ namespace BUS
                                 SoTien = tienHoanVeVi,
                                 ThoiGian = DateTime.Now, CreatedAt = DateTime.Now, CreatedBy = idNhanVien
                             };
-                            td.IdGiaoDichHoanCoc = DAL_GiaoDichVi.Instance.ThemVaLayId(gdHoan);
+                            td.IdGiaoDichHoanCoc = _giaoDichGateway.ThemVaLayId(gdHoan);
                         }
                     }
                     else // Tiền mặt
@@ -157,7 +179,7 @@ namespace BUS
                                 LyDo = coPhat ? "Hoàn cọc (Đã trừ lố giờ/phạt)" : "Hoàn full cọc",
                                 ThoiGian = DateTime.Now, CreatedAt = DateTime.Now, CreatedBy = idNhanVien
                             };
-                            DAL_PhieuChi.Instance.Them(pc);
+                            _phieuChiGateway.Them(pc);
                         }
                     }
 
@@ -170,17 +192,17 @@ namespace BUS
                             // ThueDoChiTiet giờ lên qua CTDH nên không có IdDonHang trực tiếp.
                             // Phần phạt thu thêm được gắn vào DonHang qua CTDH của giao dịch cộc (IdGiaoDichCoc).
                             IdDonHang = td.IdGiaoDichCoc.HasValue
-                                ? DAL_GiaoDichVi.Instance.LayTheoId(td.IdGiaoDichCoc.Value)?.IdDonHangLienQuan ?? 0
+                                ? _giaoDichGateway.LayTheoId(td.IdGiaoDichCoc.Value)?.IdDonHangLienQuan ?? 0
                                 : 0,
                             SoTien = tienPhatVuotCoc,
                             PhuongThuc = AppConstants.PhuongThucThanhToan.TienMat,
                             ThoiGian = DateTime.Now, CreatedAt = DateTime.Now, CreatedBy = idNhanVien
                         };
-                        DAL_PhieuThu.Instance.Them(ptPhat);
+                        _phieuThuGateway.Them(ptPhat);
                     }
 
                     td.TrangThaiCoc = coPhat ? "DaPhat" : "DaHoan";
-                    DAL_ThueDoChiTiet.Instance.Sua(td);
+                    _thueDoGateway.Sua(td);
                     ts.Complete();
 
                     if (tienPhatVuotCoc > 0)

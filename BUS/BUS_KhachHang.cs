@@ -1,5 +1,4 @@
 using System;
-using DAL;
 using ET;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +7,13 @@ namespace BUS
 {
     public class BUS_KhachHang : IBaseBUS<ET_KhachHang>
     {
+        private readonly IKhachHangGateway _khachHangGateway;
+        private readonly IDonHangGateway _donHangGateway;
+        private readonly IViDienTuGateway _viGateway;
+        private readonly ITheRfidGateway _theRfidGateway;
+        private readonly ILichSuDiemGateway _lichSuDiemGateway;
+        private readonly ISuCoGateway _suCoGateway;
+
         private static BUS_KhachHang instance;
         public static BUS_KhachHang Instance
         {
@@ -17,22 +23,34 @@ namespace BUS
                 return instance;
             }
         }
+        
+        public BUS_KhachHang() : this(new DefaultKhachHangGateway(), new DefaultDonHangGateway(), new DefaultViDienTuGateway(), new DefaultTheRfidGateway(), new DefaultLichSuDiemGateway(), new DefaultSuCoGateway()) { }
+
+        public BUS_KhachHang(IKhachHangGateway khachHangGateway, IDonHangGateway donHangGateway, IViDienTuGateway viGateway, ITheRfidGateway theRfidGateway, ILichSuDiemGateway lichSuDiemGateway, ISuCoGateway suCoGateway)
+        {
+            _khachHangGateway = khachHangGateway;
+            _donHangGateway = donHangGateway;
+            _viGateway = viGateway;
+            _theRfidGateway = theRfidGateway;
+            _lichSuDiemGateway = lichSuDiemGateway;
+            _suCoGateway = suCoGateway;
+        }
 
         #region Thao tác Dữ liệu Cơ bản (CRUD & Tìm kiếm)
         
         public List<ET_KhachHang> LoadDS()
         {
-            return DAL_KhachHang.Instance.LoadDS().Where(x => !x.IsDeleted).ToList();
+            return _khachHangGateway.LoadDS().Where(x => !x.IsDeleted).ToList();
         }
 
         public ET_KhachHang GetById(int id)
         {
-            return DAL_KhachHang.Instance.LayTheoId(id);
+            return _khachHangGateway.LayTheoId(id);
         }
 
         public ET_KhachHang GetByMaCodeOrSdt(string keyword)
         {
-            return DAL_KhachHang.Instance.LayTheoMaCodeHoacSdt(keyword);
+            return _khachHangGateway.LayTheoMaCodeHoacSdt(keyword);
         }
 
         public ResponseResult Them(ET_KhachHang et)
@@ -41,20 +59,20 @@ namespace BUS
             et.NgayDangKy = DateTime.Now;
             et.CreatedAt = DateTime.Now;
 
-            bool success = DAL_KhachHang.Instance.Them(et);
+            bool success = _khachHangGateway.Them(et);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể thêm khách hàng vào CSDL.");
         }
 
         public ResponseResult Sua(ET_KhachHang et)
         {
             et.UpdatedAt = DateTime.Now;
-            bool success = DAL_KhachHang.Instance.Sua(et);
+            bool success = _khachHangGateway.Sua(et);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể cập nhật thông tin khách hàng.");
         }
 
         public ResponseResult Xoa(int id)
         {
-            bool success = DAL_KhachHang.Instance.Xoa(id);
+            bool success = _khachHangGateway.Xoa(id);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể xóa khách hàng.");
         }
 
@@ -79,7 +97,7 @@ namespace BUS
 
         public string LayMaCodeTiepTheo()
         {
-            var ds = DAL_KhachHang.Instance.LoadDS();
+            var ds = _khachHangGateway.LoadDS();
             int max = 0;
             foreach (var item in ds)
             {
@@ -115,7 +133,7 @@ namespace BUS
             if (!string.IsNullOrWhiteSpace(et.Email) && !AppConstants.Validation.EmailPattern.IsMatch(et.Email))
                 return "Định dạng Email không hợp lệ.";
             
-            var ds = DAL_KhachHang.Instance.GetAll();
+            var ds = _khachHangGateway.GetAll();
             if (isAdd)
             {
                 if (ds.Any(x => x.DienThoai == et.DienThoai)) return "Số điện thoại này đã tồn tại trong hệ thống.";
@@ -133,12 +151,12 @@ namespace BUS
 
         public ET_ViDienTu LayViTheoKhachHang(int idKhachHang)
         {
-            return DAL_ViDienTu.Instance.LayTheoKhachHang(idKhachHang);
+            return _viGateway.LayTheoKhachHang(idKhachHang);
         }
 
         public ET_TheRFID LayTheRfidTheoVi(int idVi)
         {
-            return DAL_TheRFID.Instance.LoadDS().FirstOrDefault(x => x.IdVi == idVi);
+            return _theRfidGateway.LoadDS().FirstOrDefault(x => x.IdVi == idVi);
         }
 
         public List<ET_GiaoDichVi> LayLichSuGiaoDich(int idVi)
@@ -148,12 +166,12 @@ namespace BUS
 
         public List<ET_LichSuDiem> LayLichSuDiem(int idKhachHang)
         {
-            return DAL_LichSuDiem.Instance.LayTheoKhachHang(idKhachHang);
+            return _lichSuDiemGateway.LayTheoKhachHang(idKhachHang);
         }
 
         public List<ET_SuCo> LaySuCoTheoKhachHang(int idKhachHang)
         {
-            return DAL_SuCo.Instance.LayTheoKhachHang(idKhachHang);
+            return _suCoGateway.LayTheoKhachHang(idKhachHang);
         }
         #endregion
 
@@ -165,10 +183,10 @@ namespace BUS
         /// </summary>
         public OperationResult<string> KiemTraTruocKhiXoa(int idKhachHang)
         {
-            var kh = DAL_KhachHang.Instance.LayTheoId(idKhachHang);
+            var kh = _khachHangGateway.LayTheoId(idKhachHang);
             if (kh == null) return OperationResult<string>.Failed("Không tìm thấy khách hàng.");
 
-            var vi = DAL_ViDienTu.Instance.LayTheoKhachHang(idKhachHang);
+            var vi = _viGateway.LayTheoKhachHang(idKhachHang);
             string warning = "";
 
             if (vi != null)
@@ -181,7 +199,7 @@ namespace BUS
                 }
 
                 // Bước 2: Kiểm tra trạng thái hoạt động của TẤT CẢ thẻ RFID liên kết
-                var danhSachThe = DAL_TheRFID.Instance.LoadDS().Where(x => x.IdVi == vi.Id && x.TrangThai == AppConstants.TrangThaiTheRfid.Active).ToList();
+                var danhSachThe = _theRfidGateway.LoadDS().Where(x => x.IdVi == vi.Id && x.TrangThai == AppConstants.TrangThaiTheRfid.Active).ToList();
                 if (danhSachThe.Count > 0)
                 {
                     warning += string.Format("{0} Thẻ RFID đang HOẠT ĐỘNG\n", danhSachThe.Count);
@@ -197,7 +215,7 @@ namespace BUS
             }
 
             // Bước 4: Kiểm tra lịch sử giao dịch để quyết định hình thức xóa (Vĩnh viễn hay Xóa mềm)
-            bool hasTransactions = DAL_LichSuDiem.Instance.LayTheoKhachHang(idKhachHang).Count > 0;
+            bool hasTransactions = _lichSuDiemGateway.LayTheoKhachHang(idKhachHang).Count > 0;
             if (vi != null)
             {
                 var giaoDich = BUS_GiaoDichVi.Instance.LayLichSuGiaoDich(vi.Id);
@@ -224,10 +242,10 @@ namespace BUS
         /// </summary>
         public ResponseResult XoaThongMinh(int idKhachHang)
         {
-            var kh = DAL_KhachHang.Instance.LayTheoId(idKhachHang);
+            var kh = _khachHangGateway.LayTheoId(idKhachHang);
             if (kh == null) return ResponseResult.Error("Không tìm thấy khách hàng.");
 
-            var vi = DAL_ViDienTu.Instance.LayTheoKhachHang(idKhachHang);
+            var vi = _viGateway.LayTheoKhachHang(idKhachHang);
 
             // Bước 1: Ngăn chặn thao tác xóa nếu ví điện tử vẫn còn tiền (Khả dụng hoặc Đóng băng)
             if (vi != null)
@@ -248,7 +266,7 @@ namespace BUS
             // Bước 2: Tự động vô hiệu hóa toàn bộ thẻ RFID liên kết đang hoạt động (Vá lỗi lọt thẻ phụ)
             if (vi != null)
             {
-                var danhSachThe = DAL_TheRFID.Instance.LoadDS().Where(x => x.IdVi == vi.Id && x.TrangThai == AppConstants.TrangThaiTheRfid.Active).ToList();
+                var danhSachThe = _theRfidGateway.LoadDS().Where(x => x.IdVi == vi.Id && x.TrangThai == AppConstants.TrangThaiTheRfid.Active).ToList();
                 foreach (var the in danhSachThe)
                 {
                     BUS_GiaoDichVi.Instance.KhoaMoThe(the.MaRfid, AppConstants.TrangThaiTheRfid.Revoked);
@@ -258,7 +276,7 @@ namespace BUS
             // Bước 3: Đánh dấu cờ IsDeleted để ẩn hồ sơ khách hàng (Bảo toàn tính toàn vẹn dữ liệu lịch sử)
             kh.IsDeleted = true;
             kh.UpdatedAt = DateTime.Now;
-            bool ok = DAL_KhachHang.Instance.Sua(kh);
+            bool ok = _khachHangGateway.Sua(kh);
             return ok ? ResponseResult.Success() : ResponseResult.Error("Lỗi hệ thống: Không thể cập nhật trạng thái xóa khách hàng.");
         }
 
@@ -267,7 +285,7 @@ namespace BUS
         /// </summary>
         public OperationResult CapViMoi(int idKhachHang)
         {
-            var existing = DAL_ViDienTu.Instance.LayTheoKhachHang(idKhachHang);
+            var existing = _viGateway.LayTheoKhachHang(idKhachHang);
             if (existing != null) return OperationResult.Failed("Khách hàng này đã được đăng ký ví điện tử từ trước.");
 
             var vi = new ET_ViDienTu
@@ -276,9 +294,11 @@ namespace BUS
                 SoDuKhaDung = 0,
                 SoDuDongBang = 0
             };
-            bool ok = DAL_ViDienTu.Instance.Them(vi);
+            bool ok = _viGateway.Them(vi);
             return ok ? OperationResult.Success() : OperationResult.Failed("Lỗi hệ thống: Không thể khởi tạo ví điện tử mới.");
         }
     }
 }
 
+ 
+#endregion

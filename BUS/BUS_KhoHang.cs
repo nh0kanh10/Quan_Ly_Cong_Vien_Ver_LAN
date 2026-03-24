@@ -8,6 +8,16 @@ namespace BUS
 {
     public class BUS_KhoHang : IBaseBUS<ET_KhoHang>
     {
+        private readonly IKhoHangGateway _khoHangGateway;
+        private readonly ITonKhoGateway _tonKhoGateway;
+        private readonly ITheKhoGateway _theKhoGateway;
+        private readonly ISanPhamGateway _sanPhamGateway;
+        private readonly IDonViTinhGateway _donViTinhGateway;
+        private readonly IPhieuNhapKhoGateway _phieuNhapGateway;
+        private readonly INhaCungCapGateway _nhaCungCapGateway;
+        private readonly IPhieuXuatKhoGateway _phieuXuatGateway;
+        private readonly IComboChiTietGateway _comboChiTietGateway;
+
         private static BUS_KhoHang instance;
         public static BUS_KhoHang Instance
         {
@@ -18,9 +28,28 @@ namespace BUS
             }
         }
 
+        public BUS_KhoHang() : this(new DefaultKhoHangGateway(), new DefaultTonKhoGateway(), new DefaultTheKhoGateway(),
+                                    new DefaultSanPhamGateway(), new DefaultDonViTinhGateway(), new DefaultPhieuNhapKhoGateway(),
+                                    new DefaultNhaCungCapGateway(), new DefaultPhieuXuatKhoGateway(), new DefaultComboChiTietGateway()) { }
+
+        public BUS_KhoHang(IKhoHangGateway khoHangGateway, ITonKhoGateway tonKhoGateway, ITheKhoGateway theKhoGateway,
+                           ISanPhamGateway sanPhamGateway, IDonViTinhGateway donViTinhGateway, IPhieuNhapKhoGateway phieuNhapGateway,
+                           INhaCungCapGateway nhaCungCapGateway, IPhieuXuatKhoGateway phieuXuatGateway, IComboChiTietGateway comboChiTietGateway)
+        {
+            _khoHangGateway = khoHangGateway;
+            _tonKhoGateway = tonKhoGateway;
+            _theKhoGateway = theKhoGateway;
+            _sanPhamGateway = sanPhamGateway;
+            _donViTinhGateway = donViTinhGateway;
+            _phieuNhapGateway = phieuNhapGateway;
+            _nhaCungCapGateway = nhaCungCapGateway;
+            _phieuXuatGateway = phieuXuatGateway;
+            _comboChiTietGateway = comboChiTietGateway;
+        }
+
         public List<ET_KhoHang> LoadDS()
         {
-            return DAL_KhoHang.Instance.LoadDS().Where(x => x.IsDeleted == false).ToList();
+            return _khoHangGateway.LoadDS().Where(x => x.IsDeleted == false).ToList();
         }
 
         public List<ET_KhoHang> TimKiem(string keyword, string filter)
@@ -38,7 +67,7 @@ namespace BUS
 
         public ET_KhoHang GetById(int id)
         {
-            return DAL_KhoHang.Instance.LayTheoId(id);
+            return _khoHangGateway.LayTheoId(id);
         }
 
         public ResponseResult Them(ET_KhoHang entity)
@@ -46,14 +75,14 @@ namespace BUS
             entity.CreatedAt = DateTime.Now;
             entity.IsDeleted = false;
             
-            if (DAL_KhoHang.Instance.Them(entity))
+            if (_khoHangGateway.Them(entity))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi thêm kho hàng!" };
         }
 
         public ResponseResult Sua(ET_KhoHang entity)
         {
-            if (DAL_KhoHang.Instance.Sua(entity))
+            if (_khoHangGateway.Sua(entity))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi cập nhật kho hàng!" };
         }
@@ -64,7 +93,7 @@ namespace BUS
             if (entity != null)
             {
                 entity.IsDeleted = true;
-                if (DAL_KhoHang.Instance.Sua(entity))
+                if (_khoHangGateway.Sua(entity))
                     return new ResponseResult { IsSuccess = true };
             }
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi xóa kho hàng!" };
@@ -78,15 +107,15 @@ namespace BUS
         /// </summary>
         public List<ET_TonKho_View> GetTonKhoChiTiet(int idKho = 1)
         {
-            var tonKho = DAL_TonKho.Instance.LoadDS().Where(x => x.IdKho == idKho).ToList();
-            var theKho = DAL_TheKho.Instance.LoadDS().Where(x => x.IdKho == idKho && (x.LoaiGiaoDich == "NHAP_NCC" || x.LoaiGiaoDich == "NHAP_KHO")).ToList();
+            var tonKho = _tonKhoGateway.LoadDS().Where(x => x.IdKho == idKho).ToList();
+            var theKho = _theKhoGateway.LoadDS().Where(x => x.IdKho == idKho && (x.LoaiGiaoDich == "NHAP_NCC" || x.LoaiGiaoDich == "NHAP_KHO")).ToList();
             // Lấy tất cả Sản Phẩm "Vật Lý" để luôn hiển thị dù chưa nhập kho (chưa có trong bảng TonKho)
-            var sanPham = DAL_SanPham.Instance.LoadDS()
+            var sanPham = _sanPhamGateway.LoadDS()
                 .Where(x => !x.IsDeleted && 
                            (x.LoaiSanPham == AppConstants.LoaiSanPham.AnUong || 
                             x.LoaiSanPham == AppConstants.LoaiSanPham.DoLuuNiem))
                 .ToList(); 
-            var donViTinh = DAL_DonViTinh.Instance.LoadDS();
+            var donViTinh = _donViTinhGateway.LoadDS();
             
             return sanPham.Select(s => {
                 var t = tonKho.FirstOrDefault(tk => tk.IdSanPham == s.Id);
@@ -114,8 +143,8 @@ namespace BUS
         /// </summary>
         public ET_DashboardKho GetDashboardMetrics(int idKho = 1)
         {
-            var tonKho = DAL_TonKho.Instance.LoadDS().Where(x => x.IdKho == idKho).ToList();
-            var sanPhamPhy = DAL_SanPham.Instance.LoadDS()
+            var tonKho = _tonKhoGateway.LoadDS().Where(x => x.IdKho == idKho).ToList();
+            var sanPhamPhy = _sanPhamGateway.LoadDS()
                 .Where(x => !x.IsDeleted && 
                            (x.LoaiSanPham == AppConstants.LoaiSanPham.AnUong || 
                             x.LoaiSanPham == AppConstants.LoaiSanPham.DoLuuNiem))
@@ -125,7 +154,7 @@ namespace BUS
             int amKho = 0;
             decimal tongVon = 0;
 
-            var theKho = DAL_TheKho.Instance.LoadDS().Where(x => x.IdKho == idKho && (x.LoaiGiaoDich == "NHAP_NCC" || x.LoaiGiaoDich == "NHAP_KHO")).ToList();
+            var theKho = _theKhoGateway.LoadDS().Where(x => x.IdKho == idKho && (x.LoaiGiaoDich == "NHAP_NCC" || x.LoaiGiaoDich == "NHAP_KHO")).ToList();
 
             foreach (var sp in sanPhamPhy)
             {
@@ -151,11 +180,11 @@ namespace BUS
 
         public object GetLichSuNhap(int idKho = 1, DateTime? tuNgay = null, DateTime? denNgay = null)
         {
-            var phieuNhap = DAL_PhieuNhapKho.Instance.LoadDS().Where(x => x.IdKho == idKho).ToList();
+            var phieuNhap = _phieuNhapGateway.LoadDS().Where(x => x.IdKho == idKho).ToList();
             if (tuNgay != null) phieuNhap = phieuNhap.Where(x => x.NgayNhap >= tuNgay.Value.Date).ToList();
             if (denNgay != null) phieuNhap = phieuNhap.Where(x => x.NgayNhap <= denNgay.Value.Date.AddDays(1).AddSeconds(-1)).ToList();
 
-            var nhaCungCap = DAL_NhaCungCap.Instance.LoadDS();
+            var nhaCungCap = _nhaCungCapGateway.LoadDS();
 
             return phieuNhap.Select(p => new
             {
@@ -169,7 +198,7 @@ namespace BUS
 
         public object GetLichSuXuat(int idKho = 1, DateTime? tuNgay = null, DateTime? denNgay = null)
         {
-            var phieuXuat = DAL_PhieuXuatKho.Instance.LoadDS().Where(x => x.IdKhoXuat == idKho).ToList();
+            var phieuXuat = _phieuXuatGateway.LoadDS().Where(x => x.IdKhoXuat == idKho).ToList();
             if (tuNgay != null) phieuXuat = phieuXuat.Where(x => x.NgayXuat >= tuNgay.Value.Date).ToList();
             if (denNgay != null) phieuXuat = phieuXuat.Where(x => x.NgayXuat <= denNgay.Value.Date.AddDays(1).AddSeconds(-1)).ToList();
 
@@ -196,8 +225,8 @@ namespace BUS
                 var listIdSP = chiTietList.Where(x => x.IdSanPham.HasValue).Select(x => x.IdSanPham.Value).ToList();
                 var listIdCombo = chiTietList.Where(x => x.IdCombo.HasValue).Select(x => x.IdCombo.Value).ToList();
 
-                var dictSanPham = DAL_SanPham.Instance.LoadDS().Where(x => listIdSP.Contains(x.Id)).ToDictionary(x => x.Id, x => x);
-                var allComboDetails = DAL_ComboChiTiet.Instance.LoadDS().Where(x => listIdCombo.Contains(x.IdCombo)).ToList();
+                var dictSanPham = _sanPhamGateway.LoadDS().Where(x => listIdSP.Contains(x.Id)).ToDictionary(x => x.Id, x => x);
+                var allComboDetails = _comboChiTietGateway.LoadDS().Where(x => listIdCombo.Contains(x.IdCombo)).ToList();
 
                 var listTheKhoToInsert = new List<ET_TheKho>();
 
@@ -218,7 +247,7 @@ namespace BUS
                         foreach (var cd in comboDetails)
                         {
                             int qtyToDeduct = cd.SoLuong * item.SoLuong;
-                            var sp = DAL_SanPham.Instance.LayTheoId(cd.IdSanPham);
+                            var sp = _sanPhamGateway.LayTheoId(cd.IdSanPham);
                             if (sp != null && (sp.LoaiSanPham == AppConstants.LoaiSanPham.AnUong || sp.LoaiSanPham == AppConstants.LoaiSanPham.DoLuuNiem)) 
                             {
                                 listTheKhoToInsert.Add(CreateLedgerEntry(idKhoXuLy, cd.IdSanPham, -qtyToDeduct, donHangId, createdBy, "POS BOM-Deduct (Combo #" + item.IdCombo + ")"));
@@ -230,7 +259,7 @@ namespace BUS
                 // Bước 3: Đồng loạt lưu lại lịch sử xuất kho tự động cho tất cả các món đồ trên
                 foreach (var tk in listTheKhoToInsert)
                 {
-                    DAL_TheKho.Instance.Them(tk); 
+                    _theKhoGateway.Them(tk); 
                 }
 
                 return true;
@@ -244,7 +273,7 @@ namespace BUS
         public void DongBoTonKhoTrucTiep()
         {
             // Cầu nối để giao diện bấm đồng bộ chốt số lại lượng tồn kho sau khi tính toán
-            DAL_TonKho.Instance.DongBoTonKhoTrucTiepTuTheKho();
+            _tonKhoGateway.DongBoTonKhoTrucTiepTuTheKho();
         }
 
         #region Nghiệp vụ kiểm kê kho (So sánh chênh lệch phần mềm và kho thực tế)
@@ -255,30 +284,34 @@ namespace BUS
         {
             try
             {
-                foreach (var item in items)
+                using (var ts = new System.Transactions.TransactionScope())
                 {
-                    if (item.ChenhLech == 0) continue;
-
-                    var theKho = new ET_TheKho
+                    foreach (var item in items)
                     {
-                        IdKho = idKho,
-                        IdSanPham = item.IdSanPham,
-                        LoaiGiaoDich = "KIEM_KE",
-                        SoLuongThayDoi = item.ChenhLech, // Dương = dư, Âm = mất
-                        TonCuoi = null,
-                        DonGiaVatTu = null,
-                        IdThamChieu = null,
-                        ThoiGianGiaoDich = DateTime.Now,
-                        CreatedBy = userId,
-                        GhiChu = "Kiểm kê kho - " + (string.IsNullOrEmpty(item.GhiChu) ? "Điều chỉnh tự động" : item.GhiChu)
-                    };
+                        if (item.ChenhLech == 0) continue;
 
-                    DAL_TheKho.Instance.Them(theKho);
+                        var theKho = new ET_TheKho
+                        {
+                            IdKho = idKho,
+                            IdSanPham = item.IdSanPham,
+                            LoaiGiaoDich = "KIEM_KE",
+                            SoLuongThayDoi = item.ChenhLech, // Dương = dư, Âm = mất
+                            TonCuoi = null,
+                            DonGiaVatTu = null,
+                            IdThamChieu = null,
+                            ThoiGianGiaoDich = DateTime.Now,
+                            CreatedBy = userId,
+                            GhiChu = "Kiểm kê kho - " + (string.IsNullOrEmpty(item.GhiChu) ? "Điều chỉnh tự động" : item.GhiChu)
+                        };
+
+                        _theKhoGateway.Them(theKho);
+                    }
+
+                    // Đồng bộ tồn kho từ sổ thẻ kho
+                    DongBoTonKhoTrucTiep();
+                    ts.Complete();
+                    return true;
                 }
-
-                // Đồng bộ tồn kho từ sổ thẻ kho
-                DongBoTonKhoTrucTiep();
-                return true;
             }
             catch (Exception)
             {
@@ -300,3 +333,5 @@ namespace BUS
         }
     }
 }
+ 
+#endregion

@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_ChoiNghiMat
     {
+        private readonly IChoiNghiMatGateway _gateway;
+
         private static BUS_ChoiNghiMat instance;
         public static BUS_ChoiNghiMat Instance
         {
@@ -17,14 +18,14 @@ namespace BUS
             }
         }
 
-        public List<ET_ChoiNghiMat> LoadDS()
-        {
-            return DAL_ChoiNghiMat.Instance.LoadDS();
-        }
+        public BUS_ChoiNghiMat() : this(new DefaultChoiNghiMatGateway()) { }
+        public BUS_ChoiNghiMat(IChoiNghiMatGateway gw) { _gateway = gw; }
+
+        public List<ET_ChoiNghiMat> LoadDS() => _gateway.LoadDS();
 
         public List<ET_ChoiNghiMat> LoadTheoKhuVucBien(int idKhuVucBien)
         {
-            return DAL_ChoiNghiMat.Instance.LoadDS().FindAll(x => x.IdKhuVucBien == idKhuVucBien);
+            return _gateway.LoadDS().FindAll(x => x.IdKhuVucBien == idKhuVucBien);
         }
 
         public ResponseResult Them(ET_ChoiNghiMat et)
@@ -35,7 +36,7 @@ namespace BUS
             if (et.IdKhuVucBien <= 0)
                 return new ResponseResult { IsSuccess = false, ErrorMessage = "Vui lòng chọn khu vực biển!" };
 
-            if (DAL_ChoiNghiMat.Instance.Them(et))
+            if (_gateway.Them(et))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi thêm chòi nghỉ mát." };
         }
@@ -45,14 +46,14 @@ namespace BUS
             if (et.Id <= 0)
                 return new ResponseResult { IsSuccess = false, ErrorMessage = "ID không hợp lệ!" };
 
-            if (DAL_ChoiNghiMat.Instance.Sua(et))
+            if (_gateway.Sua(et))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi cập nhật chòi nghỉ mát." };
         }
 
         public ResponseResult Xoa(int id)
         {
-            if (DAL_ChoiNghiMat.Instance.Xoa(id))
+            if (_gateway.Xoa(id))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi xóa chòi nghỉ mát." };
         }

@@ -1,0 +1,9 @@
+Summary,Issue Type,Priority,Description
+"Nền Tảng & Danh Mục",Epic,Highest,"DB, Auth, CRUD master data, SRS, TestCase, Seed Data"
+"Dịch Vụ Giải Trí",Epic,High,"Khách sạn, Nhà hàng, Thuê đồ, Gửi xe, Biển, Vườn thú"
+"Bán Hàng POS",Epic,Highest,"Bán vé, Giỏ hàng, Thanh toán, Vé điện tử"
+"Tài Chính & Ví",Epic,High,"Ví RFID, PhieuThu/Chi, Loyalty, Đơn hàng v2"
+"Kho Vận",Epic,Medium,"Nhập/Xuất/Kiểm kho, Thẻ kho, Nhà cung cấp"
+"Nhân Sự & Vận Hành",Epic,Medium,"Nhân viên, Lịch ca, Bảo trì, Sự cố, RBAC, Dashboard"
+"Tái Cấu Trúc (Refactoring)",Epic,Highest,"DB Migration, Gateway Pattern, Unit Testing, UI Redesign"
+"Web B2C & DevOps",Epic,High,"Kestrel API, Blazor WASM, run.bat, deploy.bat, Release"

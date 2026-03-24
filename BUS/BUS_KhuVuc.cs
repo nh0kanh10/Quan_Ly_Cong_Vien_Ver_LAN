@@ -1,4 +1,3 @@
-using DAL;
 using ET;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +7,8 @@ namespace BUS
 {
     public class BUS_KhuVuc : IBaseBUS<ET_KhuVuc>
     {
+        private readonly IKhuVucGateway _gateway;
+
         private static BUS_KhuVuc instance;
         public static BUS_KhuVuc Instance
         {
@@ -18,15 +19,17 @@ namespace BUS
             }
         }
 
+        public BUS_KhuVuc() : this(new DefaultKhuVucGateway()) { }
+        public BUS_KhuVuc(IKhuVucGateway gw) { _gateway = gw; }
+
         public List<ET_KhuVuc> LoadDS()
         {
-            return DAL_KhuVuc.Instance.LoadDS().Where(x => !x.IsDeleted).ToList();
+            return _gateway.LoadDS().Where(x => !x.IsDeleted).ToList();
         }
 
         public ResponseResult Them(ET_KhuVuc et)
         {
-            var res = ThemKhuVuc(et);
-            return res;
+            return ThemKhuVuc(et);
         }
 
         public ResponseResult Sua(ET_KhuVuc et)
@@ -36,9 +39,7 @@ namespace BUS
 
         public ResponseResult Xoa(int id)
         {
-            // The existing XoaKhuVuc takes a string code. 
-            // We should ideally have an Id-based delete or find the code first.
-            var obj = DAL_KhuVuc.Instance.LoadDS().FirstOrDefault(x => x.Id == id);
+            var obj = _gateway.LoadDS().FirstOrDefault(x => x.Id == id);
             if (obj == null) return ResponseResult.Error("Không tìm thấy khu vực.");
             return XoaKhuVuc(obj.MaCode);
         }
@@ -50,7 +51,7 @@ namespace BUS
 
         public ET_KhuVuc GetById(int id)
         {
-            return DAL_KhuVuc.Instance.LayTheoId(id);
+            return _gateway.LayTheoId(id);
         }
 
         public ResponseResult ThemKhuVuc(ET_KhuVuc et)
@@ -58,28 +59,28 @@ namespace BUS
             if (string.IsNullOrEmpty(et.MaCode)) et.MaCode = LayMaCodeTiepTheo();
             et.CreatedAt = DateTime.Now;
 
-            bool success = DAL_KhuVuc.Instance.Them(et);
+            bool success = _gateway.Them(et);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể thêm khu vực vào CSDL.");
         }
 
         public ResponseResult SuaKhuVuc(ET_KhuVuc et)
         {
             et.UpdatedAt = DateTime.Now;
-            bool success = DAL_KhuVuc.Instance.Sua(et);
+            bool success = _gateway.Sua(et);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể cập nhật thông tin khu vực.");
         }
 
         public ResponseResult XoaKhuVuc(string code)
         {
-            var existing = DAL_KhuVuc.Instance.LoadDS().FirstOrDefault(x => x.MaCode == code);
+            var existing = _gateway.LoadDS().FirstOrDefault(x => x.MaCode == code);
             if (existing == null) return ResponseResult.Error("Không tìm thấy khu vực.");
-            bool success = DAL_KhuVuc.Instance.Xoa(existing.Id);
+            bool success = _gateway.Xoa(existing.Id);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể xóa khu vực.");
         }
 
         public string LayMaCodeTiepTheo()
         {
-            var ds = DAL_KhuVuc.Instance.LoadDS();
+            var ds = _gateway.LoadDS();
             int max = 0;
             foreach (var item in ds)
             {
@@ -96,7 +97,7 @@ namespace BUS
         {
             if (string.IsNullOrWhiteSpace(et.TenKhuVuc)) return "Tên khu vực không được để trống.";
             
-            var ds = DAL_KhuVuc.Instance.LoadDS();
+            var ds = _gateway.LoadDS();
             if (isAdd)
             {
                 if (ds.Any(x => x.TenKhuVuc.ToLower() == et.TenKhuVuc.ToLower())) return "Tên khu vực này đã tồn tại.";

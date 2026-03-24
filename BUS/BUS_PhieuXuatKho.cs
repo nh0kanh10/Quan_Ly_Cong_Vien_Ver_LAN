@@ -1,24 +1,35 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_PhieuXuatKho
     {
+        private readonly IPhieuXuatKhoGateway _gateway;
+        private readonly ITonKhoGateway _tonKhoGateway;
+        private readonly ITheKhoGateway _theKhoGateway;
+
         private static BUS_PhieuXuatKho instance;
         public static BUS_PhieuXuatKho Instance
         {
             get { return instance ?? (instance = new BUS_PhieuXuatKho()); }
         }
 
-        public List<ET_PhieuXuatKho> LoadDS() { return DAL_PhieuXuatKho.Instance.LoadDS(); }
-        public bool Them(ET_PhieuXuatKho et) { return DAL_PhieuXuatKho.Instance.Them(et); }
-        public bool Sua(ET_PhieuXuatKho et) { return DAL_PhieuXuatKho.Instance.Sua(et); }
-        public bool Xoa(int id) { return DAL_PhieuXuatKho.Instance.Xoa(id); }
-        public ET_PhieuXuatKho LayTheoId(int id) { return DAL_PhieuXuatKho.Instance.LayTheoId(id); }
+        public BUS_PhieuXuatKho() : this(new DefaultPhieuXuatKhoGateway(), new DefaultTonKhoGateway(), new DefaultTheKhoGateway()) { }
+        public BUS_PhieuXuatKho(IPhieuXuatKhoGateway gw, ITonKhoGateway tkGw, ITheKhoGateway thkGw)
+        {
+            _gateway = gw;
+            _tonKhoGateway = tkGw;
+            _theKhoGateway = thkGw;
+        }
+
+        public List<ET_PhieuXuatKho> LoadDS() => _gateway.LoadDS();
+        public bool Them(ET_PhieuXuatKho et) => _gateway.Them(et);
+        public bool Sua(ET_PhieuXuatKho et) => _gateway.Sua(et);
+        public bool Xoa(int id) => _gateway.Xoa(id);
+        public ET_PhieuXuatKho LayTheoId(int id) => _gateway.LayTheoId(id);
 
         /// <summary>
         /// Tạo Phiếu Xuất Kho hoàn chỉnh (Master + Details) trong 1 Transaction.
@@ -33,7 +44,7 @@ namespace BUS
             master.CreatedBy = userId;
 
             // Atomic insert Master + Details
-            int newId = DAL_PhieuXuatKho.Instance.ThemHoanChinh(master, details);
+            int newId = _gateway.ThemHoanChinh(master, details);
             if (newId <= 0) return -1;
 
             // Cập nhật TonKho + ghi TheKho cho từng dòng chi tiết
@@ -47,7 +58,7 @@ namespace BUS
         /// </summary>
         private void TruTonKho(int idKho, List<ET_ChiTietXuatKho> details, int idPhieu, int userId, string loaiGD)
         {
-            var allTonKho = DAL_TonKho.Instance.LoadDS().Where(x => x.IdKho == idKho).ToList();
+            var allTonKho = _tonKhoGateway.LoadDS().Where(x => x.IdKho == idKho).ToList();
 
             foreach (var d in details)
             {
@@ -62,7 +73,7 @@ namespace BUS
                     // Trừ đi khỏi tồn hiện tại
                     ton.SoLuong -= soLuongBase;
                     tonCuoi = ton.SoLuong;
-                    DAL_TonKho.Instance.Sua(ton);
+                    _tonKhoGateway.Sua(ton);
                 }
                 else
                 {
@@ -74,7 +85,7 @@ namespace BUS
                         SoLuong = -soLuongBase
                     };
                     tonCuoi = -soLuongBase;
-                    DAL_TonKho.Instance.Them(newTon);
+                    _tonKhoGateway.Them(newTon);
                 }
 
                 // Ghi sổ cái kho (TheKho)
@@ -91,7 +102,7 @@ namespace BUS
                     CreatedBy = userId,
                     GhiChu = "Xuất kho Phiếu #" + idPhieu
                 };
-                DAL_TheKho.Instance.Them(theKho);
+                _theKhoGateway.Them(theKho);
             }
         }
 

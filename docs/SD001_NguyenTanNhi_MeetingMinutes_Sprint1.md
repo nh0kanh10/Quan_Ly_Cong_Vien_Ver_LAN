@@ -112,8 +112,8 @@ Nhóm thống nhất Sprint 1 sẽ phát triển 4 nhóm chức năng chính:
 | 6 | Cấu hình kết nối LAN | ✅ Hoàn thành | Lưu connection string |
 
 #### 2.2. Kết quả kiểm thử
-- **Tổng Test Case**: 67
-- **Defect phát hiện**: 12 (2 Critical, 5 Major, 5 Minor)
+- **Tổng Test Case**: 478 (KhuVuc 105, TroChoi 108, LoaiVe+Combo 112, DichVu 103, Login 32, Config 18)
+- **Defect phát hiện**: 45 (8 Critical, 14 Major, 13 Medium, 10 Minor)
 - Các defect đều đã được ghi nhận trong Defect List
 
 ### 3. Retrospective

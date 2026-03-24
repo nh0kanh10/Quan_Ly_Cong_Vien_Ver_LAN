@@ -1,5 +1,4 @@
 using System;
-using DAL;
 using ET;
 using System.Collections.Generic;
 using System.Linq;
@@ -246,7 +245,7 @@ namespace BUS
                 return OperationResult<int>.Failed(string.Format("Số dư ví không đủ. Cần: {0:N0}đ, Có: {1:N0}đ", soTienThucThu, vi.SoDuKhaDung));
             foreach (var sp in allSanPhamCache.Values.Where(x => x.LoaiSanPham == "Ve"))
             {
-                var veInfo = DAL_SanPham_Ve.Instance.LayTheoIdSanPham(sp.Id);
+                var veInfo = _sanPhamVeGateway.LayTheoIdSanPham(sp.Id);
                 if (veInfo != null) allVeInfoCache[sp.Id] = veInfo;
             }
 

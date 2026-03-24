@@ -473,7 +473,6 @@ namespace GUI
         {
             // Gọi thẳng vào hàm xử lý quét vé hiện có (reuse 100%)
             ProcessScan(code);
-
             // Beep nhẹ cho feedback âm thanh
             try { System.Media.SystemSounds.Beep.Play(); } catch { }
         }

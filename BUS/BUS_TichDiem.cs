@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DAL;
 using ET;
 
 namespace BUS
@@ -14,6 +13,10 @@ namespace BUS
     /// </summary>
     public class BUS_TichDiem
     {
+        private readonly IQuyTacDiemGateway _quyTacDiemGateway;
+        private readonly IKhachHangGateway _khachHangGateway;
+        private readonly ILichSuDiemGateway _lichSuDiemGateway;
+
         private static BUS_TichDiem instance;
         public static BUS_TichDiem Instance
         {
@@ -22,6 +25,14 @@ namespace BUS
                 if (instance == null) instance = new BUS_TichDiem();
                 return instance;
             }
+        }
+
+        public BUS_TichDiem() : this(new DefaultQuyTacDiemGateway(), new DefaultKhachHangGateway(), new DefaultLichSuDiemGateway()) { }
+        public BUS_TichDiem(IQuyTacDiemGateway qtdGw, IKhachHangGateway khGw, ILichSuDiemGateway lsdGw)
+        {
+            _quyTacDiemGateway = qtdGw;
+            _khachHangGateway = khGw;
+            _lichSuDiemGateway = lsdGw;
         }
 
         // === CONSTANTS ===
@@ -56,7 +67,7 @@ namespace BUS
 
             // Kiểm tra đơn tối thiểu theo QuyTacDiem (nếu có)
             decimal donToiThieu = DON_VI_TICH;
-            var quyTac = DAL_QuyTacDiem.Instance.LayQuyTacActive()
+            var quyTac = _quyTacDiemGateway.LayQuyTacActive()
                 .FirstOrDefault(x => x.LoaiKhachApDung == loaiKhach);
             if (quyTac != null)
             {
@@ -108,7 +119,7 @@ namespace BUS
 
             try
             {
-                var kh = DAL_KhachHang.Instance.LayTheoId(idKhachHang);
+                var kh = _khachHangGateway.LayTheoId(idKhachHang);
                 if (kh == null) return OperationResult.Failed("Không tìm thấy khách hàng.");
 
                 int soDuTruoc = kh.DiemTichLuy;
@@ -148,7 +159,7 @@ namespace BUS
                     ThoiGian = DateTime.Now,
                     CreatedBy = createdBy
                 };
-                DAL_LichSuDiem.Instance.Them(lichSu);
+                _lichSuDiemGateway.Them(lichSu);
 
                 return OperationResult.Success();
             }
@@ -167,7 +178,7 @@ namespace BUS
 
             try
             {
-                var kh = DAL_KhachHang.Instance.LayTheoId(idKhachHang);
+                var kh = _khachHangGateway.LayTheoId(idKhachHang);
                 if (kh == null) return OperationResult.Failed("Không tìm thấy khách hàng.");
                 if (kh.DiemTichLuy < soDiem)
                     return OperationResult.Failed(string.Format("Không đủ điểm. Hiện có: {0}, cần: {1}", kh.DiemTichLuy, soDiem));
@@ -191,7 +202,7 @@ namespace BUS
                     ThoiGian = DateTime.Now,
                     CreatedBy = createdBy
                 };
-                DAL_LichSuDiem.Instance.Them(lichSu);
+                _lichSuDiemGateway.Them(lichSu);
 
                 return OperationResult.Success();
             }
@@ -210,7 +221,7 @@ namespace BUS
             {
                 if (soDiemDieuChinh == 0) return OperationResult.Failed("Số điểm điều chỉnh phải khác 0.");
 
-                var kh = DAL_KhachHang.Instance.LayTheoId(idKhachHang);
+                var kh = _khachHangGateway.LayTheoId(idKhachHang);
                 if (kh == null) return OperationResult.Failed("Không tìm thấy khách hàng.");
                 
                 int soDuTruoc = kh.DiemTichLuy;
@@ -236,7 +247,7 @@ namespace BUS
                     ThoiGian = DateTime.Now,
                     CreatedBy = createdBy
                 };
-                DAL_LichSuDiem.Instance.Them(lichSu);
+                _lichSuDiemGateway.Them(lichSu);
 
                 return OperationResult.Success();
             }

@@ -1,13 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_BangGia
     {
+        private readonly IBangGiaGateway _gateway;
+        private readonly ISanPhamGateway _sanPhamGateway;
+        private readonly ICauHinhNgayLeGateway _ngayLeGateway;
+        private readonly IQuyDoiDonViGateway _quyDoiGateway;
+
         private static BUS_BangGia instance;
         public static BUS_BangGia Instance
         {
@@ -18,7 +22,14 @@ namespace BUS
             }
         }
 
-        private BUS_BangGia() { }
+        private BUS_BangGia() : this(new DefaultBangGiaGateway(), new DefaultSanPhamGateway(), new DefaultCauHinhNgayLeGateway(), new DefaultQuyDoiDonViGateway()) { }
+        public BUS_BangGia(IBangGiaGateway gw, ISanPhamGateway spGw, ICauHinhNgayLeGateway nlGw, IQuyDoiDonViGateway qdGw)
+        {
+            _gateway = gw;
+            _sanPhamGateway = spGw;
+            _ngayLeGateway = nlGw;
+            _quyDoiGateway = qdGw;
+        }
 
         // 
         //  ENGINE 1: LẤY GIÁ BÁN (POS, Vé, F&B)
@@ -31,20 +42,18 @@ namespace BUS
             if (bg == null)
             {
                 // Fallback về DonGia gốc của SanPham
-                var sp = DAL_SanPham.Instance.LayTheoId(idSanPham);
+                var sp = _sanPhamGateway.LayTheoId(idSanPham);
                 return sp?.DonGia ?? 0m;
             }
             return ChonGiaTheoNgay(bg, thoiDiem);
         }
-
-
 
         /// <summary>
         /// Lấy Tiền Cọc của sản phẩm (trả 0 nếu không cần cọc)
         /// </summary>
         public decimal GetTienCoc(int idSanPham)
         {
-            var list = DAL_BangGia.Instance.LayTheoSanPham(idSanPham);
+            var list = _gateway.LayTheoSanPham(idSanPham);
             var bg = list.FirstOrDefault(x => x.TienCoc.HasValue);
             return bg?.TienCoc ?? 0m;
         }
@@ -74,15 +83,13 @@ namespace BUS
             return giaBlock1 + (soBlockLo * giaPhuThu);
         }
 
-
-
         // ═══════════════════════════════════════════════
         //  CORE: Tìm dòng BangGia phù hợp nhất
         // ═══════════════════════════════════════════════
         private ET_BangGia TimBangGia(int idSanPham, DateTime thoiDiem)
         {
             var gio = thoiDiem.TimeOfDay;
-            var list = DAL_BangGia.Instance.LayGiaHienTai(idSanPham, gio);
+            var list = _gateway.LayGiaHienTai(idSanPham, gio);
             return list.FirstOrDefault(); // Đã sort khung hẹp ưu tiên trong DAL
         }
 
@@ -92,7 +99,7 @@ namespace BUS
         private decimal ChonGiaTheoNgay(ET_BangGia bg, DateTime thoiDiem)
         {
             // Ưu tiên 1: Ngày lễ
-            if (DAL_CauHinhNgayLe.Instance.LaNgayLe(thoiDiem))
+            if (_ngayLeGateway.LaNgayLe(thoiDiem))
                 return bg.GiaNgayLe;
 
             // Ưu tiên 2: Cuối tuần (T7, CN)
@@ -106,10 +113,7 @@ namespace BUS
         // ═══════════════════════════════════════════════
         //  CRUD cho UI (frmSanPham Tab BảngGiá)
         // ═══════════════════════════════════════════════
-        public List<ET_BangGia> LayGiaTheoSP(int idSanPham)
-        {
-            return DAL_BangGia.Instance.LayTheoSanPham(idSanPham);
-        }
+        public List<ET_BangGia> LayGiaTheoSP(int idSanPham) => _gateway.LayTheoSanPham(idSanPham);
 
         /// <summary>
         /// Tính giá bán khi Thu ngân chọn ĐVT cụ thể trong giỏ hàng.
@@ -120,7 +124,7 @@ namespace BUS
         public decimal GetPriceByUnit(int idSanPham, int idDVTChon, DateTime thoiDiem)
         {
             // Tìm dòng quy đổi có IdDonViLon = idDVTChon
-            var quyDoi = DAL_QuyDoiDonVi.Instance.LoadDS()
+            var quyDoi = _quyDoiGateway.LoadDS()
                 .FirstOrDefault(x => x.IdSanPham == idSanPham && x.IdDonViLon == idDVTChon);
 
             if (quyDoi == null)
@@ -143,7 +147,7 @@ namespace BUS
             et.CreatedAt = DateTime.Now;
             try
             {
-                bool ok = DAL_BangGia.Instance.Them(et);
+                bool ok = _gateway.Them(et);
                 return ok ? ResponseResult.Success() : ResponseResult.Error("Không thể thêm mức giá.");
             }
             catch (Exception ex) when (ex.InnerException?.Message?.Contains("UxBangGia_ActiveSPGio") == true
@@ -156,13 +160,13 @@ namespace BUS
 
         public ResponseResult SuaGia(ET_BangGia et)
         {
-            bool ok = DAL_BangGia.Instance.Sua(et);
+            bool ok = _gateway.Sua(et);
             return ok ? ResponseResult.Success() : ResponseResult.Error("Không thể cập nhật.");
         }
 
         public ResponseResult XoaGia(int id)
         {
-            bool ok = DAL_BangGia.Instance.Xoa(id);
+            bool ok = _gateway.Xoa(id);
             return ok ? ResponseResult.Success() : ResponseResult.Error("Không thể xóa.");
         }
     }

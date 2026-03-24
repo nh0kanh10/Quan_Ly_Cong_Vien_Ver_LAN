@@ -1,13 +1,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DAL;
 using ET;
 
 namespace BUS
 {
-    public class BUS_DoanKhach : IBaseBUS<ET_DoanKhach>
+    public class BUS_DoanKhach : IBaseBUS<ET_DoanKhach>, IBUS_DoanKhach
     {
+        private readonly IDoanKhachGateway _doanKhachGateway;
+        private readonly IDoanKhachDichVuGateway _doanKhachDichVuGateway;
+        private readonly IDonHangGateway _donHangGateway;
+        private readonly IPhieuThuGateway _phieuThuGateway;
+        private readonly IChiTietDonHangGateway _chiTietDonHangGateway;
+        private readonly IPhieuChiGateway _phieuChiGateway;
+
         #region Khởi tạo & Singleton
         private static BUS_DoanKhach instance;
         public static BUS_DoanKhach Instance
@@ -18,12 +24,26 @@ namespace BUS
                 return instance;
             }
         }
+
+        public BUS_DoanKhach() : this(new DefaultDoanKhachGateway(), new DefaultDoanKhachDichVuGateway(), 
+                                      new DefaultDonHangGateway(), new DefaultPhieuThuGateway(), new DefaultChiTietDonHangGateway(), new DefaultPhieuChiGateway()) { }
+
+        public BUS_DoanKhach(IDoanKhachGateway doanKhachGateway, IDoanKhachDichVuGateway doanKhachDichVuGateway, 
+                             IDonHangGateway donHangGateway, IPhieuThuGateway phieuThuGateway, IChiTietDonHangGateway chiTietDonHangGateway, IPhieuChiGateway phieuChiGateway)
+        {
+            _doanKhachGateway = doanKhachGateway;
+            _doanKhachDichVuGateway = doanKhachDichVuGateway;
+            _donHangGateway = donHangGateway;
+            _phieuThuGateway = phieuThuGateway;
+            _chiTietDonHangGateway = chiTietDonHangGateway;
+            _phieuChiGateway = phieuChiGateway;
+        }
         #endregion
 
         #region Quản lý thông tin chung (CRUD)
         public List<ET_DoanKhach> LoadDS()
         {
-            return DAL_DoanKhach.Instance.LoadDS();
+            return _doanKhachGateway.LoadDS();
         }
 
         public ResponseResult Them(ET_DoanKhach et)
@@ -44,7 +64,7 @@ namespace BUS
             }
 
             et.CreatedAt = DateTime.Now;
-            if (DAL_DoanKhach.Instance.Them(et))
+            if (_doanKhachGateway.Them(et))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi thêm đoàn khách." };
         }
@@ -61,32 +81,32 @@ namespace BUS
                 return new ResponseResult { IsSuccess = false, ErrorMessage = "Chiết khấu phải từ 0 đến 100%!" };
 
             et.UpdatedAt = DateTime.Now;
-            if (DAL_DoanKhach.Instance.Sua(et))
+            if (_doanKhachGateway.Sua(et))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi cập nhật đoàn khách." };
         }
 
         public ResponseResult Xoa(int id)
         {
-            if (DAL_DoanKhach.Instance.Xoa(id))
+            if (_doanKhachGateway.Xoa(id))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi xóa. Đoàn có thể đang có khách hàng liên kết!" };
         }
 
         public ET_DoanKhach GetById(int id)
         {
-            return DAL_DoanKhach.Instance.LayTheoId(id);
+            return _doanKhachGateway.LayTheoId(id);
         }
 
         public ET_DoanKhach GetByBookingCode(string keyword)
         {
             if (string.IsNullOrWhiteSpace(keyword)) return null;
-            return DAL_DoanKhach.Instance.LayTheoMaBookingHoacSdt(keyword.Trim());
+            return _doanKhachGateway.LayTheoMaBookingHoacSdt(keyword.Trim());
         }
 
         public OperationResult DanhDauDaXuatVe(int idDoan)
         {
-            bool ok = DAL_DoanKhach.Instance.DanhDauDaXuatVe(idDoan);
+            bool ok = _doanKhachGateway.DanhDauDaXuatVe(idDoan);
             return ok ? OperationResult.Success() : OperationResult.Failed("Không thể cập nhật trạng thái đoàn.");
         }
 
@@ -99,7 +119,7 @@ namespace BUS
         #region Quản lý dịch vụ phân loại riêng theo nhóm
         public List<ET_DoanKhach_DichVu> LayDichVuTheoDoan(int idDoan)
         {
-            return DAL_DoanKhach_DichVu.Instance.LayTheoDoan(idDoan);
+            return _doanKhachDichVuGateway.LayTheoDoan(idDoan);
         }
 
         public ResponseResult ThemDichVu(ET_DoanKhach_DichVu dv)
@@ -110,7 +130,7 @@ namespace BUS
                 return new ResponseResult { IsSuccess = false, ErrorMessage = "Số lượng phải > 0!" };
 
             dv.TrangThai = dv.TrangThai ?? AppConstants.TrangThaiDichVuDoan.ChuaXuLy;
-            int newId = DAL_DoanKhach_DichVu.Instance.Them(dv);
+            int newId = _doanKhachDichVuGateway.Them(dv);
             if (newId > 0)
                 return new ResponseResult { IsSuccess = true, ErrorMessage = newId.ToString() };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi thêm dịch vụ." };
@@ -118,14 +138,14 @@ namespace BUS
 
         public ResponseResult XoaDichVu(int id)
         {
-            if (DAL_DoanKhach_DichVu.Instance.Xoa(id))
+            if (_doanKhachDichVuGateway.Xoa(id))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi xóa dịch vụ." };
         }
 
         public ResponseResult SuaDichVu(ET_DoanKhach_DichVu dv)
         {
-            if (DAL_DoanKhach_DichVu.Instance.Sua(dv))
+            if (_doanKhachDichVuGateway.Sua(dv))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi cập nhật dịch vụ." };
         }
@@ -166,7 +186,7 @@ namespace BUS
                 CreatedAt = DateTime.Now,
                 CreatedBy = idNhanVien
             };
-            int idDonHang = DAL_DonHang.Instance.ThemVaLayId(dh);
+            int idDonHang = _donHangGateway.ThemVaLayId(dh);
             if (idDonHang <= 0) return OperationResult.Failed("Lỗi tạo đơn hàng.");
 
             // Tạo phiếu thu
@@ -180,7 +200,7 @@ namespace BUS
                 CreatedAt = DateTime.Now,
                 CreatedBy = idNhanVien
             };
-            DAL_PhieuThu.Instance.Them(pt);
+            _phieuThuGateway.Them(pt);
 
             // Tạo ChiTietDonHang cho từng dịch vụ + cập nhật trạng thái
             foreach (var dv in dichVuChuaChot)
@@ -195,12 +215,12 @@ namespace BUS
                     TienGiamGiaDong = dv.DonGia * doan.ChietKhau / 100m,
                     DonGiaThucTe = dv.DonGia * (1 - doan.ChietKhau / 100m)
                 };
-                int idCtdh = DAL_ChiTietDonHang.Instance.ThemVaLayId(ctdh);
+                int idCtdh = _chiTietDonHangGateway.ThemVaLayId(ctdh);
 
                 // Cập nhật truy vết tài chính
                 dv.IdChiTietDonHang = idCtdh;
                 dv.TrangThai = AppConstants.TrangThaiDichVuDoan.DaThanhToan;
-                DAL_DoanKhach_DichVu.Instance.Sua(dv);
+                _doanKhachDichVuGateway.Sua(dv);
             }
 
             return OperationResult.Success($"Xuất hóa đơn thành công!\nMã ĐH: {dh.MaCode}\nTổng: {tongSauCK:N0} VNĐ (đã CK {doan.ChietKhau}%)");
@@ -211,7 +231,7 @@ namespace BUS
         // Cung cấp số lượng mở lệnh dịch vụ dư thừa phân bổ hỗ trợ cho hệ thống cửa kiểm soát điện tử, máy tính tiền ăn và lễ tân
         public List<ET_DoanKhach_DichVu> LayQuotaConLai(int idDoan)
         {
-            return DAL_DoanKhach_DichVu.Instance.LayQuotaConLai(idDoan);
+            return _doanKhachDichVuGateway.LayQuotaConLai(idDoan);
         }
 
         // Lọc số lượng dịch vụ khả dụng bằng phương thức phân nhánh chuyên mục (Ví dụ: cổng từ lọc tìm luồng mở mã vé)
@@ -227,7 +247,7 @@ namespace BUS
             if (soLuongDung <= 0)
                 return OperationResult.Failed("Số lượng phải > 0.");
 
-            bool ok = DAL_DoanKhach_DichVu.Instance.KhauTruQuota(idDichVuDoan, soLuongDung);
+            bool ok = _doanKhachDichVuGateway.KhauTruQuota(idDichVuDoan, soLuongDung);
             if (!ok)
                 return OperationResult.Failed("Không thể khấu trừ. Có thể đã hết quota hoặc dữ liệu không hợp lệ.");
             return OperationResult.Success();
@@ -269,7 +289,7 @@ namespace BUS
                 return OperationResult.Failed("Số lượng rút phải > 0.");
 
             // Kéo dữ liệu từ tầng căn bản nhất nhằm hạn chế tình trạng mảng dữ liệu ngầm không liên kết kịp
-            var dvGoc = DAL_DoanKhach_DichVu.Instance.LayTheoId(idDichVuDoan);
+            var dvGoc = _doanKhachDichVuGateway.LayTheoId(idDichVuDoan);
             if (dvGoc == null)
                 return OperationResult.Failed("Không tìm thấy dịch vụ gốc.");
 
@@ -286,7 +306,7 @@ namespace BUS
             dvGoc.GhiChu = (dvGoc.GhiChu ?? "") +
                 $" | Rút -{soRut} lúc {DateTime.Now:HH:mm}" +
                 (string.IsNullOrEmpty(lyDo) ? "" : $" ({lyDo})");
-            DAL_DoanKhach_DichVu.Instance.Sua(dvGoc);
+            _doanKhachDichVuGateway.Sua(dvGoc);
 
             // Bước 2: Thiết lập thông số ảo dạng chỉ lưu (biến âm) cho bảng sao lưu chứng từ tránh sập hệ thống kiểm thử
             var dvAudit = new ET_DoanKhach_DichVu
@@ -301,7 +321,7 @@ namespace BUS
                 GhiChu = $"[HOÀN/HỦY] Rút {soRut} từ DV #{idDichVuDoan} - {lyDo} - NV:{idNhanVien} lúc {DateTime.Now:dd/MM HH:mm}",
                 TrangThai = AppConstants.TrangThaiDichVuDoan.DaHuy
             };
-            DAL_DoanKhach_DichVu.Instance.Them(dvAudit);
+            _doanKhachDichVuGateway.Them(dvAudit);
 
             // Bước 3: Đẩy phiếu thanh toán in sẵn ra màn hình theo cấu trúc phân rã bù tiền trực tiếp
 
@@ -322,7 +342,7 @@ namespace BUS
                     CreatedAt = DateTime.Now,
                     CreatedBy = idNhanVien
                 };
-                DAL_PhieuChi.Instance.Them(phieuChi);
+                _phieuChiGateway.Them(phieuChi);
             }
 
             return OperationResult.Success($"Đã rút {soRut} dịch vụ. Hoàn tiền: {tienHoan:N0} VNĐ");
@@ -336,7 +356,7 @@ namespace BUS
 
             doan.TrangThai = AppConstants.TrangThaiDoanKhach.DaHoanTat;
             doan.UpdatedAt = DateTime.Now;
-            if (DAL_DoanKhach.Instance.Sua(doan))
+            if (_doanKhachGateway.Sua(doan))
                 return OperationResult.Success("Đã chốt đoàn thành công.");
             return OperationResult.Failed("Lỗi khi chốt đoàn.");
         }

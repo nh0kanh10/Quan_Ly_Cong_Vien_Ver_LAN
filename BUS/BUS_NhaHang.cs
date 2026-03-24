@@ -1,12 +1,12 @@
-using System;
 using System.Collections.Generic;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_NhaHang
     {
+        private readonly INhaHangGateway _gateway;
+
         private static BUS_NhaHang _instance;
         public static BUS_NhaHang Instance
         {
@@ -17,18 +17,16 @@ namespace BUS
             }
         }
 
-        private BUS_NhaHang() { }
+        private BUS_NhaHang() : this(new DefaultNhaHangGateway()) { }
+        public BUS_NhaHang(INhaHangGateway gw) { _gateway = gw; }
 
-        public List<ET_NhaHang> LoadDS()
-        {
-            return DAL_NhaHang.Instance.LoadDS();
-        }
+        public List<ET_NhaHang> LoadDS() => _gateway.LoadDS();
 
         public ResponseResult Them(ET_NhaHang et)
         {
             if (string.IsNullOrWhiteSpace(et.TenNhaHang))
                 return ResponseResult.Error("Tên nhà hàng không được trống.");
-            bool success = DAL_NhaHang.Instance.Them(et);
+            bool success = _gateway.Them(et);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể thêm nhà hàng.");
         }
 
@@ -36,13 +34,13 @@ namespace BUS
         {
             if (et.Id <= 0)
                 return ResponseResult.Error("Nhà hàng không hợp lệ.");
-            bool success = DAL_NhaHang.Instance.Sua(et);
+            bool success = _gateway.Sua(et);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể sửa nhà hàng.");
         }
 
         public ResponseResult Xoa(int id)
         {
-            bool success = DAL_NhaHang.Instance.Xoa(id);
+            bool success = _gateway.Xoa(id);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể xóa nhà hàng, có thể dữ liệu đang được sử dụng.");
         }
     }

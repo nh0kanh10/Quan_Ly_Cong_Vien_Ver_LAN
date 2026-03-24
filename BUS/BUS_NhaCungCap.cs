@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_NhaCungCap : IBaseBUS<ET_NhaCungCap>
     {
+        private readonly INhaCungCapGateway _gateway;
+
         private static BUS_NhaCungCap instance;
         public static BUS_NhaCungCap Instance
         {
@@ -18,9 +19,12 @@ namespace BUS
             }
         }
 
+        public BUS_NhaCungCap() : this(new DefaultNhaCungCapGateway()) { }
+        public BUS_NhaCungCap(INhaCungCapGateway gw) { _gateway = gw; }
+
         public List<ET_NhaCungCap> LoadDS()
         {
-            return DAL_NhaCungCap.Instance.LoadDS().Where(x => x.IsDeleted == false).ToList();
+            return _gateway.LoadDS().Where(x => x.IsDeleted == false).ToList();
         }
 
         public List<ET_NhaCungCap> TimKiem(string keyword, string filter)
@@ -37,17 +41,14 @@ namespace BUS
             return p;
         }
 
-        public ET_NhaCungCap GetById(int id)
-        {
-            return DAL_NhaCungCap.Instance.LayTheoId(id);
-        }
+        public ET_NhaCungCap GetById(int id) => _gateway.LayTheoId(id);
 
         public ResponseResult Them(ET_NhaCungCap entity)
         {
             entity.CreatedAt = DateTime.Now;
             entity.IsDeleted = false;
             
-            if (DAL_NhaCungCap.Instance.Them(entity))
+            if (_gateway.Them(entity))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi thêm nhà cung cấp!" };
         }
@@ -55,7 +56,7 @@ namespace BUS
         public ResponseResult Sua(ET_NhaCungCap entity)
         {
             entity.UpdatedAt = DateTime.Now;
-            if (DAL_NhaCungCap.Instance.Sua(entity))
+            if (_gateway.Sua(entity))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi cập nhật nhà cung cấp!" };
         }
@@ -67,7 +68,7 @@ namespace BUS
             {
                 entity.IsDeleted = true;
                 entity.UpdatedAt = DateTime.Now;
-                if (DAL_NhaCungCap.Instance.Sua(entity))
+                if (_gateway.Sua(entity))
                     return new ResponseResult { IsSuccess = true };
             }
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi xóa nhà cung cấp!" };

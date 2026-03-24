@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_PhanQuyen
     {
+        private readonly IPhanQuyenGateway _gateway;
+
         private static BUS_PhanQuyen instance;
         public static BUS_PhanQuyen Instance
         {
@@ -17,20 +18,20 @@ namespace BUS
             }
         }
 
-        public List<ET_PhanQuyen> LoadDS()
-        {
-            return DAL_PhanQuyen.Instance.LoadDS();
-        }
+        public BUS_PhanQuyen() : this(new DefaultPhanQuyenGateway()) { }
+        public BUS_PhanQuyen(IPhanQuyenGateway gw) { _gateway = gw; }
+
+        public List<ET_PhanQuyen> LoadDS() => _gateway.LoadDS();
 
         public bool CapNhatQuyen(int idVaiTro, List<int> dsIdQuyen)
         {
             // Xóa cũ
-            DAL_PhanQuyen.Instance.XoaTheoVaiTro(idVaiTro);
+            _gateway.XoaTheoVaiTro(idVaiTro);
             
             // Thêm mới
             foreach (int idQuyen in dsIdQuyen)
             {
-                DAL_PhanQuyen.Instance.Them(new ET_PhanQuyen { IdVaiTro = idVaiTro, IdQuyen = idQuyen });
+                _gateway.Them(new ET_PhanQuyen { IdVaiTro = idVaiTro, IdQuyen = idQuyen });
             }
             
             // Xóa cache quyền ở BUS_QuyenHan (nếu có dùng cache)

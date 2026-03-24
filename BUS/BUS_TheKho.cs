@@ -1,4 +1,3 @@
-using DAL;
 using ET;
 using System;
 using System.Collections.Generic;
@@ -8,6 +7,9 @@ namespace BUS
 {
     public class BUS_TheKho
     {
+        private readonly ITheKhoGateway _theKhoGateway;
+        private readonly INhanVienGateway _nhanVienGateway;
+
         private static BUS_TheKho instance;
         public static BUS_TheKho Instance
         {
@@ -18,14 +20,21 @@ namespace BUS
             }
         }
 
+        public BUS_TheKho() : this(new DefaultTheKhoGateway(), new DefaultNhanVienGateway()) { }
+        public BUS_TheKho(ITheKhoGateway thkGw, INhanVienGateway nvGw)
+        {
+            _theKhoGateway = thkGw;
+            _nhanVienGateway = nvGw;
+        }
+
         public List<ET_TheKho_View> XemTheKho(int idKho, int idSanPham, DateTime? tuNgay, DateTime? denNgay)
         {
             // 1. Pull FULL history for this product in this warehouse to calculate rolling stock correctly
-            var rawData = DAL_TheKho.Instance.LayTheoSanPham(idKho, idSanPham)
+            var rawData = _theKhoGateway.LayTheoSanPham(idKho, idSanPham)
                                     .OrderBy(x => x.ThoiGianGiaoDich).ToList(); // Phải SORT ASC từ đầu thời gian
 
             // Lấy danh sách nhân viên để dịch tên
-            var dsNhanVien = DAL_NhanVien.Instance.LoadDS();
+            var dsNhanVien = _nhanVienGateway.LoadDS();
 
             var result = new List<ET_TheKho_View>();
             int currentStock = 0;

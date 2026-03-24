@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_SuCo
     {
+        private readonly ISuCoGateway _gateway;
+
         private static BUS_SuCo instance;
         public static BUS_SuCo Instance
         {
@@ -16,24 +17,12 @@ namespace BUS
             }
         }
 
-        public List<ET_SuCo> LoadDS()
-        {
-            return DAL_SuCo.Instance.LoadDS();
-        }
+        public BUS_SuCo() : this(new DefaultSuCoGateway()) { }
+        public BUS_SuCo(ISuCoGateway gw) { _gateway = gw; }
 
-        public bool Them(ET_SuCo et)
-        {
-            return DAL_SuCo.Instance.Them(et);
-        }
-
-        public bool Sua(ET_SuCo et)
-        {
-            return DAL_SuCo.Instance.Sua(et);
-        }
-
-        public bool Xoa(int id)
-        {
-            return DAL_SuCo.Instance.Xoa(id);
-        }
+        public List<ET_SuCo> LoadDS() => _gateway.LoadDS();
+        public bool Them(ET_SuCo et) => _gateway.Them(et);
+        public bool Sua(ET_SuCo et) => _gateway.Sua(et);
+        public bool Xoa(int id) => _gateway.Xoa(id);
     }
 }

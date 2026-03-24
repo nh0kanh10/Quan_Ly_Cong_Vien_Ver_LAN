@@ -1,14 +1,14 @@
 using System;
-using DAL;
 using ET;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace BUS
 {
     public class BUS_NhanVien : IBaseBUS<ET_NhanVien>
     {
+        private readonly INhanVienGateway _gateway;
+
         private static BUS_NhanVien instance;
         public static BUS_NhanVien Instance
         {
@@ -19,22 +19,19 @@ namespace BUS
             }
         }
 
-        public List<ET_NhanVien> LoadDS()
-        {
-            return DAL_NhanVien.Instance.LoadDS();
-        }
+        public BUS_NhanVien() : this(new DefaultNhanVienGateway()) { }
+        public BUS_NhanVien(INhanVienGateway gw) { _gateway = gw; }
 
-        public ET_NhanVien GetById(int id)
-        {
-            return DAL_NhanVien.Instance.LayTheoId(id);
-        }
+        public List<ET_NhanVien> LoadDS() => _gateway.LoadDS();
+
+        public ET_NhanVien GetById(int id) => _gateway.LayTheoId(id);
 
         public ResponseResult Them(ET_NhanVien et)
         {
             string err = ValidateNhanVien(et, true);
             if (!string.IsNullOrEmpty(err)) return ResponseResult.Error(err);
             
-            bool success = DAL_NhanVien.Instance.Them(et);
+            bool success = _gateway.Them(et);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể thêm nhân viên vào CSDL.");
         }
 
@@ -43,13 +40,13 @@ namespace BUS
             string err = ValidateNhanVien(et, false);
             if (!string.IsNullOrEmpty(err)) return ResponseResult.Error(err);
 
-            bool success = DAL_NhanVien.Instance.Sua(et);
+            bool success = _gateway.Sua(et);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể cập nhật nhân viên.");
         }
 
         public ResponseResult Xoa(int id)
         {
-            bool success = DAL_NhanVien.Instance.Xoa(id);
+            bool success = _gateway.Xoa(id);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể xóa nhân viên này.");
         }
 
@@ -140,13 +137,11 @@ namespace BUS
             return string.Empty;
         }
 
-        // End of TimKiem methods
-
         public ET_NhanVien DangNhap(string username, string password)
         {
             if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password)) 
                 return null;
-            return DAL_NhanVien.Instance.DangNhap(username, password);
+            return _gateway.DangNhap(username, password);
         }
     }
 }

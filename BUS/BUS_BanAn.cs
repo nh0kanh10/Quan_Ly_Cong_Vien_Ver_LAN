@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ET;
-using DAL;
 
 namespace BUS
 {
     public class BUS_BanAn
     {
+        private readonly IBanAnGateway _gateway;
+
         private static BUS_BanAn instance;
         public static BUS_BanAn Instance
         {
@@ -18,22 +19,19 @@ namespace BUS
             }
         }
 
+        public BUS_BanAn() : this(new DefaultBanAnGateway()) { }
+        public BUS_BanAn(IBanAnGateway gw) { _gateway = gw; }
+
         #region Thao Tác Truy Xuất Dữ Liệu
 
-        public List<ET_BanAn> LoadDS()
-        {
-            return DAL_BanAn.Instance.LoadDS();
-        }
+        public List<ET_BanAn> LoadDS() => _gateway.LoadDS();
 
         public List<ET_BanAn> LoadTheoNhaHang(int idNhaHang)
         {
-            return DAL_BanAn.Instance.LoadDS().Where(x => x.IdNhaHang == idNhaHang).ToList();
+            return _gateway.LoadDS().Where(x => x.IdNhaHang == idNhaHang).ToList();
         }
 
-        public ET_BanAn LayTheoId(int id)
-        {
-            return DAL_BanAn.Instance.LayTheoId(id);
-        }
+        public ET_BanAn LayTheoId(int id) => _gateway.LayTheoId(id);
         #endregion
 
         #region Quy Trình Cập Nhật Thông Tin Bàn Ăn
@@ -42,7 +40,7 @@ namespace BUS
         {
             if (et == null || string.IsNullOrWhiteSpace(et.MaBan))
                 return OperationResult.Failed("Mã bàn không được trống.");
-            bool ok = DAL_BanAn.Instance.Them(et);
+            bool ok = _gateway.Them(et);
             return ok ? OperationResult.Success() : OperationResult.Failed("Không thể thêm bàn ăn.");
         }
 
@@ -50,22 +48,22 @@ namespace BUS
         {
             if (et == null || et.Id <= 0)
                 return OperationResult.Failed("Dữ liệu không hợp lệ.");
-            bool ok = DAL_BanAn.Instance.Sua(et);
+            bool ok = _gateway.Sua(et);
             return ok ? OperationResult.Success() : OperationResult.Failed("Không thể cập nhật bàn ăn.");
         }
 
         public OperationResult Xoa(int id)
         {
-            bool ok = DAL_BanAn.Instance.Xoa(id);
+            bool ok = _gateway.Xoa(id);
             return ok ? OperationResult.Success() : OperationResult.Failed("Không thể xóa bàn ăn.");
         }
 
         public OperationResult CapNhatTrangThai(int idBan, string trangThai)
         {
-            var ban = DAL_BanAn.Instance.LayTheoId(idBan);
+            var ban = _gateway.LayTheoId(idBan);
             if (ban == null) return OperationResult.Failed("Hệ thống từ chối cập nhật: Bàn ăn không tồn tại.");
             ban.TrangThai = trangThai;
-            bool ok = DAL_BanAn.Instance.Sua(ban);
+            bool ok = _gateway.Sua(ban);
             return ok ? OperationResult.Success() : OperationResult.Failed("Lỗi ngoại lệ: Không thể cập nhật trạng thái bàn.");
         }
         #endregion

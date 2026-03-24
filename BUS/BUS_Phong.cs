@@ -8,6 +8,21 @@ namespace BUS
 {
     public class BUS_Phong
     {
+        private readonly IDoanKhachGateway _doanKhachGateway;
+        private readonly IGiaoDichViGateway _giaoDichGateway;
+        private readonly IPhieuChiGateway _phieuChiGateway;
+        private readonly IKhachHangGateway _khachHangGateway;
+        private readonly IPhongGateway _phongGateway;
+        private readonly IChiTietDonHangGateway _chiTietGateway;
+        private readonly IKhuVucGateway _khuVucGateway;
+        private readonly ISanPhamGateway _sanPhamGateway;
+        private readonly IDatPhongChiTietGateway _datPhongGateway;
+        private readonly IDonHangGateway _donHangGateway;
+        private readonly IChiTietDatPhongGateway _chiTietDatPhongGateway;
+        private readonly IDoanKhachDichVuGateway _doanKhachDichVuGateway;
+        private readonly IViDienTuGateway _viGateway;
+        private readonly IPhieuThuGateway _phieuThuGateway;
+
         #region Khởi tạo & Cấu hình Singleton
         private static BUS_Phong instance;
         public static BUS_Phong Instance
@@ -18,43 +33,71 @@ namespace BUS
                 return instance;
             }
         }
+
+        public BUS_Phong() : this(new DefaultDoanKhachGateway(), new DefaultGiaoDichViGateway(), new DefaultPhieuChiGateway(),
+                                  new DefaultKhachHangGateway(), new DefaultPhongGateway(), new DefaultChiTietDonHangGateway(),
+                                  new DefaultKhuVucGateway(), new DefaultSanPhamGateway(), new DefaultDatPhongChiTietGateway(),
+                                  new DefaultDonHangGateway(), new DefaultChiTietDatPhongGateway(), new DefaultDoanKhachDichVuGateway(),
+                                  new DefaultViDienTuGateway(), new DefaultPhieuThuGateway()) { }
+
+        public BUS_Phong(IDoanKhachGateway doanKhachGateway, IGiaoDichViGateway giaoDichGateway, IPhieuChiGateway phieuChiGateway,
+                         IKhachHangGateway khachHangGateway, IPhongGateway phongGateway, IChiTietDonHangGateway chiTietGateway,
+                         IKhuVucGateway khuVucGateway, ISanPhamGateway sanPhamGateway, IDatPhongChiTietGateway datPhongGateway,
+                         IDonHangGateway donHangGateway, IChiTietDatPhongGateway chiTietDatPhongGateway, IDoanKhachDichVuGateway doanKhachDichVuGateway,
+                         IViDienTuGateway viGateway, IPhieuThuGateway phieuThuGateway)
+        {
+            _doanKhachGateway = doanKhachGateway;
+            _giaoDichGateway = giaoDichGateway;
+            _phieuChiGateway = phieuChiGateway;
+            _khachHangGateway = khachHangGateway;
+            _phongGateway = phongGateway;
+            _chiTietGateway = chiTietGateway;
+            _khuVucGateway = khuVucGateway;
+            _sanPhamGateway = sanPhamGateway;
+            _datPhongGateway = datPhongGateway;
+            _donHangGateway = donHangGateway;
+            _chiTietDatPhongGateway = chiTietDatPhongGateway;
+            _doanKhachDichVuGateway = doanKhachDichVuGateway;
+            _viGateway = viGateway;
+            _phieuThuGateway = phieuThuGateway;
+        }
         #endregion
 
         #region Cơ bản (CRUD)
 
         public List<ET_Phong> LoadDS()
         {
-            return DAL_Phong.Instance.LoadDS();
+            return _phongGateway.LoadDS();
         }
 
         public ET_Phong LayTheoId(int id)
         {
-            return DAL_Phong.Instance.LayTheoId(id);
+            return _phongGateway.LayTheoId(id);
         }
 
         public bool Them(ET_Phong et)
         {
-            return DAL_Phong.Instance.Them(et);
+            return _phongGateway.Them(et);
         }
 
         public bool Sua(ET_Phong et)
         {
-            return DAL_Phong.Instance.Sua(et);
+            return _phongGateway.Sua(et);
         }
 
         public bool Xoa(int id)
         {
-            return DAL_Phong.Instance.Xoa(id);
+            return _phongGateway.Xoa(id);
         }
 
         public ET_DatPhongChiTiet LayThongTinDatPhong(int idDatPhong)
         {
-            return DAL_DatPhongChiTiet.Instance.LayTheoId(idDatPhong);
+            return _datPhongGateway.LayTheoId(idDatPhong);
         }
 
         public List<int> GetBusyRoomIds(DateTime start, DateTime end)
         {
-            return DAL_Phong.Instance.GetBusyRoomIds(start, end, 1);
+            return _phongGateway.GetBusyRoomIds(start, end, 1);
         }
         #endregion
 
@@ -91,7 +134,7 @@ namespace BUS
                         CreatedAt = DateTime.Now,
                         CreatedBy = idNhanVien
                     };
-                    int idDonHang = DAL_DonHang.Instance.ThemVaLayId(dh);
+                    int idDonHang = _donHangGateway.ThemVaLayId(dh);
                     if (idDonHang <= 0) return false;
 
                     // Bước 3: Thu tiền từ khách hàng
@@ -99,11 +142,11 @@ namespace BUS
                     {
                         // Giảm số dư trong thẻ ví của khách
                         if (idKhachHang == null) return false;
-                        var vi = DAL_ViDienTu.Instance.LayTheoKhachHang(idKhachHang.Value);
+                        var vi = _viGateway.LayTheoKhachHang(idKhachHang.Value);
                         if (vi == null || vi.SoDuKhaDung < soTien) return false;
 
                         vi.SoDuKhaDung -= soTien;
-                        if (!DAL_ViDienTu.Instance.Sua(vi)) return false;
+                        if (!_viGateway.Sua(vi)) return false;
 
                         // Tạo nhật ký trừ tiền ví
                         ET_GiaoDichVi gd = new ET_GiaoDichVi
@@ -117,7 +160,7 @@ namespace BUS
                             CreatedAt = DateTime.Now,
                             CreatedBy = idNhanVien
                         };
-                        DAL_GiaoDichVi.Instance.Them(gd);
+                        _giaoDichGateway.Them(gd);
                     }
                     else
                     {
@@ -132,15 +175,15 @@ namespace BUS
                             CreatedAt = DateTime.Now,
                             CreatedBy = idNhanVien
                         };
-                        DAL_PhieuThu.Instance.Them(pt);
+                        _phieuThuGateway.Them(pt);
                     }
 
                     // Bước 4: Chuyển đổi trạng thái phòng thành Đang Sử Dụng trên sơ đồ
-                    var phong = DAL_Phong.Instance.LayTheoId(idPhong);
+                    var phong = _phongGateway.LayTheoId(idPhong);
                     if (phong == null) return false;
                     phong.TrangThai = "DangSuDung";
                     phong.UpdatedAt = DateTime.Now;
-                    DAL_Phong.Instance.Sua(phong);
+                    _phongGateway.Sua(phong);
 
                     // Bước 5: Bổ sung dòng thông tin phòng vào hóa đơn (giống như thêm món ăn)
                     ET_ChiTietDonHang ctdhKS = new ET_ChiTietDonHang
@@ -152,7 +195,7 @@ namespace BUS
                         TienGiamGiaDong = 0,
                         DonGiaThucTe = soTien
                     };
-                    int idCtdh = DAL_ChiTietDonHang.Instance.ThemVaLayId(ctdhKS);
+                    int idCtdh = _chiTietGateway.ThemVaLayId(ctdhKS);
                     if (idCtdh <= 0) return false;
 
                     // Bước 6: Mở dữ liệu hệ thống ghi rõ ngày nhận, ngày trả dự kiến của khách này
@@ -163,7 +206,7 @@ namespace BUS
                         NgayTra = ngayTraDuKien,
                         TrangThai = "DaNhan"
                     };
-                    int idDatPhong = DAL_DatPhongChiTiet.Instance.ThemVaLayId(dpct);
+                    int idDatPhong = _datPhongGateway.ThemVaLayId(dpct);
                     if (idDatPhong <= 0) return false;
 
                     ET_ChiTietDatPhong ctdp = new ET_ChiTietDatPhong
@@ -172,7 +215,7 @@ namespace BUS
                         IdPhong = idPhong,
                         DonGiaThucTe = TinhGiaPhong(idPhong, DateTime.Now, ngayTraDuKien)
                     };
-                    DAL_ChiTietDatPhong.Instance.ThemVaLayId(ctdp);
+                    _chiTietDatPhongGateway.ThemVaLayId(ctdp);
 
                     ts.Complete();
                     return true;
@@ -180,6 +223,7 @@ namespace BUS
                 catch { return false; }
             }
         }
+        #endregion
 
         #region Nghiệp vụ Đặt Giữ Chỗ (Reservation)
         public bool ReserveRoom(int idPhong, int idKhachHang, DateTime ngayNhan, DateTime ngayTra, decimal tienCoc, int idNhanVien)
@@ -203,7 +247,7 @@ namespace BUS
                         CreatedAt = DateTime.Now,
                         CreatedBy = idNhanVien
                     };
-                    int idDonHangLienQuan = DAL_DonHang.Instance.ThemVaLayId(dh);
+                    int idDonHangLienQuan = _donHangGateway.ThemVaLayId(dh);
 
                     // Bước 3: Tạo phiếu đóng cọc lấy tiền giữ chỗ từ khách
                     if (tienCoc > 0)
@@ -218,10 +262,10 @@ namespace BUS
                             CreatedAt = DateTime.Now,
                             CreatedBy = idNhanVien
                         };
-                        DAL_PhieuThu.Instance.Them(pt);
+                        _phieuThuGateway.Them(pt);
                     }
 
-                    var phong = DAL_Phong.Instance.LayTheoId(idPhong);
+                    var phong = _phongGateway.LayTheoId(idPhong);
 
                     // Bước 4: Tạo thông tin dòng lấy phòng, giá tiền bằng 0 vì chờ trả phòng mới tính thực tế
                     ET_ChiTietDonHang ctdh = new ET_ChiTietDonHang
@@ -233,7 +277,7 @@ namespace BUS
                         TienGiamGiaDong = 0,
                         DonGiaThucTe = 0
                     };
-                    int idCtdh = DAL_ChiTietDonHang.Instance.ThemVaLayId(ctdh);
+                    int idCtdh = _chiTietGateway.ThemVaLayId(ctdh);
 
                     // Bước 5: Mở dữ liệu lịch sử đặt trước
                     ET_DatPhongChiTiet dpct = new ET_DatPhongChiTiet
@@ -243,7 +287,7 @@ namespace BUS
                         NgayTra = ngayTra,
                         TrangThai = "DaDat"
                     };
-                    int idDatPhong = DAL_DatPhongChiTiet.Instance.ThemVaLayId(dpct);
+                    int idDatPhong = _datPhongGateway.ThemVaLayId(dpct);
 
                     ET_ChiTietDatPhong ctdp = new ET_ChiTietDatPhong
                     {
@@ -251,13 +295,13 @@ namespace BUS
                         IdPhong = idPhong,
                         DonGiaThucTe = 0
                     };
-                    DAL_ChiTietDatPhong.Instance.ThemVaLayId(ctdp);
+                    _chiTietDatPhongGateway.ThemVaLayId(ctdp);
 
                     // Bước 6: Chuyển cờ giữ chỗ chặn khách vãng lai nếu hôm nay là ngày khách lên
                     if (ngayNhan.Date <= DateTime.Now.Date)
                     {
                         phong.TrangThai = "DaDat";
-                        DAL_Phong.Instance.Sua(phong);
+                        _phongGateway.Sua(phong);
                     }
 
                     ts.Complete();
@@ -279,7 +323,7 @@ namespace BUS
             if (dpct == null || !dpct.IdChiTietDonHang.HasValue || dpct.IdChiTietDonHang.Value <= 0)
                 return OperationResult.Failed("Không tìm thấy đơn hàng của phòng này!");
 
-            var ctdh = DAL_ChiTietDonHang.Instance.LayTheoId(dpct.IdChiTietDonHang.Value);
+            var ctdh = _chiTietGateway.LayTheoId(dpct.IdChiTietDonHang.Value);
             if (ctdh == null)
                 return OperationResult.Failed("Không tìm thấy chi tiết đơn hàng gốc!");
 
@@ -292,14 +336,14 @@ namespace BUS
                 DonGiaThucTe = soTien
             };
 
-            if (DAL_ChiTietDonHang.Instance.Them(ctPhuThu))
+            if (_chiTietGateway.Them(ctPhuThu))
             {
                 // Update lại tổng tiền của Đơn Hàng gốc khi có phát sinh
-                var donHangGoc = DAL_DonHang.Instance.LayTheoId(ctdh.IdDonHang);
+                var donHangGoc = _donHangGateway.LayTheoId(ctdh.IdDonHang);
                 if (donHangGoc != null)
                 {
                     donHangGoc.TongTien += soTien;
-                    DAL_DonHang.Instance.Sua(donHangGoc);
+                    _donHangGateway.Sua(donHangGoc);
                 }
                 return OperationResult.Success($"Phụ thu {lyDo}: {soTien:N0} đ đã thêm thành công!");
             }
@@ -324,7 +368,7 @@ namespace BUS
                     // Bước 2: Tạo nhóm chung (Đoàn Khách) để làm cầu nối gộp tiền các phòng vào
                     masterDoan.CreatedAt = DateTime.Now;
                     masterDoan.CreatedBy = idNhanVien;
-                    int idDoan = DAL.DAL_DoanKhach.Instance.ThemVaLayId(masterDoan);
+                    int idDoan = _doanKhachGateway.ThemVaLayId(masterDoan);
                     if (idDoan <= 0) return OperationResult.Failed("Lỗi tạo thông tin Trưởng đoàn.");
 
                     // Bước 3: Chỉ khởi tạo MỘT hóa đơn tổng thể của Đoàn. Không tạo hóa đơn rời từng phòng
@@ -338,7 +382,7 @@ namespace BUS
                         CreatedAt = DateTime.Now,
                         CreatedBy = idNhanVien
                     };
-                    int masterDonHangId = DAL_DonHang.Instance.ThemVaLayId(dhMaster);
+                    int masterDonHangId = _donHangGateway.ThemVaLayId(dhMaster);
 
                     // Bước 4: Tạo Phiếu thu nhập quỹ tiền cọc (Nếu đưa tiền)
                     if (tienCoc > 0)
@@ -353,13 +397,13 @@ namespace BUS
                             CreatedAt = DateTime.Now,
                             CreatedBy = idNhanVien
                         };
-                        DAL_PhieuThu.Instance.Them(pt);
+                        _phieuThuGateway.Them(pt);
                     }
 
                     // Bước 5: Thêm từng dòng chi tiết của mỗi phòng gắn kết chung hóa đơn
                     foreach (var idPhong in idPhongs)
                     {
-                        var phong = DAL_Phong.Instance.LayTheoId(idPhong);
+                        var phong = _phongGateway.LayTheoId(idPhong);
 
                         ET_ChiTietDonHang ctdh = new ET_ChiTietDonHang
                         {
@@ -370,7 +414,7 @@ namespace BUS
                             TienGiamGiaDong = 0,
                             DonGiaThucTe = 0
                         };
-                        int idCtdh = DAL_ChiTietDonHang.Instance.ThemVaLayId(ctdh);
+                        int idCtdh = _chiTietGateway.ThemVaLayId(ctdh);
 
                         // Bước 6: Mở dòng phân loại trạng thái đặt giữ chỗ riêng cho phòng đó
                         ET_DatPhongChiTiet dpct = new ET_DatPhongChiTiet
@@ -380,7 +424,7 @@ namespace BUS
                             NgayTra = ngayTra,
                             TrangThai = "DaDat"
                         };
-                        int idDatPhong = DAL_DatPhongChiTiet.Instance.ThemVaLayId(dpct);
+                        int idDatPhong = _datPhongGateway.ThemVaLayId(dpct);
 
                         ET_ChiTietDatPhong ctdp = new ET_ChiTietDatPhong
                         {
@@ -388,13 +432,13 @@ namespace BUS
                             IdPhong = idPhong,
                             DonGiaThucTe = 0
                         };
-                        DAL_ChiTietDatPhong.Instance.ThemVaLayId(ctdp);
+                        _chiTietDatPhongGateway.ThemVaLayId(ctdp);
                         
                         // Bước 7: Bảo vệ phòng không cho mướn nếu ngày bắt đầu ở lại là hôm nay
                         if (ngayNhan.Date <= DateTime.Now.Date)
                         {
                             phong.TrangThai = "DaDat";
-                            DAL_Phong.Instance.Sua(phong);
+                            _phongGateway.Sua(phong);
                         }
                     }
 
@@ -421,7 +465,7 @@ namespace BUS
                 try
                 {
                     // Bước 1: Validate đoàn tồn tại
-                    var doan = DAL.DAL_DoanKhach.Instance.LayTheoId(idDoanDaTonTai);
+                    var doan = _doanKhachGateway.LayTheoId(idDoanDaTonTai);
                     if (doan == null)
                         return OperationResult.Failed("Không tìm thấy đoàn Id=" + idDoanDaTonTai);
 
@@ -445,7 +489,7 @@ namespace BUS
                         CreatedAt = DateTime.Now,
                         CreatedBy = idNhanVien
                     };
-                    int masterDonHangId = DAL_DonHang.Instance.ThemVaLayId(dhMaster);
+                    int masterDonHangId = _donHangGateway.ThemVaLayId(dhMaster);
 
                     // Bước 5: Phiếu Thu (Cọc)
                     if (tienCoc > 0)
@@ -460,13 +504,13 @@ namespace BUS
                             CreatedAt = DateTime.Now,
                             CreatedBy = idNhanVien
                         };
-                        DAL_PhieuThu.Instance.Them(pt);
+                        _phieuThuGateway.Them(pt);
                     }
 
                     // Bước 6: Tạo DatPhongChiTiet + DoanKhach_DichVu cho mỗi phòng
                     foreach (var idPhong in idPhongs)
                     {
-                        var phong = DAL_Phong.Instance.LayTheoId(idPhong);
+                        var phong = _phongGateway.LayTheoId(idPhong);
                         decimal giaPhong = TinhGiaPhong(idPhong, ngayNhan, ngayTra);
 
                         ET_ChiTietDonHang ctdh = new ET_ChiTietDonHang
@@ -478,7 +522,7 @@ namespace BUS
                             TienGiamGiaDong = 0,
                             DonGiaThucTe = giaPhong
                         };
-                        int idCtdh = DAL_ChiTietDonHang.Instance.ThemVaLayId(ctdh);
+                        int idCtdh = _chiTietGateway.ThemVaLayId(ctdh);
 
                         ET_DatPhongChiTiet dpct = new ET_DatPhongChiTiet
                         {
@@ -487,7 +531,7 @@ namespace BUS
                             NgayTra = ngayTra,
                             TrangThai = "DaDat"
                         };
-                        int idDatPhong = DAL_DatPhongChiTiet.Instance.ThemVaLayId(dpct);
+                        int idDatPhong = _datPhongGateway.ThemVaLayId(dpct);
 
                         ET_ChiTietDatPhong ctdp = new ET_ChiTietDatPhong
                         {
@@ -495,13 +539,13 @@ namespace BUS
                             IdPhong = idPhong,
                             DonGiaThucTe = giaPhong
                         };
-                        DAL_ChiTietDatPhong.Instance.ThemVaLayId(ctdp);
+                        _chiTietDatPhongGateway.ThemVaLayId(ctdp);
 
                         // Khóa phòng nếu check-in hôm nay
                         if (ngayNhan.Date <= DateTime.Now.Date)
                         {
                             phong.TrangThai = "DaDat";
-                            DAL_Phong.Instance.Sua(phong);
+                            _phongGateway.Sua(phong);
                         }
 
                         // Bước 7: Khởi tạo thông tin gói dịch vụ phòng để nhân viên Lễ Tân thấy số lượng và tình trạng phòng của đoàn
@@ -517,7 +561,7 @@ namespace BUS
                             NgaySuDung = ngayNhan,
                             GhiChu = $"Phòng {phong.TenPhong} ({ngayNhan:dd/MM} -> {ngayTra:dd/MM})"
                         };
-                        DAL.DAL_DoanKhach_DichVu.Instance.Them(dichVu);
+                        _doanKhachDichVuGateway.Them(dichVu);
                     }
 
                     ts.Complete();
@@ -549,7 +593,7 @@ namespace BUS
                 try
                 {
                     // Bước 1: Kiểm tra lại tờ phiếu giữ chỗ có đúng là đang ở trạng thái chờ khách tới nhận không
-                    var dpct = DAL_DatPhongChiTiet.Instance.LayTheoId(idDatPhongChiTiet);
+                    var dpct = _datPhongGateway.LayTheoId(idDatPhongChiTiet);
                     if (dpct == null || dpct.TrangThai != "DaDat") return false;
 
                     // Bước 2: Nếu có phát sinh thu thêm tiền tại quầy lúc đưa chìa khóa phòng
@@ -559,15 +603,15 @@ namespace BUS
                         // Phân nhánh A: Tìm hóa đơn tổng lúc khách đặt cọc hồi xưa để cộng tiền vào cho gom chung
                         if (dpct.IdChiTietDonHang != null)
                         {
-                            var ctdh = DAL.DAL_ChiTietDonHang.Instance.LayTheoId(dpct.IdChiTietDonHang.Value);
+                            var ctdh = _chiTietGateway.LayTheoId(dpct.IdChiTietDonHang.Value);
                             if (ctdh != null)
                             {
                                 idDonHangLienQuan = ctdh.IdDonHang;
-                                var dh = DAL_DonHang.Instance.LayTheoId(idDonHangLienQuan);
+                                var dh = _donHangGateway.LayTheoId(idDonHangLienQuan);
                                 if (dh != null)
                                 {
                                     dh.TongTien += soTienThem;
-                                    DAL_DonHang.Instance.Sua(dh);
+                                    _donHangGateway.Sua(dh);
                                 }
                             }
                         }
@@ -583,19 +627,19 @@ namespace BUS
                                 CreatedAt = DateTime.Now,
                                 CreatedBy = idNhanVien
                             };
-                            idDonHangLienQuan = DAL_DonHang.Instance.ThemVaLayId(dhNew);
+                            idDonHangLienQuan = _donHangGateway.ThemVaLayId(dhNew);
                         }
 
                         // Bước 3: Trừ tiền qua ví điện tử hoặc in phiếu nhận tiền mặt
                         if (phuongThuc == "ViRFID")
                         {
-                            var dh = DAL_DonHang.Instance.LayTheoId(idDonHangLienQuan);
+                            var dh = _donHangGateway.LayTheoId(idDonHangLienQuan);
                             if (dh.IdKhachHang == null) return false;
 
-                            var vi = DAL_ViDienTu.Instance.LayTheoKhachHang(dh.IdKhachHang.Value);
+                            var vi = _viGateway.LayTheoKhachHang(dh.IdKhachHang.Value);
                             if (vi == null || vi.SoDuKhaDung < soTienThem) return false;
                             vi.SoDuKhaDung -= soTienThem;
-                            DAL_ViDienTu.Instance.Sua(vi);
+                            _viGateway.Sua(vi);
 
                             ET_GiaoDichVi gd = new ET_GiaoDichVi
                             {
@@ -603,7 +647,7 @@ namespace BUS
                                 IdVi = vi.Id, LoaiGiaoDich = "ThanhToanDichVu", SoTien = soTienThem,
                                 IdDonHangLienQuan = idDonHangLienQuan, ThoiGian = DateTime.Now, CreatedAt = DateTime.Now, CreatedBy = idNhanVien
                             };
-                            DAL_GiaoDichVi.Instance.Them(gd);
+                            _giaoDichGateway.Them(gd);
                         }
                         else
                         {
@@ -613,19 +657,19 @@ namespace BUS
                                 IdDonHang = idDonHangLienQuan, SoTien = soTienThem, PhuongThuc = phuongThuc,
                                 ThoiGian = DateTime.Now, CreatedAt = DateTime.Now, CreatedBy = idNhanVien
                             };
-                            DAL_PhieuThu.Instance.Them(pt);
+                            _phieuThuGateway.Them(pt);
                         }
                     }
 
                     // Bước 4: Chấp nhận giao chìa khóa cho khách. Đổi trạng thái nhận phòng
                     dpct.TrangThai = "DaNhan";
                     dpct.NgayNhan = DateTime.Now; 
-                    DAL_DatPhongChiTiet.Instance.Sua(dpct);
+                    _datPhongGateway.Sua(dpct);
 
                     // Bước 5: Chốt phòng trên sơ đồ khách sạn thành Đang Sử Dụng để tránh người khác lấy nhầm
-                    var phong = DAL_Phong.Instance.LayTheoId(idPhong);
+                    var phong = _phongGateway.LayTheoId(idPhong);
                     phong.TrangThai = "DangSuDung";
-                    DAL_Phong.Instance.Sua(phong);
+                    _phongGateway.Sua(phong);
 
                     ts.Complete();
                     return true;
@@ -647,22 +691,22 @@ namespace BUS
                     foreach (var idDpct in idDatPhongChiTiets)
                     {
                         // Bước 2: Chấp nhận giao phòng cho những phiếu hợp lệ đang chờ nhận
-                        var dpct = DAL_DatPhongChiTiet.Instance.LayTheoId(idDpct);
+                        var dpct = _datPhongGateway.LayTheoId(idDpct);
                         if (dpct != null && dpct.TrangThai == "DaDat")
                         {
                             dpct.TrangThai = "DaNhan";
                             dpct.NgayNhan = DateTime.Now;
-                            DAL_DatPhongChiTiet.Instance.Sua(dpct);
+                            _datPhongGateway.Sua(dpct);
 
                             // Bước 3: Tìm đúng phòng thực tế và đổi trạng thái để tránh bị bán nhầm cho khách khác
-                            var ctdp = DAL_ChiTietDatPhong.Instance.LoadDS().FirstOrDefault(x => x.IdDatPhongChiTiet == dpct.Id);
+                            var ctdp = _chiTietDatPhongGateway.LoadDS().FirstOrDefault(x => x.IdDatPhongChiTiet == dpct.Id);
                             if (ctdp != null)
                             {
-                                var phong = DAL_Phong.Instance.LayTheoId(ctdp.IdPhong);
+                                var phong = _phongGateway.LayTheoId(ctdp.IdPhong);
                                 if (phong != null)
                                 {
                                     phong.TrangThai = "DangSuDung";
-                                    DAL_Phong.Instance.Sua(phong);
+                                    _phongGateway.Sua(phong);
                                 }
                             }
                         }
@@ -673,6 +717,7 @@ namespace BUS
                 catch (Exception ex) { return OperationResult.Failed(ex.Message); }
             }
         }
+        #endregion
 
         #region Quy trình Trả Phòng Khách Sạn (CheckOut)
         // Hệ thống sẽ xử lý rẽ nhánh Trả Phòng: Tính toán thử đúng tiền không -> Đồng ý thu tiền -> Kết thúc đóng phòng.
@@ -683,8 +728,8 @@ namespace BUS
         /// </summary>
         public ET_CheckOutInfo CalculateCheckOut(int idPhong)
         {
-            var allDP = DAL_DatPhongChiTiet.Instance.LoadDS();
-            var allCTDP = DAL_ChiTietDatPhong.Instance.LoadDS();
+            var allDP = _datPhongGateway.LoadDS();
+            var allCTDP = _chiTietDatPhongGateway.LoadDS();
 
             // Tìm ra tờ phiếu ghi nhận khách đang sử dụng ở phòng này
             var booking = (from ct in allCTDP
@@ -695,7 +740,7 @@ namespace BUS
 
             if (booking == null) return null;
 
-            var phong = DAL_Phong.Instance.LayTheoId(idPhong);
+            var phong = _phongGateway.LayTheoId(idPhong);
             DateTime now = DateTime.Now;
             
             // Lấy giá trị cơ bản từ máy tính toán giá phòng
@@ -708,10 +753,10 @@ namespace BUS
             decimal daThanhToan = 0;
             if (booking.dp.IdChiTietDonHang.HasValue)
             {
-                var ctdh = DAL_ChiTietDonHang.Instance.LayTheoId(booking.dp.IdChiTietDonHang.Value);
+                var ctdh = _chiTietGateway.LayTheoId(booking.dp.IdChiTietDonHang.Value);
                 if (ctdh != null)
                 {
-                    var dh = DAL_DonHang.Instance.LayTheoId(ctdh.IdDonHang);
+                    var dh = _donHangGateway.LayTheoId(ctdh.IdDonHang);
                     if (dh != null) daThanhToan = dh.TongTien;
                 }
             }
@@ -743,7 +788,7 @@ namespace BUS
             double soGioTre = (ngayTraThucTe - ngayTraDuKien).TotalHours;
 
             // Lấy giá từ bảng giá phù hợp
-            var phong = DAL_Phong.Instance.LayTheoId(idPhong);
+            var phong = _phongGateway.LayTheoId(idPhong);
             if (phong == null || !phong.IdSanPham.HasValue) return 0;
             decimal giaTheoNgay = BUS.BUS_BangGia.Instance.GetDynamicPrice(phong.IdSanPham.Value, ngayTraThucTe);
 
@@ -765,8 +810,8 @@ namespace BUS
             {
                 try
                 {
-                    var allDP = DAL_DatPhongChiTiet.Instance.LoadDS();
-                    var allCTDP = DAL_ChiTietDatPhong.Instance.LoadDS();
+                    var allDP = _datPhongGateway.LoadDS();
+                    var allCTDP = _chiTietDatPhongGateway.LoadDS();
 
                     // Bước 1: Tra cứu hồ sơ thuê phòng đang xài của khách hiện hành
                     var booking = (from ct in allCTDP
@@ -784,7 +829,7 @@ namespace BUS
                         int idDH = 0;
                         if (booking.dp.IdChiTietDonHang.HasValue)
                         {
-                            var ctdh = DAL_ChiTietDonHang.Instance.LayTheoId(booking.dp.IdChiTietDonHang.Value);
+                            var ctdh = _chiTietGateway.LayTheoId(booking.dp.IdChiTietDonHang.Value);
                             idDH = ctdh?.IdDonHang ?? 0;
                         }
 
@@ -800,24 +845,24 @@ namespace BUS
                                 CreatedAt = DateTime.Now,
                                 CreatedBy = idNhanVien
                             };
-                            idDH = DAL_DonHang.Instance.ThemVaLayId(dhNew);
+                            idDH = _donHangGateway.ThemVaLayId(dhNew);
                         }
 
                         // Bước 3: Thu hồi tiền trong thẻ RFID nếu xài thẻ
                         if (phuongThuc == AppConstants.PhuongThucThanhToan.ViRfid)
                         {
-                            var dh = DAL_DonHang.Instance.LayTheoId(idDH);
+                            var dh = _donHangGateway.LayTheoId(idDH);
                             if (dh?.IdKhachHang == null)
                                 return OperationResult.Failed("Chưa xác định khách hàng, không thể trừ ví RFID.");
 
-                            var vi = DAL_ViDienTu.Instance.LayTheoKhachHang(dh.IdKhachHang.Value);
+                            var vi = _viGateway.LayTheoKhachHang(dh.IdKhachHang.Value);
                             if (vi == null || vi.SoDuKhaDung < soTienThuThem)
                                 return OperationResult.Failed("Số dư ví điện tử không đủ.");
 
                             vi.SoDuKhaDung -= soTienThuThem;
-                            DAL_ViDienTu.Instance.Sua(vi);
+                            _viGateway.Sua(vi);
 
-                            DAL_GiaoDichVi.Instance.Them(new ET_GiaoDichVi
+                            _giaoDichGateway.Them(new ET_GiaoDichVi
                             {
                                 MaCode = "GD-CO-" + DateTime.Now.ToString("yyMMddHHmmss") + "-" + Guid.NewGuid().ToString().Substring(0, 4).ToUpper(),
                                 IdVi = vi.Id,
@@ -831,7 +876,7 @@ namespace BUS
                         }
                         else
                         {
-                            DAL_PhieuThu.Instance.Them(new ET_PhieuThu
+                            _phieuThuGateway.Them(new ET_PhieuThu
                             {
                                 MaCode = "PT-CO-" + DateTime.Now.ToString("yyMMddHHmmss") + "-" + Guid.NewGuid().ToString().Substring(0, 4).ToUpper(),
                                 IdDonHang = idDH,
@@ -844,11 +889,11 @@ namespace BUS
                         }
 
                         // Cố định tăng tổng tiền của ĐH
-                        var dhUpdate = DAL_DonHang.Instance.LayTheoId(idDH);
+                        var dhUpdate = _donHangGateway.LayTheoId(idDH);
                         if (dhUpdate != null)
                         {
                             dhUpdate.TongTien += soTienThuThem;
-                            DAL_DonHang.Instance.Sua(dhUpdate);
+                            _donHangGateway.Sua(dhUpdate);
                         }
                     }
 
@@ -857,17 +902,17 @@ namespace BUS
                     var dpct = booking.dp;
                     dpct.TrangThai = "HoanTat";
                     dpct.NgayTra = DateTime.Now;
-                    DAL_DatPhongChiTiet.Instance.Sua(dpct);
+                    _datPhongGateway.Sua(dpct);
 
                     var ctRecord = booking.ct;
                     ctRecord.DonGiaThucTe = tongTienSauCung;
-                    DAL_ChiTietDatPhong.Instance.Sua(ctRecord);
+                    _chiTietDatPhongGateway.Sua(ctRecord);
 
                     // 3. Chuyển trạng thái phòng
-                    var phong = DAL_Phong.Instance.LayTheoId(idPhong);
+                    var phong = _phongGateway.LayTheoId(idPhong);
                     phong.TrangThai = "DonDep";
                     phong.UpdatedAt = DateTime.Now;
-                    DAL_Phong.Instance.Sua(phong);
+                    _phongGateway.Sua(phong);
 
                     ts.Complete();
                     return OperationResult.Success();
@@ -898,11 +943,11 @@ namespace BUS
 
         public bool FinishCleaning(int idPhong)
         {
-            var phong = DAL_Phong.Instance.LayTheoId(idPhong);
+            var phong = _phongGateway.LayTheoId(idPhong);
             if (phong == null) return false;
             phong.TrangThai = "Trong";
             phong.UpdatedAt = DateTime.Now;
-            return DAL_Phong.Instance.Sua(phong);
+            return _phongGateway.Sua(phong);
         }
 
         /// <summary>
@@ -911,8 +956,8 @@ namespace BUS
         /// </summary>
         public ET_DatPhongChiTiet GetDatPhongChiTietByPhong(int idPhong)
         {
-            var allCTDP = DAL_ChiTietDatPhong.Instance.LoadDS();
-            var allDP = DAL_DatPhongChiTiet.Instance.LoadDS();
+            var allCTDP = _chiTietDatPhongGateway.LoadDS();
+            var allDP = _datPhongGateway.LoadDS();
 
             var booking = (from ct in allCTDP
                           join dp in allDP on ct.IdDatPhongChiTiet equals dp.Id
@@ -931,7 +976,7 @@ namespace BUS
         {
             try
             {
-                var phong = DAL_Phong.Instance.LayTheoId(idPhong);
+                var phong = _phongGateway.LayTheoId(idPhong);
                 // Flat pricing engine: tự chọn giá Thường/CuốiTuần/Lễ
                 if (phong == null || !phong.IdSanPham.HasValue) return 0;
                 decimal giaTheoNgay = BUS.BUS_BangGia.Instance.GetDynamicPrice(phong.IdSanPham.Value, checkIn);
@@ -964,7 +1009,7 @@ namespace BUS
         /// </summary>
         public OperationResult CancelReservation(int idDatPhongChiTiet, int idNhanVien = 1)
         {
-            var dpct = DAL_DatPhongChiTiet.Instance.LayTheoId(idDatPhongChiTiet);
+            var dpct = _datPhongGateway.LayTheoId(idDatPhongChiTiet);
             if (dpct == null || dpct.TrangThai != "DaDat")
                 return OperationResult.Failed("Không tìm thấy đặt phòng hoặc đã bị hủy.");
 
@@ -977,23 +1022,23 @@ namespace BUS
                     // B1: Tìm đơn hàng qua ChiTietDonHang
                     if (dpct.IdChiTietDonHang.HasValue)
                     {
-                        var ctdh = DAL_ChiTietDonHang.Instance.LayTheoId(dpct.IdChiTietDonHang.Value);
-                        var dh = ctdh != null ? DAL_DonHang.Instance.LayTheoId(ctdh.IdDonHang) : null;
+                        var ctdh = _chiTietGateway.LayTheoId(dpct.IdChiTietDonHang.Value);
+                        var dh = ctdh != null ? _donHangGateway.LayTheoId(ctdh.IdDonHang) : null;
                         if (dh != null)
                         {
                             tienHoan = dh.TongTien; // Toàn bộ tiền cọc
 
                             // B2: Xác định cọc bằng gì: Tìm GiaoDichVi có IdDonHangLienQuan
-                            var gdVi = DAL_GiaoDichVi.Instance.LoadDS()
+                            var gdVi = _giaoDichGateway.LoadDS()
                                 .FirstOrDefault(x => x.IdDonHangLienQuan == dh.Id);
 
                             if (gdVi != null) // Cọc bằng Ví RFID
                             {
-                                var vi = DAL_ViDienTu.Instance.LayTheoId(gdVi.IdVi);
+                                var vi = _viGateway.LayTheoId(gdVi.IdVi);
                                 if (vi != null && tienHoan > 0)
                                 {
                                     vi.SoDuKhaDung += tienHoan;
-                                    DAL_ViDienTu.Instance.Sua(vi);
+                                    _viGateway.Sua(vi);
 
                                     var gdHoan = new ET_GiaoDichVi
                                     {
@@ -1006,7 +1051,7 @@ namespace BUS
                                         CreatedAt = DateTime.Now,
                                         CreatedBy = idNhanVien
                                     };
-                                    DAL_GiaoDichVi.Instance.Them(gdHoan);
+                                    _giaoDichGateway.Them(gdHoan);
                                 }
                             }
                             else if (tienHoan > 0) // Cọc bằng Tiền Mặt -> Sinh Phiếu Chi
@@ -1020,29 +1065,29 @@ namespace BUS
                                     CreatedAt = DateTime.Now,
                                     CreatedBy = idNhanVien
                                 };
-                                DAL_PhieuChi.Instance.Them(pc);
+                                _phieuChiGateway.Them(pc);
                             }
 
                             // Cập nhật trạng thái đơn hàng
                             dh.TrangThai = "DaHuy";
-                            DAL_DonHang.Instance.Sua(dh);
+                            _donHangGateway.Sua(dh);
                         }
                     }
 
                     // Bước 4: Đánh dấu phiếu hủy thành công
                     dpct.TrangThai = "DaHuy";
-                    DAL_DatPhongChiTiet.Instance.Sua(dpct);
+                    _datPhongGateway.Sua(dpct);
 
                     // Bước 5: Giải phóng trạng thái phòng trên sơ đồ nếu phòng đang bị khóa bởi phiếu này
-                    var ctDatPhong = DAL_ChiTietDatPhong.Instance.LoadDS().FirstOrDefault(x => x.IdDatPhongChiTiet == idDatPhongChiTiet);
+                    var ctDatPhong = _chiTietDatPhongGateway.LoadDS().FirstOrDefault(x => x.IdDatPhongChiTiet == idDatPhongChiTiet);
                     if (ctDatPhong != null)
                     {
-                        var phong = DAL_Phong.Instance.LayTheoId(ctDatPhong.IdPhong);
+                        var phong = _phongGateway.LayTheoId(ctDatPhong.IdPhong);
                         if (phong != null && phong.TrangThai == "DaDat")
                         {
                             phong.TrangThai = "Trong"; 
                             phong.UpdatedAt = DateTime.Now;
-                            DAL_Phong.Instance.Sua(phong);
+                            _phongGateway.Sua(phong);
                         }
                     }
 
@@ -1061,14 +1106,14 @@ namespace BUS
 
         public List<ET_RoomMapItem> GetRoomMapData()
         {
-            var allPhong = DAL_Phong.Instance.LoadDS();
-            var allDatPhong = DAL_DatPhongChiTiet.Instance.LoadDS();
-            var allCTDP = DAL_ChiTietDatPhong.Instance.LoadDS();
-            var allDonHang = DAL_DonHang.Instance.LoadDS();
-            var allKhach = DAL_KhachHang.Instance.LoadDS();
+            var allPhong = _phongGateway.LoadDS();
+            var allDatPhong = _datPhongGateway.LoadDS();
+            var allCTDP = _chiTietDatPhongGateway.LoadDS();
+            var allDonHang = _donHangGateway.LoadDS();
+            var allKhach = _khachHangGateway.LoadDS();
 
-            var allSanPham = DAL.DAL_SanPham.Instance.LoadDS().ToDictionary(x => x.Id, x => x);
-            var allKhuVuc = DAL.DAL_KhuVuc.Instance.LoadDS().ToDictionary(x => x.Id, x => x);
+            var allSanPham = _sanPhamGateway.LoadDS().ToDictionary(x => x.Id, x => x);
+            var allKhuVuc = _khuVucGateway.LoadDS().ToDictionary(x => x.Id, x => x);
 
             var result = new List<ET_RoomMapItem>();
 
@@ -1093,7 +1138,7 @@ namespace BUS
                     var dh = allDonHang.FirstOrDefault(x =>
                     {
                         if (currentCTDP.dp.IdChiTietDonHang == null) return false;
-                        var ctdh = DAL_ChiTietDonHang.Instance.LayTheoId(currentCTDP.dp.IdChiTietDonHang.Value);
+                        var ctdh = _chiTietGateway.LayTheoId(currentCTDP.dp.IdChiTietDonHang.Value);
                         return ctdh != null && x.Id == ctdh.IdDonHang;
                     });
                     if (dh != null && dh.IdKhachHang != null)
@@ -1137,6 +1182,7 @@ namespace BUS
 
             return result;
         }
+        #endregion
+
     }
 }
-

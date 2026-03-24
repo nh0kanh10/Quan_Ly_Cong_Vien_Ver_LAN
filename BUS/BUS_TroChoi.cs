@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
-using DAL;
 using ET;
 
 namespace BUS
 {
     public class BUS_TroChoi : IBaseBUS<ET_TroChoi>
     {
+        private readonly ITroChoiGateway _gateway;
+
         private static BUS_TroChoi instance;
         public static BUS_TroChoi Instance
         {
@@ -17,10 +18,10 @@ namespace BUS
             }
         }
 
-        public List<ET_TroChoi> LoadDS()
-        {
-            return DAL_TroChoi.Instance.LoadDS();
-        }
+        public BUS_TroChoi() : this(new DefaultTroChoiGateway()) { }
+        public BUS_TroChoi(ITroChoiGateway gw) { _gateway = gw; }
+
+        public List<ET_TroChoi> LoadDS() => _gateway.LoadDS();
 
         public ResponseResult Them(ET_TroChoi et)
         {
@@ -30,7 +31,7 @@ namespace BUS
             if (string.IsNullOrWhiteSpace(et.MaCode))
                 et.MaCode = "TC-" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
-            if (DAL_TroChoi.Instance.Them(et))
+            if (_gateway.Them(et))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi thêm trò chơi vào CSDL." };
         }
@@ -40,26 +41,20 @@ namespace BUS
             if (et.Id <= 0)
                 return new ResponseResult { IsSuccess = false, ErrorMessage = "ID không hợp lệ!" };
 
-            if (DAL_TroChoi.Instance.Sua(et))
+            if (_gateway.Sua(et))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi cập nhật thông tin." };
         }
 
         public ResponseResult Xoa(int id)
         {
-            if (DAL_TroChoi.Instance.Xoa(id))
+            if (_gateway.Xoa(id))
                 return new ResponseResult { IsSuccess = true };
             return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi xóa trò chơi!" };
         }
         
-        public List<ET_TroChoi> TimKiemNangCao(string keyword, string idKhuVuc)
-        {
-            return DAL_TroChoi.Instance.TimKiem(keyword, idKhuVuc);
-        }
+        public List<ET_TroChoi> TimKiemNangCao(string keyword, string idKhuVuc) => _gateway.TimKiem(keyword, idKhuVuc);
 
-        public List<ET_TroChoi> TimKiem(string kw, string filter)
-        {
-            return TimKiemNangCao(kw, filter);
-        }
+        public List<ET_TroChoi> TimKiem(string kw, string filter) => TimKiemNangCao(kw, filter);
     }
 }

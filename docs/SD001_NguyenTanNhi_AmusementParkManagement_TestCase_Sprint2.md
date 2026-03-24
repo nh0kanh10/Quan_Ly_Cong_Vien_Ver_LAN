@@ -15,7 +15,7 @@
 
 | Effective Date | Changed Items | A/M/D | Change Description | New Version |
 |:---|:---|:---:|:---|:---:|
-| 25/03/2026 | First release | A | Khởi tạo 110 Test Case Sprint 2 | 2.0 |
+| 25/03/2026 | First release | A | Khởi tạo 858 Test Case Sprint 2 | 2.0 |
 
 ---
 

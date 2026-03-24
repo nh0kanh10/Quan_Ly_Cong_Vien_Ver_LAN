@@ -7,7 +7,7 @@ using System.Transactions;
 
 namespace BUS
 {
-    public class BUS_GiaoDichVi
+    public class BUS_GiaoDichVi : IBUS_GiaoDichVi
     {
         private readonly ITheRfidGateway _theRfidGateway;
         private readonly IViDienTuGateway _viGateway;
@@ -152,7 +152,7 @@ namespace BUS
                 {
                     // Bước 1: Trừ tiền mặt khả dụng và Bơm vào Tiền cọc (Đóng băng)
                     vi.SoDuKhaDung -= soTien;
-                    vi.SoDuDongBang += soTien; // Fix: Logic kế toán thiếu tích lũy số dư bị đóng băng
+                    vi.SoDuDongBang += soTien;
                     
                     bool updateOk = _viGateway.Sua(vi);
                     if (!updateOk) return OperationResult.Failed("Từ chối xử lý đóng băng.");
@@ -163,7 +163,7 @@ namespace BUS
                         IdVi = vi.Id,
                         LoaiGiaoDich = AppConstants.LoaiGiaoDichVi.ThuCoc, 
                         SoTien = soTien,
-                        IdDonHangLienQuan = idDonHangLienQuan, // FIX: TRUY VẾT DÒNG TIỀN VÀO ĐƠN HÀNG NÀO
+                        IdDonHangLienQuan = idDonHangLienQuan, 
                         ThoiGian = DateTime.Now,
                         CreatedAt = DateTime.Now
                     };
@@ -191,7 +191,7 @@ namespace BUS
         public OperationResult GiaiToaTienCoc(int idKhachHang, decimal soTien, int? idDonHangLienQuan = null)
         {
             if (soTien <= 0) return OperationResult.Failed("Cảnh báo: Số tiền hoàn không hợp lệ.");
-            var vi = DAL_ViDienTu.Instance.LayTheoKhachHang(idKhachHang);
+            var vi = _viGateway.LayTheoKhachHang(idKhachHang);
             if (vi == null) return OperationResult.Failed("Giao dịch từ chối: Không tìm thấy ví điện tử.");
 
             if (vi.SoDuDongBang < soTien) return OperationResult.Failed("Giao dịch từ chối: Số dư đóng băng không đủ để thực hiện giải tỏa.");
@@ -204,7 +204,7 @@ namespace BUS
                     vi.SoDuDongBang -= soTien;
                     vi.SoDuKhaDung += soTien;
 
-                    bool updateOk = DAL_ViDienTu.Instance.Sua(vi);
+                    bool updateOk = _viGateway.Sua(vi);
                     if (!updateOk) return OperationResult.Failed("Lỗi: Quá trình cập nhật hoàn cọc bị gián đoạn.");
 
                     var giaoDich = new ET_GiaoDichVi
@@ -239,7 +239,7 @@ namespace BUS
         public OperationResult KhauTruTienDongBang(int idKhachHang, decimal soTien, int? idDonHangLienQuan = null)
         {
             if (soTien <= 0) return OperationResult.Success(); 
-            var vi = DAL_ViDienTu.Instance.LayTheoKhachHang(idKhachHang);
+            var vi = _viGateway.LayTheoKhachHang(idKhachHang);
             if (vi == null) return OperationResult.Failed("Không tìm thấy ví điện tử của khách hợp lệ.");
 
             if (vi.SoDuDongBang < soTien) return OperationResult.Failed("Lỗi định khoản: Kỳ toán hiển thị số dư đóng băng tiền cọc tài khoản bị lệch.");
@@ -251,7 +251,7 @@ namespace BUS
                     // Chỉ tiêu hao khoản Đóng băng, KHÔNG cộng hoàn tiền
                     vi.SoDuDongBang -= soTien;
 
-                    bool updateOk = DAL_ViDienTu.Instance.Sua(vi);
+                    bool updateOk = _viGateway.Sua(vi);
                     if (!updateOk) return OperationResult.Failed("Lỗi thanh khoản tài chính tiền cọc.");
 
                     var giaoDich = new ET_GiaoDichVi
