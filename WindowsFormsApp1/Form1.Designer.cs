@@ -54,6 +54,7 @@ namespace WindowsFormsApp1
             this.pnlTitleBar = new System.Windows.Forms.Panel();
             this.lblTitle = new System.Windows.Forms.Label();
             this.pnlDesktop = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.pnlMenu.SuspendLayout();
             this.pnlLogo.SuspendLayout();
             this.pnlTitleBar.SuspendLayout();
@@ -62,6 +63,7 @@ namespace WindowsFormsApp1
             // pnlMenu
             // 
             this.pnlMenu.BackColor = System.Drawing.Color.MediumTurquoise;
+            this.pnlMenu.Controls.Add(this.button1);
             this.pnlMenu.Controls.Add(this.btnThoat);
             this.pnlMenu.Controls.Add(this.btnTaiKhoan);
             this.pnlMenu.Controls.Add(this.btnKhachHang);
@@ -70,9 +72,9 @@ namespace WindowsFormsApp1
             this.pnlMenu.Controls.Add(this.pnlLogo);
             this.pnlMenu.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlMenu.Location = new System.Drawing.Point(0, 0);
-            this.pnlMenu.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlMenu.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlMenu.Name = "pnlMenu";
-            this.pnlMenu.Size = new System.Drawing.Size(165, 612);
+            this.pnlMenu.Size = new System.Drawing.Size(220, 753);
             this.pnlMenu.TabIndex = 0;
             // 
             // btnThoat
@@ -82,11 +84,11 @@ namespace WindowsFormsApp1
             this.btnThoat.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnThoat.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnThoat.ForeColor = System.Drawing.Color.Black;
-            this.btnThoat.Location = new System.Drawing.Point(0, 563);
-            this.btnThoat.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnThoat.Location = new System.Drawing.Point(0, 693);
+            this.btnThoat.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnThoat.Name = "btnThoat";
-            this.btnThoat.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.btnThoat.Size = new System.Drawing.Size(165, 49);
+            this.btnThoat.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
+            this.btnThoat.Size = new System.Drawing.Size(220, 60);
             this.btnThoat.TabIndex = 7;
             this.btnThoat.Text = "   Thoát";
             this.btnThoat.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -101,11 +103,11 @@ namespace WindowsFormsApp1
             this.btnTaiKhoan.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTaiKhoan.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTaiKhoan.ForeColor = System.Drawing.Color.Black;
-            this.btnTaiKhoan.Location = new System.Drawing.Point(0, 212);
-            this.btnTaiKhoan.Margin = new System.Windows.Forms.Padding(2);
+            this.btnTaiKhoan.Location = new System.Drawing.Point(0, 260);
+            this.btnTaiKhoan.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnTaiKhoan.Name = "btnTaiKhoan";
-            this.btnTaiKhoan.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.btnTaiKhoan.Size = new System.Drawing.Size(165, 49);
+            this.btnTaiKhoan.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
+            this.btnTaiKhoan.Size = new System.Drawing.Size(220, 60);
             this.btnTaiKhoan.TabIndex = 8;
             this.btnTaiKhoan.Text = "TÀI KHOẢN";
             this.btnTaiKhoan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -120,11 +122,11 @@ namespace WindowsFormsApp1
             this.btnKhachHang.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnKhachHang.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnKhachHang.ForeColor = System.Drawing.Color.Black;
-            this.btnKhachHang.Location = new System.Drawing.Point(0, 163);
-            this.btnKhachHang.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnKhachHang.Location = new System.Drawing.Point(0, 200);
+            this.btnKhachHang.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnKhachHang.Name = "btnKhachHang";
-            this.btnKhachHang.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.btnKhachHang.Size = new System.Drawing.Size(165, 49);
+            this.btnKhachHang.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
+            this.btnKhachHang.Size = new System.Drawing.Size(220, 60);
             this.btnKhachHang.TabIndex = 3;
             this.btnKhachHang.Text = "TRÒ CHƠI";
             this.btnKhachHang.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -139,11 +141,11 @@ namespace WindowsFormsApp1
             this.btnLinhVuc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLinhVuc.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLinhVuc.ForeColor = System.Drawing.Color.Black;
-            this.btnLinhVuc.Location = new System.Drawing.Point(0, 114);
-            this.btnLinhVuc.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnLinhVuc.Location = new System.Drawing.Point(0, 140);
+            this.btnLinhVuc.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnLinhVuc.Name = "btnLinhVuc";
-            this.btnLinhVuc.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.btnLinhVuc.Size = new System.Drawing.Size(165, 49);
+            this.btnLinhVuc.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
+            this.btnLinhVuc.Size = new System.Drawing.Size(220, 60);
             this.btnLinhVuc.TabIndex = 2;
             this.btnLinhVuc.Text = "KHU VỰC";
             this.btnLinhVuc.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -158,11 +160,11 @@ namespace WindowsFormsApp1
             this.btnSach.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSach.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSach.ForeColor = System.Drawing.Color.Black;
-            this.btnSach.Location = new System.Drawing.Point(0, 65);
-            this.btnSach.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnSach.Location = new System.Drawing.Point(0, 80);
+            this.btnSach.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSach.Name = "btnSach";
-            this.btnSach.Padding = new System.Windows.Forms.Padding(9, 0, 0, 0);
-            this.btnSach.Size = new System.Drawing.Size(165, 49);
+            this.btnSach.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
+            this.btnSach.Size = new System.Drawing.Size(220, 60);
             this.btnSach.TabIndex = 1;
             this.btnSach.Text = "QUẢN LÝ VÉ";
             this.btnSach.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -176,9 +178,9 @@ namespace WindowsFormsApp1
             this.pnlLogo.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlLogo.ForeColor = System.Drawing.SystemColors.Desktop;
             this.pnlLogo.Location = new System.Drawing.Point(0, 0);
-            this.pnlLogo.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlLogo.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlLogo.Name = "pnlLogo";
-            this.pnlLogo.Size = new System.Drawing.Size(165, 65);
+            this.pnlLogo.Size = new System.Drawing.Size(220, 80);
             this.pnlLogo.TabIndex = 0;
             // 
             // lblLogo
@@ -186,10 +188,9 @@ namespace WindowsFormsApp1
             this.lblLogo.AutoSize = true;
             this.lblLogo.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLogo.ForeColor = System.Drawing.Color.Black;
-            this.lblLogo.Location = new System.Drawing.Point(55, 20);
-            this.lblLogo.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblLogo.Location = new System.Drawing.Point(73, 25);
             this.lblLogo.Name = "lblLogo";
-            this.lblLogo.Size = new System.Drawing.Size(46, 21);
+            this.lblLogo.Size = new System.Drawing.Size(57, 28);
             this.lblLogo.TabIndex = 0;
             this.lblLogo.Text = "APM";
             this.lblLogo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -199,10 +200,10 @@ namespace WindowsFormsApp1
             this.pnlTitleBar.BackColor = System.Drawing.Color.DarkTurquoise;
             this.pnlTitleBar.Controls.Add(this.lblTitle);
             this.pnlTitleBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlTitleBar.Location = new System.Drawing.Point(165, 0);
-            this.pnlTitleBar.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlTitleBar.Location = new System.Drawing.Point(220, 0);
+            this.pnlTitleBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlTitleBar.Name = "pnlTitleBar";
-            this.pnlTitleBar.Size = new System.Drawing.Size(721, 65);
+            this.pnlTitleBar.Size = new System.Drawing.Size(961, 80);
             this.pnlTitleBar.TabIndex = 1;
             // 
             // lblTitle
@@ -211,10 +212,9 @@ namespace WindowsFormsApp1
             this.lblTitle.AutoSize = true;
             this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTitle.ForeColor = System.Drawing.Color.Black;
-            this.lblTitle.Location = new System.Drawing.Point(126, 14);
-            this.lblTitle.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.lblTitle.Location = new System.Drawing.Point(168, 17);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(483, 30);
+            this.lblTitle.Size = new System.Drawing.Size(618, 38);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "ỨNG DỤNG QUẢN LÝ KHU VUI CHƠI GIẢI TRÍ";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -223,21 +223,40 @@ namespace WindowsFormsApp1
             // 
             this.pnlDesktop.BackColor = System.Drawing.Color.WhiteSmoke;
             this.pnlDesktop.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlDesktop.Location = new System.Drawing.Point(165, 65);
-            this.pnlDesktop.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.pnlDesktop.Location = new System.Drawing.Point(220, 80);
+            this.pnlDesktop.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.pnlDesktop.Name = "pnlDesktop";
-            this.pnlDesktop.Size = new System.Drawing.Size(721, 547);
+            this.pnlDesktop.Size = new System.Drawing.Size(961, 673);
             this.pnlDesktop.TabIndex = 2;
+            // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.MediumTurquoise;
+            this.button1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.Black;
+            this.button1.Location = new System.Drawing.Point(0, 320);
+            this.button1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.button1.Name = "button1";
+            this.button1.Padding = new System.Windows.Forms.Padding(12, 0, 0, 0);
+            this.button1.Size = new System.Drawing.Size(220, 60);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Dịch vụ";
+            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(886, 612);
+            this.ClientSize = new System.Drawing.Size(1181, 753);
             this.Controls.Add(this.pnlDesktop);
             this.Controls.Add(this.pnlTitleBar);
             this.Controls.Add(this.pnlMenu);
-            this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Hệ thống quản lý nhà sách";
@@ -253,6 +272,8 @@ namespace WindowsFormsApp1
         }
 
         #endregion
+
+        private System.Windows.Forms.Button button1;
     }
 }
 

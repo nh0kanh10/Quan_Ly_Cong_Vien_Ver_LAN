@@ -28,7 +28,7 @@ namespace DAL
                              MaCode = lv.MaCode,
                              TenLoaiVe = lv.TenLoaiVe,
                              GiaVe = lv.GiaVe,
-                             GiaCuoiTuan = lv.GiaCuoiTuan,
+                             //GiaCuoiTuan = lv.GiaCuoiTuan,
                              DoiTuong = lv.DoiTuong,
                              LaCombo = lv.LaCombo,
                              TrangThai = lv.TrangThai,
@@ -52,7 +52,7 @@ namespace DAL
                              MaCode = lv.MaCode,
                              TenLoaiVe = lv.TenLoaiVe,
                              GiaVe = lv.GiaVe,
-                             GiaCuoiTuan = lv.GiaCuoiTuan,
+                             //GiaCuoiTuan = lv.GiaCuoiTuan,
                              DoiTuong = lv.DoiTuong,
                              LaCombo = lv.LaCombo,
                              TrangThai = lv.TrangThai,
@@ -109,7 +109,7 @@ namespace DAL
                         MaCode = nextMaCode,
                         TenLoaiVe = et.TenLoaiVe,
                         GiaVe = et.GiaVe,
-                        GiaCuoiTuan = et.GiaCuoiTuan,
+                        //GiaCuoiTuan = et.GiaCuoiTuan,
                         DoiTuong = et.DoiTuong,
                         LaCombo = et.LaCombo,
                         TrangThai = et.TrangThai,
@@ -135,7 +135,7 @@ namespace DAL
                     {
                         lv.TenLoaiVe = et.TenLoaiVe;
                         lv.GiaVe = et.GiaVe;
-                        lv.GiaCuoiTuan = et.GiaCuoiTuan;
+                        //lv.GiaCuoiTuan = et.GiaCuoiTuan;
                         lv.DoiTuong = et.DoiTuong;
                         lv.LaCombo = et.LaCombo;
                         lv.TrangThai = et.TrangThai;
