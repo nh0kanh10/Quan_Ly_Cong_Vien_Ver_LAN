@@ -8,6 +8,7 @@ namespace BUS
     public class BUS_KhuVuc : IBaseBUS<ET_KhuVuc>
     {
         private readonly IKhuVucGateway _gateway;
+        private readonly ITroChoiGateway _troChoiGateway;
 
         private static BUS_KhuVuc instance;
         public static BUS_KhuVuc Instance
@@ -19,8 +20,12 @@ namespace BUS
             }
         }
 
-        public BUS_KhuVuc() : this(new DefaultKhuVucGateway()) { }
-        public BUS_KhuVuc(IKhuVucGateway gw) { _gateway = gw; }
+        public BUS_KhuVuc() : this(new DefaultKhuVucGateway(), new DefaultTroChoiGateway()) { }
+        public BUS_KhuVuc(IKhuVucGateway gw, ITroChoiGateway troChoiGw) 
+        { 
+            _gateway = gw; 
+            _troChoiGateway = troChoiGw;
+        }
 
         public List<ET_KhuVuc> LoadDS()
         {
@@ -74,6 +79,14 @@ namespace BUS
         {
             var existing = _gateway.LoadDS().FirstOrDefault(x => x.MaCode == code);
             if (existing == null) return ResponseResult.Error("Không tìm thấy khu vực.");
+            
+            // [Bugfix SD-001]: Ngăn chặn xóa khu vực đang chứa trò chơi để tránh SQL FK Exception
+            var danhSachTroChoi = _troChoiGateway.LoadDS();
+            if (danhSachTroChoi.Any(t => t.IdKhuVuc == existing.Id && !t.IsDeleted))
+            {
+                return ResponseResult.Error("Không thể xóa. Khu vực này đang chứa trò chơi trực thuộc.");
+            }
+
             bool success = _gateway.Xoa(existing.Id);
             return success ? ResponseResult.Success() : ResponseResult.Error("Không thể xóa khu vực.");
         }
@@ -97,6 +110,9 @@ namespace BUS
         {
             if (string.IsNullOrWhiteSpace(et.TenKhuVuc)) return "Tên khu vực không được để trống.";
             
+            // [Bugfix SD-003]: Giới hạn độ dài Tên khu vực 100 ký tự
+            if (et.TenKhuVuc.Length > 100) return "Tên khu vực không được vượt quá 100 ký tự.";
+
             var ds = _gateway.LoadDS();
             if (isAdd)
             {
