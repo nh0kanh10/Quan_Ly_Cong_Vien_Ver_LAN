@@ -141,7 +141,7 @@ namespace WindowsFormsApp1
                     SoLuongTon = string.IsNullOrWhiteSpace(txtSoLuongTon.Text) ? 0 : Convert.ToInt32(txtSoLuongTon.Text),
                     DonViTinh = txtDonViTinh.Text,
                     TrangThai = cboTrangThai.Text,
-                }; 
+                };
                 return et;
             }
             catch (FormatException)
@@ -340,6 +340,11 @@ namespace WindowsFormsApp1
             {
                 dgvDanhSachDV.DataSource = BUS_DichVu.Instance.TimKiem(tuKhoa);
             }
+        }
+
+        private void btnThoat_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

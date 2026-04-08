@@ -36,6 +36,9 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.8.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.8.0\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -53,8 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BUS_BangGia.cs" />
+    <Compile Include="BUS_BANVE.cs" />
     <Compile Include="BUS_DanhMucDichVu.cs" />
     <Compile Include="BUS_DichVu.cs" />
+    <Compile Include="BUS_KhachHang.cs" />
+    <Compile Include="BUS_KhuyenMai.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="BUS_KhuVuc.cs" />
     <Compile Include="BUS_TroChoi.cs" />

@@ -70,8 +70,8 @@ namespace BUS
                 return "Tên dịch vụ không được chứa 2 khoảng trắng liên tiếp";
 
             // Không cho ký tự đặc biệt
-            if (!System.Text.RegularExpressions.Regex.IsMatch(et.TenDichVu, @"^[\p{L}0-9 ]+$"))
-                return "Tên dịch vụ không được chứa ký tự đặc biệt";
+            //if (!System.Text.RegularExpressions.Regex.IsMatch(et.TenDichVu, @"^[\p{L}0-9 ]+$"))
+            //    return "Tên dịch vụ không được chứa ký tự đặc biệt";
 
             if (string.IsNullOrWhiteSpace(et.DonViTinh))
                 return "Vui lòng nhập đơn vị tính";
@@ -95,11 +95,11 @@ namespace BUS
             if (string.IsNullOrWhiteSpace(et.TrangThai))
                 return "Vui lòng chọn trạng thái";
 
-            if (et.SoLuongTon < 0)
-                return "Số lượng tồn không được âm";
+            //if (et.SoLuongTon < 0)
+            //    return "Số lượng tồn không được âm";
 
-            if (et.GiaBan < 0)
-                return "Giá bán không được âm";
+            //if (et.GiaBan < 0)
+            //    return "Giá bán không được âm";
            
             // Kiểm tra trùng tên
             if (DAL_DichVu.Instance.KiemTraTrungTen(et.TenDichVu.Trim(), laThem ? null : et.MaCode))

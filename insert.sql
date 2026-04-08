@@ -152,3 +152,86 @@ VALUES
 
 
 SELECT * FROM BangGia WHERE MaDichVu = 3
+
+ALTER TABLE DichVu
+DROP CONSTRAINT CK_DichVu_SoLuongTon;
+
+
+SELECT name
+FROM sys.check_constraints
+WHERE parent_object_id = OBJECT_ID('DichVu');
+
+INSERT INTO KhachHang 
+(HoTen, SoDienThoai, Email, TongChiTieu, DiemTichLuy, DiaChi, NgaySinh, GioiTinh, NgayTao)
+VALUES 
+(N'Nguyễn Văn An', '0901234567', 'an@gmail.com', 0, 0, N'Hà Nội', '1995-05-10', N'Nam', GETDATE()),
+(N'Trần Thị Bình', '0912345678', 'binh@gmail.com', 0, 0, N'Hồ Chí Minh', '1998-08-20', N'Nữ', GETDATE()),
+(N'Lê Văn Cường', '0923456789', NULL, 0, 0, N'Đà Nẵng', '1992-03-15', N'Nam', GETDATE()),
+(N'Phạm Thị Dung', '0934567890', NULL, 0, 0, N'Hải Phòng', '2000-12-01', N'Nữ', GETDATE()),
+(N'Hoàng Văn Em', '0945678901', NULL, 0, 0, N'Cần Thơ', '1997-07-07', N'Nam', GETDATE()),
+
+-- test trùng tên
+(N'Nguyễn Văn An', '0956789012', NULL, 0, 0, N'Hà Nội', '1996-06-06', N'Nam', GETDATE()),
+
+-- test tìm theo số
+(N'Khách Lẻ 1', '0981111111', NULL, 0, 0, NULL, NULL, NULL, GETDATE()),
+(N'Khách Lẻ 2', '0982222222', NULL, 0, 0, NULL, NULL, NULL, GETDATE()),
+
+-- test không có SĐT
+(N'Khách Không SĐT', NULL, NULL, 0, 0, NULL, NULL, NULL, GETDATE());
+
+SELECT * FROM KhachHang
+
+INSERT INTO KhuyenMai
+(TenKhuyenMai, LoaiGiamGia, GiaTriGiam, DonToiThieu, NgayBatDau, NgayKetThuc, MaSuKien, TrangThai, NgayTao, NgayCapNhat)
+VALUES
+-- Giảm 10%
+(N'Giảm 10% hóa đơn', N'PhanTram', 10, 100000, GETDATE(), '2026-8-25', NULL, 1, GETDATE(), NULL),
+
+-- Giảm 20%
+(N'Giảm 20%', N'PhanTram', 20, 200000, GETDATE(), '2026-7-20', NULL, 1, GETDATE(), NULL),
+
+-- Giảm 50k
+(N'Giảm 50.000đ', N'SoTien', 50000, 150000, GETDATE(), '2026-12-31', NULL, 1, GETDATE(), NULL),
+
+-- Giảm 100k
+(N'Giảm 100.000đ', N'SoTien', 100000, 300000, GETDATE(), '2026-11-25', NULL, 1, GETDATE(), NULL);
+
+select * from NhanVien
+INSERT INTO NhanVien (
+    MaCode, HoTen, SoDienThoai, Email, CCCD,
+    GioiTinh, NgaySinh, DiaChi,
+    ChucVu, MaKhuVuc,
+    NgayVaoLam, TrangThai, NgayTao
+)
+VALUES
+('NV001', N'Nguyễn Văn A', '0900000001', 'a@gmail.com', '123456789012',
+ N'Nam', '1995-01-01', N'Hà Nội',
+ N'Nhân viên', NULL,
+ GETDATE(), N'Đang làm việc', GETDATE()),
+
+('NV002', N'Trần Thị B', '0900000002', 'b@gmail.com', '123456789013',
+ N'Nữ', '1997-05-10', N'HCM',
+ N'Nhân viên', NULL,
+ GETDATE(), N'Đang làm việc', GETDATE());
+
+ SELECT * FROM HoaDon ORDER BY MaHoaDon DESC
+ SELECT * FROM ChiTietHoaDon_Ve ORDER BY MaChiTietVe DESC
+SELECT * FROM ChiTietHoaDon_DichVu ORDER BY MaChiTietDichVu DESC
+
+SELECT MaHoaDon, MaKhachHang, TongTien
+FROM HoaDon
+ORDER BY MaHoaDon DESC
+SELECT * FROM HoaDon WHERE MaKhachHang =1
+
+--ALTER TABLE HoaDon DROP CONSTRAINT CK_HoaDon_PhuongThuc;
+ALTER TABLE HoaDon
+ADD CONSTRAINT CK_HoaDon_PhuongThuc 
+CHECK (PhuongThuc IN 
+(
+    'TienMat',
+    'ChuyenKhoan',
+    'Momo',
+    'ZaloPay',
+    'ShopeePay'
+));

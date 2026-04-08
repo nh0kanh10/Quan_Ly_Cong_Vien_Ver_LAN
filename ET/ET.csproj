@@ -36,6 +36,9 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.8.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.8.0\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -56,6 +59,9 @@
     <Compile Include="ET_BangGia.cs" />
     <Compile Include="ET_DanhMucDV.cs" />
     <Compile Include="ET_DichVu.cs" />
+    <Compile Include="ET_GioHang.cs" />
+    <Compile Include="ET_KHACHHANG.cs" />
+    <Compile Include="ET_KhuyenMai.cs" />
     <Compile Include="ET_TroChoi.cs" />
     <Compile Include="ET_KhuVuc.cs" />
     <Compile Include="ET_LoaiVe.cs" />
