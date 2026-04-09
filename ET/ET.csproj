@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>a79923db-5518-4986-959e-209cec915521</ProjectGuid>
+    <ProjectGuid>{A79923DB-5518-4986-959E-209CEC915521}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ET</RootNamespace>
@@ -31,29 +31,110 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Net.Http"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
-    <Compile Include="ET_TroChoi.cs" />
+    <Compile Include="AppConstants.cs" />
+    <Compile Include="ET_BaiDoXe.cs" />
+    <Compile Include="ET_GiaGuiXe.cs" />
+    <Compile Include="ET_LuotVaoRaBaiXe.cs" />
+    <Compile Include="ET_BangGia.cs" />
+    <Compile Include="ET_CauHinhNgayLe.cs" />
+    <Compile Include="ET_BanAn.cs" />
+    <Compile Include="ET_BaoTriPhuongTienDua.cs" />
+    <Compile Include="ET_CaTrucCuuHo.cs" />
+    <Compile Include="ET_ChatLuongNuoc.cs" />
+    <Compile Include="ET_ChiTietDatBan.cs" />
+    <Compile Include="ET_ChiTietDatPhong.cs" />
+    <Compile Include="ET_ChiTietDonHang.cs" />
+    <Compile Include="ET_ChiTietNhapKho.cs" />
+    <Compile Include="ET_ChiTietXuatKho.cs" />
+    <Compile Include="ET_ChoinghiMat.cs" />
+    <Compile Include="ET_ChuongTrai.cs" />
+    <Compile Include="ET_Combo.cs" />
+    <Compile Include="ET_ComboChiTiet.cs" />
+    <Compile Include="ET_DatBan.cs" />
+    <Compile Include="ET_DatChoThuAn.cs" />
+    <Compile Include="ET_DatPhongChiTiet.cs" />
+    <Compile Include="ET_DoanKhach.cs" />
+    <Compile Include="ET_DoanKhach_DichVu.cs" />
+    <Compile Include="ET_ThatLac.cs" />
+    <Compile Include="ET_DongVat.cs" />
+    <Compile Include="ET_DonHang.cs" />
+    <Compile Include="ET_DonViTinh.cs" />
+    <Compile Include="ET_DuongDua.cs" />
+    <Compile Include="ET_GiaiDua.cs" />
+    <Compile Include="ET_GiaoDichVi.cs" />
+    <Compile Include="ET_KetQuaDua.cs" />
+    <Compile Include="ET_KhachHang.cs" />
+    <Compile Include="ET_KhanDai.cs" />
+    <Compile Include="ET_KhoHang.cs" />
     <Compile Include="ET_KhuVuc.cs" />
-    <Compile Include="ET_LoaiVe.cs" />
-    <Compile Include="ET_ComboDetailView.cs" />
-    <Compile Include="ET_TaiKhoan.cs" />
+    <Compile Include="ET_KhuVucBien.cs" />
+    <Compile Include="ET_KhuVucThu.cs" />
+    <Compile Include="ET_KhuyenMai.cs" />
+    <Compile Include="ET_Kiosk.cs" />
+    <Compile Include="ET_LichChoAn.cs" />
+    <Compile Include="ET_LichTaoSong.cs" />
+    <Compile Include="ET_LichThiDau.cs" />
+    <Compile Include="ET_LoaiHinhDua.cs" />
+    <Compile Include="ET_NguaDua.cs" />
+    <Compile Include="ET_NhaCungCap.cs" />
+    <Compile Include="ET_NhaHang.cs" />
+    <Compile Include="ET_NhanVien.cs" />
+    <Compile Include="ET_PhanQuyen.cs" />
+    <Compile Include="ET_PhieuChi.cs" />
+    <Compile Include="ET_PhieuNhapKho.cs" />
+    <Compile Include="ET_PhieuThu.cs" />
+    <Compile Include="ET_PhieuXuatKho.cs" />
+    <Compile Include="ET_Phong.cs" />
+    <Compile Include="ET_PhuongTienDua.cs" />
+    <Compile Include="ET_QuyDoiDonVi.cs" />
+    <Compile Include="ET_QuyenHan.cs" />
+    <Compile Include="ET_SanPham.cs" />
+    <Compile Include="ET_TheKho_View.cs" />
+    <Compile Include="ET_TroChoi.cs" />
+    <Compile Include="ET_SanPham_Ve.cs" />
+    <Compile Include="ET_VeKhanDai.cs" />
+    <Compile Include="ET_SuCo.cs" />
+    <Compile Include="ET_TheRFID.cs" />
+    <Compile Include="ET_ThietBiTaoSong.cs" />
+    <Compile Include="ET_ThueChoi.cs" />
+    <Compile Include="ET_ThueDoChiTiet.cs" />
+    <Compile Include="ET_ThueTu.cs" />
+    <Compile Include="ET_TonKho_View.cs" />
+    <Compile Include="ET_TheKho.cs" />
+    <Compile Include="ET_DashboardKho.cs" />
+    <Compile Include="ET_TonKho.cs" />
+    <Compile Include="ET_SuKien.cs" />
+    <Compile Include="ET_LichLamViec.cs" />
+    <Compile Include="ET_DanhSachThietBi.cs" />
+    <Compile Include="ET_LichBaoTri.cs" />
+    <Compile Include="ET_LichSuDiem.cs" />
+    <Compile Include="ET_QuyTacDiem.cs" />
+    <Compile Include="ET_TuDo.cs" />
+    <Compile Include="ET_VaiTro.cs" />
+    <Compile Include="ET_VanDongVien.cs" />
+    <Compile Include="ET_VeDienTu.cs" />
+    <Compile Include="ET_VeDoXeChiTiet.cs" />
+    <Compile Include="ET_ViDienTu.cs" />
+    <Compile Include="ET_ViTriNgoi.cs" />
+    <Compile Include="ET_CheckOutInfo.cs" />
+    <Compile Include="ET_RoomMapItem.cs" />
+    <Compile Include="ET_RentalCartItem.cs" />
+    <Compile Include="SessionManager.cs" />
+    <Compile Include="ResponseResult.cs" />
+    <Compile Include="OperationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
- </Project>
+</Project>

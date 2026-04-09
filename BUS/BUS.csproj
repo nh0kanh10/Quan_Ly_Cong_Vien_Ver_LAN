@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>87a2ef55-0e0f-49a7-a24f-365078f0d382</ProjectGuid>
+    <ProjectGuid>{87A2EF55-0E0F-49A7-A24F-365078F0D382}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BUS</RootNamespace>
@@ -31,14 +31,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    <Reference Include="Microsoft.CSharp"/>
-    <Reference Include="System.Data"/>
-    <Reference Include="System.Net.Http"/>
-    <Reference Include="System.Xml"/>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">
@@ -46,16 +48,63 @@
       <Name>DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\ET\ET.csproj">
-      <Project>{290f6b89-6058-450f-a492-c9431c34a2f7}</Project>
+      <Project>{a79923db-5518-4986-959e-209cec915521}</Project>
       <Name>ET</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BUS_Connection.cs" />
+    <Compile Include="BUS_NhaHang.cs" />
+    <Compile Include="BUS_QuyenHan.cs" />
     <Compile Include="BUS_KhuVuc.cs" />
-    <Compile Include="BUS_LoaiVe.cs" />
-    <Compile Include="BUS_TaiKhoan.cs" />
+    <Compile Include="BUS_KhachHang.cs" />
+    <Compile Include="BUS_KhuyenMai.cs" />
+    <Compile Include="BUS_SuKien.cs" />
+    <Compile Include="BUS_DonViTinh.cs" />
+    <Compile Include="BUS_NhanVien.cs" />
+    <Compile Include="BUS_DonHang.cs" />
+    <Compile Include="BUS_SanPham.cs" />
+    <Compile Include="BUS_GiaoDichVi.cs" />
+    <Compile Include="BUS_TheKho.cs" />
+    <Compile Include="BUS_TichDiem.cs" />
+    <Compile Include="BUS_ViDienTu.cs" />
+    <Compile Include="BUS_TheRFID.cs" />
+    <Compile Include="BUS_ChiTietDonHang.cs" />
+    <Compile Include="BUS_ChiTietDatPhong.cs" />
+    <Compile Include="BUS_ChiTietNhapKho.cs" />
+    <Compile Include="BUS_ChiTietXuatKho.cs" />
+    <Compile Include="BUS_PhieuNhapKho.cs" />
+    <Compile Include="BUS_PhieuXuatKho.cs" />
+    <Compile Include="BUS_PhieuThuChi.cs" />
+    <Compile Include="BUS_Combo.cs" />
+    <Compile Include="BUS_KhoHang.cs" />
+    <Compile Include="BUS_NhaCungCap.cs" />
+    <Compile Include="BUS_DatPhongChiTiet.cs" />
+    <Compile Include="BUS_Dependencies.cs" />
+    <Compile Include="BUS_VaiTro.cs" />
+    <Compile Include="BUS_PhanQuyen.cs" />
+    <Compile Include="BUS_Phong.cs" />
+    <Compile Include="BUS_VeDienTu.cs" />
+    <Compile Include="BUS_BangGia.cs" />
+    <Compile Include="BUS_ThueDo.cs" />
+    <Compile Include="BUS_GuiXe.cs" />
     <Compile Include="BUS_TroChoi.cs" />
+    <Compile Include="BUS_KhuVucThu.cs" />
+    <Compile Include="BUS_KhuVucBien.cs" />
+    <Compile Include="BUS_BanAn.cs" />
+    <Compile Include="BUS_ChoiNghiMat.cs" />
+    <Compile Include="BUS_ChuongTrai.cs" />
+    <Compile Include="BUS_DongVat.cs" />
+    <Compile Include="BUS_ChatLuongNuoc.cs" />
+    <Compile Include="BUS_DatBan.cs" />
+    <Compile Include="BUS_DoanKhach.cs" />
+    <Compile Include="BUS_LichChoAn.cs" />
+    <Compile Include="BUS_SuCo.cs" />
+    <Compile Include="BUS_ThatLac.cs" />
+    <Compile Include="BUS_LichLamViec.cs" />
+    <Compile Include="BUS_DanhSachThietBi.cs" />
+    <Compile Include="BUS_LichBaoTri.cs" />
+    <Compile Include="IBaseBUS.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

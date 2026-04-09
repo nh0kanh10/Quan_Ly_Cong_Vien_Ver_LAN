@@ -1,0 +1,197 @@
+================================================================================
+  LUỒNG NGHIỆP VỤ & QUAN HỆ DỮ LIỆU (1–N, N–N) – QUẢN LÝ CÔNG VIÊN GIẢI TRÍ
+================================================================================
+Tham chiếu schema: database/QuanLyCongVien.sql
+
+--------------------------------------------------------------------------------
+PHẦN 1 – CÂU CHUYỆN NGHIỆP VỤ (TỪ LÚC KHÁCH ĐẾN CÔNG VIÊN)
+--------------------------------------------------------------------------------
+
+Bước 1 – Đến cổng / quầy bán (POS)
+  • Khách (có thể là “vãng lai” không lưu hồ sơ, hoặc có MaKhachHang nếu đăng ký).
+  • Nhân viên thuộc một KhuVuc (ví dụ quầy vé) lập HoaDon.
+  • Trên MỘT hóa đơn có thể:
+      – Mua nhiều DÒNG vé khác nhau (vé người lớn, trẻ em, combo…) → mỗi dòng là
+        một bản ghi ChiTietHoaDon_Ve (có SoLuong > 1 nếu mua nhiều cùng loại).
+      – Mua thêm dịch vụ (nước, locker, giữ trẻ…) → các dòng ChiTietHoaDon_DichVu.
+  → Quan hệ: 1 HoaDon có 0..n dòng vé + 0..n dòng dịch vụ (thực tế thường >0 ít nhất
+    một loại).
+
+Bước 2 – Áp giá & khuyến mãi
+  • Giá có thể lấy từ BangGia (theo LoaiNgay, khoảng ngày) hoặc fallback GiaVe/GiaBan.
+  • HoaDon có thể gắn MaKhuyenMai; DiemNhan/DiemDung phục vụ đổi điểm thành viên.
+
+Bước 3 – Sau thanh toán (TrangThai = Đã thanh toán)
+  • Với mỗi vé cần dùng (thường tách theo từng chiếc vé / mã QR): hệ thống tạo
+    VeDaPhatHanh gắn với MaChiTietVe (dòng vé trên hóa đơn) + MaLoaiVe + MaQR.
+  • Một dòng ChiTietHoaDon_Ve với SoLuong = 3 → thường có 3 bản ghi VeDaPhatHanh
+    (3 mã QR), trừ khi nghiệp vụ gộp (tùy code ứng dụng).
+
+Bước 4 – Vào cổng / chơi trò chơi
+  • Quyền lợi của từng LoaiVe được định nghĩa ở QuyenLoiVe (vào khu nào, trò nào,
+    bao nhiêu lượt…).
+  • Mỗi lần quét vé thành công/thất bại ghi LichSuQuetVe (gắn VeDaPhatHanh, có thể
+    có MaTroChoi hoặc MaKhuVuc).
+
+Bước 5 – Khách quay lại / ví (tùy module)
+  • KhachHang có thể có ViDienTu; mỗi giao dịch ví → LichSuGiaoDichVi.
+
+→ Tóm lại luồng chính:  KhachHang? → HoaDon → ChiTietHoaDon_Ve / ChiTietHoaDon_DichVu
+   → VeDaPhatHanh → LichSuQuetVe, với master data KhuVuc, TroChoi, LoaiVe, DichVu,
+   QuyenLoiVe, BangGia.
+
+
+--------------------------------------------------------------------------------
+PHẦN 2 – QUAN HỆ KIỂU ER (CARDINALITY) – ĐỌC THEO CHIỀU “MỘT – NHIỀU”
+--------------------------------------------------------------------------------
+
+Ký hiệu:
+  1    = đúng một
+  0..1 = không hoặc một
+  1..n = một đến nhiều
+  0..n = không đến nhiều
+
+--- Khu vực & trò chơi ---
+  KhuVuc (1) ──< (0..n) TroChoi        Một khu có nhiều trò chơi; mỗi trò chơi thuộc 1 khu.
+  KhuVuc (1) ──< (0..n) NhanVien       Nhân viên có thể được gán khu (NULL = không gán).
+  KhuVuc (1) ──< (0..n) DichVu        Dịch vụ có thể gắn khu (NULL).
+
+--- Loại vé & combo (N–N được “giải” bằng bảng trung gian) ---
+  LoaiVe (1) ──< (0..n) ChiTietCombo (MaLoaiVeCha)   Gói combo (vé cha).
+  LoaiVe (1) ──< (0..n) ChiTietCombo (MaLoaiVeCon)    Thành phần vé con trong combo.
+  → Quan hệ giữa hai LoaiVe là N–N (nhiều–nhiều) THÔNG QUA ChiTietCombo,
+     ràng buộc UNIQUE(MaLoaiVeCha, MaLoaiVeCon): mỗi cặp cha–con chỉ một dòng.
+
+  LoaiVe (1) ──< (1..n) QuyenLoiVe     Một loại vé có nhiều dòng quyền lợi (cổng, khu, trò…).
+  → Với TroChoi/KhuVuc: một LoaiVe “liên kết” nhiều khu/trò qua nhiều bản ghi
+     QuyenLoiVe (không phải bảng N–N thuần vì có thêm SoLuotChoPhep, CooldownGiay…).
+
+--- Danh mục dịch vụ ---
+  DanhMucDichVu (1) ──< (0..n) DichVu  Một danh mục có nhiều dịch vụ.
+
+--- Khách & hóa đơn ---
+  KhachHang (1) ──< (0..n) HoaDon      Một khách có nhiều hóa đơn; HoaDon.MaKhachHang NULL = khách vãng lai.
+  NhanVien (1) ──< (1..n) HoaDon       Mỗi hóa đơn do đúng một nhân viên lập.
+
+  HoaDon (1) ──< (0..n) ChiTietHoaDon_Ve      Một HĐ có nhiều dòng vé (có thể nhiều loại vé).
+  HoaDon (1) ──< (0..n) ChiTietHoaDon_DichVu  Một HĐ có nhiều dòng dịch vụ.
+
+  LoaiVe (1) ──< (0..n) ChiTietHoaDon_Ve      Một loại vé xuất hiện trên nhiều dòng (nhiều HĐ).
+  DichVu (1) ──< (0..n) ChiTietHoaDon_DichVu  Một dịch vụ xuất hiện trên nhiều dòng.
+
+--- Phát hành vé & quét ---
+  ChiTietHoaDon_Ve (1) ──< (0..n) VeDaPhatHanh   FK MaChiTietVe; CASCADE DELETE từ dòng vé.
+  LoaiVe (1) ──< (1..n) VeDaPhatHanh            Mỗi vé phát hành thuộc một loại vé (denormalized).
+
+  VeDaPhatHanh (1) ──< (0..n) LichSuQuetVe      Một vé có nhiều lần quét theo thời gian.
+
+--- Giá động ---
+  LoaiVe (1) ──< (0..n) BangGia        Một loại vé có nhiều mức giá theo ngày/khoảng thời gian.
+  DichVu (1) ──< (0..n) BangGia        Tương tự cho dịch vụ.
+  Ràng buộc CK: mỗi dòng BangGia chỉ MaLoaiVe HOẶC MaDichVu (không cả hai).
+
+--- Tài khoản & nhân viên ---
+  NhanVien (0..1) ──< (0..n) TaiKhoan  MaNhanVien có thể NULL; một nhân viên có thể có tài khoản.
+
+--- Ví ---
+  KhachHang (0..1) ──< (0..n) ViDienTu  (MaKhachHang có thể NULL tùy nghiệp vụ).
+  ViDienTu (1) ──< (0..n) LichSuGiaoDichVi  CASCADE DELETE.
+
+--- Khuyến mãi ---
+  SuKien (0..1) ──< (0..n) KhuyenMai
+  KhuyenMai (0..1) ──< (0..n) HoaDon
+
+--- Ca làm ---
+  NhanVien (1) ──< (0..n) PhanCa
+  CaLam (1) ──< (0..n) PhanCa
+
+--- Bảo trì ---
+  TroChoi (1) ──< (0..n) BaoTri
+
+
+--------------------------------------------------------------------------------
+PHẦN 3 – BẢNG CHÍNH: THUỘC TÍNH (TÓM TẮT THEO SCHEMA)
+--------------------------------------------------------------------------------
+
+KhuVuc
+  MaKhuVuc, MaCode, TenKhuVuc, MoTa, TrangThai, NgayTao, NgayCapNhat
+
+TroChoi
+  MaTroChoi, MaCode, TenTroChoi, MaKhuVuc, LoaiTroChoi, SucChua, TuoiToiThieu,
+  ChieuCaoToiThieu, ThoiGianLuot, MoTa, TrangThai, NgayTao, NgayCapNhat
+
+LoaiVe
+  MaLoaiVe, MaCode, TenLoaiVe, GiaVe, DoiTuong, LaCombo, TrangThai, NgayTao, NgayCapNhat
+
+ChiTietCombo
+  MaChiTietCombo, MaLoaiVeCha, MaLoaiVeCon, SoLuotChoPhep, NgayTao, NgayCapNhat
+
+DanhMucDichVu
+  MaDanhMuc, TenDanhMuc, KieuLogic, MoTa, Icon
+
+DichVu
+  MaDichVu, MaCode, TenDichVu, MaDanhMuc, MaKhuVuc, GiaBan, SoLuongTon, DonViTinh,
+  TrangThai, NgayTao, NgayCapNhat
+
+KhachHang
+  MaKhachHang, HoTen, SoDienThoai, Email, MaThanhVien, NgayHetHanThe, TongChiTieu,
+  DiemTichLuy, DiaChi, NgaySinh, GioiTinh, NgayTao, NgayCapNhat
+
+NhanVien
+  MaNhanVien, MaCode, HoTen, SoDienThoai, Email, CCCD, GioiTinh, NgaySinh, DiaChi,
+  ChucVu, MaKhuVuc, NgayVaoLam, TrangThai, NgayTao, NgayCapNhat
+
+TaiKhoan
+  MaTaiKhoan, TenDangNhap, MatKhau, HoTen, VaiTro, MaNhanVien, TrangThai,
+  NgayTao, NgayCapNhat
+
+HoaDon
+  MaHoaDon, MaCode, MaKhachHang, MaNhanVien, NgayLap, TongTien, TienGiamGia, ThanhToan,
+  PhuongThuc, GhiChu, MaKhuyenMai, DiemNhan, DiemDung, TrangThai, NgayCapNhat
+
+ChiTietHoaDon_Ve
+  MaChiTietVe, MaHoaDon, MaLoaiVe, TenSanPham, DonGia, SoLuong, ThanhTien,
+  GhiChuChiTiet, NgayTao
+
+ChiTietHoaDon_DichVu
+  MaChiTietDichVu, MaHoaDon, MaDichVu, TenSanPham, DonGia, SoLuong, ThanhTien,
+  GhiChuChiTiet, NgayTao
+
+VeDaPhatHanh
+  MaVePhatHanh, MaQR, MaChiTietVe, MaLoaiVe, TrangThai, SoLuotConLai, NgayPhatHanh,
+  NgayHetHan, NgaySuDungDauTien, NgayCapNhat
+
+LichSuQuetVe
+  MaLichSu, MaVePhatHanh, MaTroChoi, MaKhuVuc, ThoiGianQuet, KetQua, LyDoTuChoi,
+  MaNhanVienSoatVe
+
+QuyenLoiVe
+  MaQuyenLoi, MaLoaiVe, LoaiQuyen, MaTroChoi, MaKhuVuc, SoLuotChoPhep, CooldownGiay,
+  NgayTao, NgayCapNhat
+
+BangGia
+  MaBangGia, MaLoaiVe, MaDichVu, LoaiNgay, GiaBan, NgayBatDau, NgayKetThuc,
+  TrangThai, NgayTao, NgayCapNhat
+
+ViDienTu / LichSuGiaoDichVi
+  (theo schema: MaVi, MaKhachHang, MaRFID, SoDu, TienCoc, … / MaGiaoDich, MaVi,
+   LoaiGiaoDich, SoTien, SoDuTruoc, SoDuSau, MaThamChieu, …)
+
+CauHinhHeThong
+  MaCauHinh (PK), GiaTri, MoTa, NgayCapNhat
+
+
+--------------------------------------------------------------------------------
+PHẦN 4 – GỢI Ý ĐỌC NHANH “MUA NHIỀU VÉ TRÊN MỘT HÓA ĐƠN”
+--------------------------------------------------------------------------------
+
+  • “Nhiều loại vé” = nhiều DÒNG trong ChiTietHoaDon_Ve (khác MaLoaiVe hoặc cùng
+    MaLoaiVe nhưng là hai dòng khác nhau tùy cách nhập – thường gộp một dòng +
+    SoLuong).
+  • “Nhiều vé cùng loại” = một dòng ChiTietHoaDon_Ve với SoLuong > 1.
+  • “Vé combo” = LoaiVe.LaCombo = 1; thành phần xem ChiTietCombo; quyền lợi chi
+    tiết xem QuyenLoiVe.
+
+================================================================================
+HẾT TÀI LIỆU
+================================================================================

@@ -1,0 +1,88 @@
+@page "/settings"
+@inject DaiNamWeb.Client.Services.AuthService Auth
+@inject NavigationManager Nav
+
+<div class="page-header" style="margin-bottom:var(--sp-24)">
+    <h1>Cài Đặt Tài Khoản</h1>
+    <p>Cập nhật thông tin cá nhân và định danh.</p>
+</div>
+@if (profile == null)
+{
+    <div>Đang tải thông tin...</div>
+}
+else
+{
+    <div class="card" style="max-width: 600px">
+        <EditForm Model="profile" OnValidSubmit="SaveProfile">
+            @if (!string.IsNullOrEmpty(msg))
+            {
+                <div class="alert alert-@(success ? "success" : "danger")">@msg</div>
+            }
+
+            <div class="form-group">
+                <label>Họ và tên</label>
+                <InputText class="form-control" @bind-Value="profile.HoTen" />
+            </div>
+
+            <div class="form-group">
+                <label>Số điện thoại</label>
+                <InputText class="form-control" @bind-Value="profile.SoDienThoai" disabled="true" />
+                <small style="color:var(--outline-variant); font-size:11px">Số điện thoại là định danh gốc, không thể thay đổi.</small>
+            </div>
+
+            <div class="form-group">
+                <label>Email liên hệ</label>
+                <InputText class="form-control" @bind-Value="profile.Email" placeholder="vd: ban@email.com" />
+            </div>
+            
+            <div class="form-group">
+                <label>Giới tính</label>
+                <InputSelect class="form-control" @bind-Value="profile.GioiTinh">
+                    <option value="">(Chọn)</option>
+                    <option value="Nam">Nam</option>
+                    <option value="Nữ">Nữ</option>
+                    <option value="Khác">Khác</option>
+                </InputSelect>
+            </div>
+
+            <div class="form-group">
+                <label>Địa chỉ</label>
+                <InputText class="form-control" @bind-Value="profile.DiaChi" />
+            </div>
+
+            <button type="submit" class="btn btn-gold" style="width:100%; margin-top:var(--sp-16)" disabled="@isSaving">
+                @(isSaving ? "Đang lưu..." : "Cập nhật thông tin")
+            </button>
+        </EditForm>
+    </div>
+}
+
+@code {
+    DaiNamWeb.Client.Models.CustomerProfile? profile;
+    bool isSaving;
+    bool success;
+    string msg = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!Auth.IsLoggedIn)
+        {
+            Nav.NavigateTo("/login");
+            return;
+        }
+
+        profile = await Auth.GetProfile();
+    }
+
+    async Task SaveProfile()
+    {
+        if (profile == null) return;
+        isSaving = true;
+        msg = "";
+        
+        var resp = await Auth.UpdateProfile(profile);
+        success = resp;
+        msg = resp ? "Cập nhật thông tin thành công." : "Có lỗi xảy ra, vui lòng thử lại.";
+        isSaving = false;
+    }
+}

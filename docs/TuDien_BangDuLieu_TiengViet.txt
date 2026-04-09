@@ -1,0 +1,183 @@
+===================================================================================================
+TỪ ĐIỂN CÁC BẢNG DỮ LIỆU (ĐỌC HIỂU KIỂU NGƯỜI TRẦN MẮT THỊT)
+Mục đích: Viết lại toàn bộ thuộc tính Database ra Tiếng Việt có dấu, lược bỏ ba cái Khóa Ngoại Ràng Buộc rối rắm để dân Ngoại Đạo đọc vô hiểu ngay CSDL đang lưu cái mẹ gì.
+===================================================================================================
+
+[ NHÓM 1: THÔNG TIN GỐC (MASTER DATA) ]
+
+1. Bảng VAI TRÒ (VaiTro)
+- id: Mã định danh vai trò
+- ten_vai_tro: Tên vai trò (VD: Thu ngân, Bảo vệ, Admin)
+
+2. Bảng QUYỀN HẠN (QuyenHan)
+- id: Mã định danh quyền
+- ma_quyen: Mã code của quyền (VD: XEM_DOANH_THU)
+- mo_ta: Bảng giải thích quyền này dùng làm gì
+
+3. Bảng PHÂN QUYỀN (PhanQuyen)
+- id_vai_tro: Lấy nhân viên chức gì...
+- id_quyen: ...Móc với cái quyền gì.
+
+4. Bảng NHÂN VIÊN (NhanVien)
+- id: Mã nhân viên
+- id_vai_tro: Nắm giữ vai trò gì
+- ho_ten: Tên cúng cơm nhân viên
+- chuc_vu: Chức vụ hiện tại
+- bo_phan: Thuộc phòng ban nào
+- dien_thoai: Số điện thoại
+- created_at: Ngày tạo tài khoản
+- is_deleted: Đã bị đuổi việc chưa (0 là chưa, 1 lag cút)
+
+5. Bảng ĐOÀN KHÁCH (DoanKhach)
+- id: Mã đoàn
+- ten_doan: Tên công ty/trường học
+- ma_so_thue: Mã số thuế xuất hóa đơn
+- nguoi_dai_dien: Tên ông Trưởng đoàn
+- dien_thoai_lien_he: Số ĐT ông Trưởng đoàn
+- chiet_khau: Bán sĩ giảm bao nhiêu %
+- is_deleted: Đoàn này bị cho vào Blacklist chưa
+
+6. Bảng KHÁCH HÀNG (KhachHang)
+- id: Mã khách
+- ho_ten: Tên khách
+- email: Hộp thư
+- dien_thoai: Số điện thoại
+- cmnd_cccd: Căn cước công dân
+- loai_khach: Khách lẻ, đi theo đoàn hay đi công tác
+- diem_tich_luy: Thẻ thành viên được mấy điểm rồi
+- id_doan: Có chui vào đi chung với mâm Đoàn Khách nào ko?
+- ngay_dang_ky: Ngày bắt đầu làm thành viên
+
+7. Bảng ĐƠN VỊ TÍNH (DonViTinh)
+- ten: Tên đơn vị (Lon, Chai, Thùng, Vé)
+- ky_hieu: Viết tắt (L, C, T, V)
+
+8. Bảng SẢN PHẨM (SanPham)
+- ten: Tên món hàng (Bia Tiger, Vé Biển, Phao bơi)
+- loai_san_pham: Thuộc nhóm đồ ăn, vé hay đồ mướn
+- id_don_vi_co_ban: Tính bằng Lon hay Thùng
+- don_gia: Bán nhiêu tiền
+- can_tao_token: Món này có cần quẹt mã QR thu vé không?
+- id_khu_vuc: Bán ở khu nào (Biển hay Nhà Hàng)
+
+9. Bảng QUY ĐỔI ĐƠN VỊ (QuyDoiDonVi)
+- id_san_pham: Sản phẩm nào
+- id_don_vi_nho: Đơn vị bé (VD: Lon)
+- id_don_vi_lon: Đơn vị chà bá (VD: Thùng)
+- ty_le_quy_doi: 1 Thùng bằng bao nhiêu Lon
+- gia_ban_rieng: Mua 1 thùng thì rẻ hơn mua 24 lon bao nhiêu tiền
+- la_don_vi_co_ban: Lấy đơn vị nào làm chuẩn xuất kho
+
+[ NHÓM 2: KHUYẾN MÃI VÀ HÓA ĐƠN ]
+
+10. Bảng KHUYẾN MÃI (KhuyenMai)
+- ma_code: Mã giảm giá (VD: HE2025)
+- phan_tram_giam: Giảm mấy phần trăm
+- giam_toi_da: Đụng trần giảm được mấy ngàn
+- tien_giam_truc_tiep: Trừ thẳng tờ 50 cành zô mặt
+- ngay_het_han: Bữa nào hết xài được
+- is_deleted: Hủy mã này chưa
+
+11. Bảng ĐƠN HÀNG (DonHang)
+- id: Số thứ tự Bill
+- id_khach_hang: Bill này của ông khách nào
+- id_doan: Hay là của Đoàn nào
+- id_khuyen_mai: Có áp mã Voucher gì vô đây ko
+- tien_giam_gia: Chốt lại giảm được mấy đồng
+- thoi_gian: Lúc mấy giờ xuất cái Bill này
+- tong_tien: TỔNG THIỆT HẠI PHẢI TRẢ
+- trang_thai: Trả tiền chưa, Đang thiếu nợ, hay Bùng luôn rồi (Hủy)
+
+12. Bảng CHI TIẾT ĐƠN HÀNG (ChiTietDonHang)
+- id_don_hang: Giở cái bill đó ra xem bên trong có gì
+- id_san_pham: Có mua món hàng nào đơn lẻ ko
+- id_combo: Hay là quất luôn cái Gói Combo
+- so_luong: Số lượng mấy cái
+- don_gia_thuc_te: Lúc bốc vào giỏ giá bao nhiêu (để mốt lỡ Vật giá leo thang thì cái hóa đơn cũ ko bị nhãy giá theo)
+
+13. Bảng VÉ ĐIỆN TỬ (VeDienTu)
+- id: Mã QR Code chà bá in trên vé (Dòng chữ dài đằng đẵng không ai dịch được)
+- id_chi_tiet_don_hang: Cái vé này sinh ra từ món đồ nào ở trên
+- trang_thai: Chưa xài, Đi qua cổng báo Đã Xài, Tối về vứt thùng rác (hết hạn)
+- thoi_gian_quet: Quẹt cửa lúc mấy giờ
+- id_khach_hang_su_dung: Gán tên thằng nào cầm cái vé này để đi lạc còn bắt loa kêu
+- id_vi_tri_ngoi: Có vé này thì ra khán đài ngồi ghế số mấy
+
+[ NHÓM 3: TIỀN BẠC (VÍ & KẾ TOÁN) ]
+
+14. Bảng VÍ ĐIỆN TỬ (ViDienTu)
+- id: Mã cái Ví
+- id_khach_hang: Ví này con đẻ thằng nào
+- so_du_kha_dung: Trong ví còn bao nhiêu tiền xài được (Mua kẹo mua bim bim)
+- so_du_dong_bang: Tiền đang bị công ty giam giữ (Do thuê phao nên bắt cọc 100k)
+
+15. Bảng THẺ RFID (TheRFID)
+- ma_rfid: Mã tần số của cái vòng nhựa đeo trên tay
+- id_vi: Vòng nhựa này được móc zô cái Ví nào
+- trang_thai: Vòng đang xài ngon, vòng bị mất rớt kẹt máy tạo sóng, hay vòng vừa bị nhân viên Hủy.
+- ngay_kich_hoat / ngay_huy: Ngày sinh ngày tử của cái Vòng
+
+16. Bảng GIAO DỊCH VÍ (GiaoDichVi) -> (Cuốn Sổ Ghi Tay Lịch Sử Trừ Tiền)
+- id_vi: Ví bị trừ/cộng ảo
+- loai_giao_dich: Đang làm trò gì (Nạp thêm tiền zô, Mua đứt tô bún, Giam tiền Cọc phao, Xả tiền cọc trả lại, hay Bị phạt do làm rách phao)
+- so_tien: Mấy đồng
+- HashSignature: Mã băm cực kỳ bí mật, IT nào rớ tay dzô sửa số tiền sẽ bị lộ ngay.
+
+17. Bảng PHIẾU THU (PhieuThu) -> (Tiền Chảy Vô Két Gỗ Công Ty)
+- so_tien: Dọn vô rương cty nhiu tiền
+- phuong_thuc: Thu bằng Tiền Cụ Hồ, Cà thẻ máy POS, hay Zăng tiền qua Momo/VNPAY
+- ma_giao_dich_doi_tac: Mã Bill của Momo bắn lên để về đối chiếu Excel
+
+18. Bảng PHIẾU CHI (PhieuChi) -> (Lấy Tiền Ra Khỏi Két Đi Mua Đồ)
+- so_tien: Xì ra mấy đồng
+- ly_do: Xuất quỹ vì lý do gì (Mua 1 tấn rác, Mua thuốc trị ỉa chãy cho ngựa đua)
+
+[ NHÓM 4: CHO THUÊ ĐỒ ĐẠC KHÁC ]
+
+19. Bảng CHI TIẾT THUÊ ĐỒ (ThueDoChiTiet)
+- id_don_hang: Cục Bill gốc
+- id_san_pham: Mướn cái Thau, Phao hay Xe Điện
+- so_tien_coc: Thu cọc bao nhiêu cành
+- trang_thai_coc: Giam tiền chưa, hay Ói tiền ra lại rồi, hay tịch thu sung công quỹ
+
+20. Bảng TRẠNG THÁI TỦ ĐỒ (TuDo)
+- ma_tu: Đánh số tủ thứ tự (Tủ 01 -> Tủ 99)
+- kich_thuoc: Đựng vừa Balô hay vừa cái Nhẫn vàng
+- trang_thai: Tủ đang bỏ rỗng chờ mướn, Tủ có ng khóa mõm xài rồi, Hay tủ bị kẹt ổ khóa (Bảo Đang Sửa)
+
+[ NHÓM 5: KHÁCH SẠN NGỦ NGHỈ ]
+
+21. Bảng PHÒNG (Phong)
+- ten_phong: Phòng Hoa Hồng, Phòng 202
+- gia_ngay_thuong: Thứ 2 bèo nheo giá nhiêu
+- gia_cuoi_tuan: Mùng 2 Tết giá cắt cổ chém nhiêu
+- trang_thai: Phòng sạch sẽ, Phòng đang nằm ịch, hay Cô Loe đang lau dọn
+
+22. Bảng LỊCH ĐẶT PHÒNG (DatPhongChiTiet)
+- ngay_nhan: Booking từ bữa nào
+- ngay_tra: Cuốn gói biến bữa nào
+- trang_thai: Giữ chỗ mồm, Đã bưng vali lên, hay Gọi đt hủy hẹn mắng vốn.
+
+[ NHÓM 6: BÃI GIỮ XE ]
+
+23. Bảng LƯỢT VÀO RA BÃI (LuotVaoRaBaiXe)
+- bien_so: Camera quét đít xe biển số mấy
+- ma_rfid: Nếu dân VIP đeo thẻ thì quét luôn vòng tay khỏi cần thẻ kẹp nhựa
+- thoi_gian_vao: Giờ chạy xe vô cổng
+- thoi_gian_ra: Giờ dắt xe ra cổng
+- trang_thai: Xe đang trùm mền trong bãi, hay lủi về tỉnh Cà Mau r.
+
+[ NHÓM 7: KIỂM SOÁT THÚ VẬT, LỊCH CHO ĂN & BIỂN ]
+24. Bảng ĐỘNG VẬT (DongVat)
+- ten: Tên cúng cơm con Thú (Hươu Cổ Dài Lucy)
+- loai: Giống nòi giống gì
+- tinh_trang_suc_khoe: Ốm nhom hay béo húp
+
+25. Bảng LỊCH CHO THÚ ĂN (LochChoAn/DatChoThuAn)
+- thoi_gian: Giờ nào thả đồ ăn
+- thuc_an: Dạ dày nó nhồi đc cỏ hay nhồi thịt sống
+- id_khach_hang_don_hang: Giữ vé suất đút cà rốt cho khách nào
+
+(CÁC BẢNG KHÁC GIỘT NHƯ TÊN GỌI KO CẦN GIẢI THÍCH LAN MAN...)
+MỌI THỨ ĐỀU ĐƯỢC PHÂN RẢ ĐỂ DÂN KHÔNG BIẾT GÌ VỀ SQL CŨNG SẼ ĐỌC VÀ HIỂU ĐƯỢC DATA NÓ ĐANG QUẢN TRỊ CÁI GÌ!
+===================================================================================================

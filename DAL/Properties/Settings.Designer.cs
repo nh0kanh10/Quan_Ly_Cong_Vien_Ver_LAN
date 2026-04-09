@@ -44,5 +44,38 @@ namespace DAL.Properties {
                 return ((string)(this["QuanLyCongVienConnectionString1"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=Admin-PC\\SQLEXPRESS;Initial Catalog=QuanLyCongVien;Integrated Securit" +
+            "y=True;TrustServerCertificate=True")]
+        public string QuanLyCongVienConnectionString2 {
+            get {
+                return ((string)(this["QuanLyCongVienConnectionString2"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=DaiNamResort;Integrated Security=True;TrustServerCe" +
+            "rtificate=True")]
+        public string DaiNamResortConnectionString {
+            get {
+                return ((string)(this["DaiNamResortConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=DaiNamResort;Integrated Security=True;Encrypt=True;" +
+            "TrustServerCertificate=True")]
+        public string DaiNamResortConnectionString1 {
+            get {
+                return ((string)(this["DaiNamResortConnectionString1"]));
+            }
+        }
     }
 }

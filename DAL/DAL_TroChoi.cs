@@ -1,224 +1,83 @@
-using ET;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ET;
 
 namespace DAL
 {
+    /// <summary>
+    /// DAL_TroChoi giờ là wrapper: delegate sang DanhSachThietBi filter LoaiThietBi='TroChoi'.
+    /// Giữ lại để các form cũ (frmTroChoi, frmSanPham) không bị break.
+    /// </summary>
     public class DAL_TroChoi
     {
         private static DAL_TroChoi instance;
-
         public static DAL_TroChoi Instance
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new DAL_TroChoi();
-                }
+                if (instance == null) instance = new DAL_TroChoi();
                 return instance;
             }
-            private set
-            {
-                instance = value;
-            }
         }
 
-        public List<ET_TroChoi> loadDS()
+        public List<ET_TroChoi> LoadDS()
         {
-            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-            {
-                var ds = from tc in db.TroChois
-                         join kv in db.KhuVucs on tc.MaKhuVuc equals kv.MaKhuVuc
-                         select new ET_TroChoi
-                         {
-                             MaTroChoi = tc.MaTroChoi,
-                             MaCode = tc.MaCode,
-                             TenTroChoi = tc.TenTroChoi,
-                             MaKhuVuc = tc.MaKhuVuc,
-                             LoaiTroChoi = tc.LoaiTroChoi,
-                             SucChua = tc.SucChua,
-                             TuoiToiThieu = tc.TuoiToiThieu,
-                             ChieuCaoToiThieu = tc.ChieuCaoToiThieu,
-                             ThoiGianLuot = tc.ThoiGianLuot,
-                             MoTa = tc.MoTa,
-                             TrangThai = tc.TrangThai,
-                             NgayTao = tc.NgayTao,
-                             NgayCapNhat = tc.NgayCapNhat
-                         };
-                return ds.ToList();
-            }
-        }
-
-        public List<ET_TroChoi> TimKiem(string tuKhoa)
-        {
-            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-            {
-                var ds = from tc in db.TroChois
-                         join kv in db.KhuVucs on tc.MaKhuVuc equals kv.MaKhuVuc
-                         where tc.TenTroChoi.Contains(tuKhoa)
-                            || tc.MaCode.Contains(tuKhoa)
-                         select new ET_TroChoi
-                         {
-                             MaTroChoi = tc.MaTroChoi,
-                             MaCode = tc.MaCode,
-                             TenTroChoi = tc.TenTroChoi,
-                             MaKhuVuc = tc.MaKhuVuc,
-                             LoaiTroChoi = tc.LoaiTroChoi,
-                             SucChua = tc.SucChua,
-                             TuoiToiThieu = tc.TuoiToiThieu,
-                             ChieuCaoToiThieu = tc.ChieuCaoToiThieu,
-                             ThoiGianLuot = tc.ThoiGianLuot,
-                             MoTa = tc.MoTa,
-                             TrangThai = tc.TrangThai,
-                             NgayTao = tc.NgayTao,
-                             NgayCapNhat = tc.NgayCapNhat
-                         };
-                return ds.ToList();
-            }
-        }
-
-        public string LayMaCodeTiepTheo()
-        {
-            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-            {
-                string maxMaCode = db.TroChois
-                    .Select(tc => tc.MaCode)
-                    .ToList()
-                    .OrderByDescending(mc => int.TryParse(mc.Substring(2), out int num) ? num : 0)
-                    .FirstOrDefault();
-
-                if (string.IsNullOrEmpty(maxMaCode))
-                    maxMaCode = "TC000";
-
-                int maxNumber = 0;
-                if (maxMaCode.Length >= 3)
-                    int.TryParse(maxMaCode.Substring(2), out maxNumber);
-
-                return "TC" + (maxNumber + 1).ToString("D3");
-            }
-        }
-
-        public bool KiemTraTrungTen(string tenTroChoi, int maKhuVuc, string maCodeHienTai = null)
-        {
-            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-            {
-                var query = db.TroChois.Where(tc => tc.TenTroChoi == tenTroChoi && tc.MaKhuVuc == maKhuVuc);
-                if (!string.IsNullOrEmpty(maCodeHienTai))
+            return DAL_DanhSachThietBi.Instance.LoadDSTheoLoai("TroChoi")
+                .Select(x => new ET_TroChoi
                 {
-                    query = query.Where(tc => tc.MaCode != maCodeHienTai);
-                }
-                return query.Any();
-            }
+                    Id = x.Id,
+                    MaCode = x.MaCode,
+                    TenTroChoi = x.TenThietBi,
+                    IdKhuVuc = x.IdKhuVuc,
+                    MoTa = x.MoTa,
+                    TrangThai = x.TrangThai
+                }).ToList();
         }
 
-        public bool ThemTroChoi(ET_TroChoi et)
+        public bool Them(ET_TroChoi et)
         {
-            try
+            return DAL_DanhSachThietBi.Instance.Them(new ET_DanhSachThietBi
             {
-                using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-                {
-                    string nextMaCode = LayMaCodeTiepTheo();
-                    TroChoi tc = new TroChoi
-                    {
-                        MaCode = nextMaCode,
-                        MaKhuVuc = et.MaKhuVuc,
-                        TenTroChoi = et.TenTroChoi,
-                        LoaiTroChoi = et.LoaiTroChoi,
-                        SucChua = et.SucChua,
-                        TuoiToiThieu = et.TuoiToiThieu,
-                        ChieuCaoToiThieu = et.ChieuCaoToiThieu,
-                        ThoiGianLuot = et.ThoiGianLuot,
-                        MoTa = et.MoTa,
-                        TrangThai = et.TrangThai,
-                        NgayTao = DateTime.Now,
-                        NgayCapNhat = null,
-                    };
-                    db.TroChois.InsertOnSubmit(tc);
-                    db.SubmitChanges();
-                    return true;
-                }
-            }
-            catch
-            {
-                return false;
-            }
+                MaCode = et.MaCode,
+                TenThietBi = et.TenTroChoi,
+                LoaiThietBi = "TroChoi",
+                IdKhuVuc = et.IdKhuVuc,
+                MoTa = et.MoTa,
+                TrangThai = et.TrangThai ?? "HoatDong"
+            });
         }
 
-        public bool SuaTroChoi(ET_TroChoi et)
+        public bool Sua(ET_TroChoi et)
         {
-            try
+            return DAL_DanhSachThietBi.Instance.Sua(new ET_DanhSachThietBi
             {
-                using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-                {
-                    var t = db.TroChois.SingleOrDefault(x => x.MaCode == et.MaCode);
-                    if (t != null)
-                    {
-                        t.MaKhuVuc = et.MaKhuVuc;
-                        t.TenTroChoi = et.TenTroChoi;
-                        t.LoaiTroChoi = et.LoaiTroChoi;
-                        t.SucChua = et.SucChua;
-                        t.TuoiToiThieu = et.TuoiToiThieu;
-                        t.ChieuCaoToiThieu = et.ChieuCaoToiThieu;
-                        t.ThoiGianLuot = et.ThoiGianLuot;
-                        t.MoTa = et.MoTa;
-                        t.TrangThai = et.TrangThai;
-                        t.NgayCapNhat = DateTime.Now;
-                        db.SubmitChanges();
-                        return true;
-                    }
-                    return false;
-                }
-            }
-            catch
-            {
-                return false;
-            }
+                Id = et.Id,
+                MaCode = et.MaCode,
+                TenThietBi = et.TenTroChoi,
+                LoaiThietBi = "TroChoi",
+                IdKhuVuc = et.IdKhuVuc,
+                MoTa = et.MoTa,
+                TrangThai = et.TrangThai
+            });
         }
 
-        public bool xoaTC(string maCode)
-        {
-            try
-            {
-                using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-                {
-                    var item = db.TroChois.SingleOrDefault(x => x.MaCode == maCode);
-                    if (item != null)
-                    {
-                        db.TroChois.DeleteOnSubmit(item);
-                        db.SubmitChanges();
-                    }
-                }
-                return true;
-            }
-            catch (System.Data.SqlClient.SqlException ex)
-            {
-                // Foreign key constraint failure
-                if (ex.Number == 547)
-                {
-                    return false;
-                }
-                return false;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+        public bool Xoa(int id) => DAL_DanhSachThietBi.Instance.Xoa(id);
 
-        public int LayMaTroChoiLonNhat()
+        public List<ET_TroChoi> TimKiem(string keyword, string idKhuVuc)
         {
-            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
+            var ds = LoadDS();
+            if (!string.IsNullOrEmpty(keyword))
             {
-                var nextId = db.ExecuteQuery<decimal>(
-                    "SELECT IDENT_CURRENT('TroChoi') + IDENT_INCR('TroChoi')"
-                ).First();
-
-                return Convert.ToInt32(nextId);
+                keyword = keyword.ToLower();
+                ds = ds.Where(x => (x.TenTroChoi != null && x.TenTroChoi.ToLower().Contains(keyword)) ||
+                                   (x.MaCode != null && x.MaCode.ToLower().Contains(keyword))).ToList();
             }
+            if (!string.IsNullOrEmpty(idKhuVuc) && idKhuVuc != "Tất cả")
+            {
+                int kId = int.Parse(idKhuVuc);
+                ds = ds.Where(x => x.IdKhuVuc == kId).ToList();
+            }
+            return ds;
         }
     }
 }

@@ -1,121 +1,65 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DAL;
 using ET;
+
 namespace BUS
 {
-    public class BUS_TroChoi
+    public class BUS_TroChoi : IBaseBUS<ET_TroChoi>
     {
         private static BUS_TroChoi instance;
         public static BUS_TroChoi Instance
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new BUS_TroChoi();
-                }
+                if (instance == null) instance = new BUS_TroChoi();
                 return instance;
             }
-            private set
-            {
-                instance = value;
-            }
         }
 
-        public List<ET_TroChoi> loadDS()
+        public List<ET_TroChoi> LoadDS()
         {
-            return DAL_TroChoi.Instance.loadDS();
+            return DAL_TroChoi.Instance.LoadDS();
         }
 
-        public List<ET_TroChoi> loadDSTheoKhuVuc(int maKhuVuc)
+        public ResponseResult Them(ET_TroChoi et)
         {
-            return DAL_TroChoi.Instance.loadDS()
-                .Where(tc => tc.MaKhuVuc == maKhuVuc).ToList();
-        }
-
-        public List<ET_TroChoi> timKiem(string tuKhoa)
-        {
-            return DAL_TroChoi.Instance.TimKiem(tuKhoa);
-        }
-
-        public List<ET_TroChoi> timKiemTheoKhuVuc(string tuKhoa, int maKhuVuc)
-        {
-            return DAL_TroChoi.Instance.TimKiem(tuKhoa)
-                .Where(tc => tc.MaKhuVuc == maKhuVuc).ToList();
-        }
-
-        public string layMaCodeTiepTheo()
-        {
-            return DAL_TroChoi.Instance.LayMaCodeTiepTheo();
-        }
-
-        /// <summary>
-        /// Validate dữ liệu trò chơi trước khi thêm/sửa.
-        /// Return: chuỗi rỗng = hợp lệ, ngược lại = thông báo lỗi.
-        /// </summary>
-        public string ValidateTroChoi(ET_TroChoi et, bool laThem = true)
-        {
-            // Rule 1: Tên trò chơi bỏ trống
             if (string.IsNullOrWhiteSpace(et.TenTroChoi))
-                return "Vui lòng nhập tên trò chơi";
+                return new ResponseResult { IsSuccess = false, ErrorMessage = "Tên trò chơi không được rỗng!" };
 
-            // Rule 6: Tên > 150 ký tự
-            if (et.TenTroChoi.Trim().Length > 150)
-                return "Tên trò chơi không được vượt quá 150 ký tự";
+            if (string.IsNullOrWhiteSpace(et.MaCode))
+                et.MaCode = "TC-" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
-            // Rule 2: Chưa chọn khu vực
-            if (et.MaKhuVuc <= 0)
-                return "Vui lòng chọn khu vực";
-
-            // Rule 3: Chưa chọn loại trò chơi
-            if (string.IsNullOrWhiteSpace(et.LoaiTroChoi))
-                return "Vui lòng chọn loại trò chơi";
-
-            // Rule 4: Sức chứa <= 0
-            if (et.SucChua <= 0)
-                return "Sức chứa phải lớn hơn 0";
-
-            // Rule 8: Tuổi tối thiểu < 0
-            if (et.TuoiToiThieu < 0)
-                return "Tuổi tối thiểu không được âm";
-
-            // Rule 9: Chiều cao < 0
-            if (et.ChieuCaoToiThieu < 0)
-                return "Chiều cao tối thiểu không được âm";
-
-            // Rule: Thời gian lượt <= 0
-            if (et.ThoiGianLuot <= 0)
-                return "Thời gian lượt phải lớn hơn 0";
-
-            // Rule 7: Mô tả > 500 ký tự
-            if (!string.IsNullOrEmpty(et.MoTa) && et.MoTa.Length > 500)
-                return "Mô tả không được vượt quá 500 ký tự";
-
-            // Rule 5: Tên trùng trong cùng khu vực
-            if (DAL_TroChoi.Instance.KiemTraTrungTen(et.TenTroChoi.Trim(), et.MaKhuVuc, laThem ? null : et.MaCode))
-                return "Tên trò chơi đã tồn tại trong khu vực này";
-
-            return "";
+            if (DAL_TroChoi.Instance.Them(et))
+                return new ResponseResult { IsSuccess = true };
+            return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi thêm trò chơi vào CSDL." };
         }
 
-        public bool themTroChoi(ET_TroChoi et)
+        public ResponseResult Sua(ET_TroChoi et)
         {
-            et.TenTroChoi = et.TenTroChoi.Trim();
-            return DAL_TroChoi.Instance.ThemTroChoi(et);
+            if (et.Id <= 0)
+                return new ResponseResult { IsSuccess = false, ErrorMessage = "ID không hợp lệ!" };
+
+            if (DAL_TroChoi.Instance.Sua(et))
+                return new ResponseResult { IsSuccess = true };
+            return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi cập nhật thông tin." };
         }
 
-        public bool xoaTroChoi(string maCode)
+        public ResponseResult Xoa(int id)
         {
-            return DAL_TroChoi.Instance.xoaTC(maCode);
+            if (DAL_TroChoi.Instance.Xoa(id))
+                return new ResponseResult { IsSuccess = true };
+            return new ResponseResult { IsSuccess = false, ErrorMessage = "Lỗi khi xóa trò chơi!" };
         }
-        public bool capNhatTroChoi(ET_TroChoi et)
+        
+        public List<ET_TroChoi> TimKiemNangCao(string keyword, string idKhuVuc)
         {
-            et.TenTroChoi = et.TenTroChoi.Trim();
-            return DAL_TroChoi.Instance.SuaTroChoi(et);
+            return DAL_TroChoi.Instance.TimKiem(keyword, idKhuVuc);
+        }
+
+        public List<ET_TroChoi> TimKiem(string kw, string filter)
+        {
+            return TimKiemNangCao(kw, filter);
         }
     }
 }

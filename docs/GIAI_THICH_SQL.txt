@@ -1,0 +1,168 @@
+================================================================================
+  TÀI LIỆU GIẢI THÍCH FILE SQL – HỆ THỐNG QUẢN LÝ CÔNG VIÊN GIẢI TRÍ
+================================================================================
+Phiên bản: 1.0
+Đường dẫn tham chiếu:
+  - database/QuanLyCongVien.sql   → Định nghĩa CSDL (schema)
+  - database/insert.sql           → Dữ liệu mẫu (seed) cho môi trường dev/test
+
+--------------------------------------------------------------------------------
+PHẦN A – FILE: database/QuanLyCongVien.sql
+--------------------------------------------------------------------------------
+
+1) MỤC ĐÍCH
+-----------
+- Tạo database tên QuanLyCongVien (nếu chạy từ đầu file).
+- Khai báo toàn bộ bảng, khóa chính, khóa ngoại, ràng buộc CHECK, UNIQUE, INDEX
+  và một số giá trị mặc định cho hệ thống quản lý công viên (vé, dịch vụ, POS,
+  nhân sự, khách hàng, giá động, ví điện tử, v.v.).
+
+2) CẤU TRÚC FILE (THEO THỨ TỰ)
+-----------------------------
+- Phần đầu: CREATE DATABASE + USE QuanLyCongVien
+- §1 TẠO BẢNG: CREATE TABLE cho từng thực thể
+- §2 KHÓA CHÍNH: ALTER TABLE ... ADD CONSTRAINT PK_*
+- §3 KHÓA NGOẠI: ALTER TABLE ... ADD CONSTRAINT FK_*
+- §4 UNIQUE: đảm bảo không trùng mã nghiệp vụ (MaCode, TenDangNhap, MaQR, ...)
+- §5 CHECK CONSTRAINTS: kiểm tra miền giá trị (trạng thái, giá, loại ngày, ...)
+- §6 DEFAULTS: mặc định ngày tạo, và INSERT sẵn CauHinhHeThong (loyalty)
+- §7 INDEXES: tăng tốc truy vấn theo ngày, mã hóa đơn, khu vực, ...
+
+3) NHÓM BẢNG THEO NGHIỆP VỤ
+---------------------------
+
+A. Đăng nhập & nhân sự
+   - TaiKhoan: tài khoản đăng nhập (Admin / NhanVien), có thể gắn MaNhanVien.
+   - NhanVien: hồ sơ nhân viên, có MaKhuVuc (phục vụ lọc POS theo khu).
+   - CaLam, PhanCa: ca làm và phân ca (nếu dùng module lịch).
+
+B. Địa lý & trò chơi
+   - KhuVuc: khu trong công viên (cổng, game, kidzone, căn tin...).
+   - TroChoi: trò chơi thuộc một KhuVuc (phục vụ QuyenLoiVe, báo cáo).
+
+C. Sản phẩm bán hàng
+   - LoaiVe: loại vé (có cờ LaCombo).
+   - ChiTietCombo: cấu thành combo (vé cha – vé con, số lượt cho phép).
+   - DanhMucDichVu: danh mục dịch vụ (KieuLogic: SALE / TIME / ...).
+   - DichVu: sản phẩm dịch vụ (tồn kho, giá bán, thuộc danh mục & khu).
+
+D. Khách hàng & khuyến mãi
+   - KhachHang: thông tin khách, TongChiTieu, DiemTichLuy (loyalty).
+   - SuKien, KhuyenMai: sự kiện và khuyến mãi (liên kết HoaDon nếu dùng).
+
+E. Bán hàng (POS) – THIẾT KẾ CHÍNH
+   - HoaDon: hóa đơn tổng (TongTien, TienGiamGia, ThanhToan, trạng thái).
+     + DiemNhan, DiemDung: ghi nhận điểm tích được / điểm đã dùng trên hóa đơn
+       (phục vụ đối soát và hủy đơn).
+   - ChiTietHoaDon_Ve: dòng chi tiết VÉ (FK MaLoaiVe → LoaiVe).
+     Thay thế mô hình cũ “một bảng chi tiết + LoaiSanPham” để có FK rõ ràng.
+   - ChiTietHoaDon_DichVu: dòng chi tiết DỊCH VỤ (FK MaDichVu → DichVu).
+
+F. Phát hành vé & quét
+   - VeDaPhatHanh: mã QR từng vé đã bán, gắn MaChiTietVe (dòng vé trên HĐ).
+   - QuyenLoiVe: quyền lợi theo LoaiVe (vào cổng, khu, trò chơi, số lượt...).
+   - LichSuQuetVe: lịch sử quét vé tại cổng/trò chơi (khi có module soát vé).
+
+G. Giá động
+   - BangGia: giá theo LoaiNgay (NgayThuong, CuoiTuan, LeTet, CaoDiem) và
+     khoảng ngày; mỗi dòng chỉ áp cho MỘT trong hai: MaLoaiVe HOẶC MaDichVu
+     (ràng buộc CK_BangGia_XorSanPham).
+
+H. Ví điện tử
+   - ViDienTu, LichSuGiaoDichVi: số dư ví và lịch sử giao dịch (MaThamChieu
+     có thể map MaHoaDon ở tầng ứng dụng).
+
+I. Vận hành
+   - BaoTri: bảo trì trò chơi.
+
+J. Cấu hình
+   - CauHinhHeThong: key–value (ví dụ Loyalty_Earn_Rate, Loyalty_Redeem_Rate).
+     File schema cũng INSERT sẵn 2 dòng loyalty; insert.sql có thể xóa và nạp lại.
+
+4) ĐIỂM THIẾT KẾ QUAN TRỌNG
+----------------------------
+- Chi tiết hóa đơn tách 2 bảng (Ve / DichVu): tránh “polymorphic association”
+  không có FK đầy đủ; mọi dòng chi tiết đều trỏ thẳng LoaiVe hoặc DichVu.
+- VeDaPhatHanh.MaChiTietVe → ChiTietHoaDon_Ve: xóa chi tiết vé (cascade) có thể
+  ảnh hưởng vé phát hành – cần cân nhắc nghiệp vụ hủy/điều chỉnh ở tầng app.
+- BangGia: XOR MaLoaiVe / MaDichVu; LoaiNgay và khoảng ngày có CHECK.
+- Nhiều cột TrangThai dùng NVARCHAR với CHECK cố định tập giá trị – code app
+  phải dùng đúng chuỗi (ví dụ N'Đã thanh toán', N'Hoạt động').
+
+5) LƯU Ý KHI CHẠY SCRIPT
+-------------------------
+- Nếu database QuanLyCongVien đã tồn tại: có thể bỏ qua hoặc comment dòng
+  CREATE DATABASE để tránh lỗi.
+- Chạy trên SQL Server (script dùng T-SQL: GO, IDENTITY, ...).
+
+
+--------------------------------------------------------------------------------
+PHẦN B – FILE: database/insert.sql
+--------------------------------------------------------------------------------
+
+1) MỤC ĐÍCH
+-----------
+- Xóa dữ liệu cũ theo thứ tự an toàn (tránh vi phạm FK), reset IDENTITY,
+  rồi nạp bộ dữ liệu MẪU cho demo/POS: khu vực, nhân viên, tài khoản, loại vé,
+  dịch vụ, trò chơi, khách hàng, combo, quyền lợi vé, bảng giá động.
+
+2) THỨ TỰ XÓA (MỤC 0)
+---------------------
+Xóa từ bảng phụ thuộc → bảng cha:
+  LichSuQuetVe → VeDaPhatHanh → ChiTietHoaDon_DichVu / ChiTietHoaDon_Ve →
+  HoaDon → BangGia → QuyenLoiVe → ChiTietCombo → LoaiVe → ... → KhuVuc,
+  và xóa CauHinhHeThong để insert lại (tránh trùng khi chạy nhiều lần).
+
+3) DBCC CHECKIDENT (RESEED 0)
+-----------------------------
+- Đưa IDENTITY về bắt đầu từ 1 cho lần insert tiếp theo (sau khi bảng rỗng).
+- Lý do: script không hard-code MaKhuVuc = 1,2,... mà dùng biến lookup theo
+  MaCode (KV001, ...) để luôn đúng FK dù identity thay đổi.
+
+4) NỘI DUNG DỮ LIỆU MẪU (TÓM TẮT)
+---------------------------------
+- DanhMucDichVu: 4 danh mục (ăn uống, cho thuê, trẻ em, lưu niệm).
+- KhuVuc: KV001 (quầy vé), KV002 (game), KV003 (KidZone), KV007 (căn tin).
+- NhanVien: 3 người gắn khu tương ứng.
+- TaiKhoan: admin + ticket01 + food01 + kid01 (mật khẩu demo 123456).
+- LoaiVe: VEL01, VET01, VEC01 (combo gia đình).
+- DichVu: DV001–DV004 (nước, xúc xích, locker, giữ trẻ).
+- TroChoi: TC001 (game), TC002 (kid).
+- KhachHang: 1 dòng “khách vãng lai” + 1 VIP mẫu.
+- CauHinhHeThong: Loyalty_Earn_Rate (10.000đ/điểm), Loyalty_Redeem_Rate.
+- ChiTietCombo: VEC01 = 2x VEL01 + 2x VET01.
+- QuyenLoiVe: vào cổng, vào khu, chơi trò chơi cho từng loại vé + combo.
+- BangGia: nhiều dòng theo LoaiNgay cho 3 loại vé và 4 dịch vụ, trong khoảng
+  ngày quanh “hôm nay” (từ -10 đến +30 ngày).
+
+5) TẠI SAO DÙNG DECLARE @kv_..., @maLoaiVe...
+--------------------------------------------
+- Tránh lỗi FK khi IDENTITY không khớp số cố định sau RESEED.
+- Luôn tra cứu: SELECT MaKhuVuc FROM KhuVuc WHERE MaCode = 'KV001', v.v.
+
+6) KHI NÀO CHẠY insert.sql
+--------------------------
+- Sau khi đã tạo schema bằng QuanLyCongVien.sql (và database đã USE đúng).
+- Trên môi trường production: KHÔNG nên chạy script xóa toàn bộ như này; chỉ dùng
+  cho dev/test hoặc tách phần INSERT thành script seed riêng.
+
+
+--------------------------------------------------------------------------------
+PHẦN C – LIÊN HỆ VỚI CODE ỨNG DỤNG (THAM CHIẾU NHANH)
+--------------------------------------------------------------------------------
+- LINQ to SQL (DAL/QLKVCGT.dbml) map các bảng trên; logic giá động đọc BangGia,
+  fallback GiáVe/GiaBan trên LoaiVe/DichVu.
+- POS tạo HoaDon + ChiTietHoaDon_Ve / ChiTietHoaDon_DichVu + VeDaPhatHanh theo
+  nghiệp vụ đã cài trong BUS/DAL.
+
+--------------------------------------------------------------------------------
+PHẦN D – TÀI LIỆU BỔ SUNG
+--------------------------------------------------------------------------------
+- Luồng nghiệp vụ (khách mua nhiều vé/dịch vụ), quan hệ 1–n / n–n và thuộc tính
+  bảng: xem file docs/LUONG_NGHIEP_VU_VA_QUAN_HE_BD.txt
+- Bản mô tả nghiệp vụ dạng văn liền (giống mẫu “bệnh nhân–bệnh án”): xem
+  docs/BAN_MO_TA_HE_THONG_CONG_VIEN.txt
+
+================================================================================
+HẾT TÀI LIỆU
+================================================================================

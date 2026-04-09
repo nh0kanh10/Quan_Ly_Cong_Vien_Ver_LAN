@@ -1,0 +1,87 @@
+using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+
+namespace ET
+{
+    public class ET_BangGia : IDataErrorInfo, ICloneable
+    {
+        [Browsable(false)]
+        public int Id { get; set; }
+
+        [Browsable(false)]
+        public int IdSanPham { get; set; }
+
+        [DisplayName("Giá N.Thường")]
+        [DefaultValue(0)]
+        public decimal GiaNgayThuong { get; set; }
+
+        [DisplayName("Giá Cuối Tuần")]
+        [DefaultValue(0)]
+        public decimal GiaCuoiTuan { get; set; }
+
+        [DisplayName("Giá Ngày Lễ")]
+        [DefaultValue(0)]
+        public decimal GiaNgayLe { get; set; }
+
+        [DisplayName("Từ")]
+        public TimeSpan GioBatDau { get; set; } = TimeSpan.Zero;
+
+        [DisplayName("Đến")]
+        public TimeSpan GioKetThuc { get; set; } = new TimeSpan(23, 59, 0);
+
+        [DisplayName("Block đầu (phút)")]
+        [Description("Để trống = bán đứt")]
+        public int? PhutBlock { get; set; }
+
+        [DisplayName("Lố mỗi (phút)")]
+        [Description("Mỗi X phút sau block đầu thu phụ thu")]
+        public int? PhutTiep { get; set; }
+
+        [DisplayName("Phụ thu lố")]
+        public decimal? GiaPhuThu { get; set; }
+
+        [DisplayName("Tiền cọc")]
+        [Description("Tiền cọc khi thuê. Để trống = không cần cọc")]
+        public decimal? TienCoc { get; set; }
+
+        [DisplayName("Loại")]
+        [ReadOnly(true)]
+        public string LoaiGia => PhutBlock.HasValue ? "Thuê giờ" : "Bán đứt";
+
+        [DisplayName("TT")]
+        public string TrangThai { get; set; } = "HoạtĐộng";
+
+        [Browsable(false), ReadOnly(true)]
+        public DateTime CreatedAt { get; set; }
+
+        [Browsable(false), ReadOnly(true)]
+        public int? CreatedBy { get; set; }
+
+        [Browsable(false)]
+        public string Error => null;
+
+        [Browsable(false)]
+        public string this[string col]
+        {
+            get
+            {
+                if (col == nameof(GiaNgayThuong) && GiaNgayThuong < 0)
+                    return "Giá không được âm";
+                if (col == nameof(GiaCuoiTuan) && GiaCuoiTuan < 0)
+                    return "Giá không được âm";
+                if (col == nameof(GiaNgayLe) && GiaNgayLe < 0)
+                    return "Giá không được âm";
+                if (col == nameof(PhutBlock) && PhutBlock.HasValue && PhutBlock <= 0)
+                    return "Phút block phải > 0";
+                if (col == nameof(PhutTiep) && PhutTiep.HasValue && PhutTiep <= 0)
+                    return "Phút tiếp phải > 0";
+                if (col == nameof(GiaNgayThuong) && GiaNgayLe > 0 && GiaNgayThuong > GiaNgayLe)
+                    return "Giá thường đắt hơn giá Lễ?";
+                return null;
+            }
+        }
+
+        public object Clone() => MemberwiseClone();
+    }
+}

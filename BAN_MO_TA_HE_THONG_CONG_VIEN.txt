@@ -1,0 +1,343 @@
+===================================================================================================
+BẢN GIẢI PHẪU CHI TIẾT KIẾN TRÚC & LOGIC DATABASE: ĐẠI NAM RESORT
+Mục tiêu: Đọc xong là hiểu 100% tại sao từng bảng, từng cột lại tồn tại trong CSDL.
+===================================================================================================
+
+PHẦN 1: GIẢI MÃ CÁC QUY TẮC THIẾT KẾ CỐT LÕI (CORE DESIGN PATTERNS)
+---------------------------------------------------------------------------------------------------
+1. Tại sao có cột "is_deleted" (Soft Delete - Xóa Mềm)?
+   - Cột này được đặt trong các bảng DANH MỤC (NhanVien, KhachHang, SanPham, KhoHang...).
+   - Nguyên nhân: Trong phần mềm kinh doanh, ta KHÔNG THỂ xóa hẳn (Hard Delete) một mẩu dữ liệu "gốc". Nếu nhân viên Nguyễn Văn A nghỉ việc, mà bạn nhấn lệnh DELETE trong CSDL, thì hàng ngàn tờ Hóa Đơn do nhân viên A từng lập sẽ bị mồ côi (lỗi khóa ngoại constraints) hoặc sổ sách kiểm toán không biết ai đã lập đơn. 
+   - Giải pháp: Gắn `is_deleted = 1` để ẩn nhân viên A khỏi các danh sách chọn trên màn hình Giao diện (App/Web), nhưng dữ liệu cũ vẫn tham chiếu được.
+
+2. Tại sao CÁC BẢNG TÀI CHÍNH/GIAO DỊCH tuyệt đối KHÔNG CÓ "is_deleted"?
+   - Bảng Đơn Hàng (DonHang), Giao dịch ví (GiaoDichVi), Phiếu Thu/Chi tuyệt đối không có xóa mềm.
+   - Nguyên nhân: Đây là Sổ cái tài chính (Immutable Ledger). Tiền đã vào/ra hệ thống là phải có Dấu Vết. Nếu thu nhầm tiền, kế toán phải làm một giao dịch "Hoàn Tiền" (Reversal) để cấn trừ, tuyệt đối không được xóa giao dịch thu nhầm đi. Chống gian lận sổ sách.
+
+3. Tại sao có cột "RowVer ROWVERSION"?
+   - Cột này được đặt ở Ví Điện Tử, Tồn Kho, Bàn Ăn, Phòng Khách sạn.
+   - Nguyên nhân: Xử lý bài toán Concurrency (Tranh chấp đồng thời). Ví dụ: Trong kho còn đúng 1 thùng sữa. Hai nhân viên bán hàng cùng lúc mở form bán thùng sữa đó. Người A bấm "Thanh toán", kho trừ đi 1. Người B (dưới máy dính mạng chậm) bấm "Thanh toán" sau đó 1 giây. Nếu không có RowVer, kho sẽ bị trừ thành -1. 
+   - Giải pháp: SQL Server dùng RowVer làm tem phiên bản. Bấm lưu, tem đổi. Người B lưu sau sẽ bị SQL từ chối vì tem trên file của B đã cũ (Lỗi thao tác). 
+
+
+PHẦN 2: GIẢI PHẪU TỪNG BẢNG & MỐI QUAN HỆ NGHIỆP VỤ
+---------------------------------------------------------------------------------------------------
+
+========== MỤC 1. DANH MỤC CƠ BẢN (MASTER DATA) ==========
+1. NhanVien (Nhân Viên):
+   - Sinh ra để: Lưu thông tin người dùng vào phần mềm, quản lý xem ai đã thực hiện thao tác (Audit trail qua cột created_by). Có `is_deleted` để nghỉ việc thì ẩn.
+
+2. DoanKhach & KhachHang (Khách hàng & Đoàn):
+   - Sinh ra để: Định danh người dùng. Phân tách rạch ròi Khách Cá Nhân và Khách Đoàn.
+   - Tại sao tách DoanKhach?: Khách đoàn (Công ty A) đi chung 50 người, cần gom vào 1 thực thể DoanKhach để dễ thiết lập `chiet_khau` (giảm giá sỉ) khi mua vé/đặt dịch vụ, và sau này xuất chung 1 hóa đơn VAT. `KhachHang` có cột `id_doan` để biết ông khách đang đứng ở cổng thuộc đoàn nào.
+
+3. KhuVuc (Khu vực): 
+   - Sinh ra để: Gom nhóm các dịch vụ, nhà hàng, trò chơi... theo phân khu địa lý của Đại Nam (Khu Vườn Thú, Khu Trường Đua, v.v.).
+
+4. DonViTinh & SanPham & QuyDoiDonVi (Kiểm soát hàng hóa & Giá linh hoạt):
+   - Vấn đề thực tế: Kiosk Đại nam bán "Nước Suối". Lúc thì bán 1 Chai, lúc thì bán 1 Lốc, lúc khách đoàn mua 1 Thùng. Nếu tạo 3 sản phẩm "Sản phẩm A chai", "Sản phẩm A thùng" thì sẽ loạn code kho.
+   - Giải pháp: 
+     + Sinh ra bảng `DonViTinh` lưu các nhãn (Lon, Thùng, Lốc)
+     + Bảng `SanPham` lưu hàng hóa lõi, gắn id_don_vi_co_ban = "Lon" (được quy ước là cơ sở để đếm kho).
+     + Bảng `QuyDoiDonVi` giải quyết bài toán sỉ/lẻ: Khai báo 1 Thùng = 24 Lon. Điểm nhấn là cột `gia_ban_rieng`. Mua 1 Lon 10k, nhưng 1 Thùng được set `gia_ban_rieng` = 200k (thay vì 240k). Khi nhân viên chọn "Thùng" trên màn hình, hệ thống sẽ ưu tiên lấy giá này.
+
+5. Combo & ComboChiTiet (Phân bổ doanh thu chéo):
+   - Sinh ra để: Đóng gói các dịch vụ thành "Combo Siêu Tiết Kiệm" (Vé cổng + Ăn + Trượt nước).
+   - Tại sao có `ty_le_phan_bo`: Bán 1 cục giá 1 triệu, nhưng lúc cuối tháng Nhà hàng và Biển cãi nhau doanh thu chia thế nào? Cột % tạo ra để khi bán 1 combo, thuật toán tự chia 300k về sổ kế toán Nhà Hàng, 700k về sổ Biển.
+
+========== MỤC 2. ĐƠN HÀNG & GIAO DỊCH ==========
+6. DonHang & ChiTietDonHang:
+   - Sinh ra để: Giỏ hàng. Mọi thứ khách mua (Cơm, Nước, Giờ hát karaoke, Thuê phao, Tiền phạt) đều chui vào ĐƠN HÀNG nhằm tổng kết ra 1 hóa đơn tính tiền. Có `id_doan` để tách bill cho công ty.
+
+7. ViTriNgoi & VeDienTu (Hệ thống soát vé hiện đại):
+   - Sinh ra từ nhu cầu soát vé bằng QR Code tại cổng quẹt.
+   - Tại sao phải có `VeDienTu` riêng dù có `ChiTietDonHang`? Khi đoàn mua 50 vé, `ChiTietDonHang` chỉ lưu 1 dòng: SảnPhẩm=Vé, SL=50. Phải có bảng `VeDienTu` gen ra 50 mã GUID khác nhau để in ra 50 tờ vé vật lý chia cho 50 người cầm đi quét từng người. Không xóa cứng, vé đã lập là vô hiệu hóa `trang_thai` (Hết hạn).
+
+========== MỤC 3. LÕI TÀI CHÍNH (VÍ & SỔ CÁI) ==========
+8. ViDienTu & TheRFID:
+   - Vấn đề: Cầm tiền mặt đi bơi rất ướt, dễ mất. 
+   - Giải quyết: Bán cho khách 1 cái vòng tay MÃ RFID (`TheRFID`). Quẹt vòng nạp tiền, vòng này map vào `ViDienTu`. ViDienTu dùng `RowVer` chống nạp đúp. Tại sao có `so_du_dong_bang`? Để khi khách "mượn phao" 50k, tiền không trừ đi mà bị "cất giấu" 50k sang số dư đóng băng. Nếu trả phao thì nhả lại, bùng phao thì trừ thẳng.
+9. GiaoDichVi (Mạng lưới Sổ Cái Blockchain trong DB):
+   - Sinh ra để: Lưu lịch sử TIỀN của Ví. Mọi sự tăng/giảm số dư của Ví ĐỀU PHẢI lọt vào đây (Nạp tiền, trừ tiền, đóng băng). 
+   - `HashSignature` sinh ra để băm dữ liệu mã hóa số tiền, chống lập trình viên thao túng database chèn số dư ảo.
+10. PhieuThu & PhieuChi:
+    - Bảng để Phòng Kế Toán xài. Cột để biết dòng tiền vào Két công ty đến từ đâu (Bằng tiền mặt hay bằng tiền qua thẻ ngân hàng, qua ví). 
+
+========== MỤC 4. DỊCH VỤ THUÊ (OPS) ==========
+11. ThueDoChiTiet & TuDo & ThueTu:
+    - Tại sao lại tách khỏi Đơn Cơm/Đơn Vé? Thuê đồ có khái niệm Trả lại và Hoàn Cọc. Ăn cơm xong thì không hoàn tiền, nhưng thuê phao thì phải theo dõi "thoi_gian_bat_dau" "so_tien_coc" "trang_thai_coc". 
+    - `TuDo` và `ThueTu` quản lý vật lý xem tủ số 12 bị khách nào mượn cài mã PIN gì.
+
+========== MỤC 5. KHÁCH SẠN (HOSPITALITY) ==========
+12. Phong, DatPhongChiTiet, ChiTietDatPhong:
+    - Tại sao phức tạp vậy?
+    - `Phong`: Danh mục các phòng 101, 102. Có `RowVer` chống tranh chấp.
+    - `DatPhongChiTiet`: Lưu cục "Khách đặt từ thứ 2 đến thứ 5". (Cục tổng quát)
+    - `ChiTietDatPhong`: Khách đó đặt 2 phòng là 101 và 102 thì phải tách ra. Việc bóc tách giúp tính toán tiền phòng dễ dàng và giải phóng từng phòng sớm/trễ.
+
+========== MỤC 6. TRƯỜNG ĐUA (SIÊU PHỨC TẠP) ==========
+13. DuongDua, KhangDai, ViTriNgoi: (Cơ sở hạ tầng vật lý trường đua). `ViTriNgoi` (ghế) là con của `KhangDai` (khu vực khán đài).
+14. VanDongVien, NguaDua, PhuongTienDua:
+    - Đua tại Đại Nam có đua Ngựa, đua Chó, đua Xe Go-Kart. 
+    - `PhuongTienDua` và `NguaDua` đều có `id_vdv` (Nài ngựa chăn con ngựa nào, Cua rơ lái con xe nào). 
+    - `BaoTriPhuongTienDua` nhằm rút tiền Kế toán để bảo dưỡng xe và cho ăn thuốc ngựa.
+15. GiaiDua, LichThiDau, KetQuaDua:
+    - Lịch xếp đua. `KetQuaDua` giải quyết câu hỏi: Ở trận 1, nài ngựa Quốc Bảo cưỡi con Ngựa Xích thố, xếp hạng mấy? Cột `thu_tu_ve_dich` và `thanh_tich_thoi_gian` giải quyết chuyện đó. Phục vụ mảng cược hoặc phát thưởng.
+
+========== MỤC 7. BÃI ĐỖ XE ==========
+16. BaiDoXe & LuotVaoRaBaiXe & VeDoXeChiTiet:
+    - Khách lái xe vào, cọc thẻ từ RFID tít 1 cái (`LuotVaoRaBaiXe` ghi lại giờ vào, biển số).
+    - Lúc ra, bấm tít 1 cái, quy ra tiền, đẩy vào bảng `VeDoXeChiTiet` để ném chung vào `DonHang` tính hóa đơn trước khi nhấc barrier.
+
+========== MỤC 8. CHUẨN KHO VÀ MUA SẮM (SUPPLY CHAIN) ==========
+17. NhaCungCap, KhoHang: (Danh mục)
+18. PhieuNhapKho, ChiTietNhapKho (Mua Mới Của Thiên Hạ):
+    - Thủ kho nhập bia từ Sabeco. Phiếu nhập sinh ra số lượng để cộng vào tồn kho.
+    - Tại sao `ChiTietNhapKho` có `don_gia_nhap` khác `don_gia` bảng Sản phẩm? Vì giá vốn mua vào thay đổi liên tục, lúc bia đắt, bia rẻ. Phải lưu cố định lúc nhập mua giá mấy vào phiếu.
+19. PhieuXuatKho, ChiTietXuatKho (Xuất bán nội bộ):
+    - Lấy hàng từ Kho Lớn quăng ra Kho Kiosk bán. Xuất hao phí ném vào sọt rác. Xuất bán hàng tại quầy (trừ kho). Kế toán kho nhìn vào hóa đơn xuất kho.
+20. TonKho: Bảng con số cuối cùng của kho (Số lượng vật lý). Có `RowVer` bắt buộc để tránh "vượt âm kho" do click đúp.
+
+========== MỤC 9. BIỂN NHÂN TẠO & VƯỜN THÚ (VẬN HÀNH) ==========
+21. ThietBiTaoSong, KhuVucBien, ChatLuongNuoc: Lưu vết lịch sử. Tránh bị khách kiện viêm da thì bật `ChatLuongNuoc` (nhiệt độ, pH, độ mặn) lên chứng minh ngày đó có vệ sinh an toàn.
+22. LichChoAn, ChuongTrai (Vườn thú): Tránh việc 1 con Voi ngày cho ăn 10 bữa gây chết, `LichChoAn` tracking xem ai chịu trách nhiệm cho ăn lúc mấy giờ. 
+23. DatChoThuAn: Trò chơi trẻ em bỏ tiền ra để mua ly cà rốt cho thú ăn. Gắn vào `DonHang`.
+
+========== MỤC 10. NHÀ HÀNG & ỨNG DỤNG MOBILE ==========
+24. BanAn, DatBan, ChiTietDatBan: Tương tự như Khách sạn đặt phòng. Nhưng dùng cho mô hình Food & Beverage. 
+25. SuCo & ThatLac: Xử lý rủi ro trên 1 khu ngàn hecta. Khách đánh rơi ví, khai báo, bảo vệ tìm thấy match trong bảng `ThatLac`. Khách ngất xỉu đánh vô bảng `SuCo` kèm tọa độ GPS để xe điện bay ra cấp cứu.
+26. ThietBiApp: Lưu FCM_Token Push Notification trên di động để bắn app quảng cáo và tracking vị trí khách dựa theo sự đồng ý của họ (Toa_do_lat, long).
+
+
+TỔNG KẾT BỨC TRANH LỚN
+1. Mọi Dịch Vụ Mua Đứt, Mượn Thuê, Đặt Trước ... đều hội tụ về MỘT đơn vị lõi: Bảng DONHANG.
+2. Từ DONHANG, hệ thống truy quét ra tổng số tiền Phải Thu. Khách hàng cầm thẻ RFID dí vào máy POS, Giao dịch hoàn tất trên bảng GIAODICHVI.
+3. Kế Toán ung dung ngồi nhà xem báo cáo chia tiền tự động (ComboRate). Nhân sự nắm rõ lỗi thuộc về ai nhờ AuditTrail.
+
+
+PHẦN 3: CÂU HỎI "HOW" - HỆ THỐNG HOẠT ĐỘNG THỰC TẾ NHƯ THẾ NÀO?
+---------------------------------------------------------------------------------------------------
+
+HỎI 1: HOW - Luồng trải nghiệm của một Khách Hàng từ lúc bước vào đến lúc ra về diễn ra thế nào?
+- BƯỚC 1 (Cổng Cửa): Khách đến quầy vé. Nhân viên tạo 1 `DonHang`. Khách mua 1 "Combo Siêu Vip" (Vé cổng + Ăn trưa + Thuê phao biển). Khách đưa 1 triệu. Nhân viên thu tiền (`PhieuThu`), và cấp 1 Vòng Tay (`TheRFID`) đã nạp 1 triệu đó vào bảng `ViDienTu`.
+- BƯỚC 2 (Vào Cửa): Khách cầm vòng quẹt vào Turnstile. Hệ thống check `VeDienTu` -> Hợp lệ -> Check-in thành công.
+- BƯỚC 3 (Tới Khu Biển mượn đồ): Khách lại quầy thuê phao. Quẹt vòng từ. Hệ thống tạo 1 dòng `ThueDoChiTiet`. Phao giá 50k, cọc 100k. Dòng tiền trong `ViDienTu` lập tức bị tách: 50k trừ hẳn (Thanh toán dịch vụ), 100k chuyển sang trạng thái "Đóng băng" (`so_du_dong_bang`). Số dư khả dụng của khách giảm đi 150k. Khách nhận phao tự động qua tủ locker điện tử (`ThueTu`).
+- BƯỚC 4 (Trả đồ): Khách bơi xong, đem phao trả. Quẹt vòng phát nữa. Nhân viên xác nhận phao không rách. Hệ thống gọi lệnh Hoàn cọc (` parent_transaction_id`). 100k đóng băng lập tức "rã đông" nhảy ngược lại vào Số dư khả dụng. 
+- BƯỚC 5 (Ăn Trưa): Chạy qua nhà hàng, check mâm. Vòng tay quét mã vạch combo mua từ sáng. Hệ thống check bảng `ChiTietDonHang` -> Đã thanh toán Combo. Lên mâm cho khách táp lô.
+- BƯỚC 6 (Ra Về): Khách ra cổng, trả vòng tít RFID lần cuối. Kế toán check số dư khả dụng còn 200k (không tiêu hết). Lập 1 phiếu rút tiền (`GiaoDichVi`) hoàn 200k tiền mặt lại cho khách. Khóa vòng tay. Kết thúc hành trình!
+
+HỎI 2: HOW - Hệ thống chia tiền Combo như thế nào vào cuối tháng? (Giải quyết bài toán muôn thuở của Resort khổng lồ)
+- Đầu tháng: Giám đốc kinh doanh tạo 1 mã Combo 1.000.000 VNĐ.
+- Thiết lập: Giám đốc mở bảng `ComboChiTiet` setup: Vé cổng (20%), Ăn trưa bộ phận B (50%), Thuê xe trường đua (30%). Trigger CSDL ngay lập tức quét xem tổng dồn có đúng 100% không. Nếu Giám đốc gõ nhầm 101%, SQL văng lỗi thẳng mặt, cấm lưu.
+- Cuối tháng: Kế toán chạy Script truy vấn tổng dồn. Dữ liệu lấy ra: Doanh thu mã Combo là 10 tỷ. 
+- Tính toán: SQL tự động Query JOIN bảng `ComboChiTiet` -> Tách ra: Bộ phận Vé Cổng ghi nhận 2 tỷ, Bộ phận Nhà hàng ghi nhận 5 tỷ, Trường đua 3 tỷ. Không cần Excel tính tay, không ai cãi nhau vì số liệu do CSDL SQL tự bóc tách cứng.
+
+HỎI 3: HOW - Làm sao ngăn chặn "Overbooking" (2 nhân viên bán cùng 1 phòng, 1 chỗ ngồi)?
+- Giả lập: Lễ 30/4, Khách sạn Đại Nam còn đúng 1 phòng V.I.P duy nhất (ID Phòng = 99). 
+- Xảy ra: Cô lễ tân A (ở sảnh) và chú Sales B (đang nghe điện thoại) cùng mở cái Phòng VIP 99 lên màn hình vào lúc 10h00p00s. Lúc này `RowVer` của phòng 99 trong DB đang là "0x0A...1".
+- 10h01p05s: Chú Sales B điền xong tên khách, bấm Lưu trước. DB nhận lệnh, đổi Phòng 99 thành `Đã Đặt`, tự động cập nhật `RowVer` thành "0x0B...2".
+- 10h01p06s (Trễ 1s): Cô lễ tân A bấm Lưu sau. Code app gửi lệnh UPDATE kèm theo `RowVer` cũ ("0x0A...1") mà màn hình cô A đang giữ. 
+- Hệ thống Xử lý: SQL Server đối chiếu `RowVer` gửi lên ("0x0A...1") và `RowVer` trong DB lúc này ("0x0B...2"). THẤY KHÁC NHAU! 
+- Cú tát của Hệ thống: Lập tức chặn UPDATE, báo lỗi "Phòng 99 vừa được người khác đặt trước đó vài giây. Vui lòng làm mới danh sách phòng!". Lễ tân A phải xin lỗi khách và chọn phòng khác. Tránh được thảm họa "Chửi rủa tại quầy xách hành lý".
+
+HỎI 4: HOW - Bằng cách nào hệ thống chống được "Hacker Kế Toán" cấu kết gian lận ví RFID?
+- Tấn công: Một nhân viên IT cấu kết với quản lý. Bọn chúng không dùng phần mềm mà chui thẳng vào lớp SQL Server Database. Update `so_du_kha_dung` trong ví của chúng nó thêm 100 triệu để ra tiêu xài chùa.
+- Rào cản Hệ thống (HashSignature): Ngày thường, khi nạp 100k hợp lệ qua phần mềm. CSDL tạo 1 chuỗi Băm (Hash VD: SHA256) dựa trên mã Ví, Số Tiền, Thời Gian (VD: "Wallet123+100000+01/01/2026"). Lưu chuỗi hầm bà lằng này vào cột `HashSignature` trong bảng `GiaoDichVi`.
+- Bắt Quả Tang: Kẻ gian dù có thêm số tiền 100 triệu vào CSDL ở cột "Số Dư", nhưng chúng không biết công thức Secret Key đằng sau lớp code C# sinh ra mã `HashSignature`. Khi chạy kiểm toán định kỳ, phần mềm quét ngang: Tổng giao dịch không khớp mã Hash được băm -> Còi báo động rú lên! Tài khoản ví đó lập tức bị Freeze, phong tỏa mọi quyền truy cập vào công viên.
+
+HỎI 5: HOW - Bài toán Kho hàng "Bán 1 Thùng trừ 24 Lon" hoạt động thế nào?
+- Bài toán: Kiosk bãi biển bán Nước suối. Kho thực tế đếm được 240 "Lon". Khách lẻ tới mua 1 Lon (10k). Lát sau, đoàn du lịch tới mua 1 Thùng (Giá ưu đãi 220k). Làm sao kho không bị loạn?
+- Ánh xạ DB: Bảng `DonViTinh` có "Lon" và "Thùng". Bảng `SanPham` lưu nước suối với cơ sở là `id_don_vi_co_ban = Lon`. Bảng `QuyDoiDonVi` khai báo: 1 Thùng = 24 Lon (ty_le_quy_doi) và gia_ban_rieng = 220.000đ.
+- Khi bán 1 Lon: Tạo chi tiết đơn hàng số lượng 1. SQL Update bảng `TonKhoKiosk`: Số lượng lon = 240 - 1 = 239. Khách thanh toán 10k.
+- Khi bán 1 Thùng: Giao diện gửi lệnh bán ID Quy Đổi "Thùng". SQL Server tự hiểu số lượng vật lý phải trừ là: 1 Thùng * 24 = 24 Lon. Lệnh Update `TonKhoKiosk` trừ 24 lon: 239 - 24 = 215. Doanh thu ghi nhận đúng mức 220k (giá sỉ) thay vì 240k. Kho vật lý chuẩn xác 100% không lệch 1 lon.
+
+HỎI 6: HOW - Bãi đỗ xe thông minh tính tiền gộp vào hóa đơn chơi công viên kiểu gì?
+- Vào Cửa: Khách lái xe hơi tới Barrier, nhân viên bảo vệ quẹt thẻ RFID (vòng tay công viên) vào máy quét. Camera đọc biển số. Bảng `LuotVaoRaBaiXe` lập tức ghi nhận 1 dòng: `ma_rfid`, Biển 51A-12345, thời gian vào 08:00 AM, trạng thái "dang_do".
+- Vui chơi chán chê: Khách đi bơi, đi sở thú, tiêu tiền trên cái thẻ Vòng Tay đó bình thường qua ví điện tử (`ViDienTu`).
+- Lấy Xe Đi Về: Khách ra bãi lấy xe, móc vòng tay RFID quẹt lần nữa lúc 16:00 PM. Trạng thái cập nhật "da_ra". App tự động gọi hàm `DATEDIFF` trong SQL tính ra đỗ 8 tiếng. Đơn giá 20k/tiếng -> 160k tiền giữ xe. 
+- Thanh toán One-touch: Lập 1 dòng vô bảng `VeDoXeChiTiet` giá 160k, nối thẳng vào `DonHang` tổng của khách. Cổng trừ 160k vào ví điện tử. Barrier mở vút lên! Không cần thu ngân xe xé vé giấy.
+
+HỎI 7: HOW - Kiosk hết kem lạnh, làm sao trong Kho tổng biết để đi châm thêm hàng?
+- Vấn đề: Kiosk 01 ở xa trung tâm, giữa trưa nắng khách mua kem liên tục. Trưa hôm đó `TonKhoKiosk` bán kem thứ 90. 
+- Ngưỡng cảnh báo: Lúc quản lý setup Kiosk, đã cài cột `nguong_canh_bao` cho số lượng kem là 10.
+- Vận hành: Khi cái kem thứ 90 bị bán, `so_luong` của kem ở Kiosk 01 tụt xuống đúng bằng 10. Lập tức Trigger SQL so sánh `so_luong <= nguong_canh_bao` và đẩy thông báo sang bảng notification của Thủ Kho hoặc nháy đỏ màn hình (dashboard) của Thủ Kho 01. 
+- Xử lý: Thủ kho lấy xe điện chở thêm 50 cây kem ra cấp cho Kiosk 01. Hệ thống tạo 1 `PhieuXuatKho` từ Kho Trung Tâm sang Kho Kiosk. Nhập điểm đến, `TonKhoKiosk` nhảy lên 60, chuông cảnh báo tắt. Nhanh, mượt, không đứt gãy cung ứng.
+
+HỎI 8: HOW - Một mớ hỗn độn ở Trường Đua: Khán đài, Nài ngựa, Con ngựa ghép với nhau ra sao?
+- Đặt ghế: Khách dùng App chọn khán đài VIP, chọn mua ghế số A1 (`ViTriNgoi`). `ChiTietDonHang` lưu lại vé VIP giá 300k.
+- Chuẩn bị Đua: Trận đua mã 99 (`LichThiDau`). Có 5 `Nài Ngựa` (`VanDongVien`) cưỡi 5 `Con Ngựa` (`NguaDua`). Mọi thông tin tuối tác, thành tích của Nài và Ngựa đều đã tra cứu chi tiết trong bảng danh mục để hiện lên Billboard lớn ngoài sân.
+- Kết thúc đua: Ngựa Xích Thố, nài Quốc Bảo lướt qua vạch đích đầu tiên. Trọng tài bấm giờ. 1 record đập vào bảng `KetQuaDua`: id_lich_thi_dau (Trận 99), id_vdv (Quốc Bảo), id_ngua_dua (Xích Thố), thu_tu_ve_dich = 1, thanh_tich = 1 phút 20 giây. Bảng kết quả này là căn cứ hợp pháp để trả thưởng cho những ai cá cược (nếu có nghiệp vụ) hoặc lưu lịch sử cúp vô địch giải.
+
+HỎI 9: HOW - Khách rớt cái iPhone ngoài bãi biển, mất luôn thẻ thì xử lý thế nào?
+- Khách hốt hoảng: Chạy đến Lễ tân báo "Tôi mất iPhone 15 Pro Max ốp xám và bị rớt mác Vòng Tay RFID số hiệu 007". 
+- Lễ tân Thao tác: Lập tức vào bảng `TheRFID`, WHERE `ma_rfid` = 007, UPDATE `trang_thai` = 'lost' (Mất). Kẻ nào lượm được cái vòng đi ăn cơm sẽ bị máy POS từ chối ngay tắp lự. Tiền trong ví an toàn tuyệt đối.
+- Đồng thời lập Record `SuCo`: Mức độ "trung_binh". 
+- Lát sau: Chú bảo vệ đi tuần nhặt được cái iPhone. Chú báo về bộ phận An Ninh. Lập 1 dòng trong bảng `ThatLac`: Tên đồ vật "Điện thoại xám 3 mắt", Nơi tìm thấy "Bãi biển khu 2", trạng thái "cho_nhan". 
+- Trả đồ: Lễ tân tra cứu bảng `ThatLac`, thấy đúng cái điện thoại khách báo. Gọi khách đến nhận, Cập nhật trạng thái "da_tra" gắn kèm `id_khach_hang_nhan` để có biên bản ký tá bảo vệ bản thân lễ tân. Khách làm lại vòng mới nối vào ví cũ, vui vẻ húp kem tiếp. Mọi thứ mượt mà.
+
+HỎI 10: HOW - Một đoàn công ty 500 người tới chơi, chính sách chiết khấu xử lý kiểu gì để không phải bấm từng người?
+- Đón tiếp: Công ty XYZ cấp biểu mẫu 500 nhân viên. Lễ tân không tạo 500 cái `KhachHang` lẻ tẻ ngay. Lễ tân tạo 1 `DoanKhach` tên "CTY XYZ", MST: 123, `chiet_khau` = 15%. 
+- Lập hóa đơn: Lễ tân tạo 1 `DonHang` (Bill tổng), điền `id_doan` = ID của "CTY XYZ". 
+- Tính tiền: Mua 500 vé Combo (giá 1Tr/vé) -> Đáng lý 500 triệu. App C# nhìn thấy `id_doan` liền Query ngược qua bảng `DoanKhach` kéo con số 15% ra. Lệnh lấy: Thấy giảm 15% -> Tổng hóa đơn chỉ còn 425 triệu. Kế toán xuất duy nhất 1 Phiếu Thu 425 triệu và cấp về 500 vòng tay cho trưởng đoàn phát.
+
+HỎI 11: HOW - Khách vãng lai chỉ vào cổng chơi 1 vòng tốn 50k, không thích lấy Vòng tay RFID thì soát vé kiểu gì?
+- Tạo Đơn: Khách quăng 50k tiền mặt lên bàn. Thu ngân tạo 1 `DonHang` (không cần `id_khach_hang` - gán NULL).
+- Phát hành vé: CSDL sinh ra 1 dòng trong `VeDienTu` với cái `id` là mã GUID duy nhất thế giới (vd: B123-CD45...). Mã này in thẳng ra tờ vé giấy dưới dạng **Mã vạch (Barcode / QR Code)**.
+- Quét cổng: Khách cầm mã Vạch đè lên máy quét hồng ngoại ở cửa. Turnstile gởi mã GUID vào SQL kiểm tra. Trạng thái `chua_su_dung` -> Mạch điện được kích, cửa quay, update vé thành `da_su_dung`. Nhẹ nhàng, không tốn tài nguyên làm thẻ RFID cứng cho khách vãng lai.
+
+HỎI 12: HOW - Khách sạn làm sao giải quyết chuyện Giá Ngày Thường khác Giá Cuối Tuần/Lễ?
+- Cấu hình: Bảng `Phong` thiết kế cực kỳ khôn ngoan với 2 cột giá: `gia_ngay_thuong` (500k) và `gia_cuoi_tuan` (800k).
+- Khách đặt phòng: Khách đặt từ Thứ Sáu (6) đến Chủ Nhật (CN). Tức là 2 đêm (Đêm thứ 6 và Đêm thứ 7).
+- App xử lý: Trong lúc tính tiền, Code sẽ chạy 1 vòng lặp từ ngày `ngay_nhan` đến `ngay_tra`. Xét đêm T6 (Ngày thường) -> nhét 500k vào `ChiTietDatPhong`. Xét đêm T7 (Cuối tuần) -> nhét 800k vào dòng `ChiTietDatPhong` tiếp theo. 
+- Ra Bill: Tổng bill khách sạn khách phải trả là 1300k, cực kỳ rạch ròi, chứng từ bóc lớp rõ ràng giữa ngày đắt ngày rẻ.
+
+HỎI 13: HOW - Biển nhân tạo Đại Nam mênh mông như biển thật, chứng minh nước sạch và quản lý cứu hộ ở đâu?
+- Chứng nhận vệ sinh: Hằng ngày lúc 06:00 sáng, kỹ thuật viên hút mẫu nước test. Ghi 1 dòng vào `ChatLuongNuoc` (Độ mặn 2.5%, pH 7.2, độ trong Đạt). Nếu khách kiện "Bơi xong tôi bị nấm rộp!", BQL mở Database ra chưng ra báo cáo chứng minh quy trình đạt chuẩn quốc gia.
+- Cứu hộ: Biển rộng phải chia ca trực (`CaTrucCuuHo`). Cột A có anh Sơn, Cột B có anh Tùng. Nếu lỡ có khách suýt đuối nước (Ghi `SuCo` loại 'duoi_nuoc'), giám đốc truy ngược bảng `CaTrucCuuHo` sẽ biết chính chiều hôm đó anh nào bỏ trạm canh để trừng phạt.
+
+HỎI 14: HOW - Làm sao cho cả ngàn khách tương tác với Hổ, Báo, Hươu mà con thú không bị bội thực chết no?
+- Giới hạn: Quản thú lên lịch `LichChoAn` cho con Hổ Bengal là 3 cữ một ngày (Sáng, Trưa, Chiều). 
+- Khách mua vé: Khách mua trò "Tự tay đút thịt Hổ" trên App (`DatChoThuAn`). 
+- Ràng buộc: SQL đếm số lượng `DatChoThuAn` của con Hổ đó trong ngày hôm nay. Đã đủ 3 người book rồi! SQL báo: Hổ nay đã no, vui lòng đặt suất ăn cho Hươu Nhỏ. Vừa cày ra tiền lại bảo đảm an toàn sinh học.
+
+HỎI 15: HOW - Khách VIP gọi điện đặt trước cái Bàn cạnh bờ hồ cho 10 người, tối mới tới, nhà hàng giữ bàn thế nào?
+- Đặt trước: 14:00 khách gọi. Lễ tân mở bảng `NhaHang`, chốt Bàn số 5 (`BanAn`). Lễ tân tạo `DatBan` (Ghi `thoi_gian_den_du_kien` = 19:00). Trạng thái nhảy thành "da_dat". `BanAn` cũng bị đổi trạng thái "da_dat".
+- Khách tới trễ: 19:30 khách tới. Lễ tân kiểm tra ID đặt bàn (số điện thoại khách). Đổi `DatBan` = 'da_nhan', `BanAn` = 'dang_su_dung'. Chống được việc bồi bàn dẫn nhầm nhóm khác vào ngồi mâm VIP cạnh bờ hồ gây đánh nhau.
+
+HỎI 16: HOW - Nhạc hội ế khách vắng teo, tung siêu khuyến mãi qua App bằng cách nào?
+- Tín hiệu: Cảm biến tại cổng cho thấy doanh số chiều tối ế ẩm. Giám đốc marketing yêu cầu kích cầu.
+- Thao tác: Lập trình viên chạy lệnh SELECT `fcm_token` từ bảng `ThietBiApp` ở những khách hàng đang nằm gọn trong tọa độ (Lat, Long) của khu vực Công viên.
+- Phóng Tin nhắn: Server bắn Notification đến đống FCM Token đó: "Giảm rớt đáy 50% vé Nhạc Hội nước 19H. Quẹt tay chốt đơn ngay!". Khách thấy kèo thơm lũ lượt ùa vào. Doanh số vớt vát trong 1 phút thần thánh. Chuyển đổi số là đây!
+
+HỎI 17: HOW - Kế toán kho làm mượt vụ Mua Mới (Nhập kho hàng loạt) trả tiền nhà xe thế nào?
+- Tình huống: Chiếc xe tải chở 1000 Thùng bia Heineken của Đại lý A ập thẳng vào Kho Trung Tâm.
+- Xác nhận kho: Thủ kho kiểm 1000 thùng bia đủ. Khởi tạo `PhieuNhapKho` gán `id_nha_cung_cap` = "Đại lý A", số tiền 200 Triệu. Chi tiết đánh rớt 1000 Thùng vào `TonKho`. Tồn nhảy nẩy số.
+- Thanh toán: Kế toán phòng tài vụ nhìn thấy phiếu nhập kho 200 Triệu hiện lên màn hình. In ra 1 Ủy Nhiệm Chi, lập 1 `PhieuChi` gắn với lý do "Thanh toán tiền bia lô ngày X", chi cấn số tiền đó khớp với `PhieuNhapKho`. Database sạch sẽ, dòng tiền khớp 100%. Mọi chứng từ liên hoàn nhau thành một đường thẳng.
+
+
+PHẦN 4: WHO - MA TRẬN PHÂN QUYỀN & BẢO MẬT ĐA LỚP (FULL ROLE MATRIX)
+---------------------------------------------------------------------------------------------------
+Mô hình tổ chức của siêu công viên yêu cầu rào chắn dữ liệu cực kỳ khắt khe. Phân quyền không chỉ là "Ai được xem màn hình nào" mà là "Ai được phép chạm vào Table nào trong SQL".
+
+1. BẬC 1: Admin Tổng (Ban Giám Đốc & Head Cấp Cao)
+   - Quyền hạn: Quyền tối cao (DML, DDL).
+   - Tác vụ: Setup giá `gia_ngay_thuong`, `gia_cuoi_tuan`, định nghĩa Tỷ lệ `ty_le_phan_bo` cho Combo.
+   - Điểm mù: Không có. Thuật toán `HashSignature` bảo vệ họ khỏi sự dòm ngó của cả chính... Coder.
+
+2. BẬC 2: Kế Toán Tài Chính (Financial Officer)
+   - Quyền hạn: Thấy Dòng Tiền, Không thấy Hiện Vật. View `DonHang`, `GiaoDichVi`, `ChiTietDonHang`.
+   - Đặc quyền: Lập `PhieuThu`, `PhieuChi`, Chạy Report doanh thu lợi nhuận.
+   - Ràng buộc cứng: TUYỆT ĐỐI KHÔNG có quyền DELETE bất kỳ bảng nào, KHÔNG ĐƯỢC phép sửa số lượng `TonKho`. Tuân thủ nguyên lý: Kế toán chỉ ghi nhận hệ quả tài chính của vật lý.
+
+3. BẬC 3: Lễ Tân & Bán Hàng (Front-Desk / Cashier)
+   - Quyền hạn: INSERT `KhachHang`, `DonHang`, `VeDienTu`. Giao dịch nạp Ví `TheRFID`.
+   - Điểm mù: KHÔNG THỂ SELECT tổng `GiaoDichVi` (Ngăn họ biết 1 ngày công ty thu bao nhiêu tỉ). Ngăn UPDATE trạng thái vé đã xài. Chỉ thấy Bill do chính `created_by` tạo ra.
+
+4. BẬC 4: Thủ Kho (Warehouse Manager)
+   - Quyền hạn: Thấy Hiện Vật, Không Thấy Tiền. INSERT `PhieuNhapKho`, `PhieuXuatKho`, UPDATE `TonKho` (Tuy nhiên UPDATE này phải thông qua Trigger cộng/trừ, không được gõ số cứng).
+   - Điểm mù: KHÔNG THẤY Giá Vốn nhập hàng (Cột này chỉ Kế toán chi thấy), không được xem màn hình `DonHang` của cổng vé mảng Du Lịch.
+
+5. BẬC 5: Đội Vận Hành Giải Trí (Ops - Vườn Thú / Cứu Hộ / Trường Đua)
+   - Phân ban Thú y: R/W bảng `DongVat`, `ChuongTrai`, INSERT `LichChoAn`. KHÔNG có quyền xem giá tiền `DatChoThuAn` của khách.
+   - Phân ban Cứu hộ / Vận hành máy: R/W bảng `CaTrucCuuHo`, `ThietBiTaoSong`, `ChatLuongNuoc`. 
+   - Phân ban Trường Đua: R/W `VanDongVien`, `NguaDua`, Nhập Record vào `KetQuaDua`.
+
+6. BẬC 6: An Ninh & Bảo Vệ (Security Guard)
+   - Quyền hạn: Chỉ R/W bảng `SuCo`, `ThatLac`, `LuotVaoRaBaiXe`. 
+   - Điểm mù: Họ là chốt chặn vật lý, nên họ chỉ dùng App quét Barcode/Biển số cản xe/người. Khi quét, SQL sẽ bốc mã đó đập vào `VeDienTu`, nếu trả về TRUE thì mở Barrier. Bảo vệ hoàn toàn MÙ thông tin về Tên/SĐT khách trên cái vé đó (Ngoại trừ vé VIP cần chào tên).
+
+7. BẬC 7: Customer Service (Chăm Sóc Khách Hàng)
+   - Quyền hạn: Xem `KhachHang`, xử lý Khiếu nại, cấp/đổi thẻ RFID `TheRFID` (Đổi thẻ `lost` thành `active`). UPDATE gửi `fcm_token` trong `ThietBiApp`.
+
+
+PHẦN 5: WHEN - LỊCH TRÌNH CHẠY SCRIPT TỰ ĐỘNG (BACKGROUND CRON JOBS/SQL AGENTS)
+---------------------------------------------------------------------------------------------------
+Database chạy ngầm 24/7 để dọn dẹp data ảo, chống lag và kết toán mượt.
+
+1. Job "Cảnh Báo Nóng" (Chạy 5 Phút / Lần)
+   - Tác vụ: Quét `TonKhoKiosk`. Nếu `so_luong <= nguong_canh_bao`, gởi lệnh Push sang App thủ kho để đem xe điện đi châm hàng ngay.
+   - Tác vụ bổ sung: Quét `DonHang` mới lập bằng Mobile App nhưng khách chưa quẹt MoMo/Ngân hàng sau 15 phút -> Chuyển thành `huy`. Trả lại ghế/phòng ảo.
+
+2. Job "Chốt Ca & Filter" (Chạy 18:00 PM Hàng Ngày)
+   - Tác vụ: Khu vui chơi đóng cửa. Quét bảng `VeDienTu` ngày hôm đó sinh ra nhưng chưa xài (`chua_su_dung`) -> UPDATE thành `het_han`. Khách mua lố vé hôm nay không để giành sang mai xài được. Ngăn chặn gian lận vé tồn.
+
+3. Job "Giải Phóng Mâm Bàn" (Chạy 00:01 AM Đêm Hàng Ngày)
+   - Tác vụ: Khách đặt trước `DatBan` hoặc `DatPhongChiTiet` rồi Boom hàng. Job này quét những ai có `thoi_gian_den_du_kien` quá 12 tiếng. Lập tức UPDATE `trang_thai` = 'huy', nhả lại `RowVer` trống cho ngày hôm sau kinh doanh tiếp.
+
+4. Job "Kiểm Toán Blockchain Sổ Cái" (Chạy 01:00 AM Chủ Nhật Hàng Tuần)
+   - Tác vụ: Tính tổng `so_tien` trong `GiaoDichVi`, sau đó băm mã `HashSignature` đối chiếu xem có bị thợ code chọc ngoáy lệnh UPDATE ngoài SQL không. Bắn Report sai lệch về Email CTO.
+
+5. Job "Backup Tự Động" (Chạy 02:00 AM Hàng Ngày)
+   - Full Backup `Database_DaiNam` sang định dạng .bak. Nén lại bắn thẳng lên Amazon S3 Bucket để lưu trữ thảm họa riêng biệt.
+
+6. Job "Thu hồi Loyalty Points" (Chạy Đêm 31/12 Cuối Năm)
+   - Trừ sạch `diem_tich_luy` của tất cả `KhachHang` chưa xài trong năm, kích thích tâm lý FOMO buộc khách phải xài điểm và quay lại khu nghỉ dưỡng.
+
+
+PHẦN 6: WHAT IF - BẢN ĐỒ DỰ PHÒNG RỦI RO CHIẾN LƯỢC (DISASTER & FRAUD RECOVERY)
+---------------------------------------------------------------------------------------------------
+
+1. WHAT IF (Rủi ro Vật Lý): Cúp Điện + Đứt Mạng Toàn Khu Đại Nam?
+   - Thảm họa: Khách chửi bới ở nhà hàng vì không thanh toán được.
+   - Giải pháp (Eventual Consistency): Các Pos Gateway C# chạy Local Database (SQLite). Khi mất mạng, khách tít RFID, SQLite trừ tiền/xuất vé cục bộ. Điện có lại -> 1 Worker xả cục dữ liệu offline này `Bulk Insert` đập vào SQL Server Bảng `GiaoDichVi` theo cơ chế đồng bộ (Sync).
+
+2. WHAT IF (Rủi ro Khách Lươn Lẹo): Khách mua 1 vé QR điện thoại, Screenshot gửi cho 10 thằng bạn qua Zalo qua cổng cùng lúc?
+   - Thảm họa: Mất doanh thu vì 1 vé chui lọt 10 người.
+   - Giải pháp: Mã `VeDienTu` được SQL bọc bằng `Isolation Level Serializable`. Khi 1 người quét mã, lệnh UPDATE `trang_thai` = 'da_su_dung' khóa cứng Record đó lại trong 10ms. 9 người sau dí QR vào quét sẽ bị SQL đẩy văn bản DBO: "Vé đã được sử dụng lúc 08:00:15s ở cổng A". Còi báo động cổng sẽ rú gọi bảo vệ.
+
+3. WHAT IF (Rủi ro Hacker Frontend): Dùng tool Fiddler sửa cước giá khách sạn?
+   - Thảm họa: Hacker book API sửa `don_gia` phòng VIP từ 5.000.000 thành 1.000 Đồng.
+   - Giải pháp (Trust-No-One Security): Database chỉ nhận ID Sản Phẩm. Trong Stored Procedure mua vé, SQL sẽ dùng ID đó `INNER JOIN` với `Phong/SanPham` và BỐC ĐÚNG LUÔN TIỀN CỦA DB ra để tính tổng. Giá ở giỏ hàng Front-end gửi lên chỉ là con số vứt đi, gởi lên cho vui. Hacker gãy răng.
+
+4. WHAT IF (Rủi ro Payment Gateway): Hệ thống Ví Momo / VNPAY Toàn quốc bị sập lúc Quốc Khánh?
+   - Thảm họa: Khách không nạp tiền online vào `ViDienTu` được. Kẹt cứng cổng.
+   - Giải pháp: Khởi động Quầy Phân phối tiền mặt. Nhấn nút "Emergency Cash Only". Admin thu tiền mặt bỏ két, bắn lệnh `Force_TopUp` thẳng vào `ViDienTu` trên máy POS của Admin bằng Quyền cao nhất, lập `PhieuThu` cấn cái vào cuối ngày.
+
+5. WHAT IF (Rủi ro Cơ Sở Hạ Tầng): Cháy rụi DataCenter cục bộ ở Đại Nam?
+   - Thảm họa: Bốc hơi lịch sử ví tiền của hàng chục ngàn khách hàng hiện tại.
+   - Giải pháp: CSDL Master - Slave (Always On Availability Groups). Mọi dòng lệnh ghi vào `DonHang` ở Server A đều được sao chép realtime 100% sang Server B (Nằm trên Cloud Region Singapore). Server A cháy -> Router Auto-Switch trỏ toàn bộ App vào CSDL B. Dữ liệu mất mát = 0 byte. Doanh nghiệp bình an vô sự!
+
+
+PHẦN 7: THE LOST CORNERS - GIẢI QUYẾT 3 GÓC CHẾT KẾ TOÁN (HÓC BÚA NHẤT)
+---------------------------------------------------------------------------------------------------
+
+GÓC CHẾT 1: THANH TOÁN ĐA LUỒNG (SPLIT PAYMENT)
+Kịch bản: Khách ăn nhà hàng hết 2.000.000đ. Khách quẹt Vòng Tay RFID, máy POS báo "Số dư khả dụng 1.500.000đ". Khách gào lên: "Cứ quẹt hết ví đi, tiền thiếu 500k anh cà thẻ Visa!".
+- Giải pháp SQL: Nếu `DonHang` chỉ lưu `phuong_thuc_thanh_toan` thì ta thua. Do đó, hệ thống thiết kế tách bạch `DonHang` và `PhieuThu` (quan hệ 1-N). 
+- Vận hành: Thu ngân tạo 2 dòng `PhieuThu` trỏ ngược về 1 `id_don_hang` đó. Dòng 1: Ngân sách 1.5tr (Phương thức: Vi_dien_tu). Dòng 2: Ngân sách 500k (Phương thức: The_ngan_hang). Một đoạn Code C# sẽ kiểm tra: Khi `SUM(so_tien) bảng PhieuThu = tong_tien bảng DonHang`, lập tức Trigger UPDATE đổi status của `DonHang` thành `da_thanh_toan`. Ngược lại vẫn giam ở `cho_thanh_toan`. Bill tách làm 2, khách hàng mát lòng.
+
+GÓC CHẾT 2: CÔNG NỢ B2B & ĐẠI LÝ TOUR (ACCOUNTS RECEIVABLE)
+Kịch bản (Tiếp nối Câu Hỏi 10): Công ty X mua 500 vé, được chiết khấu 15% còn 425 triệu. Vấn đề là công ty đi Tour không bao giờ trả tiền ngay, họ ký HĐ trả chậm (Net 30/60).
+- Vấn đề: Nếu Hóa đơn để trạng thái `cho_thanh_toan` -> 500 mạng kia đứng khóc ngoài cổng vì cửa Turnstile không mở. Nếu ép đổi thành `da_thanh_toan` -> Cuối ngày Kế Toán kiểm két thiếu 425 triệu tiền mặt, Cảnh sát gõ cửa nhà Thu ngân.
+- Giải pháp SQL: `DonHang` có trạng thái thứ 3: `ghi_no_cong_ty`. Bảng `DoanKhach` là master của dòng nợ này.
+- Vận hành: Khi chọn `ghi_no_cong_ty`, hệ thống LẬP TỨC kích hoạt 500 cái `VeDienTu` thành `chua_su_dung` cho đoàn đi quẩy. Đồng thời, CSDL ném 425 triệu này sang một màn hình riêng cho Kế toán: Bảng Công Nợ Phải Thu (Accounts Receivable). Cấp C level đôn đốc đòi nợ. Cuối tháng CTY X bắn khoản 425 triệu về ngân hàng, kế toán lập 1 `PhieuThu` cấn trừ công nợ, lúc này DonHang mới thực sự khép lại. Không thiếu một đồng, khách vẫn vô cổng.
+
+GÓC CHẾT 3: PHẠT CỌC MỘT PHẦN (PARTIAL PENALTY)
+Kịch bản: Lúc thuê phao cọc giữ 100k vào `so_du_dong_bang`. Lúc trả, phát hiện làm rách mép phao, bị phạt đền 30k. Khách ngậm ngùi chấp nhận. Làm sao xả cái cục 100k ra?
+- Vấn đề: Trả cục cọc 100k về thẻ thì hớ, thu mẹ nó 100k luôn thì ăn cướp của khách à?
+- Giải pháp SQL (Transaction Split): Ở tầng Database, chúng ta phải bọc luồng này trong 1 cái `BEGIN TRAN`. Toàn bộ cục 100k `so_du_dong_bang` bị xẻ làm 2 nhát chém đập thẳng xuống `GiaoDichVi`:
+  + Nhát chém 1 (Hoàn Cọc): Lập ID Giao dịch Hoàn 70k, cộng vào cột `so_du_kha_dung` (Khách lấy lại mua kẹo).
+  + Nhát chém 2 (Bồi Thường): Lập ID Giao dịch Phạt 30k, đẩy vào trạng thái `thu_tien_phat` (Cộng ngược vào Doanh Thu Phụ của CTY). 
+- Kết thúc `COMMIT TRAN`. Cục nợ rách phao được xử ép xong xuôi ngay tại quầy trong 0.2 giây!
+
+
+PHẦN 8: MINDSET VÀ SỰ ĐÁNH ĐỔI MVP (PRAGMATIC IT ARCHITECTURE)
+---------------------------------------------------------------------------------------------------
+Tài liệu này không nhắm tới độ hoàn hảo phi thực tế (Over-engineering), mà nhắm tới một phiên bản MVP (Minimum Viable Product) có thể launch và thu tiền ngay với rủi ro thấp nhất. 
+
+1. RỔ 1 - NHỮNG LỖ HỔNG DATABASE BẮT BUỘC PHẢI VÁ ĐỂ SCALE-UP (ĐÃ VÁ):
+   - Voucher & Flash Sale: Đã thêm bảng `KhuyenMai` và cột `id_khuyen_mai`, `tien_giam_gia` vào `DonHang`. Kinh doanh mà không tracking được ROI của chiến dịch giảm giá thì vứt.
+   - Cổng thanh toán (Payment Gateways): Bổ sung `ma_giao_dich_doi_tac` (Third-party Trans ID) vào bảng `PhieuThu` để chứa mã từ Webhook của MoMo/VNPay bắn về. Không có cái này, cuối tháng Kế toán mò Excel đối soát với MoMo sẽ nổ não.
+   - RBAC (Role-Based Access Control): Thay vì hardcode quyền vào Source Code, CSDL đẻ ra 3 bảng `VaiTro`, `QuyenHan`, `PhanQuyen`. Việc thêm/bớt quyền (VD: VIEW_REVENUE) trở nên Dynamic hoàn toàn.
+
+2. RỔ 2 - CÁC LỖ HỔNG QUY TRÌNH BA (ĐÃ COVER TRONG TÀI LIỆU NÀY):
+   - Đơn Hàng Hỗn Hợp (Khách mua Vé + Phòng + Đồ Ăn): Hệ thống dùng Triết lý Centralized Order. Từ 1 ID gốc của `DonHang`, Kế toán query quét ngang qua `ChiTietDonHang` (Vé, Đồ ăn) + `DatPhongChiTiet` (Khách sạn) + `ThueDoChiTiet` (Phao, Chòi). Tổng tiền được gộp lại trừ đúng 1 nhát vào Ví điện tử.
+   - Phát hành 500 Vé Đoàn: Chạy Vòng lặp (Loop) phía C# sinh ra 500 records `VeDienTu` chứa 500 GUID. Gen 500 cái QR Code, pack thành file PDF và gửi tự động qua thư điện tử của Trưởng đoàn. Tới cổng, ai nấy cầm đt quét mã của riêng mình.
+   - Cho thuê Chòi Cabana: Luồng vật lý y hệt Thuê Phao Biển (Đặt cọc giữ chỗ -> Kích hoạt sử dụng -> Trả chòi hoàn cọc/phạt đền).
+
+3. RỔ 3 - NHỮNG TÍNH NĂNG "ĐỘC HẠI" CHO DEADLINE (ĐẨY SANG PHASE 2):
+   - Nâng hạng dịch vụ (Upgrade từ Standard lên Deluxe): Bài toán cực kỳ "chua" về logic Code (Giải phóng RowVer phòng cũ, bù trừ chênh lệch, đổi State Đơn hàng...). Trong Phase 1 (MVP), BẮT BUỘC NHÂN VIÊN LÀM MANUAL: Lễ tân dùng quyền Hủy phòng cũ (Hoàn tiền) -> Khách cạo thẻ tạo Đơn mới book phòng Deluxe. Chấp nhận thao tác rườm rà 2 phút để cứu 2 tuần dev-time cho Team IT.
+   - Hủy đơn hàng trước 24h & Hoàn tiền: Đẩy sang Phase 2. Hiện tại, Nhân Viên gọi Giám khảo/Quản lý ra bấm nút xác thực bằng tay ở màn hình Override.
+   - Rollback Sự Cố Giao Dịch (POS Fails / Máy in kẹt giấy): Đây không phải lỗi CSDL, đây là lỗi Code Backend. Giải quyết bằng Design Pattern "Saga" hoặc bọc Transaction `try...catch` ở tầng Logic C#, không nhồi nhét vào Database.
+
+===================================================================================================

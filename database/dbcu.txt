@@ -1,0 +1,1050 @@
+    -- ==================================================================
+    -- DATABASE: DaiNamResort
+    -- MÔ TẢ: Quản lý tổng hợp khu du lịch Đại Nam (Bản Chuẩn Academic + MVP)
+    -- BAO GỒM: Khách sạn, biển, trường đua, vườn thú, nhà hàng, kho, ví điện tử,...
+    -- UPDATE: Vá lỗi Logic Pricing (UoM), Xử lý Duplicate Indexes, Thêm SP & Audit
+    -- ==================================================================
+
+    -- TẠO DATABASE (Nếu chưa có) // 
+USE master;
+GO
+DECLARE @RecreateDb BIT = 1;
+IF @RecreateDb = 1 AND DB_ID('DaiNamResort') IS NOT NULL
+BEGIN
+    ALTER DATABASE DaiNamResort SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE DaiNamResort;
+END
+GO
+IF DB_ID('DaiNamResort') IS NULL
+    CREATE DATABASE DaiNamResort;
+GO
+USE DaiNamResort;
+GO
+
+    -- =================== 1. Danh Mục Cơ Bản (Master Data) ===================
+    CREATE TABLE VaiTro (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenVaiTro NVARCHAR(50) NOT NULL UNIQUE
+    );
+
+    CREATE TABLE QuyenHan (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaQuyen VARCHAR(50) NOT NULL UNIQUE,
+        MoTa NVARCHAR(200)
+    );
+
+    CREATE TABLE PhanQuyen (
+        IdVaiTro INT NOT NULL,
+        IdQuyen INT NOT NULL,
+        PRIMARY KEY (IdVaiTro, IdQuyen)
+    );
+
+    CREATE TABLE NhanVien (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) UNIQUE,
+        IdVaiTro INT NOT NULL,
+        IdKhuVuc INT NULL, 
+        HoTen NVARCHAR(100) NOT NULL,
+        GioiTinh NVARCHAR(10) CHECK (GioiTinh IN (N'Nam', N'Nữ', N'Khác')),
+        NgaySinh DATE,
+        ChucVu NVARCHAR(50) NULL,
+        BoPhan NVARCHAR(50) NULL,
+        DienThoai NVARCHAR(20) NULL,
+        Email NVARCHAR(100) NULL UNIQUE,
+        Cccd NVARCHAR(20) NULL UNIQUE,
+        DiaChi NVARCHAR(255) NULL,
+        HinhAnh VARCHAR(255) NULL,
+        TrangThai NVARCHAR(50) CHECK (TrangThai IN (N'ThuViec', N'Đang làm việc', N'Tạm nghỉ', N'Nghỉ việc')) DEFAULT N'Đang làm việc',
+        TenDangNhap NVARCHAR(50) NULL UNIQUE,
+        MatKhau NVARCHAR(100) NULL,
+        GhiChu NVARCHAR(MAX) NULL,
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        UpdatedAt DATETIME NULL,
+        IsDeleted BIT NOT NULL DEFAULT 0
+    );
+
+    CREATE TABLE DoanKhach (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenDoan NVARCHAR(100) NOT NULL,
+        MaSoThue NVARCHAR(20) NULL,
+        NguoiDaiDien NVARCHAR(100) NULL,
+        DienThoaiLienHe NVARCHAR(20) NULL,
+        ChietKhau DECIMAL(5,2) NOT NULL DEFAULT 0 CHECK (ChietKhau >= 0 AND ChietKhau <= 100),
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        UpdatedAt DATETIME NULL,
+        CreatedBy INT NULL,
+        IsDeleted BIT NOT NULL DEFAULT 0
+    );
+
+    CREATE TABLE KhachHang (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) UNIQUE,
+        HoTen NVARCHAR(100) NOT NULL,
+        NgaySinh DATE,
+        GioiTinh NVARCHAR(10) CHECK (GioiTinh IN (N'Nam', N'Nữ', N'Khác')),
+        Email NVARCHAR(100) NULL UNIQUE,
+        DienThoai NVARCHAR(20) NULL,
+        CmndCccd NVARCHAR(20) NULL,
+        DiaChi NVARCHAR(255),
+        LoaiKhach NVARCHAR(20) CHECK (LoaiKhach IN ('CaNhan', 'Doan', 'DoanhNghiep', 'HocSinhSinhVien', 'VIP', 'NoiBo')) NOT NULL,
+        DiemTichLuy INT NOT NULL DEFAULT 0 CHECK (DiemTichLuy >= 0),
+        IdDoan INT NULL,
+        HinhAnh VARCHAR(255),
+        GhiChu NVARCHAR(500),
+        NgayDangKy DATETIME NOT NULL DEFAULT GETDATE(),
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        UpdatedAt DATETIME NULL,
+        CreatedBy INT NULL,
+        IsDeleted BIT NOT NULL DEFAULT 0
+    );
+
+    CREATE TABLE KhuVuc (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) UNIQUE,
+        TenKhuVuc NVARCHAR(100) NOT NULL,
+        MoTa NVARCHAR(MAX) NULL,
+        TrangThai NVARCHAR(50) CHECK (TrangThai IN (N'Hoạt động', N'Bảo trì', N'Tạm đóng', N'Ngừng hoạt động')) DEFAULT N'Hoạt động',
+        HinhAnh VARCHAR(255),
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        UpdatedAt DATETIME NULL,
+        CreatedBy INT NULL,
+        IsDeleted BIT NOT NULL DEFAULT 0
+    );
+
+    -- =========== KIỂM SOÁT ĐƠN VỊ TÍNH (UoM) ===========
+    CREATE TABLE DonViTinh (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        Ten NVARCHAR(50) NOT NULL, -- 'Lon', 'Chai', 'Thùng', 'Kg', 'Vé'...
+        KyHieu NVARCHAR(10) NULL,
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        UpdatedAt DATETIME NULL,
+        CreatedBy INT NULL,
+        IsDeleted BIT NOT NULL DEFAULT 0
+    );
+
+    CREATE TABLE SanPham (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) UNIQUE,
+        Ten NVARCHAR(100) NOT NULL,
+        LoaiSanPham NVARCHAR(20) CHECK (LoaiSanPham IN ('Ve', 'Combo', 'Thue', 'AnUong', 'LuuTru', 'DoLuuNiem', 'GuiXe', 'DichVu', 'Khac')) NOT NULL,
+        IdDonViCoBan INT NOT NULL, -- Fix Logic: Biết DonGia là của Lon hay Thùng
+        DonGia DECIMAL(15,0) NOT NULL CHECK (DonGia >= 0),
+        CanTaoToken BIT NOT NULL DEFAULT 0,
+        IdKhuVuc INT NULL,
+        MoTa NVARCHAR(MAX) NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('DangBan', 'TamNgung', 'NgungBan', 'HetHang')) NOT NULL DEFAULT 'DangBan',
+        HinhAnh VARCHAR(255) NULL,
+        SoLuotQuyDoi INT NOT NULL DEFAULT 1,
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        UpdatedAt DATETIME NULL,
+        CreatedBy INT NULL,
+        IsDeleted BIT NOT NULL DEFAULT 0
+    );
+
+    -- =========== TỪ ĐIỂN LOẠI GIÁ (Dictionary) ===========
+    CREATE TABLE DM_LoaiGia (
+        MaLoaiGia NVARCHAR(50) PRIMARY KEY,
+        TenHienThi NVARCHAR(100) NOT NULL, 
+        PhamViApDung NVARCHAR(20) NOT NULL -- 'Ve','Thue','LuuTru','GuiXe','DichVu','ALL'
+    );
+    CREATE TABLE BangGia (
+        Id INT IDENTITY(1,1) PRIMARY KEY,  
+        IdSanPham INT NOT NULL,
+        MaLoaiGia NVARCHAR(50) NOT NULL, -- FK → DM_LoaiGia
+        GiaTien DECIMAL(15,0) NOT NULL CHECK (GiaTien >= 0),
+        MucUuTien INT NOT NULL DEFAULT 100, -- Số nhỏ = ưu tiên cao
+        NgayApDungTu DATETIME NOT NULL DEFAULT GETDATE(),
+        NgayApDungDen DATETIME NULL,
+        NgayTrongTuan NVARCHAR(20) NULL, -- NULL=mọi ngày, 'T7,CN'=cuối tuần
+        TrangThai NVARCHAR(50) DEFAULT N'Hoạt động',
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        UpdatedAt DATETIME NULL,
+        CreatedBy INT NULL
+    );
+
+    -- =========== BIỂU ĐỒ GIÁ THEO GIỜ (Vệ tinh của BangGia) ===========
+    CREATE TABLE BangGia_BieuDoGio (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdBangGia INT NOT NULL, -- FK → BangGia (KHÔNG nối IdSanPham)
+        ThoiLuongPhut INT NOT NULL CHECK (ThoiLuongPhut > 0), -- Quy ra phút
+        GiaTien DECIMAL(15,0) NOT NULL CHECK (GiaTien >= 0),
+        MucUuTien INT NOT NULL DEFAULT 1 -- Thứ tự áp dụng: 1=block đầu tiên
+    );
+
+    CREATE TABLE QuyDoiDonVi (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdSanPham INT NOT NULL,
+        IdDonViNho INT NOT NULL,
+        IdDonViLon INT NOT NULL,
+        TyLeQuyDoi DECIMAL(10,2) NOT NULL CHECK (TyLeQuyDoi > 0),
+        GiaBanRieng DECIMAL(15,0) NULL CHECK (GiaBanRieng IS NULL OR GiaBanRieng >= 0), -- Fix Logic: Mua sỉ rẻ hơn mua lẻ
+        LaDonViCoBan BIT NOT NULL DEFAULT 0,
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE()
+    );
+
+    -- =========== QUẢN LÝ Combo & PHÂN BỔ DOANH THU ===========
+    CREATE TABLE Combo (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) UNIQUE,
+        Ten NVARCHAR(100) NOT NULL,
+        Gia DECIMAL(15,0) NOT NULL CHECK (Gia >= 0),
+        MoTa NVARCHAR(MAX) NULL,
+        TrangThai NVARCHAR(50) CHECK (TrangThai IN (N'Bản nháp', N'Kích hoạt', N'Ngừng áp dụng')) DEFAULT N'Bản nháp', -- 'Bản nháp' / 'Kích hoạt'
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        UpdatedAt DATETIME NULL,
+        CreatedBy INT NULL,
+        IsDeleted BIT NOT NULL DEFAULT 0
+    );
+
+    CREATE TABLE ComboChiTiet (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdCombo INT NOT NULL,
+        IdSanPham INT NOT NULL,
+        SoLuong INT NOT NULL DEFAULT 1 CHECK (SoLuong > 0),
+        TyLePhanBo DECIMAL(5,2) NOT NULL DEFAULT 0 CHECK (TyLePhanBo >= 0 AND TyLePhanBo <= 100) -- Tổng cộng 100% để chia doanh thu
+    );
+
+    -- =================== 2. ĐƠN HÀNG & GIAO DỊCH ===================
+    CREATE TABLE SuKien (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) UNIQUE,
+        TenSuKien NVARCHAR(200) NOT NULL,
+        NgayBatDau DATETIME NOT NULL,
+        NgayKetThuc DATETIME NOT NULL,
+        MoTa NVARCHAR(MAX),
+        TrangThai NVARCHAR(50) CHECK (TrangThai IN (N'Sắp diễn ra', N'Đang diễn ra', N'Tạm dừng', N'Kết thúc', N'Hủy')) DEFAULT N'Sắp diễn ra',
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        UpdatedAt DATETIME NULL,
+        CreatedBy INT NULL,
+        IsDeleted BIT NOT NULL DEFAULT 0
+    );
+
+    CREATE TABLE KhuyenMai (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) NOT NULL UNIQUE,
+        TenKhuyenMai NVARCHAR(100) NOT NULL,
+        IdSuKien INT NULL,
+        LoaiGiamGia NVARCHAR(20) CHECK (LoaiGiamGia IN ('PhanTram', 'SoTien', 'DongGia', 'MuaXTangY')) NOT NULL DEFAULT 'PhanTram',
+        GiaTriGiam DECIMAL(15,0) NOT NULL DEFAULT 0 CHECK (GiaTriGiam >= 0),
+        DonToiThieu DECIMAL(15,0) NULL CHECK (DonToiThieu IS NULL OR DonToiThieu >= 0),
+        NgayBatDau DATETIME NOT NULL DEFAULT GETDATE(),
+        NgayKetThuc DATETIME NOT NULL,
+        TrangThai BIT NOT NULL DEFAULT 1,
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        CreatedBy INT NULL,
+        IsDeleted BIT NOT NULL DEFAULT 0
+    );
+
+    CREATE TABLE DonHang (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) UNIQUE,
+        IdKhachHang INT NULL,
+        IdDoan INT NULL,
+        IdKhuyenMai INT NULL,
+        TienGiamGia DECIMAL(15,0) NOT NULL DEFAULT 0 CHECK (TienGiamGia >= 0),
+        ThoiGian DATETIME NOT NULL DEFAULT GETDATE(),
+        TongTien DECIMAL(15,0) NOT NULL CHECK (TongTien >= 0),
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('ChoThanhToan', 'DaThanhToan', 'DangXuLy', 'GhiNoCongTy', 'DaHuy', 'HoanTienMotPhan', 'DaHoanTien')) NOT NULL DEFAULT 'ChoThanhToan',
+        GhiChu NVARCHAR(500),
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        CreatedBy INT NULL
+    );
+
+    CREATE TABLE ChiTietDonHang (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdDonHang INT NOT NULL,
+        IdSanPham INT NULL,
+        IdCombo INT NULL,
+        SoLuong INT NOT NULL CHECK (SoLuong > 0),
+        DonGiaThucTe DECIMAL(15,0) NOT NULL CHECK (DonGiaThucTe >= 0),
+        CHECK ((IdSanPham IS NOT NULL OR IdCombo IS NOT NULL) AND NOT (IdSanPham IS NOT NULL AND IdCombo IS NOT NULL))
+    );
+
+    CREATE TABLE ViTriNgoi (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) UNIQUE,
+        Hang NVARCHAR(10) NOT NULL,
+        SoGhe INT NOT NULL CHECK (SoGhe > 0),
+        LoaiGhe NVARCHAR(20) CHECK (LoaiGhe IN ('Thuong', 'Vip')) NOT NULL,
+        IdSanPham INT NULL, -- Ánh xạ loại vé để lấy giá từ BangGia
+        IdKhanDai INT NULL, -- Tách fk để tránh Forward Reference lỗi KhanDai
+        CONSTRAINT UqViTriNgoiTheoKhanDai UNIQUE (IdKhanDai, Hang, SoGhe),
+        RowVer ROWVERSION NOT NULL
+    );
+
+    CREATE TABLE VeDienTu (
+        Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NewId(),
+        MaCode VARCHAR(20) UNIQUE,
+        IdChiTietDonHang INT NOT NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('ChuaSuDung', 'DaSuDung', 'DaHuy', 'HetHan')) NOT NULL DEFAULT 'ChuaSuDung',
+        ThoiGianQuet DATETIME NULL,
+        SoLuotConLai INT NOT NULL DEFAULT 1,
+        IdKhachHangSuDung INT NULL,
+        IdViTriNgoi INT NULL,
+        IdSanPham INT NOT NULL  
+    );
+
+    -- =================== 3. Core Tài Chính & Ví (ACID) ===================
+    CREATE TABLE ViDienTu (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdKhachHang INT NOT NULL UNIQUE,
+        SoDuKhaDung DECIMAL(15,0) NOT NULL DEFAULT 0 CHECK (SoDuKhaDung >= 0),
+        SoDuDongBang DECIMAL(15,0) NOT NULL DEFAULT 0 CHECK (SoDuDongBang >= 0),
+        RowVer ROWVERSION NOT NULL
+    );
+
+    CREATE TABLE TheRFID (
+        MaRfid NVARCHAR(50) PRIMARY KEY,
+        IdVi INT NOT NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('Active', 'Locked', 'Lost', 'Revoked', 'Pending')) NOT NULL DEFAULT 'Active',
+        NgayKichHoat DATETIME NOT NULL DEFAULT GETDATE(),
+        NgayHuy DATETIME NULL
+    );
+
+    CREATE TABLE GiaoDichVi (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(50) UNIQUE,
+        IdVi INT NOT NULL,
+        LoaiGiaoDich NVARCHAR(20) CHECK (LoaiGiaoDich IN ('NapTien', 'ThanhToanDichVu', 'ThuCoc', 'HoanCoc', 'ThuTienPhat', 'HoanTien', 'DieuChinhTang', 'DieuChinhGiam')) NOT NULL,
+        SoTien DECIMAL(15,0) NOT NULL CHECK (SoTien >= 0),
+        IdDonHangLienQuan INT NULL,
+        ParentTransactionId INT NULL,
+        ThoiGian DATETIME NOT NULL DEFAULT GETDATE(),
+        HashSignature NVARCHAR(255) NULL,
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        CreatedBy INT NULL
+    );
+
+    CREATE TABLE PhieuThu (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) UNIQUE,
+        IdDonHang INT NULL,
+        IdGiaoDichVi INT NULL,
+        SoTien DECIMAL(15,0) NOT NULL CHECK (SoTien >= 0),
+        PhuongThuc NVARCHAR(20) CHECK (PhuongThuc IN ('TienMat', 'ChuyenKhoan', 'The', 'TheNganHang', 'ViDienTu', 'ViRFID', 'MoMo', 'VnPay', 'QR')) NOT NULL,
+        MaGiaoDichDoiTac VARCHAR(100) NULL, -- Lưu TransactionId của Webhook
+        ThoiGian DATETIME NOT NULL DEFAULT GETDATE(),
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        CreatedBy INT NULL,
+        CHECK ((IdDonHang IS NOT NULL OR IdGiaoDichVi IS NOT NULL) AND NOT (IdDonHang IS NOT NULL AND IdGiaoDichVi IS NOT NULL))
+    );
+
+    CREATE TABLE PhieuChi (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) UNIQUE,
+        SoTien DECIMAL(15,0) NOT NULL CHECK (SoTien >= 0),
+        LyDo NVARCHAR(255) NULL,
+        ThoiGian DATETIME NOT NULL DEFAULT GETDATE(),
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        CreatedBy INT NULL
+    );
+
+    -- =================== 4. DỊCH VỤ THUÊ ===================
+    CREATE TABLE ThueDoChiTiet (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdDonHang INT NOT NULL,
+        IdSanPham INT NOT NULL,
+        SoLuong INT NOT NULL CHECK (SoLuong > 0),
+        ThoiGianBatDau DATETIME NOT NULL,
+        ThoiGianKetThuc DATETIME NULL,
+        SoTienCoc DECIMAL(15,0) NOT NULL CHECK (SoTienCoc >= 0),
+        TrangThaiCoc NVARCHAR(20) CHECK (TrangThaiCoc IN ('ChuaHoan', 'DaHoan', 'DaPhat')) NOT NULL DEFAULT 'ChuaHoan',
+        IdGiaoDichCoc INT NULL,
+        IdGiaoDichHoanCoc INT NULL,
+        IdGiaoDichPhat INT NULL
+    );
+
+    CREATE TABLE TuDo (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdKhuVuc INT NOT NULL,
+        MaTu NVARCHAR(20) NOT NULL,
+        KichThuoc NVARCHAR(10) CHECK (KichThuoc IN ('S','M','L')) NOT NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('Trong', 'DangThue', 'BaoTri')) NOT NULL DEFAULT 'Trong'
+    );
+
+    CREATE TABLE ThueTu (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdChiTietThue INT NOT NULL,
+        IdTuDo INT NOT NULL,
+        MaPin NVARCHAR(10) NULL
+    );
+
+    -- =================== 5. KHÁCH SẠN ===================
+    CREATE TABLE Phong (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) UNIQUE,
+        TenPhong NVARCHAR(50) NOT NULL,
+        IdSanPham INT NULL, -- Map "Loại Phòng" sang danh mục sp để dùng BangGia
+        SucChua INT NULL CHECK (SucChua IS NULL OR SucChua > 0),
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('Trong', 'DaDat', 'DangSuDung', 'BaoTri', 'DonDep', 'TamKhoa')) NOT NULL DEFAULT 'Trong',
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        UpdatedAt DATETIME NULL,
+        CreatedBy INT NULL,
+        IsDeleted BIT NOT NULL DEFAULT 0,
+        RowVer ROWVERSION NOT NULL
+    );
+
+    CREATE TABLE DatPhongChiTiet (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdDonHang INT NOT NULL,
+        NgayNhan DATETIME NOT NULL,
+        NgayTra DATETIME NOT NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('DaDat', 'DaNhan', 'DaTra', 'DaHuy', 'HoanTat')) NOT NULL DEFAULT 'DaDat',
+        CHECK (NgayTra >= NgayNhan)
+    );
+
+    CREATE TABLE ChiTietDatPhong (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdDatPhongChiTiet INT NOT NULL,
+        IdPhong INT NOT NULL,
+        DonGiaThucTe DECIMAL(15,0) NOT NULL CHECK (DonGiaThucTe >= 0)
+    );
+
+    -- =================== 6. BÃI ĐỖ XE ===================
+    CREATE TABLE LuotVaoRaBaiXe (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        BienSo NVARCHAR(20) NOT NULL,
+        MaRfid NVARCHAR(50) NULL,
+        ThoiGianVao DATETIME NOT NULL DEFAULT GETDATE(),
+        ThoiGianRa DATETIME NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('DangDo', 'DaRa')) NOT NULL DEFAULT 'DangDo',
+        CHECK (ThoiGianRa IS NULL OR ThoiGianRa >= ThoiGianVao)
+    );
+
+    CREATE TABLE BaiDoXe (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenBai NVARCHAR(100) NOT NULL,
+        TongCho INT NULL CHECK (TongCho IS NULL OR TongCho >= 0)
+    );
+
+    CREATE TABLE VeDoXeChiTiet (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdDonHang INT NOT NULL,
+        IdLuotVaoRa INT NOT NULL,
+        TienPhaiTra DECIMAL(15,0) NOT NULL CHECK (TienPhaiTra >= 0)
+    );
+
+    -- =================== 7. BIỂN NHÂN TẠO ===================
+    CREATE TABLE KhuVucBien (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenKhuVuc NVARCHAR(100) NOT NULL,
+        DoSauToiDa DECIMAL(5,2) NULL CHECK (DoSauToiDa IS NULL OR DoSauToiDa >= 0),
+        YeuCauPhao BIT NOT NULL DEFAULT 0
+    );
+
+    CREATE TABLE ThietBiTaoSong (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenThietBi NVARCHAR(100) NOT NULL,
+        CongSuat NVARCHAR(50) NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('HoatDong', 'BaoTri', 'Hong')) NOT NULL DEFAULT 'HoatDong'
+    );
+
+    CREATE TABLE LichTaoSong (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdThietBi INT NOT NULL,
+        ThoiGianBatDau DATETIME NOT NULL,
+        ThoiGianKetThuc DATETIME NOT NULL,
+        KieuSong NVARCHAR(50) NULL,
+        CHECK (ThoiGianKetThuc > ThoiGianBatDau)
+    );
+
+    CREATE TABLE ChatLuongNuoc (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdKhuVucBien INT NOT NULL,
+        Ngay DATE NOT NULL,
+        DoMan DECIMAL(5,2) NULL,
+        PH DECIMAL(3,2) NULL CHECK (PH IS NULL OR (PH >= 0 AND PH <= 14)),
+        NhietDo DECIMAL(4,2) NULL,
+        DoTrong INT NULL,
+        TrangThaiVeSinh NVARCHAR(20) CHECK (TrangThaiVeSinh IN ('Dat', 'KhongDat')) NOT NULL
+    );
+
+    CREATE TABLE CaTrucCuuHo (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdNhanVien INT NOT NULL,
+        IdKhuVucBien INT NOT NULL,
+        ThoiGianBatDau DATETIME NOT NULL,
+        ThoiGianKetThuc DATETIME NOT NULL,
+        CHECK (ThoiGianKetThuc > ThoiGianBatDau)
+    );
+
+    CREATE TABLE ChoiNghiMat (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MaCode VARCHAR(20) UNIQUE,
+        IdKhuVucBien INT NOT NULL,
+        IdSanPham INT NULL, -- Map "Dịch vụ thuê chòi" để dùng BangGia
+        TenChoi NVARCHAR(100) NOT NULL,
+        SucChua INT NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('Trong', 'DaDat', 'DangSuDung')) NOT NULL DEFAULT 'Trong',
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        CreatedBy INT NULL,
+        IsDeleted BIT NOT NULL DEFAULT 0,
+        RowVer ROWVERSION NOT NULL
+    );
+
+    CREATE TABLE ThueChoi (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdChiTietThue INT NOT NULL,
+        IdChoi INT NOT NULL
+    );
+
+    -- =================== 8. TRƯỜNG ĐUA ===================
+    CREATE TABLE DuongDua (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenDuong NVARCHAR(100) NOT NULL,
+        ChieuDai FLOAT NULL,
+        LoaiMat NVARCHAR(50) NULL
+    );
+
+    CREATE TABLE LoaiHinhDua (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenLoai NVARCHAR(50) NOT NULL
+    );
+
+    CREATE TABLE GiaiDua (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenGiai NVARCHAR(100) NOT NULL,
+        ThoiGianBatDau DATETIME NULL,
+        ThoiGianKetThuc DATETIME NULL
+    );
+
+    CREATE TABLE LichThiDau (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdGiaiDua INT NOT NULL,
+        IdDuongDua INT NOT NULL,
+        IdLoaiHinh INT NOT NULL,
+        ThoiGianDuKien DATETIME NOT NULL
+    );
+
+    CREATE TABLE VanDongVien (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        HoTen NVARCHAR(100) NOT NULL,
+        LoaiVdv NVARCHAR(20) CHECK (LoaiVdv IN ('NaiNgua', 'TayDua', 'ChoDua')) NOT NULL
+    );
+
+    CREATE TABLE NguaDua (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenNgua NVARCHAR(100) NOT NULL,
+        IdVdv INT NOT NULL,
+        Tuoi INT NULL,
+        ThanhTich NVARCHAR(MAX) NULL
+    );
+
+    CREATE TABLE PhuongTienDua (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenXe NVARCHAR(100) NOT NULL,
+        IdVdv INT NOT NULL,
+        TinhTrang NVARCHAR(20) CHECK (TinhTrang IN ('Tot', 'BaoTri')) NOT NULL DEFAULT 'Tot'
+    );
+
+    CREATE TABLE BaoTriPhuongTienDua (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdPhuongTienDua INT NULL,
+        IdNguaDua INT NULL,
+        NgayBaoTri DATE NOT NULL,
+        NoiDung NVARCHAR(MAX) NULL,
+        ChiPhi DECIMAL(15,0) NOT NULL,
+        IdPhieuChi INT NULL
+    );
+
+    CREATE TABLE KetQuaDua (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdLichThiDau INT NOT NULL,
+        IdVdv INT NOT NULL,
+        IdPhuongTienDua INT NULL,
+        IdNguaDua INT NULL,
+        ThuTuVeDich INT NOT NULL,
+        ThanhTichThoiGian TIME NULL
+    );
+
+    CREATE TABLE KhanDai (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenKhanDai NVARCHAR(100) NOT NULL,
+        SucChua INT NULL
+    );
+
+    GO
+
+    -- =================== 9. Kiosk TỰ ĐỘNG ===================
+    CREATE TABLE Kiosk (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        ViTri NVARCHAR(100) NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('Online', 'Offline', 'BaoTri')) NOT NULL DEFAULT 'Online'
+    );
+
+    CREATE TABLE TonKhoKiosk (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdKiosk INT NOT NULL,
+        IdSanPham INT NOT NULL,
+        SoLuong INT NOT NULL CHECK (SoLuong >= 0),
+        NguongCanhBao INT NULL CHECK (NguongCanhBao IS NULL OR NguongCanhBao >= 0),
+        CONSTRAINT UqTonKhoKiosk UNIQUE (IdKiosk, IdSanPham),
+        RowVer ROWVERSION NOT NULL
+    );
+
+    -- =================== 10. VƯỜN THÚ ===================
+    CREATE TABLE KhuVucThu (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenKhuVuc NVARCHAR(100) NOT NULL,
+        MoTa NVARCHAR(MAX) NULL
+    );
+
+    CREATE TABLE DongVat ( 
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        Ten NVARCHAR(100) NOT NULL,
+        Loai NVARCHAR(50) NULL,
+        MoTa NVARCHAR(MAX) NULL,
+        NgaySinh DATE NULL,
+        TinhTrangSucKhoe NVARCHAR(50) NULL
+    );
+
+    CREATE TABLE ChuongTrai (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdKhuVucThu INT NOT NULL,
+        IdDongVat INT NOT NULL,
+        TenChuong NVARCHAR(50) NOT NULL,
+        SucChua INT NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('HoatDong', 'BaoTri')) NOT NULL DEFAULT 'HoatDong'
+    );
+
+    CREATE TABLE LichChoAn ( 
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdDongVat INT NOT NULL,
+        ThoiGian DATETIME NOT NULL,
+        ThucAn NVARCHAR(200) NULL,
+        NguoiPhuTrach INT NULL
+    );
+
+    CREATE TABLE DatChoThuAn (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdDonHang INT NOT NULL,
+        IdDongVat INT NOT NULL,
+        IdVeDienTu UNIQUEIDENTIFIER NULL,
+        ThoiGianDuKien DATETIME NOT NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('ChuaSuDung', 'DaSuDung')) NOT NULL DEFAULT 'ChuaSuDung'
+    );
+
+    -- =================== 11. NHÀ HÀNG & ĐẶT BÀN ===================
+    CREATE TABLE NhaHang (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenNhaHang NVARCHAR(100) NOT NULL,
+        IdKhuVuc INT NULL,
+        SucChua INT NULL,
+        MoTa NVARCHAR(MAX) NULL
+    );
+
+    CREATE TABLE BanAn (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdNhaHang INT NOT NULL,
+        MaBan NVARCHAR(20) NOT NULL,
+        SucChua INT NOT NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('Trong', 'DaDat', 'DangSuDung')) NOT NULL DEFAULT 'Trong',
+        CONSTRAINT UqBanAnTheoNhaHang UNIQUE (IdNhaHang, MaBan),
+        RowVer ROWVERSION NOT NULL
+    );
+
+    CREATE TABLE DatBan (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdDonHang INT NOT NULL,
+        IdNhaHang INT NOT NULL,
+        ThoiGianDat DATETIME NOT NULL DEFAULT GETDATE(),
+        ThoiGianDenDuKien DATETIME NOT NULL,
+        SoLuongKhach INT NOT NULL CHECK (SoLuongKhach > 0),
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('DaDat', 'DaNhan', 'DaHuy')) NOT NULL DEFAULT 'DaDat'
+    );
+
+    CREATE TABLE ChiTietDatBan (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdDatBan INT NOT NULL,
+        IdBanAn INT NOT NULL
+    );
+
+    -- =================== 12. KHO HÀNG & MUA SẮM ===================
+    CREATE TABLE NhaCungCap (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        Ten NVARCHAR(200) NOT NULL,
+        MaSoThue NVARCHAR(20) NULL,
+        DiaChi NVARCHAR(200) NULL,
+        DienThoai NVARCHAR(20) NULL,
+        NguoiLienHe NVARCHAR(100) NULL,
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        UpdatedAt DATETIME NULL,
+        CreatedBy INT NULL,
+        IsDeleted BIT NOT NULL DEFAULT 0
+    );
+
+    CREATE TABLE KhoHang (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenKho NVARCHAR(100) NOT NULL,
+        LoaiKho NVARCHAR(20) CHECK (LoaiKho IN ('TrungTam', 'Kiosk', 'NhaHang')) NOT NULL,
+        DiaChi NVARCHAR(200) NULL,
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        IsDeleted BIT NOT NULL DEFAULT 0
+    );
+
+    CREATE TABLE PhieuNhapKho (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdKho INT NOT NULL,
+        IdNhaCungCap INT NULL,
+        NgayNhap DATETIME NOT NULL DEFAULT GETDATE(),
+        SoChungTu NVARCHAR(50) NULL,
+        TongTien DECIMAL(15,0) NOT NULL CHECK (TongTien >= 0),
+        IdPhieuChi INT NULL,
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        CreatedBy INT NULL
+    );
+
+    CREATE TABLE ChiTietNhapKho (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdPhieuNhap INT NOT NULL,
+        IdSanPham INT NOT NULL,
+        SoLuong INT NOT NULL CHECK (SoLuong > 0),
+        DonGiaNhap DECIMAL(15,0) NOT NULL CHECK (DonGiaNhap >= 0)
+    );
+
+    CREATE TABLE PhieuXuatKho (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdKhoXuat INT NOT NULL,
+        IdKhoNhan INT NULL,
+        NgayXuat DATETIME NOT NULL DEFAULT GETDATE(),
+        LyDo NVARCHAR(200) NULL,
+        IdDonHangLienQuan INT NULL,
+        CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
+        CreatedBy INT NULL
+    );
+
+    CREATE TABLE ChiTietXuatKho (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdPhieuXuat INT NOT NULL,
+        IdSanPham INT NOT NULL,
+        SoLuong INT NOT NULL CHECK (SoLuong > 0),
+        DonGiaXuat DECIMAL(15,0) NULL CHECK (DonGiaXuat IS NULL OR DonGiaXuat >= 0)
+    );
+
+    CREATE TABLE TonKho (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdKho INT NOT NULL,
+        IdSanPham INT NOT NULL,
+        SoLuong INT NOT NULL CHECK (SoLuong >= 0),
+        CONSTRAINT UqTonKho UNIQUE (IdKho, IdSanPham),
+        RowVer ROWVERSION NOT NULL
+    );
+
+    -- =================== 13. AN TOÀN, SỰ CỐ ===================
+    CREATE TABLE SuCo (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdKhachHang INT NULL,
+        IdNhanVienXuLy INT NULL,
+        ThoiGian DATETIME NOT NULL DEFAULT GETDATE(),
+        MoTa NVARCHAR(MAX) NOT NULL,
+        MucDo NVARCHAR(20) CHECK (MucDo IN ('Nhe', 'TrungBinh', 'NghiemTrong', 'KhanCap')) NOT NULL,
+        ToaDoGps NVARCHAR(100) NULL,
+        LoaiSuCo NVARCHAR(20) CHECK (LoaiSuCo IN ('Thuong', 'DuoiNuoc', 'MatTre', 'DanhNhau', 'ThietBi', 'Khac')) NOT NULL DEFAULT 'Khac'
+    );
+
+    CREATE TABLE ThatLac (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        MoTaDoVat NVARCHAR(MAX) NOT NULL,
+        NoiTimThay NVARCHAR(200) NULL,
+        TrangThai NVARCHAR(20) CHECK (TrangThai IN ('ChoNhan', 'DaTra', 'DaThanhLy')) NOT NULL DEFAULT 'ChoNhan',
+        IdKhachHangNhan INT NULL
+    );
+    insert into ThatLac(MoTaDoVat,NoiTimThay,TrangThai)  values ('công viên a','công viên a','ChoNhan'),('công viên a','công viên a','ChoNhan'),('công viên a','công viên a','ChoNhan'),('công viên a','công viên a','ChoNhan');
+    -- =================== 14. THIẾT BỊ APP ===================
+    CREATE TABLE ThietBiApp (
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        IdKhachHang INT NOT NULL,
+        FcmToken NVARCHAR(255) NULL,
+        ToaDoLat DECIMAL(10,8) NULL,
+        ToaDoLong DECIMAL(11,8) NULL
+    );
+
+    -- =================== 15. CHỈ MỤC BẮT BUỘC ===================
+    CREATE INDEX IxDonHangKhachHang ON DonHang(IdKhachHang);
+    CREATE INDEX IxChiTietDonHangDonHang ON ChiTietDonHang(IdDonHang);
+    CREATE INDEX IxVeDienTuChiTietDonHang ON VeDienTu(IdChiTietDonHang);
+    CREATE INDEX IxThueDoChiTietDonHang ON ThueDoChiTiet(IdDonHang);
+    CREATE INDEX IxGiaoDichViVi ON GiaoDichVi(IdVi);
+    CREATE INDEX IxGiaoDichViDonHang ON GiaoDichVi(IdDonHangLienQuan);
+    CREATE INDEX IxLuotVaoRaBaiXeRfid ON LuotVaoRaBaiXe(MaRfid);
+    CREATE INDEX IxLichTaoSongThietBi ON LichTaoSong(IdThietBi);
+    CREATE INDEX IxLichThiDauGiaiDua ON LichThiDau(IdGiaiDua);
+    CREATE INDEX IxKetQuaDuaLichThiDau ON KetQuaDua(IdLichThiDau);
+    CREATE INDEX IxThueChoiChiTietThue ON ThueChoi(IdChiTietThue);
+    CREATE INDEX IxLichChoAnDongVat ON LichChoAn(IdDongVat);
+    CREATE INDEX IxDatChoThuAnDonHang ON DatChoThuAn(IdDonHang);
+    CREATE INDEX IxBanAnNhaHang ON BanAn(IdNhaHang);
+    CREATE INDEX IxDatBanDonHang ON DatBan(IdDonHang);
+    CREATE INDEX IxChiTietDatBanDatBan ON ChiTietDatBan(IdDatBan);
+    CREATE INDEX IxTonKhoKhoHang ON TonKho(IdKho);
+    CREATE INDEX IxTonKhoSanPham ON TonKho(IdSanPham);
+    CREATE UNIQUE INDEX UqLichTaoSong_DeviceTime ON LichTaoSong(IdThietBi, ThoiGianBatDau, ThoiGianKetThuc);
+    CREATE UNIQUE INDEX UqChatLuongNuoc_KhuNgay ON ChatLuongNuoc(IdKhuVucBien, Ngay);
+    GO
+
+    -- =================== 16. STORED PROCEDURE TRUY VẤN TỔNG HỢP ===================
+    CREATE PROCEDURE SpGetChiTietDonHangToanPhan
+        @IdDonHang INT
+    AS
+    BEGIN
+        SET NOCOUNT ON;
+        
+        -- 1. Thông tin chung đơn hàng
+        SELECT dh.*, kh.HoTen, kh.DienThoai
+        FROM DonHang dh
+        LEFT JOIN KhachHang kh ON dh.IdKhachHang = kh.Id
+        WHERE dh.Id = @IdDonHang;
+
+        -- 2. Sản Phẩm/Combo mua đứt
+        SELECT CTDH.*, ISNULL(sp.Ten, cb.Ten) AS TenItem
+        FROM ChiTietDonHang CTDH
+        LEFT JOIN SanPham sp ON CTDH.IdSanPham = sp.Id
+        LEFT JOIN Combo cb ON CTDH.IdCombo = cb.Id
+        WHERE CTDH.IdDonHang = @IdDonHang;
+
+        -- 3. Đặt Phòng khách sạn
+        SELECT dp.*, p.TenPhong
+        FROM DatPhongChiTiet dp
+        JOIN ChiTietDatPhong CTDP ON dp.Id = CTDP.IdDatPhongChiTiet
+        JOIN Phong p ON CTDP.IdPhong = p.Id
+        WHERE dp.IdDonHang = @IdDonHang;
+
+        -- 4. Thuê đồ (Phao, Tủ, Chòi)
+        SELECT td.*, sp.Ten
+        FROM ThueDoChiTiet td
+        JOIN SanPham sp ON td.IdSanPham = sp.Id
+        WHERE td.IdDonHang = @IdDonHang;
+
+        -- 5. Bãi đỗ xe
+        SELECT VDX.*, LVR.BienSo, LVR.ThoiGianVao
+        FROM VeDoXeChiTiet VDX
+        JOIN LuotVaoRaBaiXe LVR ON VDX.IdLuotVaoRa = LVR.Id
+        WHERE VDX.IdDonHang = @IdDonHang;
+
+        -- 6. Đặt bàn nhà hàng
+        SELECT db.*, nh.TenNhaHang
+        FROM DatBan db
+        JOIN NhaHang nh ON db.IdNhaHang = nh.Id
+        WHERE db.IdDonHang = @IdDonHang;
+
+        -- 7. Vườn thú (Cho ăn)
+        SELECT DCTa.*, dv.Ten AS TenConVat
+        FROM DatChoThuAn DCTa
+        JOIN DongVat dv ON DCTa.IdDongVat = dv.Id
+        WHERE DCTa.IdDonHang = @IdDonHang;
+    END;
+    GO
+
+    -- =================== 17. Đã Loại bỏ TRIGGER (Đổi sang State Machine Draft/Active) ===================
+    -- TRIGGER kiểm tra 100% tỷ lệ Combo bị gỡ bỏ để C# BUS có thể thêm nối lẻ từng ct combo.
+
+    -- =================== 18. RÀNG BUỘC & CHỈ MỤC BỔ SUNG (Tối ưu Hiệu suất & OCC) ===================
+
+    -- Kiểm tra kho không âm (ngăn xuất quá số lượng)
+    ALTER TABLE TonKho ADD CONSTRAINT CkTonKhoSoLuong CHECK (SoLuong >= 0);
+    ALTER TABLE TonKhoKiosk ADD CONSTRAINT CkTonKhoKioskSoLuong CHECK (SoLuong >= 0);
+
+    -- Tối ưu INDEX cho khóa ngoại hay JOIN
+    CREATE INDEX IxChiTietDonHangSanPham ON ChiTietDonHang(IdSanPham);
+    CREATE INDEX IxChiTietDonHangCombo ON ChiTietDonHang(IdCombo);
+    CREATE INDEX IxDatPhongChiTietNgayNhan ON DatPhongChiTiet(NgayNhan);
+    CREATE INDEX IxThueDoChiTietThoiGianBatDau ON ThueDoChiTiet(ThoiGianBatDau);
+    CREATE INDEX IxLichThiDauThoiGian ON LichThiDau(ThoiGianDuKien);
+    CREATE INDEX IxTonKhoKioskKiosk ON TonKhoKiosk(IdKiosk);
+    CREATE INDEX IxPhieuNhapKhoNgayNhap ON PhieuNhapKho(NgayNhap);
+    CREATE INDEX IxPhieuXuatKhoNgayXuat ON PhieuXuatKho(NgayXuat);
+    GO
+
+    -- =================== 15.2 TRIGGER RÀNG BUỘC NGHIỆP VỤ ===================
+    -- BangGia: không cho phép overlap khoảng thời gian theo (IdSanPham, LoaiGia)
+  
+    -- ComboChiTiet: tổng TyLePhanBo theo IdCombo phải = 100
+    CREATE TRIGGER TrgComboChiTietTyLe100
+    ON ComboChiTiet
+    AFTER INSERT, UPDATE, DELETE
+    AS
+    BEGIN
+        SET NOCOUNT ON;
+
+        IF EXISTS (
+            SELECT 1
+            FROM (
+                SELECT IdCombo FROM inserted
+                UNION
+                SELECT IdCombo FROM deleted
+            ) x
+            CROSS APPLY (
+                SELECT SUM(ISNULL(TyLePhanBo, 0)) AS TongTyLe
+                FROM ComboChiTiet c
+                WHERE c.IdCombo = x.IdCombo
+            ) s
+            WHERE x.IdCombo IS NOT NULL
+              AND ABS(ISNULL(s.TongTyLe, 0) - 100) > 0.01
+        )
+        BEGIN
+            RAISERROR (N'Tổng TyLePhanBo của từng Combo phải bằng 100.', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+    END
+    GO
+
+    -- =================== TỔNG HỢP KHÓA NGOẠI (CENTRALIZED FOREIGN KEYS) ===================
+    ALTER TABLE PhanQuyen ADD CONSTRAINT FkPhanQuyenIdVaiTro FOREIGN KEY (IdVaiTro) REFERENCES VaiTro(Id);
+    ALTER TABLE PhanQuyen ADD CONSTRAINT FkPhanQuyenIdQuyen FOREIGN KEY (IdQuyen) REFERENCES QuyenHan(Id);
+    ALTER TABLE NhanVien ADD CONSTRAINT FkNhanVienIdVaiTro FOREIGN KEY (IdVaiTro) REFERENCES VaiTro(Id);
+    ALTER TABLE DoanKhach ADD CONSTRAINT FkDoanKhachCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE KhachHang ADD CONSTRAINT FkKhachHangIdDoan FOREIGN KEY (IdDoan) REFERENCES DoanKhach(Id);
+    ALTER TABLE KhachHang ADD CONSTRAINT FkKhachHangCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE KhuVuc ADD CONSTRAINT FkKhuVucCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE DonViTinh ADD CONSTRAINT FkDonViTinhCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE SanPham ADD CONSTRAINT FkSanPhamIdDonViCoBan FOREIGN KEY (IdDonViCoBan) REFERENCES DonViTinh(Id);
+    ALTER TABLE SanPham ADD CONSTRAINT FkSanPhamIdKhuVuc FOREIGN KEY (IdKhuVuc) REFERENCES KhuVuc(Id);
+    ALTER TABLE SanPham ADD CONSTRAINT FkSanPhamCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE BangGia ADD CONSTRAINT FkBangGiaIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    ALTER TABLE BangGia ADD CONSTRAINT FkBangGiaMaLoaiGia FOREIGN KEY (MaLoaiGia) REFERENCES DM_LoaiGia(MaLoaiGia);
+    ALTER TABLE BangGia ADD CONSTRAINT FkBangGiaCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE BangGia_BieuDoGio ADD CONSTRAINT FkBieuDoGioIdBangGia FOREIGN KEY (IdBangGia) REFERENCES BangGia(Id);
+    ALTER TABLE QuyDoiDonVi ADD CONSTRAINT FkQuyDoiDonViIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    ALTER TABLE QuyDoiDonVi ADD CONSTRAINT FkQuyDoiDonViIdDonViNho FOREIGN KEY (IdDonViNho) REFERENCES DonViTinh(Id);
+    ALTER TABLE QuyDoiDonVi ADD CONSTRAINT FkQuyDoiDonViIdDonViLon FOREIGN KEY (IdDonViLon) REFERENCES DonViTinh(Id);
+    ALTER TABLE Combo ADD CONSTRAINT FkComboCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE ComboChiTiet ADD CONSTRAINT FkComboChiTietIdCombo FOREIGN KEY (IdCombo) REFERENCES Combo(Id);
+    ALTER TABLE ComboChiTiet ADD CONSTRAINT FkComboChiTietIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    ALTER TABLE SuKien ADD CONSTRAINT FkSuKienCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE KhuyenMai ADD CONSTRAINT FkKhuyenMaiIdSuKien FOREIGN KEY (IdSuKien) REFERENCES SuKien(Id);
+    ALTER TABLE DonHang ADD CONSTRAINT FkDonHangIdKhachHang FOREIGN KEY (IdKhachHang) REFERENCES KhachHang(Id);
+    ALTER TABLE DonHang ADD CONSTRAINT FkDonHangIdDoan FOREIGN KEY (IdDoan) REFERENCES DoanKhach(Id);
+    ALTER TABLE DonHang ADD CONSTRAINT FkDonHangIdKhuyenMai FOREIGN KEY (IdKhuyenMai) REFERENCES KhuyenMai(Id);
+    ALTER TABLE DonHang ADD CONSTRAINT FkDonHangCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE ChiTietDonHang ADD CONSTRAINT FkChiTietDonHangIdDonHang FOREIGN KEY (IdDonHang) REFERENCES DonHang(Id);
+    ALTER TABLE ChiTietDonHang ADD CONSTRAINT FkChiTietDonHangIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    ALTER TABLE ChiTietDonHang ADD CONSTRAINT FkChiTietDonHangIdCombo FOREIGN KEY (IdCombo) REFERENCES Combo(Id);
+    ALTER TABLE ViTriNgoi ADD CONSTRAINT FkViTriNgoiIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    ALTER TABLE VeDienTu ADD CONSTRAINT FkVeDienTuIdChiTietDonHang FOREIGN KEY (IdChiTietDonHang) REFERENCES ChiTietDonHang(Id);
+    ALTER TABLE VeDienTu ADD CONSTRAINT FkVeDienTuIdKhachHangSuDung FOREIGN KEY (IdKhachHangSuDung) REFERENCES KhachHang(Id);
+    ALTER TABLE VeDienTu ADD CONSTRAINT FkVeDienTuIdViTriNgoi FOREIGN KEY (IdViTriNgoi) REFERENCES ViTriNgoi(Id);
+    ALTER TABLE ViDienTu ADD CONSTRAINT FkViDienTuIdKhachHang FOREIGN KEY (IdKhachHang) REFERENCES KhachHang(Id);
+    ALTER TABLE TheRFID ADD CONSTRAINT FkTheRFIDIdVi FOREIGN KEY (IdVi) REFERENCES ViDienTu(Id);
+    ALTER TABLE GiaoDichVi ADD CONSTRAINT FkGiaoDichViIdVi FOREIGN KEY (IdVi) REFERENCES ViDienTu(Id);
+    ALTER TABLE GiaoDichVi ADD CONSTRAINT FkGiaoDichViIdDonHangLienQuan FOREIGN KEY (IdDonHangLienQuan) REFERENCES DonHang(Id);
+    ALTER TABLE GiaoDichVi ADD CONSTRAINT FkGiaoDichViParentTransactionId FOREIGN KEY (ParentTransactionId) REFERENCES GiaoDichVi(Id);
+    ALTER TABLE GiaoDichVi ADD CONSTRAINT FkGiaoDichViCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE PhieuThu ADD CONSTRAINT FkPhieuThuIdDonHang FOREIGN KEY (IdDonHang) REFERENCES DonHang(Id);
+    ALTER TABLE PhieuThu ADD CONSTRAINT FkPhieuThuIdGiaoDichVi FOREIGN KEY (IdGiaoDichVi) REFERENCES GiaoDichVi(Id);
+    ALTER TABLE PhieuThu ADD CONSTRAINT FkPhieuThuCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE PhieuChi ADD CONSTRAINT FkPhieuChiCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdDonHang FOREIGN KEY (IdDonHang) REFERENCES DonHang(Id);
+    ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdGiaoDichCoc FOREIGN KEY (IdGiaoDichCoc) REFERENCES GiaoDichVi(Id);
+    ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdGiaoDichHoanCoc FOREIGN KEY (IdGiaoDichHoanCoc) REFERENCES GiaoDichVi(Id);
+    ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdGiaoDichPhat FOREIGN KEY (IdGiaoDichPhat) REFERENCES GiaoDichVi(Id);
+    ALTER TABLE TuDo ADD CONSTRAINT FkTuDoIdKhuVuc FOREIGN KEY (IdKhuVuc) REFERENCES KhuVuc(Id);
+    ALTER TABLE ThueTu ADD CONSTRAINT FkThueTuIdChiTietThue FOREIGN KEY (IdChiTietThue) REFERENCES ThueDoChiTiet(Id);
+    ALTER TABLE ThueTu ADD CONSTRAINT FkThueTuIdTuDo FOREIGN KEY (IdTuDo) REFERENCES TuDo(Id);
+    ALTER TABLE Phong ADD CONSTRAINT FkPhongIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    ALTER TABLE Phong ADD CONSTRAINT FkPhongCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE DatPhongChiTiet ADD CONSTRAINT FkDatPhongChiTietIdDonHang FOREIGN KEY (IdDonHang) REFERENCES DonHang(Id);
+    ALTER TABLE ChiTietDatPhong ADD CONSTRAINT FkChiTietDatPhongIdDatPhongChiTiet FOREIGN KEY (IdDatPhongChiTiet) REFERENCES DatPhongChiTiet(Id);
+    ALTER TABLE ChiTietDatPhong ADD CONSTRAINT FkChiTietDatPhongIdPhong FOREIGN KEY (IdPhong) REFERENCES Phong(Id);
+    ALTER TABLE LuotVaoRaBaiXe ADD CONSTRAINT FkLuotVaoRaBaiXeMaRfid FOREIGN KEY (MaRfid) REFERENCES TheRFID(MaRfid);
+    ALTER TABLE VeDoXeChiTiet ADD CONSTRAINT FkVeDoXeChiTietIdDonHang FOREIGN KEY (IdDonHang) REFERENCES DonHang(Id);
+    ALTER TABLE VeDoXeChiTiet ADD CONSTRAINT FkVeDoXeChiTietIdLuotVaoRa FOREIGN KEY (IdLuotVaoRa) REFERENCES LuotVaoRaBaiXe(Id);
+    ALTER TABLE LichTaoSong ADD CONSTRAINT FkLichTaoSongIdThietBi FOREIGN KEY (IdThietBi) REFERENCES ThietBiTaoSong(Id);
+    ALTER TABLE ChatLuongNuoc ADD CONSTRAINT FkChatLuongNuocIdKhuVucBien FOREIGN KEY (IdKhuVucBien) REFERENCES KhuVucBien(Id);
+    ALTER TABLE CaTrucCuuHo ADD CONSTRAINT FkCaTrucCuuHoIdNhanVien FOREIGN KEY (IdNhanVien) REFERENCES NhanVien(Id);
+    ALTER TABLE CaTrucCuuHo ADD CONSTRAINT FkCaTrucCuuHoIdKhuVucBien FOREIGN KEY (IdKhuVucBien) REFERENCES KhuVucBien(Id);
+    ALTER TABLE ChoiNghiMat ADD CONSTRAINT FkChoiNghiMatIdKhuVucBien FOREIGN KEY (IdKhuVucBien) REFERENCES KhuVucBien(Id);
+    ALTER TABLE ChoiNghiMat ADD CONSTRAINT FkChoiNghiMatIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    ALTER TABLE ChoiNghiMat ADD CONSTRAINT FkChoiNghiMatCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE ThueChoi ADD CONSTRAINT FkThueChoiIdChiTietThue FOREIGN KEY (IdChiTietThue) REFERENCES ThueDoChiTiet(Id);
+    ALTER TABLE ThueChoi ADD CONSTRAINT FkThueChoiIdChoi FOREIGN KEY (IdChoi) REFERENCES ChoiNghiMat(Id);
+    ALTER TABLE LichThiDau ADD CONSTRAINT FkLichThiDauIdGiaiDua FOREIGN KEY (IdGiaiDua) REFERENCES GiaiDua(Id);
+    ALTER TABLE LichThiDau ADD CONSTRAINT FkLichThiDauIdDuongDua FOREIGN KEY (IdDuongDua) REFERENCES DuongDua(Id);
+    ALTER TABLE LichThiDau ADD CONSTRAINT FkLichThiDauIdLoaiHinh FOREIGN KEY (IdLoaiHinh) REFERENCES LoaiHinhDua(Id);
+    ALTER TABLE NguaDua ADD CONSTRAINT FkNguaDuaIdVdv FOREIGN KEY (IdVdv) REFERENCES VanDongVien(Id);
+    ALTER TABLE PhuongTienDua ADD CONSTRAINT FkPhuongTienDuaIdVdv FOREIGN KEY (IdVdv) REFERENCES VanDongVien(Id);
+    ALTER TABLE BaoTriPhuongTienDua ADD CONSTRAINT FkBaoTriPhuongTienDuaIdPhuongTienDua FOREIGN KEY (IdPhuongTienDua) REFERENCES PhuongTienDua(Id);
+    ALTER TABLE BaoTriPhuongTienDua ADD CONSTRAINT FkBaoTriPhuongTienDuaIdNguaDua FOREIGN KEY (IdNguaDua) REFERENCES NguaDua(Id);
+    ALTER TABLE BaoTriPhuongTienDua ADD CONSTRAINT FkBaoTriPhuongTienDuaIdPhieuChi FOREIGN KEY (IdPhieuChi) REFERENCES PhieuChi(Id);
+    ALTER TABLE KetQuaDua ADD CONSTRAINT FkKetQuaDuaIdLichThiDau FOREIGN KEY (IdLichThiDau) REFERENCES LichThiDau(Id);
+    ALTER TABLE KetQuaDua ADD CONSTRAINT FkKetQuaDuaIdVdv FOREIGN KEY (IdVdv) REFERENCES VanDongVien(Id);
+    ALTER TABLE KetQuaDua ADD CONSTRAINT FkKetQuaDuaIdPhuongTienDua FOREIGN KEY (IdPhuongTienDua) REFERENCES PhuongTienDua(Id);
+    ALTER TABLE KetQuaDua ADD CONSTRAINT FkKetQuaDuaIdNguaDua FOREIGN KEY (IdNguaDua) REFERENCES NguaDua(Id);
+    ALTER TABLE TonKhoKiosk ADD CONSTRAINT FkTonKhoKioskIdKiosk FOREIGN KEY (IdKiosk) REFERENCES Kiosk(Id);
+    ALTER TABLE TonKhoKiosk ADD CONSTRAINT FkTonKhoKioskIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    ALTER TABLE ChuongTrai ADD CONSTRAINT FkChuongTraiIdKhuVucThu FOREIGN KEY (IdKhuVucThu) REFERENCES KhuVucThu(Id);
+    ALTER TABLE ChuongTrai ADD CONSTRAINT FkChuongTraiIdDongVat FOREIGN KEY (IdDongVat) REFERENCES DongVat(Id);
+    ALTER TABLE LichChoAn ADD CONSTRAINT FkLichChoAnIdDongVat FOREIGN KEY (IdDongVat) REFERENCES DongVat(Id);
+    ALTER TABLE LichChoAn ADD CONSTRAINT FkLichChoAnNguoiPhuTrach FOREIGN KEY (NguoiPhuTrach) REFERENCES NhanVien(Id);
+    ALTER TABLE DatChoThuAn ADD CONSTRAINT FkDatChoThuAnIdDonHang FOREIGN KEY (IdDonHang) REFERENCES DonHang(Id);
+    ALTER TABLE DatChoThuAn ADD CONSTRAINT FkDatChoThuAnIdDongVat FOREIGN KEY (IdDongVat) REFERENCES DongVat(Id);
+    ALTER TABLE DatChoThuAn ADD CONSTRAINT FkDatChoThuAnIdVeDienTu FOREIGN KEY (IdVeDienTu) REFERENCES VeDienTu(Id);
+    ALTER TABLE NhaHang ADD CONSTRAINT FkNhaHangIdKhuVuc FOREIGN KEY (IdKhuVuc) REFERENCES KhuVuc(Id);
+    ALTER TABLE BanAn ADD CONSTRAINT FkBanAnIdNhaHang FOREIGN KEY (IdNhaHang) REFERENCES NhaHang(Id);
+    ALTER TABLE DatBan ADD CONSTRAINT FkDatBanIdDonHang FOREIGN KEY (IdDonHang) REFERENCES DonHang(Id);
+    ALTER TABLE DatBan ADD CONSTRAINT FkDatBanIdNhaHang FOREIGN KEY (IdNhaHang) REFERENCES NhaHang(Id);
+    ALTER TABLE ChiTietDatBan ADD CONSTRAINT FkChiTietDatBanIdDatBan FOREIGN KEY (IdDatBan) REFERENCES DatBan(Id);
+    ALTER TABLE ChiTietDatBan ADD CONSTRAINT FkChiTietDatBanIdBanAn FOREIGN KEY (IdBanAn) REFERENCES BanAn(Id);
+    ALTER TABLE NhaCungCap ADD CONSTRAINT FkNhaCungCapCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE PhieuNhapKho ADD CONSTRAINT FkPhieuNhapKhoIdKho FOREIGN KEY (IdKho) REFERENCES KhoHang(Id);
+    ALTER TABLE PhieuNhapKho ADD CONSTRAINT FkPhieuNhapKhoIdNhaCungCap FOREIGN KEY (IdNhaCungCap) REFERENCES NhaCungCap(Id);
+    ALTER TABLE PhieuNhapKho ADD CONSTRAINT FkPhieuNhapKhoIdPhieuChi FOREIGN KEY (IdPhieuChi) REFERENCES PhieuChi(Id);
+    ALTER TABLE PhieuNhapKho ADD CONSTRAINT FkPhieuNhapKhoCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE ChiTietNhapKho ADD CONSTRAINT FkChiTietNhapKhoIdPhieuNhap FOREIGN KEY (IdPhieuNhap) REFERENCES PhieuNhapKho(Id);
+    ALTER TABLE ChiTietNhapKho ADD CONSTRAINT FkChiTietNhapKhoIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    ALTER TABLE PhieuXuatKho ADD CONSTRAINT FkPhieuXuatKhoIdKhoXuat FOREIGN KEY (IdKhoXuat) REFERENCES KhoHang(Id);
+    ALTER TABLE PhieuXuatKho ADD CONSTRAINT FkPhieuXuatKhoIdKhoNhan FOREIGN KEY (IdKhoNhan) REFERENCES KhoHang(Id);
+    ALTER TABLE PhieuXuatKho ADD CONSTRAINT FkPhieuXuatKhoIdDonHangLienQuan FOREIGN KEY (IdDonHangLienQuan) REFERENCES DonHang(Id);
+    ALTER TABLE PhieuXuatKho ADD CONSTRAINT FkPhieuXuatKhoCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
+    ALTER TABLE ChiTietXuatKho ADD CONSTRAINT FkChiTietXuatKhoIdPhieuXuat FOREIGN KEY (IdPhieuXuat) REFERENCES PhieuXuatKho(Id);
+    ALTER TABLE ChiTietXuatKho ADD CONSTRAINT FkChiTietXuatKhoIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    ALTER TABLE TonKho ADD CONSTRAINT FkTonKhoIdKho FOREIGN KEY (IdKho) REFERENCES KhoHang(Id);
+    ALTER TABLE TonKho ADD CONSTRAINT FkTonKhoIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    ALTER TABLE SuCo ADD CONSTRAINT FkSuCoIdKhachHang FOREIGN KEY (IdKhachHang) REFERENCES KhachHang(Id);
+    ALTER TABLE SuCo ADD CONSTRAINT FkSuCoIdNhanVienXuLy FOREIGN KEY (IdNhanVienXuLy) REFERENCES NhanVien(Id);
+    ALTER TABLE ThatLac ADD CONSTRAINT FkThatLacIdKhachHangNhan FOREIGN KEY (IdKhachHangNhan) REFERENCES KhachHang(Id);
+    ALTER TABLE ThietBiApp ADD CONSTRAINT FkThietBiAppIdKhachHang FOREIGN KEY (IdKhachHang) REFERENCES KhachHang(Id);
+    ALTER TABLE NhanVien ADD CONSTRAINT FkNhanVienIdKhuVuc FOREIGN KEY (IdKhuVuc) REFERENCES KhuVuc(Id);
+    ALTER TABLE ViTriNgoi ADD CONSTRAINT FkViTriNgoiIdKhanDai FOREIGN KEY (IdKhanDai) REFERENCES KhanDai(Id);
+    ALTER TABLE VeDienTu ADD CONSTRAINT FkVeDienTuIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
+    GO
+-- =================== 19. DỮ LIỆU MẪU (SEED DATA) ===================
+    -- 19.1 Hệ thống
+    INSERT INTO VaiTro (TenVaiTro) VALUES (N'Admin'), (N'QuanLy'), (N'NhanVien');
+    INSERT INTO KhuVuc (TenKhuVuc, MoTa) VALUES (N'Quầy vé', N'Khu vực bán vé cổng chính');
+    INSERT INTO NhanVien (IdVaiTro, HoTen, ChucVu, BoPhan, TenDangNhap, MatKhau, IdKhuVuc)
+        VALUES (1, N'Administrator', N'Quản trị viên', N'Ban Giám đốc', '1', '1', 1);
+
+    -- 19.2 Từ điển Loại Giá (DM_LoaiGia)
+    INSERT INTO DM_LoaiGia (MaLoaiGia, TenHienThi, PhamViApDung) VALUES
+-- 1. [Nhóm Vé Cổng & Trường Đua]
+('NguoiLon',   N'Vé Người Lớn',         'Ve'),
+('TreEm',      N'Vé Trẻ Em',            'Ve'),
+('VeVIP',      N'Vé Khán Đài VIP',      'Ve'),
+('VeThuong',   N'Vé Khán Đài Thường',   'Ve'),
+
+-- 2. [Nhóm Thuê Đồ & Dịch Vụ]
+('TheoGio',    N'Giá Thuê Theo Giờ',    'Thue'),
+('TheoGioDV',  N'Dịch Vụ Theo Giờ',     'DichVu'),
+('TronNgay',   N'Dịch Vụ Trọn Ngày',    'DichVu'),
+('ChoThuAn',   N'Khẩu Phần Cho Thú Ăn', 'DichVu'),
+
+-- 3. [Nhóm Khách Sạn]
+('TheoNgay',   N'Giá Lưu Trú Qua Đêm',  'LuuTru'),
+('NghiTrua',   N'Giá Nghỉ Trưa (4h)',   'LuuTru'),
+('PhuThuTre',  N'Phụ Thu Check-out Trễ','LuuTru'),
+
+-- 4. [Nhóm Gửi Xe]
+('XeMay',      N'Gửi Xe Máy',           'GuiXe'),
+('OTo',        N'Gửi Ô Tô',             'GuiXe'),
+('XeDap',      N'Gửi Xe Đạp',           'GuiXe'),
+
+-- 5. [Nhóm Áp Dụng Chung (ALL) - Vũ Khí Bí Mật]
+('CuoiTuan',   N'Giá Cuối Tuần (T7, CN)','ALL'),
+('NgayThuong', N'Giá Ngày Thường',      'ALL'),
+('LeTet',      N'Giá Lễ / Tết',         'ALL'),
+('HappyHour',  N'Giá Giờ Vàng',         'ALL'),
+('TienCoc',    N'Tiền Cọc Bắt Buộc',    'ALL'),
+('PhatHuHong', N'Phạt Hư Hỏng Vật Tư',  'ALL'),
+('PhatMatThe', N'Phạt Mất Thẻ/Vòng tay','ALL');

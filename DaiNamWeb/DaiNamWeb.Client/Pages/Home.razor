@@ -1,0 +1,30 @@
+@page "/"
+
+<div class="page-header">
+    <h1>Công Viên Giải Trí Đại Nam</h1>
+    <p>Hệ thống đặt vé & quản lý dịch vụ trực tuyến</p>
+</div>
+
+<div class="action-grid">
+    <div class="action-card" @onclick='() => Nav.NavigateTo("/buy-ticket")'>
+        <div class="action-icon"><i class="bi bi-ticket-perforated"></i></div>
+        <div class="action-title">Mua vé online</div>
+        <div class="action-desc">Chọn vé, thanh toán, nhận mã QR Code</div>
+    </div>
+
+    <div class="action-card" @onclick='() => Nav.NavigateTo("/my-tickets")'>
+        <div class="action-icon"><i class="bi bi-qr-code"></i></div>
+        <div class="action-title">Vé của tôi</div>
+        <div class="action-desc">Xem vé đã mua và mã vào cổng</div>
+    </div>
+
+    <div class="action-card" @onclick='() => Nav.NavigateTo("/gate")'>
+        <div class="action-icon"><i class="bi bi-upc-scan"></i></div>
+        <div class="action-title">Soát vé</div>
+        <div class="action-desc">Nhân viên quét mã QR kiểm tra vé</div>
+    </div>
+</div>
+
+@code {
+    [Inject] NavigationManager Nav { get; set; } = default!;
+}

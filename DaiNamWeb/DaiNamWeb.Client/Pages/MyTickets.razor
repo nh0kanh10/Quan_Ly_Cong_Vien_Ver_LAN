@@ -1,0 +1,570 @@
+@page "/my-tickets"
+@inject DaiNamWeb.Client.Services.TicketService TicketSvc
+@inject DaiNamWeb.Client.Services.AuthService Auth
+@inject IJSRuntime JS
+@inject NavigationManager Nav
+
+@if (!Auth.IsLoggedIn)
+{
+    <div class="alert alert-info" style="margin-top:var(--sp-24)">
+        Vui lòng đăng nhập để xem Ví vé điện tử của bạn.
+    </div>
+    return;
+}
+
+@if (Auth.CurrentUser?.Role != DaiNamWeb.Client.Models.AppConstants.Roles.Customer)
+{
+    <div class="alert alert-warning" style="margin-top:var(--sp-24); background:var(--surface-container-high); border:1px solid var(--outline-variant); color:var(--on-surface)">
+        <i class="bi bi-shield-lock-fill" style="color:var(--primary); font-size:24px; vertical-align:middle; margin-right:8px"></i> 
+        <strong>Khu vực dành cho Khách hàng!</strong> Tài khoản nhân viên của bạn (@Auth.CurrentUser?.HoTen) không có Ví Vé điện tử cá nhân. Vui lòng chuyển sang chức năng Soát Vé hoặc Bán Hàng.
+    </div>
+    return;
+}
+
+<div class="page-header" style="margin-bottom:var(--sp-24)">
+    <h1>Ví Vé Điện Tử</h1>
+    <p>Quản lý hành trình di sản của bạn</p>
+</div>
+
+<div class="wallet-layout">
+    @* CỘT TRÁI: PROFILE & IDENTITY QR *@
+    <div class="wallet-sidebar">
+        @if (profile != null)
+        {
+            @if (profile.LoaiKhach != DaiNamWeb.Client.Models.AppConstants.LoaiKhachHang.DangKyNhanh)
+            {
+                @* Full Wallet: Khách có hồ sơ KhachHang *@
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar">@(profile.HoTen.Substring(0, 2).ToUpper())</div>
+                        <div class="profile-info">
+                            <h3>@profile.HoTen</h3>
+                            <div class="profile-tier"><i class="bi bi-shield-check"></i> HẠNG @(profile.LoaiKhach?.ToUpper() ?? "PHỔ THÔNG")</div>
+                        </div>
+                    </div>
+                    <div class="profile-points">
+                        <span>ĐIỂM TÍCH LŨY</span>
+                        <strong>@profile.DiemTichLuy.ToString("N0") <i class="bi bi-cash-stack"></i></strong>
+                    </div>
+                    
+                    @* CHI TIÊU VÀ TIẾN ĐỘ THĂNG HẠNG *@
+                    <div class="profile-spending" style="border-top:1px solid var(--outline-variant); padding-top:var(--sp-12); margin-top:var(--sp-8);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--sp-8)">
+                            <span style="font-size:11px; font-weight:600; color:var(--on-surface-variant); letter-spacing:0.5px">TỔNG CHI TIÊU</span>
+                            <strong style="font-size:14px; color:var(--on-surface);">@profile.TongChiTieu.ToString("N0")<small style="font-size:10px; color:var(--outline)">₫</small></strong>
+                        </div>
+
+                        @{
+                            decimal MucTieu = profile.LoaiKhach == "VIP" ? 50000000m : 20000000m;
+                            decimal PhanTram = profile.TongChiTieu > MucTieu ? 100 : (profile.TongChiTieu / MucTieu) * 100;
+                            string BarColor = profile.LoaiKhach == "VIP" ? "linear-gradient(90deg, #d4af37, #f3e5ab)" : "var(--primary)";
+                            string BarBg = profile.LoaiKhach == "VIP" ? "rgba(212, 175, 55, 0.2)" : "var(--surface-variant)";
+                        }
+
+                        @if (profile.LoaiKhach == "VVIP")
+                        {
+                            <div class="vvip-badge" style="text-align:center; padding:var(--sp-12); background: linear-gradient(135deg, #111, #333); border-radius:var(--radius-md); position:relative; overflow:hidden;">
+                                <i class="bi bi-gem" style="color:#d4af37; font-size:20px; display:block; margin-bottom:4px; text-shadow: 0 0 10px rgba(212,175,55,0.8)"></i>
+                                <span style="background: linear-gradient(90deg, #d4af37, #fdf5e6, #d4af37); -webkit-background-clip: text; color: transparent; font-weight:800; font-size:13px; text-transform:uppercase; animation: shine 3s infinite;">Hạng Kim Cương</span>
+                                <div style="font-size:10px; color:#888; margin-top:2px">Đặc quyền tối thượng</div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="progress-wrapper">
+                                <div class="progress-bar-bg" style="height:6px; background:@BarBg; border-radius:10px; overflow:hidden;">
+                                    <div class="progress-bar-fill" style="height:100%; width:@(PhanTram.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture))%; background:@BarColor; transition: width 1s ease-in-out;"></div>
+                                </div>
+                                <div style="display:flex; justify-content:space-between; margin-top:4px; font-size:10px; color:var(--outline); font-family:monospace">
+                                    <span>0₫</span>
+                                    <span>@MucTieu.ToString("N0")₫ tới @(profile.LoaiKhach == "VIP" ? "VVIP" : "VIP")</span>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                @* Lite Wallet: Tài khoản chưa liên kết KhachHang *@
+                <div class="profile-card" style="border-left:3px solid var(--tertiary)">
+                    <div class="profile-header">
+                        <div class="profile-avatar" style="background:var(--tertiary)">@(profile.HoTen.Substring(0, 2).ToUpper())</div>
+                        <div class="profile-info">
+                            <h3>@profile.HoTen</h3>
+                            <div class="profile-tier" style="color:var(--tertiary)"><i class="bi bi-person-badge"></i> TÀI KHOẢN NHANH</div>
+                        </div>
+                    </div>
+                    <div style="padding:var(--sp-12); background:var(--surface-container); border-radius:var(--radius-md); margin-top:var(--sp-12); text-align:center">
+                        <p style="font-size:13px; color:var(--on-surface-variant); margin:0 0 8px 0"><i class="bi bi-gift"></i> Bổ sung hồ sơ để nhận điểm tích lũy & ưu đãi thành viên</p>
+                        <a href="/profile" class="btn-cta" style="display:inline-block; padding:8px 20px; background:var(--primary); color:var(--on-primary); border-radius:var(--radius-full); font-size:13px; font-weight:600; text-decoration:none">Bổ sung ngay →</a>
+                    </div>
+                </div>
+            }
+        }
+
+        <div class="identity-card">
+            <h4 style="text-align:center; font-family:var(--font-display); font-size:16px; margin-bottom:var(--sp-16)">Mã QR Truy Cập</h4>
+            <div class="qr-container">
+                <div id="identity-qr" class="qr-code-box"></div>
+                <div style="font-family:monospace; font-weight:700; margin-top:var(--sp-8); color:var(--primary); font-size:14px; letter-spacing:2px">ID-@Auth.CurrentUser?.Id</div>
+                <div style="font-size:11px; color:var(--outline); margin-top:var(--sp-12)">
+                    Vui lòng đưa mã này cho nhân viên tại cổng soát vé
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* CỘT PHẢI: TABS & DANH SÁCH VÉ *@
+    <div class="wallet-main">
+        <div class="wallet-tabs">
+            <button class="wallet-tab @(activeTab == "my_tickets" ? "active" : "")" @onclick='() => activeTab = "my_tickets"'>Vé của tôi</button>
+            <button class="wallet-tab @(activeTab == "history" ? "active" : "")" @onclick='() => activeTab = "history"'>Hóa đơn</button>
+            <button class="wallet-tab @(activeTab == "point_history" ? "active" : "")" @onclick='() => activeTab = "point_history"'>Lịch sử điểm</button>
+            <button class="wallet-tab @(activeTab == "wallet_history" ? "active" : "")" @onclick='() => activeTab = "wallet_history"'>Giao dịch ví</button>
+            <button class="wallet-tab @(activeTab == "promotions" ? "active" : "")" @onclick='() => activeTab = "promotions"'>Ưu đãi</button>
+        </div>
+
+        <div class="wallet-content">
+            @if(activeTab == "my_tickets")
+            {
+            <div class="ticket-ledger">
+                <div class="ledger-header desktop-only">
+                    <div class="col-info">THÔNG TIN VÉ</div>
+                    <div class="col-code">MÃ CODE</div>
+                    <div class="col-date">HẠN DÙNG</div>
+                    <div class="col-status">TRẠNG THÁI</div>
+                </div>
+
+                @if (tickets == null)
+                {
+                    <div style="padding:var(--sp-24); text-align:center; color:var(--outline)">Đang tải...</div>
+                }
+                else if (!tickets.Any())
+                {
+                    <div style="padding:var(--sp-24); text-align:center; color:var(--outline)">Bạn chưa có vé nào.</div>
+                }
+                else
+                {
+                    @foreach (var t in tickets)
+                    {
+                        var statusMapping = t.TrangThai switch
+                        {
+                            "ChuaSuDung" => ("CHƯA SỬ DỤNG", "status-active", "bi-check-circle"),
+                            "DangSuDung" => ("ĐANG SỬ DỤNG", "status-active", "bi-play-circle"),
+                            "DaSuDung"   => ("ĐÃ SỬ DỤNG", "status-used", "bi-clock-history"),
+                            "HetHan"     => ("HẾT HẠN", "status-expired", "bi-x-circle"),
+                            "DaHuy"      => ("ĐÃ HỦY", "status-expired", "bi-slash-circle"),
+                            _ => (t.TrangThai, "", "")
+                        };
+
+                        <div class="ledger-row">
+                            <div class="col-info">
+                                <div class="ticket-title">@t.TenSanPham</div>
+                                <div class="ticket-sub">@(t.SoLuotConLai) lượt khả dụng</div>
+                            </div>
+                            <div class="col-code desktop-only" style="font-family:monospace; letter-spacing:1px">@t.MaCode</div>
+                            <div class="col-date desktop-only">@(t.TrangThai == "ChuaSuDung" ? "Không hạn" : "-")</div>
+                            <div class="col-status">
+                                <span class="badge @statusMapping.Item2"><i class="bi @statusMapping.Item3"></i> @statusMapping.Item1</span>
+                                @if(t.TrangThai == "ChuaSuDung")
+                                {
+                                    <button class="btn btn-ghost" style="padding:4px 8px; margin-left:var(--sp-8)" @onclick="() => ShowQrModal(t)">
+                                        <i class="bi bi-qr-code" style="font-size:18px"></i>
+                                    </button>
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            }
+            else if (activeTab == "history")
+            {
+                <div class="ticket-ledger">
+                    <div class="ledger-header desktop-only">
+                        <div class="col-date">THỜI GIAN</div>
+                        <div class="col-info">GIAO DỊCH</div>
+                        <div class="col-code">MÃ CODE</div>
+                        <div class="col-status" style="text-align:right">SỐ TIỀN</div>
+                    </div>
+
+                    @if (history == null)
+                    {
+                        <div style="padding:var(--sp-24); text-align:center; color:var(--outline)">Đang tải...</div>
+                    }
+                    else if (!history.Any())
+                    {
+                        <div style="padding:var(--sp-24); text-align:center; color:var(--outline)">Chưa có giao dịch nào.</div>
+                    }
+                    else
+                    {
+                        @foreach (var h in history)
+                        {
+                            bool isWallet = h.NguonBan == "Ví_RFID";
+                            bool isMinus = (h.LoaiGiaoDich == "MuaVe" || h.LoaiGiaoDich == "ThanhToanDichVu" || h.LoaiGiaoDich == "ThuCoc" || h.LoaiGiaoDich == "ThuTienPhat" || h.LoaiGiaoDich == "DieuChinhGiam" || h.LoaiGiaoDich == "TruTien" || h.LoaiGiaoDich == "SuDung");
+                            string color = isMinus ? "var(--danger)" : "var(--success)";
+                            string icon = isWallet ? "bi-wallet2" : "bi-cart-check";
+                            string typeColor = isWallet ? "var(--tertiary)" : "var(--primary)";
+
+                            <div class="ledger-row">
+                                <div class="col-date desktop-only">@h.ThoiGian.ToString("dd/MM/yyyy HH:mm")</div>
+                                <div class="col-info">
+                                    <div class="ticket-title" style="color:@typeColor">
+                                        <i class="bi @icon"></i> 
+                                        @(h.LoaiGiaoDich == "MuaVe" ? "Mua Vé B2C" : 
+                                          h.LoaiGiaoDich == "NapTien" ? "Nạp tiền ví" : 
+                                          h.LoaiGiaoDich == "TruTien" ? "Thanh toán POS" : 
+                                          h.LoaiGiaoDich)
+                                    </div>
+                                    <div class="ticket-sub">@h.NguonBan</div>
+                                </div>
+                                <div class="col-code desktop-only" style="font-family:monospace">@h.MaCode</div>
+                                <div class="col-status" style="justify-content:flex-end">
+                                    <strong style="color:@color; font-family:var(--font-display); font-size:16px;">
+                                        @(isMinus ? "-" : "+")@h.SoTien.ToString("N0")<small>₫</small>
+                                    </strong>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+            // ================= POINT HISTORY TAB =================
+            else if (activeTab == "point_history")
+            {
+                <div class="ticket-ledger">
+                    <div class="ledger-header desktop-only">
+                        <div class="col-date">THỜI GIAN</div>
+                        <div class="col-info">NỘI DUNG</div>
+                        <div class="col-code">NGƯỜI XL</div>
+                        <div class="col-status" style="text-align:right">BIẾN ĐỘNG</div>
+                    </div>
+
+                    @if (pointHistory == null)
+                    {
+                        <div style="padding:var(--sp-24); text-align:center; color:var(--outline)">Đang tải...</div>
+                    }
+                    else if (!pointHistory.Any())
+                    {
+                        <div style="padding:var(--sp-24); text-align:center; color:var(--outline)">Chưa có biến động điểm.</div>
+                    }
+                    else
+                    {
+                        @foreach (var p in pointHistory)
+                        {
+                            bool isPlus = p.LoaiGiaoDich == "TichLuy" || p.SoDiem > 0;
+                            string sign = isPlus ? "+" : "-";
+                            string color = isPlus ? "var(--success)" : "var(--danger)";
+
+                            <div class="ledger-row">
+                                <div class="col-date desktop-only">@p.ThoiGian.ToString("dd/MM/yyyy HH:mm")</div>
+                                <div class="col-info">
+                                    <div class="ticket-title" style="color:#d4af37">
+                                        <i class="bi bi-star-fill"></i> @p.LyDo
+                                    </div>
+                                    <div class="ticket-sub">@(p.LoaiGiaoDich)</div>
+                                </div>
+                                <div class="col-code">
+                                    <span class="badge" style="background:var(--surface-variant); color:var(--on-surface-variant)">@p.NguoiXuLy</span>
+                                </div>
+                                <div class="col-status" style="flex-direction:column; align-items:flex-end; justify-content:center; gap:4px; text-align:right">
+                                    <span style="color:@color; font-weight:700; font-size:16px">@sign@Math.Abs(p.SoDiem).ToString("N0") pts</span>
+                                    <div style="font-size:11px; color:var(--outline)">Dư: @p.SauGD.ToString("N0")</div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+            // ================= WALLET HISTORY TAB =================
+            else if (activeTab == "wallet_history")
+            {
+                <div class="ticket-ledger">
+                    <div class="ledger-header desktop-only">
+                        <div class="col-date">THỜI GIAN</div>
+                        <div class="col-info">GIAO DỊCH</div>
+                        <div class="col-code">MÃ CODE</div>
+                        <div class="col-status" style="text-align:right">SỐ TIỀN</div>
+                    </div>
+
+                    @if (walletHistory == null)
+                    {
+                        <div style="padding:var(--sp-24); text-align:center; color:var(--outline)">Đang tải...</div>
+                    }
+                    else if (!walletHistory.Any())
+                    {
+                        <div style="padding:var(--sp-24); text-align:center; color:var(--outline)">Chưa có giao dịch ví nào.</div>
+                    }
+                    else
+                    {
+                        @foreach (var w in walletHistory)
+                        {
+                            bool isMinus = w.LoaiGiaoDich == "ThanhToanDichVu" || w.LoaiGiaoDich == "ThuCoc" || w.LoaiGiaoDich == "ThuTienPhat" || w.LoaiGiaoDich == "DieuChinhGiam" || w.LoaiGiaoDich == "ThuHoiSoDu";
+                            bool isDeposit = !isMinus;
+                            string color = isDeposit ? "var(--success)" : "var(--danger)";
+                            string sign = isDeposit ? "+" : "-";
+
+                            <div class="ledger-row">
+                                <div class="col-date desktop-only">@w.ThoiGian.ToString("dd/MM/yyyy HH:mm")</div>
+                                <div class="col-info">
+                                    <div class="ticket-title" style="color:var(--primary)">
+                                        <i class="bi bi-credit-card-2-front-fill"></i> @w.LoaiGDHienThi
+                                    </div>
+                                </div>
+                                <div class="col-code">
+                                    <span style="font-family:monospace; background:var(--surface-variant); padding:2px 6px; border-radius:4px">@w.MaGiaoDich</span>
+                                </div>
+                                <div class="col-status" style="text-align:right">
+                                    <span style="color:@color; font-weight:700; font-size:16px">@sign@Math.Abs(w.SoTien).ToString("N0")<small>₫</small></span>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+            else if (activeTab == "promotions")
+            {
+                var pRank = profile?.LoaiKhach?.ToUpper() ?? "CANHAN";
+                var (promoTitle, promoDesc, btnText, bgGradiant) = pRank switch
+                {
+                    "VVIP" => ("Đặc Quyền VVIP", "Giảm trọn đời 25% cho mọi dịch vụ mua sắm và vui chơi tại khu nội bộ Đại Nam.", "ĐANG ÁP DỤNG", "linear-gradient(135deg, #1f1f1f 0%, #111 100%)"),
+                    "VIP" => ("Đặc Quyền VIP", "Hưởng mức giảm 10% cho toàn thể các dịch vụ và ăn uống thuộc rạp.", "ĐANG ÁP DỤNG", "linear-gradient(135deg, #6c1110 0%, #300808 100%)"),
+                    "HOCSINHSINHVIEN" => ("Sinh Viên - Tương Lai", "Trợ giá ngay 5% dành cho Cựu sinh viên và những bạn trẻ năng động.", "ĐANG ÁP DỤNG", "linear-gradient(135deg, #0d47a1 0%, #002171 100%)"),
+                    "CANHAN" => ("Nâng Hạng Tài Khoản", "Tích lũy tổng chi tiêu qua mỗi đơn hàng. Đạt mốc 20 Triệu lên thẳng VIP để nhận 10% chiết khấu.", "MUA VÉ NGAY", "linear-gradient(135deg, #004d40 0%, #00251a 100%)"),
+                    _ => ("Thẻ Đặc Trưng", "Chào mừng đoàn khách hoặc đối tác Đại Nam.", "LIÊN HỆ CSKH", "linear-gradient(135deg, #ff6f00 0%, #c43e00 100%)")
+                };
+
+                <div class="promo-banner" style="margin-top:var(--sp-24); background: @bgGradiant; border:1px solid rgba(255,255,255,0.1)">
+                    <div class="promo-content">
+                        <h3><i class="bi bi-stars"></i> @promoTitle</h3>
+                        <p style="font-size:14px; margin-top:8px;">@promoDesc</p>
+                    </div>
+                    @if(pRank == "CANHAN") {
+                        <button class="btn btn-gold btn-lg" @onclick='() => Nav.NavigateTo("/buy-ticket")'>@btnText</button>
+                    } else {
+                        <button class="btn btn-ghost btn-lg" style="color:#fff; border:1px solid rgba(255,255,255,0.3)" disabled>@btnText</button>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@* Modal Single QR *@
+@if (selectedTicket != null)
+{
+    <div class="modal-overlay" @onclick="() => selectedTicket = null">
+        <div class="modal-content" @onclick:stopPropagation style="text-align:center">
+            <h3 style="font-family:var(--font-display); color:var(--primary); margin-bottom:var(--sp-16)">@selectedTicket.TenSanPham</h3>
+            <div id="modal-qr" class="qr-code-box"></div>
+            <div style="font-family:monospace; font-weight:700; font-size:16px; letter-spacing:2px; margin-top:var(--sp-12)">@selectedTicket.MaCode</div>
+            <button class="btn btn-primary" style="margin-top:var(--sp-24); width:100%" @onclick="() => selectedTicket = null">Đóng</button>
+        </div>
+    </div>
+}
+
+<style>
+/* WALLET LAYOUT */
+.wallet-layout {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-24);
+}
+
+@@media (min-width: 900px) {
+    .wallet-layout { flex-direction: row; align-items: flex-start; }
+    .wallet-sidebar { width: 300px; flex-shrink: 0; }
+    .wallet-main { flex: 1; }
+}
+
+/* SIDEBAR PROFILES */
+.profile-card {
+    background: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    padding: var(--sp-16);
+    margin-bottom: var(--sp-16);
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-16);
+    margin-bottom: var(--sp-16);
+}
+
+.profile-avatar {
+    width: 56px; height: 56px;
+    background: var(--primary);
+    color: var(--on-primary);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-weight: 700; font-size: 20px;
+    border-radius: 8px; /* Slightly soft for portrait */
+}
+
+.profile-info h3 { font-family: var(--font-display); font-size: 16px; color: var(--primary); margin-bottom: 4px; }
+.profile-tier { font-size: 11px; font-weight: 700; color: var(--tertiary); display: flex; align-items: center; gap: 4px; }
+
+.profile-points {
+    background: var(--tertiary-container);
+    color: var(--on-tertiary-container);
+    padding: var(--sp-12);
+    display: flex; justify-content: space-between; align-items: center;
+    border-radius: 4px;
+}
+.profile-points span { font-size: 10px; font-weight: 600; }
+.profile-points strong { font-family: var(--font-display); font-size: 18px; }
+
+.identity-card {
+    background: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+    padding: var(--sp-24);
+}
+
+/* MAIN CONTENT */
+.wallet-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--surface-container-high);
+    margin-bottom: var(--sp-24);
+}
+
+.wallet-tab {
+    background: transparent; border: none;
+    padding: var(--sp-12) var(--sp-24);
+    font-family: var(--font-display); font-size: 14px; font-weight: 600;
+    color: var(--outline);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+}
+
+.wallet-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.ticket-ledger {
+    background: var(--surface-container-lowest);
+    border: 1px solid var(--outline-variant);
+}
+
+.ledger-header {
+    display: flex;
+    padding: var(--sp-12) var(--sp-16);
+    background: var(--surface-container-low);
+    font-size: 10px; font-weight: 700; color: var(--outline); letter-spacing: 0.5px;
+}
+
+.ledger-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--sp-16);
+    border-bottom: 1px solid var(--outline-variant);
+}
+
+.ledger-row:last-child { border-bottom: none; }
+
+.col-info { flex: 2; }
+.col-code { flex: 1; color: var(--outline); font-size: 13px; }
+.col-date { flex: 1; color: var(--outline); font-size: 13px; }
+.col-status { flex: 1.5; display: flex; align-items: center; justify-content: flex-end; }
+
+.ticket-title { font-family: var(--font-display); font-size: 14px; font-weight: 600; color: var(--primary); margin-bottom: 2px; }
+.ticket-sub { font-size: 11px; color: var(--outline); }
+
+.badge { padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 0.5px; }
+.status-active { background: rgba(13, 122, 62, 0.1); color: var(--success); }
+.status-used { background: rgba(111, 121, 123, 0.1); color: var(--outline); opacity: 0.7; }
+.status-expired { background: rgba(185, 28, 28, 0.1); color: var(--danger); }
+
+/* PROMO BANNER */
+.promo-banner {
+    background: linear-gradient(135deg, #6c1110 0%, #300808 100%);
+    color: #fff;
+    padding: var(--sp-32);
+    display: flex; align-items: center; justify-content: space-between;
+    border-radius: 8px;
+}
+
+.promo-content h3 { font-family: var(--font-display); font-size: 20px; color: var(--tertiary-container); margin-bottom: 8px;}
+.promo-content p { font-size: 13px; opacity: 0.9; }
+
+@@media (max-width: 768px) {
+    .promo-banner { flex-direction: column; text-align: center; gap: var(--sp-16); }
+    .col-status { justify-content: flex-start; margin-top: var(--sp-8); }
+    .ledger-row { flex-direction: column; align-items: flex-start; }
+}
+    @@keyframes shine {
+        0% { background-position: -100px; }
+        100% { background-position: 200px; }
+    }
+</style>
+
+@code {
+    DaiNamWeb.Client.Models.CustomerProfile? profile;
+    List<DaiNamWeb.Client.Models.TicketInfo>? tickets;
+    private List<DaiNamWeb.Client.Models.TransactionHistoryItem>? history;
+    private IEnumerable<DaiNamWeb.Client.Models.PointHistoryItem>? pointHistory;
+    private IEnumerable<DaiNamWeb.Client.Models.WalletTransactionItem>? walletHistory;
+    DaiNamWeb.Client.Models.TicketInfo? selectedTicket;
+    
+    string activeTab = "my_tickets";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!Auth.IsLoggedIn)
+        {
+            Nav.NavigateTo("/login");
+            return;
+        }
+
+        if (Auth.CurrentUser!.Role != DaiNamWeb.Client.Models.AppConstants.Roles.Customer)
+        {
+            Nav.NavigateTo("/");
+            return;
+        }
+
+            try 
+            {
+                profile = await Auth.GetProfile();
+                tickets = await TicketSvc.GetMyTickets(Auth.CurrentUser.Id);
+                var h = await TicketSvc.GetPurchaseHistory(Auth.CurrentUser.Id);
+                history = h.ToList();
+                pointHistory = await TicketSvc.GetPointHistory(Auth.CurrentUser.Id);
+                walletHistory = await TicketSvc.GetWalletHistory(Auth.CurrentUser.Id);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching wallet data: {ex.Message}");
+            }
+        
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (Auth.IsLoggedIn && profile != null && !firstRender)
+        {
+            try
+            {
+                // Render Identity QR Box
+                await JS.InvokeVoidAsync("generateQrCode", "identity-qr", $"ID-{Auth.CurrentUser!.Id}");
+            }
+            catch {}
+        }
+    }
+
+    async Task ShowQrModal(DaiNamWeb.Client.Models.TicketInfo t)
+    {
+        selectedTicket = t;
+        StateHasChanged();
+        await Task.Delay(100);
+        try
+        {
+            await JS.InvokeVoidAsync("generateQrCode", "modal-qr", t.MaCode);
+        }
+        catch {}
+    }
+}
+
+

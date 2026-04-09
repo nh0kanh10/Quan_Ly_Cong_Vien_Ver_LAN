@@ -1,0 +1,598 @@
+@page "/buy-ticket"
+@using DaiNamWeb.Client.Models
+@inject DaiNamWeb.Client.Services.TicketService TicketSvc
+@inject DaiNamWeb.Client.Services.AuthService Auth
+@inject NavigationManager Nav
+
+<div class="page-header" style="margin-bottom:var(--sp-16)">
+    <h1>Khám Phá Đại Nam</h1>
+    <p>Thêm vé vào giỏ hàng và sẵn sàng cho những trải nghiệm tuyệt vời.</p>
+</div>
+
+<div class="search-bar-container" style="margin-bottom:var(--sp-16)">
+    <div style="position:relative">
+        <i class="bi bi-search" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:var(--outline)"></i>
+        <input type="text" class="form-control" style="padding-left:36px; border-radius:20px; background:#ffffff; box-shadow:0 2px 4px rgba(0,0,0,0.02); border:1px solid var(--outline-variant);" placeholder="Tìm kiếm tên vé, trò chơi..." @bind="searchTerm" @bind:event="oninput" />
+    </div>
+</div>
+@if (!Auth.IsLoggedIn)
+{
+    <div class="alert alert-info">
+        <i class="bi bi-person-fill-lock"></i> Vui lòng <a href="/login" style="color:inherit; font-weight:700; text-decoration:underline">đăng nhập</a> để mua vé.
+    </div>
+}
+
+@if (products == null)
+{
+    <div class="card"><p style="color:var(--outline); text-align:center; padding:var(--sp-24)">Đang tải danh sách vé...</p></div>
+}
+else
+{
+    <div class="category-chips-wrapper">
+        <div class="category-chips">
+            <button class="chip-btn @(selectedCategory == "Tất cả" ? "active" : "")" @onclick='() => selectedCategory = "Tất cả"'>Tất cả</button>
+            @foreach (var cat in categories)
+            {
+                <button class="chip-btn @(selectedCategory == cat ? "active" : "")" @onclick="() => selectedCategory = cat">@cat</button>
+            }
+        </div>
+    </div>
+
+    <div class="ticket-grid b2c-grid">
+        @foreach (var p in filteredProducts)
+        {
+            var qty = cart.ContainsKey(p.Id) ? cart[p.Id] : 0;
+            var isSelected = qty > 0;
+
+            <div class="ticket-card b2c-card @(isSelected ? "selected-item" : "")">
+                <div class="card-hero-image" style="background-image: url('https://picsum.photos/seed/@(p.Id)/400/200');">
+                    <div class="ticket-badge"><i class="bi bi-geo-alt-fill"></i> @(p.TenKhuVuc ?? "Toàn khu")</div>
+                </div>
+                
+                <div class="card-body">
+                    <div class="ticket-name">@p.TenSanPham</div>
+                    
+                    <div class="card-bottom">
+                        <div class="ticket-price">
+                            @(currentPrices.ContainsKey(p.Id) ? currentPrices[p.Id].GiaApDung.ToString("N0") : p.DonGia.ToString("N0"))₫
+                        </div>
+
+                        <div class="inline-qty-control @(qty > 0 ? "active" : "")">
+                            @if (qty > 0)
+                            {
+                                <button class="btn-qty" @onclick="() => UpdateCart(p.Id, -1)"><i class="bi bi-dash"></i></button>
+                                <span class="val-qty">@qty</span>
+                            }
+                            <button class="btn-qty btn-add" @onclick="() => UpdateCart(p.Id, 1)">
+                                <i class="bi bi-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    @* STICKY BOTTOM CHECKOUT BAR *@
+    @if (cart.Any(x => x.Value > 0))
+    {
+        <div class="sticky-checkout-bar">
+            <div class="checkout-summary">
+                <span class="checkout-label">Tổng cộng (@GetTotalItems() vé)</span>
+                <span class="checkout-total">@GetTotalAmount().ToString("N0")<small>₫</small></span>
+            </div>
+            <button class="btn btn-gold btn-checkout" @onclick="ShowPayment" disabled="@(!Auth.IsLoggedIn)">
+                THANH TOÁN NGAY
+            </button>
+        </div>
+    }
+}
+
+@* ===== MODAL THANH TOÁN ===== *@
+@if (showPayment)
+{
+    <div class="modal-overlay" @onclick="() => showPayment = false">
+        <div class="modal-content" @onclick:stopPropagation>
+            <div class="modal-title">Thanh toán giỏ hàng</div>
+
+            <div class="cart-preview">
+                @foreach(var item in cart.Where(x => x.Value > 0))
+                {
+                    <div class="cart-preview-item">
+                        <span>@(products!.First(p => p.Id == item.Key).TenSanPham) x @item.Value</span>
+                        <strong>@((GetUnitPrice(item.Key) * item.Value).ToString("N0"))₫</strong>
+                    </div>
+                }
+            </div>
+
+            <div class="bank-info" style="margin-top:var(--sp-16)">
+                @if (calcResult == null)
+                {
+                    <p style="text-align:center; color:var(--shimmer)">Đang tính toán giá trị đơn hàng...</p>
+                }
+                else
+                {
+                    <p><strong>Tổng phụ:</strong> <span>@calcResult.TongTienGoc.ToString("N0")₫</span></p>
+                    
+                    @if (profile != null && profile.DiemTichLuy > 0)
+                    {
+                        <div style="background:var(--surface-container); padding:12px; border-radius:8px; margin:8px 0; border:1px dashed var(--tertiary);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                                <span style="font-size:13px; font-weight:600; color:var(--tertiary)">
+                                    D-Point của bạn: @profile.DiemTichLuy.ToString("N0") đ
+                                </span>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" @bind="usePoints" @onclick="TogglePoints">
+                                    <label class="form-check-label" for="flexSwitchCheckDefault" style="font-size:12px"> Dùng D-Point</label>
+                                </div>
+                            </div>
+                            @if(calcResult.TienGiam > 0)
+                            {
+                                @if (calcResult.DiemSuDung > 0)
+                                {
+                                    <p style="font-size:12px; color:var(--danger); margin:0 0 4px 0; line-height:1.4">
+                                        <i class="bi bi-dash-circle"></i> Bạn sẽ dùng <strong>@calcResult.DiemSuDung</strong> điểm, giảm <strong>@calcResult.TienGiam.ToString("N0")₫</strong>.
+                                    </p>
+                                    @if(calcResult.DiemThuong > 0)
+                                    {
+                                        <p style="font-size:12px; color:var(--success); margin:0; line-height:1.4">
+                                            <i class="bi bi-arrow-up-circle"></i> Bạn sẽ nhận lại <strong>+@calcResult.DiemThuong</strong> điểm sau giao dịch này.
+                                        </p>
+                                    }
+                                }
+                                else
+                                {
+                                    <p style="font-size:12px; color:var(--danger); margin:0; display:flex; align-items:center; gap:4px">
+                                        <i class="bi bi-tags-fill"></i> Giảm <strong>@calcResult.TienGiam.ToString("N0")₫</strong> (@calcResult.NguonGiam)
+                                    </p>
+                                    @if(calcResult.DiemThuong > 0)
+                                    {
+                                        <p style="font-size:12px; color:var(--success); margin:4px 0 0 0; line-height:1.4">
+                                            <i class="bi bi-arrow-up-circle"></i> Sẽ tích lũy <strong>+@calcResult.DiemThuong</strong> điểm cho đơn hàng.
+                                        </p>
+                                    }
+                                }
+                            }
+                            else if(calcResult.DiemThuong > 0)
+                            {
+                                <p style="font-size:12px; color:var(--success); margin:0; line-height:1.4">
+                                    <i class="bi bi-arrow-up-circle"></i> Sẽ tích lũy <strong>+@calcResult.DiemThuong</strong> điểm cho đơn hàng.
+                                </p>
+                            }
+                        </div>
+                    }
+                    else if (calcResult.TienGiam > 0 || calcResult.DiemThuong > 0)
+                    {
+                        <div style="margin:8px 0;">
+                            @if(calcResult.TienGiam > 0)
+                            {
+                                <p style="color:var(--danger); font-size:13px; font-weight:bold; margin-bottom:4px"><i class="bi bi-tags-fill"></i> Đặc quyền hạng: @calcResult.NguonGiam</p>
+                                <p style="color:var(--danger); margin-bottom:4px"><strong>Giảm giá:</strong> <span>-@calcResult.TienGiam.ToString("N0")₫</span></p>
+                            }
+                            @if(calcResult.DiemThuong > 0)
+                            {
+                                <p style="font-size:12px; color:var(--success); margin:0; line-height:1.4">
+                                    <i class="bi bi-arrow-up-circle"></i> Sẽ tích lũy <strong>+@calcResult.DiemThuong</strong> điểm cho đơn hàng.
+                                </p>
+                            }
+                        </div>
+                    }
+
+                    <p><strong>Thanh toán:</strong> <span class="bank-amount" style="font-size:18px; color:var(--primary)">@calcResult.ThucThu.ToString("N0")₫</span></p>
+
+                    <div style="background:var(--surface-container-high); padding:12px; border-radius:8px; margin-top:12px; border:1px solid var(--outline-variant)">
+                        <h6 style="font-size:13px; font-weight:700; color:var(--on-surface); margin-bottom:8px">PHƯƠNG THỨC THANH TOÁN</h6>
+                        
+                        <div style="display:flex; flex-direction:column; gap:8px">
+                            <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:pointer">
+                                <input type="radio" name="payMethod" value="ChuyenKhoan" checked="@(paymentMethod == "ChuyenKhoan")" @onchange='() => paymentMethod = "ChuyenKhoan"' />
+                                <span><i class="bi bi-bank"></i> Chuyển khoản / VNPay</span>
+                            </label>
+
+                            <label style="display:flex; align-items:center; gap:8px; font-size:13px; cursor:@(walletBalance == null ? "not-allowed" : "pointer")">
+                                <input type="radio" name="payMethod" value="ViRFID" 
+                                       checked="@(paymentMethod == "ViRFID")" 
+                                       @onchange='() => { if(walletBalance != null && walletBalance >= calcResult.ThucThu) paymentMethod = "ViRFID"; }'
+                                       disabled="@(walletBalance == null || walletBalance < calcResult.ThucThu)" />
+                                
+                                <span style="color:@(walletBalance == null || walletBalance < calcResult.ThucThu ? "var(--outline)" : "inherit")">
+                                    <i class="bi bi-wallet2"></i> Thanh toán bằng Ví RFID
+                                    @if(walletBalance != null) {
+                                        <span style="display:block; font-size:11px; margin-left:22px; color:@(walletBalance >= calcResult.ThucThu ? "var(--success)" : "var(--danger)")">
+                                            (Số dư: @walletBalance.Value.ToString("N0")₫)
+                                            @(walletBalance < calcResult.ThucThu ? " - Không đủ số dư" : "")
+                                        </span>
+                                    } else {
+                                        <span style="display:block; font-size:11px; margin-left:22px; color:var(--danger)">
+                                            Ví chưa được kích hoạt ở quầy POS.
+                                        </span>
+                                    }
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+                }
+                <p style="font-size:11px; margin-top:4px"><strong>Nội dung CK:</strong> <span style="font-family:monospace">MUAVE @Auth.CurrentUser?.Id</span></p>
+            </div>
+
+            <div style="display:flex; gap:var(--sp-8); margin-top:var(--sp-16)">
+                @if (errorMsg != "")
+                {
+                    <div style="width:100%; text-align:center; color:var(--danger); font-size:12px; margin-bottom:8px">@errorMsg</div>
+                }
+            </div>
+            <div style="display:flex; gap:var(--sp-8)">
+                <button class="btn btn-gold btn-lg" style="flex:1" @onclick="DoPurchase" disabled="@(purchasing || calcResult == null)">
+                    @(purchasing ? "Đang xử lý..." : "XÁC NHẬN " + (paymentMethod == "ViRFID" ? "THANH TOÁN" : "CHUYỂN KHOẢN"))
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+@* ===== MODAL THÀNH CÔNG ===== *@
+@if (purchaseResult != null)
+{
+    <div class="modal-overlay">
+        <div class="modal-content" style="max-width:440px">
+            <div style="text-align:center; color:var(--success); font-size:48px; margin-bottom:-10px">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="modal-title" style="text-align:center; margin-bottom:var(--sp-8)">Thanh toán thành công</div>
+
+            <p style="text-align:center; font-size:13px; color:var(--outline); margin-bottom:var(--sp-16)">
+                Mã đơn hàng: @purchaseResult.MaDonHang
+            </p>
+
+            <button class="btn btn-gold btn-lg" style="width:100%"
+                    @onclick='() => { purchaseResult = null; Nav.NavigateTo("/my-tickets"); }'>
+                Quản lý vé điện tử
+            </button>
+        </div>
+    </div>
+}
+
+<style>
+/* CSS NỘI BỘ CHO BUY TICKET B2C */
+/* CHIP FILTER */
+.category-chips-wrapper {
+    margin: 0 -16px 24px -16px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none; /* IE/Edge */
+}
+.category-chips-wrapper::-webkit-scrollbar { display: none; }
+
+.category-chips {
+    display: flex;
+    gap: 12px;
+    padding: 0 16px 8px 16px; /* Padding now applied here to include in scroll area */
+    width: max-content;
+}
+
+.category-chips::after {
+    content: '';
+    padding-right: 4px; /* Extra safe space for shadow/edge */
+}
+
+.chip-btn {
+    background: #ffffff;
+    border: 1px solid var(--outline-variant);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--on-surface-variant);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.chip-btn.active {
+    background: var(--tertiary); /* Gold */
+    color: #ffffff;
+    border-color: var(--tertiary);
+    box-shadow: 0 4px 12px rgba(115, 92, 0, 0.25);
+}
+
+/* CARD REDESIGN - HERITAGE PRO */
+.b2c-card {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff; /* 60% White */
+    border: 1px solid var(--outline-variant);
+}
+
+.card-hero-image {
+    height: 140px;
+    background-color: #f5f5f5;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-bottom: 1px solid var(--outline-variant);
+}
+
+/* Gradient Overlay dể nổi bật Badge */
+.card-hero-image::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 70%;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%);
+    pointer-events: none;
+}
+
+.ticket-badge {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(12, 22, 36, 0.65); /* Dark blur */
+    backdrop-filter: blur(4px);
+    color: #f7e6b0; /* Light Gold */
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: var(--font-sans, 'Inter', sans-serif);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 2;
+    border: 1px solid rgba(247, 230, 176, 0.3);
+}
+
+.selected-item {
+    border: 2px solid var(--tertiary) !important;
+    box-shadow: 0 8px 24px rgba(115,92,0,0.15) !important;
+    transform: translateY(-2px);
+}
+
+/* TYPOGRAPHY & BODY */
+.card-body {
+    padding: var(--sp-16);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+}
+
+.ticket-name {
+    font-family: var(--font-display, 'Noto Serif', serif);
+    font-size: 16px;
+    font-weight: 700;
+    color: #1a1b20; /* 30% Dark Content */
+    line-height: 1.35;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.card-bottom {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: var(--sp-12);
+}
+
+.inline-qty-control {
+    display: flex;
+    align-items: center;
+    background: var(--surface-container-high);
+    border-radius: 20px;
+    overflow: hidden;
+    height: 36px;
+    transition: all 0.25s ease-in-out;
+    border: 1px solid var(--outline-variant);
+}
+
+.inline-qty-control.active {
+    background: var(--success); /* Đổi sang màu Xanh lá để báo hiệu thành công */
+    border-color: var(--success);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+}
+
+.btn-qty {
+    background: transparent;
+    border: none;
+    color: var(--primary);
+    width: 36px;
+    height: 36px;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inline-qty-control.active .btn-qty {
+    color: #fff;
+}
+
+.btn-add {
+    color: var(--on-primary);
+}
+
+.inline-qty-control.active .btn-add {
+    color: #fff;
+}
+
+.val-qty {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--primary);
+    min-width: 24px;
+    text-align: center;
+}
+
+.inline-qty-control.active .val-qty {
+    color: #fff;
+}
+
+.sticky-checkout-bar {
+    position: fixed;
+    bottom: 64px; /* Trên Mobile Tab Bar */
+    left: 0; right: 0;
+    background: var(--primary-container);
+    padding: var(--sp-16) var(--sp-24);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    z-index: 100;
+    animation: slideUp 0.3s ease-out;
+}
+
+.checkout-summary { display: flex; flex-direction: column; }
+.checkout-label { font-size: 11px; color: rgba(255,255,255,0.7); text-transform: uppercase; letter-spacing:0.5px;}
+.checkout-total { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: #fff; }
+.btn-checkout { padding: 12px 24px; font-size: 14px; border-radius: 4px; box-shadow: 0 4px 12px rgba(115,92,0,0.4); }
+
+.cart-preview-item { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 8px; border-bottom: 1px dashed var(--outline-variant); padding-bottom: 4px;}
+
+@@media (min-width: 768px) {
+    .sticky-checkout-bar {
+        bottom: 0; /* Web ko có tab bar */
+        left: 0; right: 0;
+        background: var(--surface-container-lowest);
+        border-top: 1px solid var(--outline-variant);
+        box-shadow: var(--shadow-lg);
+    }
+    .checkout-label, .checkout-total { color: var(--primary); }
+}
+
+@@keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+}
+</style>
+
+@code {
+    List<TicketProduct>? products;
+    Dictionary<int, TicketPrice> currentPrices = new();
+    
+    // Giỏ hàng cục bộ: <IdSanPham, Số lượng>
+    Dictionary<int, int> cart = new();
+    
+    string selectedCategory = "Tất cả";
+    string searchTerm = "";
+    List<string> categories = new();
+    
+    bool showPayment, purchasing;
+    PurchaseResult? purchaseResult;
+    CustomerProfile? profile;
+    bool usePoints = false;
+    CalculateOrderResult? calcResult;
+    decimal? walletBalance;
+    string paymentMethod = "ChuyenKhoan";
+    string errorMsg = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await TicketSvc.GetProducts();
+        
+        categories = products.Select(p => p.TenKhuVuc ?? "Khu khác").Distinct().ToList();
+        
+        foreach (var p in products)
+        {
+            var price = await TicketSvc.GetPrice(p.Id);
+            if (price != null) currentPrices[p.Id] = price;
+        }
+    }
+
+    IEnumerable<TicketProduct> filteredProducts => products!
+        .Where(p => selectedCategory == "Tất cả" || (p.TenKhuVuc ?? "Khu khác") == selectedCategory)
+        .Where(p => string.IsNullOrWhiteSpace(searchTerm) || p.TenSanPham.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
+
+    decimal GetUnitPrice(int idSanPham)
+    {
+        var product = products!.First(p => p.Id == idSanPham);
+        return currentPrices.ContainsKey(idSanPham)
+            ? currentPrices[idSanPham].GiaApDung
+            : product.DonGia;
+    }
+
+
+
+    void UpdateCart(int idSanPham, int delta)
+    {
+        if (!cart.ContainsKey(idSanPham)) cart[idSanPham] = 0;
+        cart[idSanPham] += delta;
+        if (cart[idSanPham] <= 0) cart.Remove(idSanPham);
+    }
+
+    int GetTotalItems() => cart.Sum(x => x.Value);
+    
+    decimal GetTotalAmount() => cart.Sum(x => GetUnitPrice(x.Key) * x.Value);
+
+    decimal GetTotalItemsAmount() => cart.Sum(x => GetUnitPrice(x.Key) * x.Value);
+
+    async Task ReCalc()
+    {
+        if (Auth.CurrentUser == null) return;
+        calcResult = null;
+        StateHasChanged();
+        var items = cart.Select(x => new CartItem(x.Key, x.Value)).ToList();
+        calcResult = await TicketSvc.CalculateOrder(items, Auth.CurrentUser.Id, usePoints);
+        StateHasChanged();
+    }
+
+    private async Task ShowPayment()
+    {
+        if (Auth.CurrentUser == null) 
+        {
+            Nav.NavigateTo("/login");
+            return;
+        }
+        showPayment = true;
+        errorMsg = "";
+        paymentMethod = "ChuyenKhoan";
+
+        profile = await Auth.GetProfile();
+        walletBalance = await TicketSvc.GetWalletBalance(Auth.CurrentUser.Id);
+
+        await ReCalc();
+    }
+
+    private async Task TogglePoints()
+    {
+        usePoints = !usePoints;
+        if(paymentMethod == "ViRFID" && walletBalance != null && calcResult != null)
+        {
+            // Nếu dùng điểm làm tổng tiền < số dư thì OK, nếu lớn hơn số dư thì back về chuyển khoản
+            if(walletBalance < calcResult.ThucThu) paymentMethod = "ChuyenKhoan";
+        }
+        await ReCalc();
+    }
+
+    private async Task DoPurchase()
+    {
+        if (!cart.Any() || Auth.CurrentUser == null || calcResult == null) return;
+        
+        purchasing = true;
+        errorMsg = "";
+        StateHasChanged();
+        
+        var reqProducts = cart.Where(x => x.Value > 0).Select(x => new CartItem(x.Key, x.Value)).ToList();
+        var req = new DaiNamWeb.Client.Models.PurchaseRequest(
+            reqProducts, Auth.CurrentUser.Id, usePoints ? calcResult.DiemSuDung : 0, paymentMethod);
+        
+        var result = await TicketSvc.Purchase(req);
+        purchasing = false;
+        
+        if (result == null || result.IdDonHang == 0)
+        {
+            errorMsg = "Giao dịch thất bại. Nếu thanh toán bằng ví, hãy đảm bảo ví chưa bị khóa hoặc không đủ số dư.";
+        }
+        else
+        {
+            purchaseResult = result;
+            cart.Clear();
+            showPayment = false;
+        }
+        StateHasChanged();
+    }
+}

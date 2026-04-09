@@ -1,0 +1,254 @@
+@page "/gate"
+@inject DaiNamWeb.Client.Services.TicketService TicketSvc
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+@inject DaiNamWeb.Client.Services.AuthService Auth
+@inject NavigationManager Nav
+
+<div class="page-header">
+    <h1>Soát vé — Gate Scanner</h1>
+    <p>Nhập hoặc quét mã vé để kiểm tra tính hợp lệ</p>
+</div>
+
+<div class="card" style="margin-bottom:var(--sp-16)">
+    <div class="card-header" style="padding-bottom:var(--sp-8)"><i class="bi bi-geo-alt-fill"></i> Thiết lập Trạm Soát Vé</div>
+    <div style="display:flex; gap:var(--sp-16); flex-wrap:wrap">
+        <div style="flex:1; min-width:200px">
+            <label style="font-size:12px; font-weight:600; color:var(--outline); margin-bottom:4px; display:block">Khu Vực (Bắt buộc nếu gác cổng khu):</label>
+            <select class="form-control" style="font-weight:600" @bind="SelectedKhuVuc">
+                <option value="">-- Cổng chính (Tất cả) --</option>
+                @foreach(var kv in khuVucList) {
+                    <option value="@kv.Id">@kv.TenKhuVuc</option>
+                }
+            </select>
+        </div>
+        <div style="flex:1; min-width:200px">
+            <label style="font-size:12px; font-weight:600; color:var(--outline); margin-bottom:4px; display:block">Trò Chơi (Bắt buộc nếu gác trò chơi):</label>
+            <select class="form-control" style="font-weight:600" @bind="selectedTroChoi">
+                <option value="">-- Tất cả trò chơi --</option>
+                @foreach(var tc in thietBiList) {
+                    <option value="@tc.Id">@tc.TenThietBi</option>
+                }
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <span><i class="bi bi-upc-scan"></i> Quét mã vé</span>
+        <div style="display:flex; gap:8px;">
+            <input type="file" id="qrFileInput" accept="image/*" style="display:none;" onchange="scanImageFile(this)" />
+            <button class="btn btn-secondary" style="font-size:12px; padding:4px 12px" onclick="document.getElementById('qrFileInput').click()">
+                <i class="bi bi-image"></i> Chọn ảnh
+            </button>
+            <button class="btn btn-primary" style="font-size:12px; padding:4px 12px" @onclick="ToggleCamera">
+                <i class="bi @(isCameraActive ? "bi-camera-video-off" : "bi-camera-video")"></i>
+                @(isCameraActive ? "Tắt Camera" : "Mở Camera")
+            </button>
+        </div>
+    </div>
+
+    <!-- Vùng ẩn/hiện Camera -->
+    <div id="reader-container" style="display: @(isCameraActive ? "block" : "none"); margin-bottom:var(--sp-16)">
+        <div id="reader" style="width: 100%; border: 1px solid var(--outline); overflow:hidden"></div>
+    </div>
+
+    <div class="scan-input-group">
+        <input class="scan-input"
+               @bind="maQR" @bind:event="oninput"
+               @onkeypress="HandleKeyPress"
+               placeholder="NHẬP MÃ VÉ 12 KÝ TỰ..."
+               autofocus />
+        <button class="btn btn-gold scan-btn" @onclick="DoScan" disabled="@(scanning || string.IsNullOrWhiteSpace(maQR))">
+            @if (scanning) { <span>Đang xử lý...</span> }
+            else { <span><i class="bi bi-search"></i> Kiểm tra</span> }
+        </button>
+    </div>
+
+    @if (!isCameraActive)
+    {
+        <div style="font-size:12px; color:var(--outline); margin-top:var(--sp-8)">
+            <i class="bi bi-info-circle"></i> Có thể gõ/dán mã vé thủ công nếu Camera lỗi.
+        </div>
+    }
+</div>
+
+@if (result != null)
+{
+    <div class="scan-result @(result.IsValid ? "scan-valid" : "scan-invalid")">
+        <span class="scan-icon">
+            <i class="bi @(result.IsValid ? "bi-check-circle-fill" : "bi-x-circle-fill")"></i>
+        </span>
+        <div class="scan-message">@(result.IsValid ? "VÉ HỢP LỆ" : "TỪ CHỐI")</div>
+        <div class="scan-detail">@result.Message</div>
+        @if (result.IsValid && result.TenSanPham != null)
+        {
+            <div class="scan-detail" style="font-weight:600">
+                <i class="bi bi-ticket-perforated"></i> @result.TenSanPham
+            </div>
+        }
+    </div>
+
+    <div style="text-align:center; margin-top:var(--sp-16)">
+        <button class="btn btn-primary btn-lg" @onclick="Reset">
+            <i class="bi bi-arrow-counterclockwise"></i> Quét vé tiếp
+        </button>
+    </div>
+}
+
+@if (history.Any())
+{
+    <div class="card" style="margin-top:var(--sp-24)">
+        <div class="card-header"><i class="bi bi-clock-history"></i> Lịch sử quét phiên này (@history.Count)</div>
+        <table class="scan-history">
+            <thead>
+                <tr>
+                    <th>Mã vé</th>
+                    <th>Kết quả</th>
+                    <th>Thời gian</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var h in history.AsEnumerable().Reverse())
+                {
+                    <tr>
+                        <td style="font-family:monospace; letter-spacing:1px; font-weight:600">@h.Code</td>
+                        <td>
+                            <span style="color:@(h.Valid ? "var(--success)" : "var(--danger)"); font-weight:600">
+                                @if (h.Valid) { <i class="bi bi-check-lg"></i> <span>Hợp lệ</span> }
+                                else { <i class="bi bi-x-lg"></i> <span>Từ chối</span> }
+                            </span>
+                        </td>
+                        <td style="color:var(--outline)">@h.Time.ToString("HH:mm:ss")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+
+@code {
+    string maQR = "";
+    bool scanning;
+    bool isCameraActive;
+    DaiNamWeb.Client.Models.ScanResult? result;
+    List<ScanHistory> history = new();
+    
+    int? _selectedKhuVuc;
+    int? selectedTroChoi;
+    List<DaiNamWeb.Client.Models.GateKhuVuc> khuVucList = new();
+    List<DaiNamWeb.Client.Models.GateThietBi> thietBiList = new();
+
+    int? SelectedKhuVuc 
+    {
+        get => _selectedKhuVuc;
+        set 
+        {
+            _selectedKhuVuc = value;
+            selectedTroChoi = null;
+            _ = LoadThietBi(); // Reload danh sách trò chơi khi đổi khu vực
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!Auth.IsLoggedIn || Auth.CurrentUser?.Role == DaiNamWeb.Client.Models.AppConstants.Roles.Customer)
+        {
+            Nav.NavigateTo("/staff-login");
+            return;
+        }
+
+        khuVucList = await TicketSvc.GetGateKhuVuc();
+        thietBiList = await TicketSvc.GetGateThietBi(null); // Load tất cả trò chơi ban đầu
+    }
+
+    async Task LoadThietBi()
+    {
+        thietBiList = await TicketSvc.GetGateThietBi(_selectedKhuVuc);
+        StateHasChanged();
+    }
+    
+    private DotNetObjectReference<GateScanner>? dotNetHelper;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            // Prepare JS Interop context
+            dotNetHelper = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("initQrScanner", dotNetHelper);
+        }
+    }
+
+    async Task ToggleCamera()
+    {
+        isCameraActive = !isCameraActive;
+        if (isCameraActive)
+        {
+            await JS.InvokeVoidAsync("startScanner");
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("stopScanner");
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnQrCodeScanned(string scannedText)
+    {
+        if (scanning) return; // Prevent double scan while processing
+        
+        // Cập nhật lên UI mã quét được
+        maQR = scannedText;
+        StateHasChanged();
+        
+        // Tắt camera ngay sau khi quét được để xử lý (tránh quét lại 2 lần)
+        if (isCameraActive)
+        {
+            await ToggleCamera();
+        }
+        
+        // Tự động gọi hàm scan
+        await DoScan();
+    }
+
+    async Task DoScan()
+    {
+        if (string.IsNullOrWhiteSpace(maQR)) return;
+        scanning = true;
+        StateHasChanged(); // Show "Đang xử lý..."
+        
+        result = await TicketSvc.ScanTicket(new DaiNamWeb.Client.Models.ScanRequest(maQR.Trim().ToUpper(), _selectedKhuVuc, selectedTroChoi));
+        history.Add(new ScanHistory(maQR.Trim().ToUpper(), result?.IsValid ?? false, DateTime.Now));
+        
+        scanning = false;
+        StateHasChanged();
+    }
+
+    void HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter") _ = DoScan();
+    }
+
+    void Reset()
+    {
+        maQR = "";
+        result = null;
+    }
+
+    record ScanHistory(string Code, bool Valid, DateTime Time);
+
+    public async ValueTask DisposeAsync()
+    {
+        try
+        {
+            if (isCameraActive)
+            {
+                await JS.InvokeVoidAsync("stopScanner");
+            }
+            dotNetHelper?.Dispose();
+        }
+        catch { /* ignored if JS interop disconnected */ }
+    }
+}

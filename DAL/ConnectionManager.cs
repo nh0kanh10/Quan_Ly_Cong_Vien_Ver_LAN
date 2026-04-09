@@ -25,11 +25,11 @@ namespace DAL
             string connString = "";
             if (isWindowsAuth)
             {
-                connString = $@"Data Source={server};Initial Catalog={database};Integrated Security=True";
+                connString = string.Format(@"Data Source={0};Initial Catalog={1};Integrated Security=True", server, database);
             }
             else
             {
-                connString = $@"Data Source={server};Initial Catalog={database};User ID={user};Password={pass}";
+                connString = string.Format(@"Data Source={0};Initial Catalog={1};User ID={2};Password={3}", server, database, user, pass);
             }
             File.WriteAllText(configPath, connString);
         }

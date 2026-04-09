@@ -1,0 +1,119 @@
+================================================================================
+           BẢN ĐẶC TẢ CHI TIẾT NGHIỆP VỤ HỆ THỐNG QUẢN LÝ SIÊU KHU DU LỊCH ĐẠI NAM
+================================================================================
+Phiên bản: 5.0 (Final Enterprise Standard)
+Kỹ sư biên soạn: Antigravity Assistant
+Ngày hoàn thiện: 25/03/2026
+
+Hệ thống được thiết kế với triết lý "Một hệ sinh thái - Một hóa đơn - Một trải nghiệm".
+Dưới đây là bản mô tả chi tiết từng luồng nghiệp vụ đan xen giữa 65 bảng dữ liệu.
+
+I. HỆ SINH THÁI KHÁCH HÀNG & NHÂN SỰ (IDENTITY & CRM)
+--------------------------------------------------------------------------------
+1. Quản lý Khách hàng Đa đối tượng:
+   - Hệ thống cho phép đăng ký hồ sơ khách lẻ, khách đoàn và khách doanh nghiệp. Mỗi khách 
+     hàng có định danh ID duy nhất, đi kèm các thông tin CMND/CCCD, Email và Số điện thoại.
+   - Cơ chế Loyalty: Hệ thống tự động tích điểm (diem_tich_luy) dựa trên doanh thu thực tế. 
+     Điểm này được sử dụng để thăng hạng hoặc giảm trừ trực tiếp trên các đơn hàng sau.
+   - Đối với Khách đoàn: Thông tin Đoàn khách (DoanKhach) được lưu trữ riêng để áp dụng 
+     tỷ lệ chiết khấu (chiet_khau) riêng biệt. Khi lập đơn cho một khách trong đoàn, 
+     hệ thống tự động tham chiếu mức chiết khấu này để tính toán lại tổng tiền.
+
+2. Quản trị Nhân sự & Trách nhiệm (Audit Trail):
+   - Mỗi hành động tạo mới hay cập nhật Sản phẩm, Kho, hay Đơn hàng đều được ghi nhận
+     người thực hiện (created_by) giúp tăng tính minh bạch trong vận hành.
+   - Cơ chế Soft-delete (is_deleted) đảm bảo không có dữ liệu nào bị xóa vĩnh viễn khỏi 
+     hệ thống trái phép, giúp bộ phận kế toán có thể đối soát lịch sử bất kỳ lúc nào.
+
+II. CHUỖI CUNG ỨNG & LOGIC GIÁ BÁN (SUPPLY CHAIN & PRICING)
+--------------------------------------------------------------------------------
+1. Cách mạng quy đổi đơn vị (UoM Logic):
+   - Khác với các phần mềm bán hàng thông thường, hệ thống đã giải quyết bài toán 
+     quy đổi đa cấp (QuyDoiDonVi). Mỗi sản phẩm có một đơn vị cơ sở (id_don_vi_co_ban). 
+   - Hệ thống tự động xử lý tỷ lệ (ty_le_quy_doi) giữa các đơn vị như Lon -> Thùng (24), 
+     Lốc -> Thùng (4). Điểm đặc biệt là "Giá bán riêng" (gia_ban_rieng): Khi mua 1 thùng, 
+     khách sẽ được hưởng giá sỉ thay vì lấy giá lon nhân 24, giúp tăng kích cầu mua sắm.
+
+2. Combo & Phân bổ doanh thu (Revenue Allocation):
+   - Hệ thống hỗ trợ tạo các gói combo (Vé vào cổng + Ăn trưa + Đua ngựa).
+   - Để báo cáo tài chính chính xác cho từng bộ phận (Biển, Nhà hàng, Trường đua), 
+     mỗi combo sẽ có bảng "Tỷ lệ phân bổ" (ty_le_phan_bo). Khi bán 1 combo 1 triệu đồng, 
+     hệ thống sẽ tự động bóc tách: 500k cho Biển, 300k cho Nhà hàng, 200k cho Trường đua. 
+     Trigger `tr_CheckComboRate` luôn đảm bảo tổng tỷ lệ này bằng đúng 100%.
+
+III. VÍ ĐIỆN TỬ & LEDGER BẤT BIẾN (E-WALLET & FINTECH)
+--------------------------------------------------------------------------------
+1. Công nghệ Thẻ RFID & Ví định danh:
+   - Mỗi khách hàng khi vào cổng được cấp một thẻ RFID gắn với Ví điện tử của họ.
+   - Ví quản lý hai loại số dư: Số dư khả dụng (chi tiêu) và Số dư đóng băng (tiền cọc). 
+     Điều này ngăn chặn việc khách hàng tiêu lẹm vào số tiền cọc đồ (Phao, Tủ đồ).
+
+2. Bảo mật Ledger (Sổ cái) & HashSignature:
+   - Hệ thống áp dụng quy chuẩn tài chính Blockchain: Mỗi dòng giao dịch (nạp tiền, 
+     thanh toán) được gán một chữ ký điện tử (HashSignature). Nếu bất kỳ ai can thiệp 
+     trực tiếp vào SQL để thay đổi con số tiền, Hash sẽ bị sai lệch và hệ thống lập tức 
+     phát hiện gian lận.
+
+3. Quy trình Tạm thu & Hoàn cọc (Deposit/Refund Flow):
+   - Khi mượn đồ, số tiền cọc được chuyển vào "so_du_dong_bang". Sau khi nhân viên kiểm 
+     tra đồ trả lại, hệ thống sẽ thực hiện lệnh "Hoàn cọc" tự động thông qua 
+     parent_transaction_id, giải phóng số tiền đang bị đóng băng về lại ví chính.
+
+IV. VẬN HÀNH DỊCH VỤ ĐA PHÂN HỆ (MULTI-SERVICE OPERATIONS)
+--------------------------------------------------------------------------------
+1. Lưu trú & Nhà hàng (Hospitality Management):
+   - Quản lý trạng thái Phòng và Bàn ăn theo thời gian thực (Trống, Đã đặt, Đang sử dụng).
+   - Hệ thống hỗ trợ giá phòng linh hoạt: Giá cuối tuần tự động cao hơn giá ngày thường.
+   - Cơ chế ROWVERSION ngăn chặn lỗi "Reservation Conflict" (Trùng lịch đặt chỗ).
+
+2. Giải trí Biển & Vườn thú (Leisure & Zoo):
+   - Quản lý hạ tầng kỹ thuật: Thiết bị tạo sóng, chất lượng nước (pH, độ mặn, nhiệt độ).
+   - Đội cứu hộ (CaTrucCuuHo) được phân bổ theo khu vực biển.
+   - Vườn thú quản lý hồ sơ sức khỏe và lịch cho ăn (LichChoAn). 
+   - Khách có thể đặt lịch tương tác: DatChoThuAn (Đặt chỗ cho thú ăn).
+
+3. Nghiệp vụ Trường đua chuyên nghiệp (Racing Pro):
+   - Quản lý hồ sơ Vận động viên, Ngựa đua (tuổi, thành tích) và Phương tiện đua (xe, tình trạng).
+   - Quản lý bãi đỗ xe thông minh: Tự động tính tiền dựa trên thời gian vào/ra quét thẻ RFID.
+   - Sơ đồ khán đài chi tiết đến từng vị trí ngồi (ViTriNgoi) và cấp độ ghế (VIP/Thường).
+
+V. QUẢN LÝ KHO & KIOSK TỰ ĐỘNG (SUPPLY CHAIN)
+--------------------------------------------------------------------------------
+1. Nhập/Xuất & Luân chuyển kho:
+   - Quản lý đa kho (Kho trung tâm, Kho Kiosk, Kho nhà hàng). 
+   - Phân hệ hỗ trợ nhập hàng trực tiếp từ Nhà cung cấp và xuất hàng nội bộ giữa các kho.
+   - Kiểm soát tồn kho chính xác thông qua Audit (TonKho).
+
+2. Kiosk bán hàng tự động:
+   - Mỗi Kiosk có định danh vị trí và trạng thái trực tuyến. 
+   - Hệ thống tự động cảnh báo (nguong_canh_bao) khi một mặt hàng tại Kiosk sắp hết, 
+     giúp nhân viên kho chủ động tiếp hàng mà không cần đợi báo cáo thủ công.
+
+VI. AN TOÀN, SỰ CỐ & HỆ THỐNG APP (SAFETY & MOBILE)
+--------------------------------------------------------------------------------
+1. Xử lý sự cố & Đồ thất lạc:
+   - Ghi nhận mọi sự cố (SuCo) trong Resort kèm tọa độ GPS để đội an ninh ứng cứu nhanh.
+   - Hệ thống theo dõi đồ thất lạc (ThatLac) từ lúc tìm thấy cho đến khi trả khách 
+     hoặc thanh lý thanh khoản.
+
+2. Hệ thống Push Notification:
+   - Bảng ThietBiApp lưu trữ FCM Token của khách hàng, cho phép gửi thông báo khuyến mãi, 
+     cảnh báo sự cố hoặc thông báo đã đến giờ cho thú ăn qua tọa độ Lat/Long.
+
+VII. TỐI ƯU HÓA TRUY VẤN (TECHNICAL PERFORMANCE)
+--------------------------------------------------------------------------------
+1. Chỉ mục (Indexing Strategy):
+   - Toàn diện các Index được thiết lập cho các khóa ngoại (FK) và các trường hay 
+     truy vấn như ma_rfid, id_don_hang, id_khach_hang. Điều này đảm bảo tốc độ phản hồi 
+     dưới 100ms ngay cả khi dữ liệu lên tới hàng trăm ngàn dòng.
+
+2. Stored Procedure `sp_GetChiTietDonHangToanPhan`:
+   - Câu lệnh SQL "Thần thánh" này cho phép bóc tách 1 hóa đơn khổng lồ ra thành 7 
+     mảng dữ liệu liên quan. Tầng ứng dụng chỉ cần 1 lần call DB là có đủ thông tin 
+     để hiển thị UI, giúp tối ưu hóa băng thông mạng.
+
+================================================================================
+KẾT LUẬN:
+Bản thiết kế này không chỉ là một cơ sở dữ liệu, mà là một "Sách lược vận hành" 
+toàn diện, sẵn sàng cho việc chuyển đổi số hoàn toàn tại Đại Nam Resort.
+================================================================================

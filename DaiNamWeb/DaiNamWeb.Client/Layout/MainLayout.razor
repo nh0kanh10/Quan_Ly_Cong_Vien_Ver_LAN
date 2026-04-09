@@ -1,0 +1,84 @@
+@inherits LayoutComponentBase
+@inject DaiNamWeb.Client.Services.AuthService Auth
+@inject NavigationManager Nav
+
+<div class="page-wrapper b2c-layout">
+    <header class="top-navbar">
+        <div class="navbar-brand">
+            <a href="/">
+                <span class="brand-text">ĐẠI NAM</span> <span class="brand-sub">HERITAGE PRO</span>
+            </a>
+        </div>
+        
+        <div class="navbar-links desktop-only">
+            <NavLink href="/" Match="NavLinkMatch.All">TỔNG QUAN</NavLink>
+            <NavLink href="/buy-ticket">MUA VÉ</NavLink>
+            <NavLink href="/my-tickets">VÍ VÉ ĐIỆN TỬ</NavLink>
+            @if (Auth.CurrentUser?.Role == DaiNamWeb.Client.Models.AppConstants.Roles.Admin || Auth.CurrentUser?.Role == DaiNamWeb.Client.Models.AppConstants.Roles.Staff || Auth.CurrentUser?.Role == DaiNamWeb.Client.Models.AppConstants.Roles.GateScanner)
+            {
+                <NavLink href="/gate">SOÁT VÉ</NavLink>
+            }
+        </div>
+        
+        <div class="navbar-actions">
+            @if (Auth.IsLoggedIn)
+            {
+                <a href="/my-tickets" class="user-pill desktop-only">
+                    <i class="bi bi-person-circle"></i> @Auth.CurrentUser?.HoTen
+                </a>
+                <a href="/settings" class="btn btn-ghost" style="padding:4px 8px" title="Cài đặt tài khoản">
+                    <i class="bi bi-gear-fill"></i>
+                </a>
+                <button class="btn btn-ghost" style="padding:4px 8px; font-size:12px; margin-left:var(--sp-4)" @onclick="Logout">Thoát</button>
+            }
+            else
+            {
+                <a href="/login" class="btn btn-gold" style="font-size:12px; padding:6px 12px">ĐĂNG NHẬP</a>
+            }
+        </div>
+    </header>
+
+    <main class="main-content">
+        @Body
+    </main>
+
+    <nav class="bottom-tab-bar mobile-only">
+        <NavLink href="/" Match="NavLinkMatch.All" class="tab-item">
+            <i class="bi bi-house-door"></i>
+            <span>Trang chủ</span>
+        </NavLink>
+        <NavLink href="/buy-ticket" class="tab-item">
+            <i class="bi bi-ticket-perforated"></i>
+            <span>Mua vé</span>
+        </NavLink>
+        <NavLink href="/my-tickets" class="tab-item">
+            <i class="bi bi-wallet2"></i>
+            <span>Ví vé</span>
+        </NavLink>
+        @if (Auth.CurrentUser?.Role == DaiNamWeb.Client.Models.AppConstants.Roles.Admin || Auth.CurrentUser?.Role == DaiNamWeb.Client.Models.AppConstants.Roles.Staff || Auth.CurrentUser?.Role == DaiNamWeb.Client.Models.AppConstants.Roles.GateScanner)
+        {
+            <NavLink href="/gate" class="tab-item">
+                <i class="bi bi-upc-scan"></i>
+                <span>Soát vé</span>
+            </NavLink>
+        }
+    </nav>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Auth.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        Auth.OnChange -= StateHasChanged;
+    }
+
+    private void Logout()
+    {
+        Auth.Logout();
+        Nav.NavigateTo("/", forceLoad: true);
+    }
+}

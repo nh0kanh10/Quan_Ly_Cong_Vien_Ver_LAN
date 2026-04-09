@@ -1,160 +1,112 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ET;
 
 namespace DAL
 {
-    public class DAL_KhuVuc
+    public partial class DAL_KhuVuc
     {
+        private DataQuanLyDaiNamDataContext db = new DataQuanLyDaiNamDataContext();
         private static DAL_KhuVuc instance;
-
         public static DAL_KhuVuc Instance
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new DAL_KhuVuc();
-                }
+                if (instance == null) instance = new DAL_KhuVuc();
                 return instance;
             }
-            private set
-            {
-                instance = value;
-            }
         }
 
-        
-        public List<KhuVuc> LoadDSKhuVucHoatDong()
+        public List<ET_KhuVuc> LoadDS()
         {
-            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
+            return db.GetTable<KhuVuc>().Select(s => new ET_KhuVuc
             {
-                return db.KhuVucs
-                    .Where(kv => kv.TrangThai == "Hoạt động")
-                    .OrderBy(kv => kv.MaCode)
-                    .ToList();
-            }
+                Id = s.Id,
+                MaCode = s.MaCode,
+                TenKhuVuc = s.TenKhuVuc,
+                MoTa = s.MoTa,
+                TrangThai = s.TrangThai,
+                HinhAnh = s.HinhAnh,
+                CreatedAt = s.CreatedAt,
+                UpdatedAt = s.UpdatedAt,
+                CreatedBy = s.CreatedBy,
+                IsDeleted = s.IsDeleted
+            }).ToList();
         }
 
-        /// <summary>
-        /// Load tất cả khu vực (dùng cho ComboBox lọc, bao gồm cả ngừng hoạt động)
-        /// </summary>
-        public List<KhuVuc> LoadDSKhuVuc()
+        public List<ET_KhuVuc> GetAll()
         {
-            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-            {
-                return db.KhuVucs
-                    .OrderBy(kv => kv.MaCode)
-                    .ToList();
-            }
+            return LoadDS();
         }
 
-        public List<KhuVuc> TimKiem(string tuKhoa)
+        public bool Them(ET_KhuVuc et)
         {
-            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-            {
-                return db.KhuVucs
-                    .Where(kv => kv.TenKhuVuc.Contains(tuKhoa) || kv.MaCode.Contains(tuKhoa))
-                    .OrderBy(kv => kv.MaCode)
-                    .ToList();
-            }
+            try {
+                KhuVuc obj = new KhuVuc();
+                obj.MaCode = et.MaCode;
+                obj.TenKhuVuc = et.TenKhuVuc;
+                obj.MoTa = et.MoTa;
+                obj.TrangThai = et.TrangThai;
+                obj.HinhAnh = et.HinhAnh;
+                obj.CreatedAt = et.CreatedAt;
+                obj.UpdatedAt = et.UpdatedAt;
+                obj.CreatedBy = et.CreatedBy;
+                obj.IsDeleted = et.IsDeleted;
+                db.GetTable<KhuVuc>().InsertOnSubmit(obj);
+                db.SubmitChanges();
+                return true;
+            } catch { return false; }
         }
 
-        public string LayMaCodeTiepTheo()
+        public bool Sua(ET_KhuVuc et)
         {
-            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-            {
-                var lastKV = db.KhuVucs
-                    .Where(kv => kv.MaCode.StartsWith("KV"))
-                    .OrderByDescending(kv => kv.MaCode)
-                    .FirstOrDefault();
-
-                if (lastKV == null) return "KV001";
-
-                string lastCode = lastKV.MaCode.Substring(2);
-                if (int.TryParse(lastCode, out int lastNum))
-                {
-                    return "KV" + (lastNum + 1).ToString("D3");
-                }
-                return "KV001";
-            }
-        }
-
-        public bool KiemTraTrungTen(string tenKV, string maCodeHienTai = null)
-        {
-            using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-            {
-                if (string.IsNullOrEmpty(maCodeHienTai))
-                {
-                    return db.KhuVucs.Any(kv => kv.TenKhuVuc == tenKV);
-                }
-                return db.KhuVucs.Any(kv => kv.TenKhuVuc == tenKV && kv.MaCode != maCodeHienTai);
-            }
-        }
-
-        public bool ThemKhuVuc(ET.ET_KhuVuc et)
-        {
-            try
-            {
-                using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-                {
-                    KhuVuc kv = new KhuVuc
-                    {
-                        MaCode = et.MaCode,
-                        TenKhuVuc = et.TenKhuVuc,
-                        MoTa = et.MoTa,
-                        TrangThai = et.TrangThai,
-                        NgayTao = DateTime.Now
-                    };
-                    db.KhuVucs.InsertOnSubmit(kv);
+            try {
+                var obj = db.GetTable<KhuVuc>().FirstOrDefault(x => x.Id == et.Id);
+                if (obj != null) {
+                    obj.MaCode = et.MaCode;
+                    obj.TenKhuVuc = et.TenKhuVuc;
+                    obj.MoTa = et.MoTa;
+                    obj.TrangThai = et.TrangThai;
+                    obj.HinhAnh = et.HinhAnh;
+                    obj.CreatedAt = et.CreatedAt;
+                    obj.UpdatedAt = et.UpdatedAt;
+                    obj.CreatedBy = et.CreatedBy;
+                    obj.IsDeleted = et.IsDeleted;
                     db.SubmitChanges();
                     return true;
                 }
-            }
-            catch { return false; }
+                return false;
+            } catch { return false; }
         }
 
-        public bool SuaKhuVuc(ET.ET_KhuVuc et)
+        public bool Xoa(int id)
         {
-            try
-            {
-                using (QLKVCGTDataContext db = new QLKVCGTDataContext(ConnectionManager.GetConnectionString()))
-                {
-                    KhuVuc kv = db.KhuVucs.SingleOrDefault(x => x.MaCode == et.MaCode);
-                    if (kv != null)
-                    {
-                        kv.TenKhuVuc = et.TenKhuVuc;
-                        kv.MoTa = et.MoTa;
-                        kv.TrangThai = et.TrangThai;
-                        kv.NgayCapNhat = DateTime.Now;
-                        db.SubmitChanges();
-                        return true;
-                    }
-                    return false;
+            try {
+                var obj = db.GetTable<KhuVuc>().FirstOrDefault(x => x.Id == id);
+                if (obj != null) {
+                    db.GetTable<KhuVuc>().DeleteOnSubmit(obj);
+                    db.SubmitChanges();
+                    return true;
                 }
-            }
-            catch { return false; }
+                return false;
+            } catch { return false; }
         }
 
-        public bool XoaKhuVuc(string maCode)
+        public ET_KhuVuc LayTheoId(int id)
         {
-            try
-            {
-                using (QLKVCGTDataContext db = new QLKVCGTDataContext())
-                {
-                    KhuVuc kv = db.KhuVucs.SingleOrDefault(x => x.MaCode == maCode);
-                    if (kv != null)
-                    {
-                        db.KhuVucs.DeleteOnSubmit(kv);
-                        db.SubmitChanges();
-                        return true;
-                    }
-                    return false;
-                }
-            }
-            catch { return false; }
+            return db.GetTable<KhuVuc>().Where(x => x.Id == id).Select(s => new ET_KhuVuc {
+                Id = s.Id,
+                MaCode = s.MaCode,
+                TenKhuVuc = s.TenKhuVuc,
+                MoTa = s.MoTa,
+                TrangThai = s.TrangThai,
+                HinhAnh = s.HinhAnh,
+                CreatedAt = s.CreatedAt,
+                UpdatedAt = s.UpdatedAt,
+                CreatedBy = s.CreatedBy,
+                IsDeleted = s.IsDeleted
+            }).FirstOrDefault();
         }
     }
 }
