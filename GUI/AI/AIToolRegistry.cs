@@ -11,9 +11,9 @@ namespace GUI.AI
     /// </summary>
     public class AIToolRegistry
     {
-        // ══════════════════════════════════════════════════════════════
+        // 
         //  TOOL DEFINITION: Mỗi Tool gồm metadata (cho Gemini) + executor (cho App)
-        // ══════════════════════════════════════════════════════════════
+        // 
 
         public class ToolDefinition
         {
@@ -34,9 +34,9 @@ namespace GUI.AI
             RegisterKhachHangTools();
         }
 
-        // ══════════════════════════════════════════════════════════════
+        // 
         //  PUBLIC API
-        // ══════════════════════════════════════════════════════════════
+        // 
 
         /// <summary>Lấy danh sách Tool declarations cho Gemini API theo context</summary>
         public GeminiToolDef GetToolDef(string context)

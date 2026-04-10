@@ -273,7 +273,7 @@ namespace SD001.Tests
             var donHang = new ET_DonHang { TienGiamGia = 0 };
             var chiTietList = new List<ET_ChiTietDonHang>
             {
-                new ET_ChiTietDonHang { IdCombo = 10, SoLuong = 1, DonGiaGoc = 0 } // HACK: 0 dong
+                new ET_ChiTietDonHang { IdCombo = 10, SoLuong = 1, DonGiaGoc = 0 } 
             };
 
             _mockSanPham.Setup(x => x.LoadDS()).Returns(new List<ET_SanPham>());

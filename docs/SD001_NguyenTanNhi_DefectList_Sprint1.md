@@ -14,7 +14,7 @@
 
 | Effective Date | Changed Items | A/M/D | Change Description | New Version |
 |----------------|--------------|-------|-------------------|-------------|
-| 16/03/2026 | First release | A | Khởi tạo Defect List Sprint 1 với 50 lỗi chia đều 5 module | 1.0 |
+| 16/03/2026 | First release | A | Khởi tạo Defect List Sprint 1 với 43 lỗi chia 5 module | 1.0 |
 
 ---
 
@@ -23,10 +23,10 @@
 | Mức độ | Số lượng | Phân bổ Module |
 |--------|:--------:|-----------------|
 | 🔴 Critical | 8 | Khu vực (2), Trò chơi (1), Loại vé (2), Dịch vụ (2), Auth (1) |
-| 🟠 Major | 15 | Khu vực (3), Trò chơi (4), Loại vé (3), Dịch vụ (3), Auth (2) |
-| 🟡 Medium | 15 | Phân bổ đều các module |
-| ⚪ Minor | 12 | Các lỗi UI/UX, chính tả |
-| **Tổng** | **50** | 10 Defects / Nhóm chức năng cốt lõi |
+| 🟠 Major | 12 | Khu vực (3), Trò chơi (4), Loại vé (3), Dịch vụ (0), Auth (2) |
+| 🟡 Medium | 13 | Phân bổ đều các module |
+| ⚪ Minor | 10 | Các lỗi UI/UX, chính tả |
+| **Tổng** | **43** | |
 
 ---
 
@@ -88,16 +88,9 @@
 | DEF-039 | ⚪ | Thông báo Lưu thành công che khuất màn hình | Lưu sp xong | Hiện MessageBox to chình ình bắt nhấn OK | Nên dùng Toast Notif nhỏ góc màn hình tự trôi 3s |
 | DEF-040 | ⚪ | Không có màu sắc phân biệt Món Hàng Cấm | Nhìn vào ds | Món Ngừng Bán trông y chang món Đang bán | Cell style: món ngừng bán chữ màu đỏ, gạch ngang |
 
-### 5. Nhóm Auth / Đăng nhập & Đăng ký (frmLogin) - 10 Lỗi
+### 5. Nhóm Auth / Đăng nhập & Đăng ký (frmLogin) - 3 Lỗi
 | DEF_ID | Mức | Mô tả lỗi | Bước tái hiện | Kết quả thực tế | Kết quả mong đợi |
 |--------|-----|-----------|--------------|-----------------|------------------|
 | DEF-041 | 🔴 | Bỏ qua đăng nhập bằng SQL injection `a' OR '1'='1` | Gõ password: `1'='1` | Hack vào được hệ thống với quyền admin | 100% sử dụng Entity/Param query an toàn + Hash |
 | DEF-042 | 🟠 | Không mã hóa mật khẩu, lộ plaintext dưới DB | Đăng ký user mới tài khoản "demo" | Khám Database thấy mk ghi rõ chữ "123456" | Phải cài đặt thư viện Hash MD5 / BCrypt |
 | DEF-043 | 🟠 | Nút Enter không focus vào hàm Login | Gõ Pass xong, phím Enter | Trỏ chuột nhảy sang ô khác, bấm nút chả có gì | Phím Enter phải trigger sự kiện Nhấn nút Đăng Nhập |
-| DEF-044 | 🟠 | Hiển thị mật khẩu không bị che dấu (*) | Gõ chữ vào ô nhập Mật khẩu | Chữ cái hiện rõ mồn một cho người đứng sau thấy | Chỉnh property `PasswordChar` = * |
-| DEF-045 | 🟠 | Sai pass 5 lần không khóa tài khoản | Gõ bậy pass 100 lần | Cho đăng nhập mù mờ miệt mài (Brute Force) | Quá 5 lần, block Account chờ Admin mở |
-| DEF-046 | 🟡 | Label Đăng ký tài khoản bị lỗi font tiếng việt | Xem màn hình login | Chữ ghi "Đ?ng k? t?i kho?n" | Chú ý Set Font Unicode / Tahoma |
-| DEF-047 | 🟡 | Form đăng nhập không nhảy ở chính giữa màn hình (Center) | Bật tool | Khởi động lên màn hình mẻ một góc ở trên | Thuộc tính `StartPosition` = CenterScreen |
-| DEF-048 | 🟡 | Không lưu lịch sử Ai là người đăng nhập (CreatedBy id = null) | Log in thành công, tạo User | Session không nhớ Id người dùng đăng nhập hiện tại | Set `SessionManager.CurrentUser = loginedUser` |
-| DEF-049 | ⚪ | Chọn "Lưu mật khẩu" nhưng tắt app mở lại bay sạch | Tích nút Remember | Lần sau chạy Winforms trống trơn | Implement `Settings.Default` local cache save |
-| DEF-050 | ⚪ | Ảnh logo loading quá lâu bị nhòe pixel | Xem lúc app load | Ảnh bị lệch tỷ lệ, mờ | StretchImage / Zoom theo format chuẩn tỉ lệ |

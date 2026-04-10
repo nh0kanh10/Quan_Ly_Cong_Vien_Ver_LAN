@@ -1,0 +1,38 @@
+name: Unit Tests & Code Coverage (Sprint 1)
+
+on:
+  push:
+    branches: [ "main", "dev" ]
+  pull_request:
+    branches: [ "main", "dev" ]
+
+jobs:
+  build_and_test:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 7.0.x
+
+    - name: Restore dependencies
+      run: dotnet restore SD001.Tests
+
+    - name: Run Unit Tests and Collect Coverage
+      run: dotnet test SD001.Tests --no-restore --verbosity normal /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=./TestResults/
+
+    - name: Generate HTML Coverage Report
+      uses: danielpalme/ReportGenerator-GitHub-Action@v5.1.25
+      with:
+        reports: 'SD001.Tests/TestResults/coverage.cobertura.xml'
+        targetdir: 'docs/CoverageReport'
+        reporttypes: 'HtmlInline'
+
+    - name: Upload Coverage HTML Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-report
+        path: docs/CoverageReport

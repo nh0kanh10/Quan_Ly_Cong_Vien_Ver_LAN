@@ -80,9 +80,9 @@ namespace BUS
             var existing = _gateway.LoadDS().FirstOrDefault(x => x.MaCode == code);
             if (existing == null) return ResponseResult.Error("Không tìm thấy khu vực.");
             
-            // [Bugfix SD-001]: Ngăn chặn xóa khu vực đang chứa trò chơi để tránh SQL FK Exception
+            // [Bugfix SD-001]: Ngăn chặn xóa khu vực đang chứa trò chơi
             var danhSachTroChoi = _troChoiGateway.LoadDS();
-            if (danhSachTroChoi.Any(t => t.IdKhuVuc == existing.Id && !t.IsDeleted))
+            if (danhSachTroChoi.Any(t => t.IdKhuVuc == existing.Id))
             {
                 return ResponseResult.Error("Không thể xóa. Khu vực này đang chứa trò chơi trực thuộc.");
             }

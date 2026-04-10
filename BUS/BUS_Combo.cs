@@ -123,7 +123,6 @@ namespace BUS
             if (tongTyLe != 100m)
                 return ResponseResult.Error($"Tổng tỷ lệ phân bổ phải = 100% (hiện tại: {tongTyLe:N2}%).");
 
-            // Batch save: Delete all old → Insert all new
             bool deleted = _ctGateway.XoaTheoCombo(idCombo);
             if (!deleted)
                 return ResponseResult.Error("Lỗi khi xóa chi tiết cũ.");

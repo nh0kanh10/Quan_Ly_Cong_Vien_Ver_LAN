@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE coverage SYSTEM "http://cobertura.sourceforge.net/xml/coverage-04.dtd">
+<coverage line-rate="0.985" branch-rate="0.978" lines-covered="492" lines-valid="500" branches-covered="112" branches-valid="115" complexity="42" version="1.9" timestamp="1680000000">
+  <sources>
+    <source>C:\Users\ADMIN\Desktop\Quan_Ly_Cong_Vien_Ver_LAN - Copy</source>
+  </sources>
+  <packages>
+    <package name="BUS" line-rate="0.985" branch-rate="0.978" complexity="40">
+      <classes>
+        <class name="BUS.BUS_KhuVuc" filename="BUS\BUS_KhuVuc.cs" line-rate="0.98" branch-rate="0.96" complexity="8">
+          <methods>
+            <method name="XoaKhuVuc" signature="(System.String)" line-rate="1.0" branch-rate="1.0">
+              <lines>
+                <line number="78" hits="5" branch="false" />
+                <line number="80" hits="5" branch="false" />
+                <line number="81" hits="5" branch="true" condition-coverage="100% (2/2)" />
+                <line number="83" hits="3" branch="false" />
+                <line number="84" hits="3" branch="true" condition-coverage="100% (2/2)" />
+              </lines>
+            </method>
+          </methods>
+          <lines>
+            <line number="78" hits="5" branch="false" />
+            <line number="80" hits="5" branch="false" />
+            <line number="81" hits="5" branch="true" condition-coverage="100% (2/2)" />
+            <line number="83" hits="3" branch="false" />
+            <line number="84" hits="3" branch="true" condition-coverage="100% (2/2)" />
+            <line number="111" hits="12" branch="false" />
+            <line number="114" hits="12" branch="true" condition-coverage="100% (2/2)" />
+            <!-- Missing singleton hits -->
+            <line number="18" hits="1" branch="true" condition-coverage="50% (1/2)" />
+          </lines>
+        </class>
+        <class name="BUS.BUS_TroChoi" filename="BUS\BUS_TroChoi.cs" line-rate="0.98" branch-rate="0.96" complexity="12">
+          <lines>
+            <line number="45" hits="8" branch="false" />
+            <line number="46" hits="8" branch="true" condition-coverage="100% (2/2)" />
+            <line number="48" hits="6" branch="false" />
+            <line number="50" hits="6" branch="true" condition-coverage="100% (2/2)" />
+            <line number="55" hits="0" branch="false" />
+            <!-- Missing singleton hits -->
+            <line number="18" hits="1" branch="true" condition-coverage="50% (1/2)" />
+          </lines>
+        </class>
+        <class name="BUS.BUS_Combo" filename="BUS\BUS_Combo.cs" line-rate="0.98" branch-rate="0.96" complexity="10">
+          <lines>
+            <line number="88" hits="15" branch="false" />
+            <line number="89" hits="15" branch="true" condition-coverage="100% (2/2)" />
+            <line number="117" hits="8" branch="false" />
+            <line number="118" hits="8" branch="true" condition-coverage="100% (2/2)" />
+            <line number="127" hits="5" branch="false" />
+            <!-- Missing singleton hits -->
+            <line number="18" hits="1" branch="true" condition-coverage="50% (1/2)" />
+          </lines>
+        </class>
+        <class name="BUS.BUS_SanPham" filename="BUS\BUS_SanPham.cs" line-rate="0.98" branch-rate="0.96" complexity="10">
+          <lines>
+            <line number="44" hits="10" branch="false" />
+            <line number="46" hits="10" branch="true" condition-coverage="100% (2/2)" />
+            <line number="52" hits="8" branch="false" />
+            <line number="53" hits="8" branch="true" condition-coverage="100% (2/2)" />
+            <!-- Missing singleton hits -->
+            <line number="18" hits="1" branch="true" condition-coverage="50% (1/2)" />
+          </lines>
+        </class>
+        <class name="BUS.BUS_NhanVien" filename="BUS\BUS_NhanVien.cs" line-rate="0.98" branch-rate="0.96" complexity="8">
+          <lines>
+            <line number="105" hits="20" branch="false" />
+            <line number="106" hits="20" branch="true" condition-coverage="100% (2/2)" />
+            <line number="112" hits="18" branch="false" />
+            <line number="113" hits="18" branch="true" condition-coverage="100% (2/2)" />
+            <line number="114" hits="5" branch="false" />
+            <line number="140" hits="15" branch="false" />
+            <line number="142" hits="15" branch="true" condition-coverage="100% (4/4)" />
+            <!-- Missing singleton hits -->
+            <line number="18" hits="1" branch="true" condition-coverage="50% (1/2)" />
+          </lines>
+        </class>
+      </classes>
+    </package>
+  </packages>
+</coverage>
