@@ -246,7 +246,7 @@ namespace GUI
             this.tabGiaoDich.Name = "tabGiaoDich";
             this.tabGiaoDich.Size = new System.Drawing.Size(875, 701);
             this.tabGiaoDich.TabIndex = 0;
-            this.tabGiaoDich.Text = "  GIAO DỊCH VÍ";
+            this.tabGiaoDich.Text = "  LỊCH SỬ GIAO DỊCH";
             // 
             // gridGiaoDich
             // 

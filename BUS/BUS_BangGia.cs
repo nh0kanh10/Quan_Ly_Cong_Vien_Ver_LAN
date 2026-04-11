@@ -45,7 +45,7 @@ namespace BUS
                 var sp = _sanPhamGateway.LayTheoId(idSanPham);
                 return sp?.DonGia ?? 0m;
             }
-            return ChonGiaTheoNgay(bg, thoiDiem);
+            return bg.GiaBan;
         }
 
         /// <summary>
@@ -53,8 +53,15 @@ namespace BUS
         /// </summary>
         public decimal GetTienCoc(int idSanPham)
         {
+            var bgNow = TimBangGia(idSanPham, DateTime.Now);
+            if (bgNow != null && bgNow.TrangThai == AppConstants.TrangThaiChung.HoatDong)
+            {
+                return bgNow.TienCoc ?? 0m;
+            }
+
             var list = _gateway.LayTheoSanPham(idSanPham);
-            var bg = list.FirstOrDefault(x => x.TienCoc.HasValue);
+            if (list == null || list.Count == 0) return 0m;
+            var bg = list.FirstOrDefault(x => x.TrangThai == AppConstants.TrangThaiChung.HoatDong);
             return bg?.TienCoc ?? 0m;
         }
 
@@ -66,9 +73,14 @@ namespace BUS
         public decimal TinhTienThueTheoPhut(int idSanPham, DateTime thoiDiem, int tongSoPhutThue)
         {
             var bg = TimBangGia(idSanPham, thoiDiem);
-            if (bg == null) return 0m;
+            if (bg == null) 
+            {
+                // Fallback về DonGia gốc của SanPham (Thuê trọn gói không giới hạn thời gian)
+                var sp = _sanPhamGateway.LayTheoId(idSanPham);
+                return sp?.DonGia ?? 0m;
+            }
 
-            decimal giaBlock1 = ChonGiaTheoNgay(bg, thoiDiem);
+            decimal giaBlock1 = bg.GiaBan;
             int phutBlock1 = bg.PhutBlock ?? 60;
 
             if (tongSoPhutThue <= phutBlock1)
@@ -77,6 +89,8 @@ namespace BUS
             // Tính phụ thu lố giờ
             int phutLo = tongSoPhutThue - phutBlock1;
             int phutTiep = bg.PhutTiep ?? 30;
+            if (phutTiep <= 0) phutTiep = 30; // Tránh DivideByZeroException
+            
             decimal giaPhuThu = bg.GiaPhuThu ?? 0m;
 
             int soBlockLo = (int)Math.Ceiling((double)phutLo / phutTiep);
@@ -84,30 +98,34 @@ namespace BUS
         }
 
         // ═══════════════════════════════════════════════
-        //  CORE: Tìm dòng BangGia phù hợp nhất
+        //  CORE: Tìm dòng BangGia phù hợp nhất (Dynamic)
         // ═══════════════════════════════════════════════
         private ET_BangGia TimBangGia(int idSanPham, DateTime thoiDiem)
         {
             var gio = thoiDiem.TimeOfDay;
             var list = _gateway.LayGiaHienTai(idSanPham, gio);
-            return list.FirstOrDefault(); // Đã sort khung hẹp ưu tiên trong DAL
-        }
+            if (list == null || list.Count == 0) return null;
 
-        /// <summary>
-        /// Chọn 1 trong 3 cột giá dựa theo ngày (Lễ > Cuối tuần > Thường)
-        /// </summary>
-        private decimal ChonGiaTheoNgay(ET_BangGia bg, DateTime thoiDiem)
-        {
-            // Ưu tiên 1: Ngày lễ
-            if (_ngayLeGateway.LaNgayLe(thoiDiem))
-                return bg.GiaNgayLe;
+            // Ưu tiên 1: Ngày Lễ / Sự kiện
+            var holidayConfig = _ngayLeGateway.LayNgayLeChoNgay(thoiDiem);
+            if (holidayConfig != null)
+            {
+                var specificHoliday = list.FirstOrDefault(x => x.LoaiGiaApDung == AppConstants.LoaiGiaApDung.NgayLe && x.IdNgayLe == holidayConfig.Id);
+                if (specificHoliday != null) return specificHoliday;
+                
+                var genericHoliday = list.FirstOrDefault(x => x.LoaiGiaApDung == AppConstants.LoaiGiaApDung.NgayLe && !x.IdNgayLe.HasValue);
+                if (genericHoliday != null) return genericHoliday;
+            }
 
-            // Ưu tiên 2: Cuối tuần (T7, CN)
+            // Ưu tiên 2: Cuối tuần
             if (thoiDiem.DayOfWeek == DayOfWeek.Saturday || thoiDiem.DayOfWeek == DayOfWeek.Sunday)
-                return bg.GiaCuoiTuan;
+            {
+                var weekendPrice = list.FirstOrDefault(x => x.LoaiGiaApDung == AppConstants.LoaiGiaApDung.CuoiTuan);
+                if (weekendPrice != null) return weekendPrice;
+            }
 
-            // Mặc định: Ngày thường
-            return bg.GiaNgayThuong;
+            // Mặc định
+            return list.FirstOrDefault(x => x.LoaiGiaApDung == AppConstants.LoaiGiaApDung.MacDinh) ?? list.FirstOrDefault();
         }
 
         // ═══════════════════════════════════════════════
@@ -142,7 +160,7 @@ namespace BUS
 
         public ResponseResult ThemGia(ET_BangGia et)
         {
-            if (et.GiaNgayThuong < 0 || et.GiaCuoiTuan < 0 || et.GiaNgayLe < 0)
+            if (et.GiaBan < 0)
                 return ResponseResult.Error("Giá tiền không được âm.");
             et.CreatedAt = DateTime.Now;
             try
@@ -154,20 +172,37 @@ namespace BUS
                                     || ex.Message.Contains("UxBangGia_ActiveSPGio")
                                     || ex.Message.Contains("duplicate key"))
             {
-                return ResponseResult.Error("Đã tồn tại mức giá active cho sản phẩm này với cùng khung giờ.");
+                return ResponseResult.Error("Đã tồn tại cấu hình giá Đụng Hàng cho sản phẩm này (trùng điều kiện hoặc khung giờ).");
             }
         }
 
         public ResponseResult SuaGia(ET_BangGia et)
         {
-            bool ok = _gateway.Sua(et);
-            return ok ? ResponseResult.Success() : ResponseResult.Error("Không thể cập nhật.");
+            if (et.GiaBan < 0)
+                return ResponseResult.Error("Giá tiền không được âm.");
+                
+            try
+            {
+                bool ok = _gateway.Sua(et);
+                return ok ? ResponseResult.Success() : ResponseResult.Error("Không thể cập nhật.");
+            }
+            catch (Exception ex)
+            {
+                return ResponseResult.Error("Lỗi hệ thống hoặc cơ sở dữ liệu: " + ex.Message);
+            }
         }
 
         public ResponseResult XoaGia(int id)
         {
-            bool ok = _gateway.Xoa(id);
-            return ok ? ResponseResult.Success() : ResponseResult.Error("Không thể xóa.");
+            try
+            {
+                bool ok = _gateway.Xoa(id);
+                return ok ? ResponseResult.Success() : ResponseResult.Error("Không thể xóa.");
+            }
+            catch (Exception ex)
+            {
+                return ResponseResult.Error("Lỗi hệ thống hoặc cơ sở dữ liệu: " + ex.Message);
+            }
         }
     }
 }

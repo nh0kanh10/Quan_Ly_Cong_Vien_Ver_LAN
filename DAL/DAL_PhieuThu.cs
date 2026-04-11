@@ -51,7 +51,7 @@ namespace DAL
                 {
                     PhieuThu obj = new PhieuThu();
                     obj.MaCode = et.MaCode;
-                    obj.IdDonHang = (int)et.IdDonHang;
+                    obj.IdDonHang = et.IdDonHang;
                     obj.IdGiaoDichVi = et.IdGiaoDichVi;
                     obj.SoTien = et.SoTien;
                     obj.PhuongThuc = et.PhuongThuc;
@@ -75,7 +75,7 @@ namespace DAL
                     var obj = db.GetTable<PhieuThu>().FirstOrDefault(x => x.Id == et.Id);
                     if (obj != null) {
                         obj.MaCode = et.MaCode;
-                        obj.IdDonHang = (int)et.IdDonHang;
+                        obj.IdDonHang = et.IdDonHang;
                         obj.IdGiaoDichVi = et.IdGiaoDichVi;
                         obj.SoTien = et.SoTien;
                         obj.PhuongThuc = et.PhuongThuc;

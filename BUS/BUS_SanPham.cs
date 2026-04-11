@@ -44,6 +44,16 @@ namespace BUS
         public ResponseResult Them(ET_SanPham et)
         {
             if (string.IsNullOrEmpty(et.Ten)) return ResponseResult.Error("Tên sản phẩm không được để trống.");
+            
+            if (et.DonGia <= 0) return ResponseResult.Error("Đơn giá không được âm.");
+            var validLoai = new[] { 
+                AppConstants.LoaiSanPham.Ve, AppConstants.LoaiSanPham.Combo, AppConstants.LoaiSanPham.Thue,
+                AppConstants.LoaiSanPham.AnUong, AppConstants.LoaiSanPham.LuuTru, AppConstants.LoaiSanPham.DoLuuNiem,
+                AppConstants.LoaiSanPham.GuiXe, AppConstants.LoaiSanPham.DichVu, AppConstants.LoaiSanPham.Khac 
+            };
+            if (!string.IsNullOrEmpty(et.LoaiSanPham) && !validLoai.Contains(et.LoaiSanPham)) 
+                return ResponseResult.Error("Loại sản phẩm không hợp lệ.");
+
             et.CreatedAt = DateTime.Now;
 
             int newId = _gateway.ThemVaLayId(et);
@@ -65,6 +75,15 @@ namespace BUS
         /// </summary>
         public ResponseResult Sua(ET_SanPham et)
         {
+            if (et.DonGia <= 0) return ResponseResult.Error("Đơn giá không được âm.");
+            var validLoai = new[] { 
+                AppConstants.LoaiSanPham.Ve, AppConstants.LoaiSanPham.Combo, AppConstants.LoaiSanPham.Thue,
+                AppConstants.LoaiSanPham.AnUong, AppConstants.LoaiSanPham.LuuTru, AppConstants.LoaiSanPham.DoLuuNiem,
+                AppConstants.LoaiSanPham.GuiXe, AppConstants.LoaiSanPham.DichVu, AppConstants.LoaiSanPham.Khac 
+            };
+            if (!string.IsNullOrEmpty(et.LoaiSanPham) && !validLoai.Contains(et.LoaiSanPham)) 
+                return ResponseResult.Error("Loại sản phẩm không hợp lệ.");
+
             bool success = _gateway.Sua(et);
             if (!success) return ResponseResult.Error("Không thể cập nhật sản phẩm.");
 

@@ -72,5 +72,15 @@ namespace BUS
                 .OrderByDescending(x => x.GiaTriGiam)
                 .FirstOrDefault();
         }
+
+        public ET_KhuyenMai GetPromotionHint(decimal totalAmount)
+        {
+            var now = DateTime.Now;
+            return _gateway.LoadDS()
+                .Where(x => !x.IsDeleted && x.TrangThai && x.NgayBatDau <= now && x.NgayKetThuc >= now
+                            && x.DonToiThieu.HasValue && totalAmount < x.DonToiThieu.Value)
+                .OrderBy(x => x.DonToiThieu.Value - totalAmount)
+                .FirstOrDefault();
+        }
     }
 }

@@ -34,6 +34,9 @@ namespace GUI
             SetupGridColumns();
             RefreshCartDisplay();
 
+            gridControlSanPham.BringToFront();
+            gridControlDangThue.BringToFront();
+
             InitIcons();
             ApplyStyles();
             ApplyPermissions();
@@ -41,16 +44,19 @@ namespace GUI
 
         private void frmThueDo_Load(object sender, EventArgs e)
         {
+            dtpTuNgay.DateTime = DateTime.Now.Date;
+            dtpDenNgay.DateTime = DateTime.Now.Date;
+            BtnXemChuaTra_Click(null, null);
+
+            gridViewChuaTra.PopupMenuShowing += GridViewChuaTra_PopupMenuShowing;
+
             txtRfidGiao.Focus();
         }
 
         public void ApplyPermissions()
         {
-            // Standard RBAC gating for Dai Nam POS
-            // The VIEW_POS permission is already checked in Form1, but we can add granular control here
-            bool canManage = true; // Default for now, can be linked to BUS_QuyenHan
-            btnTraDu.Enabled = canManage;
-            btnBaoHong.Enabled = canManage;
+            bool canManage = true; 
+            btnXacNhanTra.Enabled = canManage;
         }
 
         public void ApplyStyles()
@@ -59,6 +65,15 @@ namespace GUI
             ThemeManager.StyleDevExpressGrid(gridControlSanPham);
             ThemeManager.StyleDevExpressGrid(gridControlGioHang);
             ThemeManager.StyleDevExpressGrid(gridControlDangThue);
+
+            lblTongThue.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular);
+            lblTongThue.ForeColor = System.Drawing.Color.FromArgb(51, 65, 85);
+
+            lblTongCoc.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
+            lblTongCoc.ForeColor = System.Drawing.Color.FromArgb(245, 158, 11);
+
+            lblTongCong.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            lblTongCong.ForeColor = System.Drawing.Color.FromArgb(220, 38, 38);
         }
 
         public void InitIcons()
@@ -66,18 +81,13 @@ namespace GUI
             btnThanhToanRfid.Image = IconHelper.GetBitmap(IconChar.Bolt, Color.White, 18);
             btnThanhToanTienMat.Image = IconHelper.GetBitmap(IconChar.MoneyBillWave, Color.White, 18);
             btnHuyGiao.Image = IconHelper.GetBitmap(IconChar.Xmark, Color.White, 16);
-            btnTraDu.Image = IconHelper.GetBitmap(IconChar.Check, Color.White, 18);
-            btnBaoHong.Image = IconHelper.GetBitmap(IconChar.TriangleExclamation, Color.White, 18);
+            btnXacNhanTra.Image = IconHelper.GetBitmap(IconChar.CheckDouble, Color.White, 18);
         }
 
         public void LoadData()
         {
             LoadSanPhamThue();
         }
-
-        // ============================================================
-        // SETUP
-        // ============================================================
 
         private void LoadTramChoThue()
         {
@@ -98,22 +108,15 @@ namespace GUI
 
         private void SetupGridColumns()
         {
-            // Product grid columns
             gridViewSanPham.Columns.Clear();
             gridViewSanPham.PopulateColumns();
 
-            // Cart grid columns
             gridViewGioHang.Columns.Clear();
             gridViewGioHang.PopulateColumns();
 
-            // Return grid columns
             gridViewDangThue.Columns.Clear();
             gridViewDangThue.PopulateColumns();
         }
-
-        // ============================================================
-        // STATION SELECTOR (Context-Aware Filtering)
-        // ============================================================
 
         private void cboTramChoThue_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -408,30 +411,36 @@ namespace GUI
 
             int idNhanVien = ET.SessionManager.CurrentUser.Id;
 
-            // [BỌC THÉP ARCHITECTURE]: Chỉ tạo Object trên RAM, KHÔNG GỌI DAL!
             var dh = new ET_DonHang
             {
-                MaCode = "DH-THUE-" + DateTime.Now.ToString("yyMMddHHmmss") + "-" + Guid.NewGuid().ToString().Substring(0, 4).ToUpper(),
+                MaCode = "DT" + DateTime.Now.ToString("yyMMddHHmmss") + Guid.NewGuid().ToString().Substring(0, 4).ToUpper(),
                 IdKhachHang = _selectedKH?.Id,
                 ThoiGian = DateTime.Now,
-                TongTien = tongCong,
+                TongTien = tongThue, 
                 TrangThai = AppConstants.TrangThaiDonHang.DaThanhToan,
                 CreatedAt = DateTime.Now,
                 CreatedBy = idNhanVien
             };
 
-            // [GỌI ĐỘNG CƠ BUS]: Ném toàn bộ Data xuống BUS để nó chạy Transaction
             var result = BUS_ThueDo.Instance.RentMultipleItems(dh, _cart.ToList(), phuongThuc, idNhanVien);
 
             if (result.IsSuccess)
             {
-                TDCMessageBox.Show($"✅ Thuê đồ thành công! Phương thức: {phuongThuc}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                System.Windows.Forms.Clipboard.SetText(dh.MaCode);
+
+                TDCMessageBox.Show(
+                    $"Thuê đồ thành công!\n\n" +
+                    $"MÃ TRẢ ĐỒ: {dh.MaCode}\n" +
+                    $"(Mã này đã được copy sẵn, hãy dán/in để khách dùng khi trả đồ)\n\n" +
+                    $"Phương thức: {phuongThuc}", 
+                    "Thanh Toán Thành Công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 ClearCart();
                 ClearCustomerGiao();
             }
             else
             {
-                TDCMessageBox.Show("❌ " + result.ErrorMessage, "Lỗi Thanh Toán", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                TDCMessageBox.Show("[Lỗi hệ thống]" + result.ErrorMessage, "Lỗi Thanh Toán", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -459,7 +468,7 @@ namespace GUI
             lblTenKH.Text = "Khách: ---";
             lblSoDuVi.Text = "Số dư ví: ---";
             lblSoDuVi.ForeColor = ThemeManager.SuccessColor;
-            txtRfidGiao.Clear(); // Scanner UX: Clear old code for next scan
+            txtRfidGiao.Clear(); 
             txtRfidGiao.Focus();
         }
 
@@ -469,13 +478,13 @@ namespace GUI
             lblTenKHTra.Text = "Khách: ---";
             lblSoDuViTra.Text = "Số dư ví: ---";
             gridControlDangThue.DataSource = null;
-            txtRfidTra.Clear(); // Scanner UX: Clear old code for next scan
+            txtRfidTra.Clear(); 
             txtRfidTra.Focus();
         }
 
-        // ============================================================
+        // 
         // TAB 2: NHẬN TRẢ
-        // ============================================================
+        // 
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -499,7 +508,7 @@ namespace GUI
             }
         }
 
-        // [CVE-THUE-1 FIX]: Quét Mã Vạch Biên Lai cho khách vãng lai (không có thẻ RFID)
+        //  Quét Mã Vạch Biên Lai cho khách vãng lai (không có thẻ RFID)
         private void txtMaDonHang_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -514,7 +523,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// [CVE-THUE-1 FIX]: Tìm đơn hàng bằng MaCode trên biên lai giấy.
+        ///  Tìm đơn hàng bằng MaCode trên biên lai giấy.
         /// Flow: Quét mã vạch DH-THUE-xxx -> Query DAL_DonHang.LayTheoMaCode -> Lôi ThueDoChiTiet ra.
         /// </summary>
         private void LoadDangThueByMaDonHang(string maCode)
@@ -592,176 +601,98 @@ namespace GUI
         private void BindDangThueGrid()
         {
             var allSP = BUS_SanPham.Instance.LoadDS();
-            var displayData = _dangThueList.Select(td =>
-            {
-                var sp = allSP.FirstOrDefault(x => x.Id == td.IdSanPham);
-                return new
+            var groupedData = _dangThueList
+                .GroupBy(x => x.IdSanPham)
+                .Select(g => new ET.ET_ThuHoiView
                 {
-                    td.Id,
-                    TenSanPham = sp?.Ten ?? "---",
-                    td.SoLuong,
-                    td.SoTienCoc,
-                    ThoiGianThue = td.ThoiGianBatDau.ToString("dd/MM HH:mm"),
-                    TrangThai = td.TrangThaiCoc
-                };
-            }).ToList();
+                    IdSanPham = g.Key,
+                    TenSanPham = allSP.FirstOrDefault(sp => sp.Id == g.Key)?.Ten ?? "---",
+                    SoLuongDaThue = g.Count(), 
+                    SoLuongChuaTra = g.Count(),
+                    TraLanNay = 0,
+                    BaoMat = 0
+                }).ToList();
 
-            gridControlDangThue.DataSource = displayData;
+            gridControlDangThue.DataSource = groupedData;
             gridViewDangThue.PopulateColumns();
 
             if (gridViewDangThue.Columns.Count > 0)
             {
-                if (gridViewDangThue.Columns["Id"] != null) gridViewDangThue.Columns["Id"].Visible = false;
-                if (gridViewDangThue.Columns["TenSanPham"] != null) gridViewDangThue.Columns["TenSanPham"].Caption = "Tên đồ thuê";
-                if (gridViewDangThue.Columns["SoTienCoc"] != null)
+                if (gridViewDangThue.Columns["IdSanPham"] != null) gridViewDangThue.Columns["IdSanPham"].Visible = false;
+                
+                if (gridViewDangThue.Columns["TenSanPham"] != null) 
                 {
-                    gridViewDangThue.Columns["SoTienCoc"].Caption = "Tiền cọc";
-                    gridViewDangThue.Columns["SoTienCoc"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric;
-                    gridViewDangThue.Columns["SoTienCoc"].DisplayFormat.FormatString = "N0";
+                    gridViewDangThue.Columns["TenSanPham"].Caption = "Tên đồ thuê";
+                    gridViewDangThue.Columns["TenSanPham"].OptionsColumn.AllowEdit = false;
                 }
-                if (gridViewDangThue.Columns["ThoiGianThue"] != null) gridViewDangThue.Columns["ThoiGianThue"].Caption = "Thời gian thuê";
-                if (gridViewDangThue.Columns["TrangThai"] != null) gridViewDangThue.Columns["TrangThai"].Visible = false;
+                
+                if (gridViewDangThue.Columns["SoLuongDaThue"] != null) gridViewDangThue.Columns["SoLuongDaThue"].Visible = false;
+                
+                if (gridViewDangThue.Columns["SoLuongChuaTra"] != null)
+                {
+                    gridViewDangThue.Columns["SoLuongChuaTra"].Caption = "SL Đang Thuê";
+                    gridViewDangThue.Columns["SoLuongChuaTra"].OptionsColumn.AllowEdit = false;
+                }
+
+                DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit spinEditTra = new DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit();
+                spinEditTra.MinValue = 0;
+                spinEditTra.MaxValue = 999;
+                spinEditTra.IsFloatValue = false;
+                gridControlDangThue.RepositoryItems.Add(spinEditTra);
+                
+                DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit spinEditMat = new DevExpress.XtraEditors.Repository.RepositoryItemSpinEdit();
+                spinEditMat.MinValue = 0;
+                spinEditMat.MaxValue = 999;
+                spinEditMat.IsFloatValue = false;
+                gridControlDangThue.RepositoryItems.Add(spinEditMat);
+
+                if (gridViewDangThue.Columns["TraLanNay"] != null)
+                {
+                    gridViewDangThue.Columns["TraLanNay"].Caption = "Khách Trả (SL)";
+                    gridViewDangThue.Columns["TraLanNay"].ColumnEdit = spinEditTra;
+                    gridViewDangThue.Columns["TraLanNay"].AppearanceCell.BackColor = System.Drawing.Color.FromArgb(240, 253, 244);
+                }
+
+                if (gridViewDangThue.Columns["BaoMat"] != null)
+                {
+                    gridViewDangThue.Columns["BaoMat"].Caption = "Báo Hỏng/Mất (SL)";
+                    gridViewDangThue.Columns["BaoMat"].ColumnEdit = spinEditMat;
+                    gridViewDangThue.Columns["BaoMat"].AppearanceCell.BackColor = System.Drawing.Color.FromArgb(254, 242, 242);
+                }
+                
+                gridViewDangThue.OptionsBehavior.Editable = true;
             }
         }
 
         // ============================================================
-        // RETURN: Full refund
+        // RETURN: Full refund & Fast Action (F12)
         // ============================================================
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.F12)
+            {
+                btnTraDu_Click(null, null);
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
 
         private void btnTraDu_Click(object sender, EventArgs e)
         {
-            if (gridViewDangThue.FocusedRowHandle < 0)
+            var dataSource = gridControlDangThue.DataSource as List<ET.ET_ThuHoiView>;
+            if (dataSource == null) return;
+
+            foreach (var item in dataSource)
             {
-                TDCMessageBox.Show("Chọn một món đồ để trả!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                item.TraLanNay = item.SoLuongChuaTra;
+                item.BaoMat = 0;
             }
-
-            int idThueDo = (int)gridViewDangThue.GetRowCellValue(gridViewDangThue.FocusedRowHandle, "Id");
-            var td = DAL_ThueDoChiTiet.Instance.LayTheoId(idThueDo);
-            if (td == null) return;
-
-            string tenSP = gridViewDangThue.GetRowCellValue(gridViewDangThue.FocusedRowHandle, "TenSanPham")?.ToString() ?? "";
-            decimal coc = td.SoTienCoc;
-
-            // Tính tổng thời gian
-            DateTime thoiGianTra = DateTime.Now;
-            TimeSpan duration = thoiGianTra - td.ThoiGianBatDau;
-            int tongPhut = (int)Math.Ceiling(duration.TotalMinutes);
-            if (tongPhut < 0) tongPhut = 0;
-
-            // 1. TÍNH TỔNG TIỀN THUÊ THỰC TẾ
-            decimal tongTienThueThucTe = BUS_BangGia.Instance.TinhTienThueTheoPhut(td.IdSanPham, td.ThoiGianBatDau, tongPhut);
-
-            // 2. [VÁ BUG KẾ TOÁN]: Tính phần chênh lệch lố giờ
-            // YÊU CẦU: Bác PHẢI có cột TienThueDaThu trong bảng ThueDoChiTiet
-            decimal tienThueDaThu = td.TienThueDaThu; 
-            decimal tienPhatSinhLoGio = Math.Max(0, tongTienThueThucTe - tienThueDaThu);
-
-            // 3. TIỀN HOÀN = Cọc - Tiền Lố Giờ
-            decimal tienHoan = Math.Max(0, coc - tienPhatSinhLoGio);
-
-            string msg = string.Format(
-                "XÁC NHẬN TRẢ ĐỒ [{0}]\n\n" +
-                "- Bắt đầu: {1:HH:mm}\n" +
-                "- Kết thúc: {2:HH:mm}\n" +
-                "- Tổng thời gian: {3} phút\n" +
-                "------------------------------\n" +
-                "- Tổng tiền thuê: {4:N0}đ\n" +
-                "- Đã trả trước: {5:N0}đ\n" +
-                "- Phát sinh thêm: {6:N0}đ\n" +
-                "------------------------------\n" +
-                "=> SỐ TIỀN HOÀN CỌC: {7:N0}đ",
-                tenSP, td.ThoiGianBatDau, thoiGianTra, tongPhut, tongTienThueThucTe, tienThueDaThu, tienPhatSinhLoGio, tienHoan);
-
-            if (TDCMessageBox.Show(msg, "Tính tiền Dai Nam", MessageBoxButtons.YesNo, MessageBoxIcon.Information) != DialogResult.Yes) 
-                return;
-
-            if (ET.SessionManager.CurrentUser == null || ET.SessionManager.CurrentUser.Id <= 0)
-            {
-                TDCMessageBox.Show("Phiên làm việc không hợp lệ! Vui lòng khởi động lại ứng dụng để đăng nhập.", "Lỗi hệ thống");
-                Application.Restart(); Environment.Exit(0); return;
-            }
-
-            int idNV = ET.SessionManager.CurrentUser.Id;
-            
-            // GỌI HÀM BUS TRẢ ĐỒ VỚI SỐ TIỀN LỐ GIỜ
-            var result = BUS_ThueDo.Instance.ReturnItem(idThueDo, tienPhatSinhLoGio > 0, tienPhatSinhLoGio, idNV);
-
-            if (result.IsSuccess)
-            {
-                TDCMessageBox.Show("✅ Trả đồ thành công! Đã hoàn tiền.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearCustomerTra(); 
-            }
-            else
-            {
-                TDCMessageBox.Show("❌ " + result.ErrorMessage, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
+            gridControlDangThue.RefreshDataSource();
         }
 
-        // ============================================================
-        // RETURN: With penalty
-        // ============================================================
-
-        private void btnBaoHong_Click(object sender, EventArgs e)
+        private void btnXacNhanTra_Click(object sender, EventArgs e)
         {
-            if (gridViewDangThue.FocusedRowHandle < 0)
-            {
-                TDCMessageBox.Show("Chọn một món đồ để báo hỏng/mất!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            int idThueDo = (int)gridViewDangThue.GetRowCellValue(gridViewDangThue.FocusedRowHandle, "Id");
-            var td = DAL_ThueDoChiTiet.Instance.LayTheoId(idThueDo);
-            if (td == null) return;
-
-            string tenSP = gridViewDangThue.GetRowCellValue(gridViewDangThue.FocusedRowHandle, "TenSanPham")?.ToString() ?? "";
-            decimal coc = td.SoTienCoc;
-
-            // 1. TÍNH TIỀN LỐ GIỜ (Y chang nút Trả đủ)
-            DateTime thoiGianTra = DateTime.Now;
-            TimeSpan duration = thoiGianTra - td.ThoiGianBatDau;
-            int tongPhut = (int)Math.Ceiling(duration.TotalMinutes);
-            if (tongPhut < 0) tongPhut = 0;
-
-            decimal tongTienThueThucTe = BUS_BangGia.Instance.TinhTienThueTheoPhut(td.IdSanPham, td.ThoiGianBatDau, tongPhut);
-
-            decimal tienThueDaThu = td.TienThueDaThu; 
-            decimal tienPhatSinhLoGio = Math.Max(0, tongTienThueThucTe - tienThueDaThu);
-
-            // 2. NHẬP TIỀN ĐỀN ĐỒ (PHẠT HƯ HỎNG)
-            string input = Microsoft.VisualBasic.Interaction.InputBox(
-                $"Nhập số tiền ĐỀN ĐỒ cho [{tenSP}]:\n(Chưa bao gồm {tienPhatSinhLoGio:N0}đ phí lố giờ)",
-                "Báo hỏng / Mất đồ", coc.ToString("0"));
-
-            if (string.IsNullOrWhiteSpace(input)) return;
-
-            decimal tienPhatHuHong;
-            if (!decimal.TryParse(input, out tienPhatHuHong) || tienPhatHuHong < 0)
-            {
-                TDCMessageBox.Show("Số tiền đền không hợp lệ!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // 3. TỔNG CHI PHÍ = Lố Giờ + Đền Đồ
-            decimal tongChiPhiPhatSinh = tienPhatSinhLoGio + tienPhatHuHong;
-            decimal tienHoan = Math.Max(0, coc - tongChiPhiPhatSinh);
-            string warnText = tongChiPhiPhatSinh > coc 
-                ? $"\n\n⚠️ VƯỢT CỌC: Cần thu thêm TIỀN MẶT {(tongChiPhiPhatSinh - coc):N0}đ!" : "";
-
-            string msg = string.Format(
-                "XÁC NHẬN BÁO HỎNG & TRẢ ĐỒ [{0}]\n\n" +
-                "- Tiền cọc đã thu: {1:N0}đ\n" +
-                "------------------------------\n" +
-                "- Phí lố giờ: {2:N0}đ\n" +
-                "- Phí đền đồ: {3:N0}đ\n" +
-                "- Tổng chi phí trừ cọc: {4:N0}đ\n" +
-                "------------------------------\n" +
-                "=> SỐ TIỀN HOÀN LẠI: {5:N0}đ{6}",
-                tenSP, coc, tienPhatSinhLoGio, tienPhatHuHong, tongChiPhiPhatSinh, tienHoan, warnText);
-
-            if (TDCMessageBox.Show(msg, "Xác nhận báo hỏng", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes) 
-                return;
-
             if (ET.SessionManager.CurrentUser == null || ET.SessionManager.CurrentUser.Id <= 0)
             {
                 TDCMessageBox.Show("Phiên làm việc không hợp lệ! Vui lòng khởi động lại ứng dụng để đăng nhập.", "Lỗi hệ thống");
@@ -769,20 +700,103 @@ namespace GUI
             }
 
             int idNV = ET.SessionManager.CurrentUser.Id;
-            
-            // GỬI TỔNG CHI PHÍ XUỐNG HÀM BUS (Code BUS hiện tại đã thiết kế xử lý trừ chung một cục Phạt)
-            var result = BUS_ThueDo.Instance.ReturnItem(idThueDo, tongChiPhiPhatSinh > 0, tongChiPhiPhatSinh, idNV);
 
-            if (result.IsSuccess)
+            gridViewDangThue.PostEditor();
+            gridViewDangThue.UpdateCurrentRow();
+            
+            var dataSource = gridControlDangThue.DataSource as List<ET.ET_ThuHoiView>;
+            if (dataSource == null) return;
+
+            var dsXuLy = dataSource.Where(x => x.TraLanNay > 0 || x.BaoMat > 0).ToList();
+            if (dsXuLy.Count == 0)
             {
-                string successMsg = "✅ Đã xử lý báo hỏng thành công.";
-                if (!string.IsNullOrEmpty(result.ErrorMessage)) successMsg += "\n\n" + result.ErrorMessage; 
-                TDCMessageBox.Show(successMsg, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                ClearCustomerTra(); 
+                TDCMessageBox.Show("Vui lòng nhập số lượng [Trả] hoặc [Báo Mất] ít nhất 1 món đồ!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            bool coLoi = false;
+            string thongBaoLoi = "";
+
+            foreach (var item in dsXuLy)
+            {
+                if (item.TraLanNay + item.BaoMat > item.SoLuongChuaTra)
+                {
+                    coLoi = true;
+                    thongBaoLoi += $"- [{item.TenSanPham}]: Số lượng trả/mất ({item.TraLanNay + item.BaoMat}) vượt quá số đang thuê ({item.SoLuongChuaTra})\n";
+                }
+            }
+
+            if (coLoi)
+            {
+                TDCMessageBox.Show($"Lỗi số lượng:\n{thongBaoLoi}", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Tính toán trước danh sách phạt đền bù ở tầng UI (Để bung Popup)
+            var phiDenBuTheoSP = new Dictionary<int, decimal>();
+            
+            foreach (var item in dsXuLy)
+            {
+                if (item.BaoMat > 0)
+                {
+                    var cacRecordCuaSanPham = _dangThueList.Where(x => x.IdSanPham == item.IdSanPham).ToList();
+                    decimal tongTienLoGioMoPhong = 0;
+                    decimal tongTienCocCuaBaoMat = 0;
+                    
+                    for (int i = item.TraLanNay; i < item.TraLanNay + item.BaoMat && i < cacRecordCuaSanPham.Count; ++i)
+                    {
+                        var td = cacRecordCuaSanPham[i];
+                        TimeSpan duration = DateTime.Now - td.ThoiGianBatDau;
+                        int tongPhut = Math.Max(0, (int)Math.Ceiling(duration.TotalMinutes));
+                        decimal tongTienThueThucTe = BUS_BangGia.Instance.TinhTienThueTheoPhut(td.IdSanPham, td.ThoiGianBatDau, tongPhut);
+                        tongTienLoGioMoPhong += Math.Max(0, tongTienThueThucTe - td.TienThueDaThu);
+                        tongTienCocCuaBaoMat += td.SoTienCoc;
+                    }
+
+                    string input = Microsoft.VisualBasic.Interaction.InputBox(
+                        $"Khách báo mất {item.BaoMat} cái [{item.TenSanPham}].\n\n" +
+                        $"Tổng tiền cọc của {item.BaoMat} món này: {tongTienCocCuaBaoMat:N0}đ\n" +
+                        $"(Chưa tính {tongTienLoGioMoPhong:N0}đ phí lố giờ chung).\n\n" +
+                        $"Vui lòng nhập TỔNG SỐ TIỀN ĐỀN BÙ (Phạt) cho {item.BaoMat} món này:",
+                        "Báo hỏng / Mất đồ",
+                        tongTienCocCuaBaoMat.ToString("0"));
+
+                    if (!string.IsNullOrWhiteSpace(input) && decimal.TryParse(input, out decimal tongTienPhatHuHong) && tongTienPhatHuHong >= 0)
+                    {
+                        phiDenBuTheoSP[item.IdSanPham] = tongTienPhatHuHong;
+                    }
+                    else
+                    {
+                        TDCMessageBox.Show($"Lệnh xác nhận bị huỷ vì chưa cung cấp tiền phạt cho thao tác Báo mất {item.TenSanPham}.", "Huỷ thao tác", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
+            }
+
+            // Gửi toàn bộ xuống BUS thực thi Batch
+            var result = BUS_ThueDo.Instance.XacNhanThuHoiDoBatch(_dangThueList, dsXuLy, phiDenBuTheoSP, idNV);
+
+            if (!result.IsSuccess)
+            {
+                TDCMessageBox.Show(result.ErrorMessage, "Lỗi Thu Hồi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            TDCMessageBox.Show(result.ErrorMessage, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            
+            // Tự động load lại theo biên lai hoặc khách
+            if (!string.IsNullOrEmpty(txtMaDonHang.Text))
+            {
+                LoadDangThueByMaDonHang(txtMaDonHang.Text);
+            }
+            else if (_returnKH != null)
+            {
+                LoadDangThue(_returnKH.Id);
             }
             else
             {
-                TDCMessageBox.Show("❌ " + result.ErrorMessage, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                _dangThueList.Clear();
+                BindDangThueGrid();
             }
         }
         private bool IsFuzzyMatchTienCoc(string input)
@@ -794,7 +808,83 @@ namespace GUI
             return patterns.Any(p => normalized.Contains(p));
         }
 
-       
+        public void BtnXemChuaTra_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var list = BUS_ThueDo.Instance.GetDanhSachDonChuaTra(dtpTuNgay.DateTime, dtpDenNgay.DateTime);
+                gridControlChuaTra.DataSource = list;
+                gridViewChuaTra.PopulateColumns();
+                
+                if (gridViewChuaTra.Columns["IdThueDo"] != null) gridViewChuaTra.Columns["IdThueDo"].Visible = false;
+                if (gridViewChuaTra.Columns["MaCode"] != null) gridViewChuaTra.Columns["MaCode"].Visible = false;
+                if (gridViewChuaTra.Columns["TenKhachHang"] != null) gridViewChuaTra.Columns["TenKhachHang"].Visible = false;
+                
+                if (gridViewChuaTra.Columns["HeaderNhom"] != null) 
+                {
+                    gridViewChuaTra.Columns["HeaderNhom"].Caption = "Thông tin đơn (Nhấp đúp dòng con để check out)";
+                    gridViewChuaTra.Columns["HeaderNhom"].GroupIndex = 0;
+                }
+                if (gridViewChuaTra.Columns["TenSanPham"] != null) gridViewChuaTra.Columns["TenSanPham"].Caption = "Mặt hàng";
+                if (gridViewChuaTra.Columns["SoLuong"] != null) gridViewChuaTra.Columns["SoLuong"].Caption = "SL";
+                if (gridViewChuaTra.Columns["ThoiGianThue"] != null) 
+                {
+                    gridViewChuaTra.Columns["ThoiGianThue"].Caption = "Lấy ra lúc";
+                    gridViewChuaTra.Columns["ThoiGianThue"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
+                    gridViewChuaTra.Columns["ThoiGianThue"].DisplayFormat.FormatString = "dd/MM HH:mm";
+                }
+                
+                gridViewChuaTra.CollapseAllGroups();
+                ThemeManager.StyleDevExpressGrid(gridControlChuaTra);
+                
+                int distinctOrders = list.Select(x => x.MaCode).Distinct().Count();
+                int itemsLeft = list.Sum(x => x.SoLuong);
+                lbThongBao.Text = distinctOrders > 0 ? $" Đang có {distinctOrders} phiên chờ ({itemsLeft} món chưa về)" : " Đã thu hồi sạch khu vui chơi!";
+                lbThongBao.ForeColor = distinctOrders > 0 ? System.Drawing.Color.FromArgb(220, 38, 38) : System.Drawing.Color.FromArgb(16, 185, 129);
+            }
+            catch (Exception ex)
+            {
+                TDCMessageBox.Show("Lỗi tải danh sách chưa trả: " + ex.Message);
+            }
+        }
+
+        public void GridViewChuaTra_DoubleClick(object sender, EventArgs e)
+        {
+            var rowHandle = gridViewChuaTra.FocusedRowHandle;
+            if (rowHandle < 0 && gridViewChuaTra.IsGroupRow(rowHandle))
+            {
+                return;
+            }
+            
+            var row = gridViewChuaTra.GetFocusedRow() as ET.ET_DanhSachChuaTraView;
+            if (row != null && !string.IsNullOrEmpty(row.MaCode))
+            {
+                this.txtMaDonHang.Text = row.MaCode;
+                LoadDangThueByMaDonHang(row.MaCode);
+            }
+        }
+
+        private void GridViewChuaTra_PopupMenuShowing(object sender, DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventArgs e)
+        {
+            if (e.MenuType == DevExpress.XtraGrid.Views.Grid.GridMenuType.Row)
+            {
+                var rowHandle = e.HitInfo.RowHandle;
+                if (rowHandle >= 0 && !gridViewChuaTra.IsGroupRow(rowHandle))
+                {
+                    DevExpress.Utils.Menu.DXMenuItem item = new DevExpress.Utils.Menu.DXMenuItem("Trả thông tin đơn này");
+                    item.Click += (s, args) =>
+                    {
+                        var row = gridViewChuaTra.GetRow(rowHandle) as ET.ET_DanhSachChuaTraView;
+                        if (row != null && !string.IsNullOrEmpty(row.MaCode))
+                        {
+                            this.txtMaDonHang.Text = row.MaCode;
+                            LoadDangThueByMaDonHang(row.MaCode);
+                        }
+                    };
+                    e.Menu.Items.Add(item);
+                }
+            }
+        }
     }
 
     // ============================================================

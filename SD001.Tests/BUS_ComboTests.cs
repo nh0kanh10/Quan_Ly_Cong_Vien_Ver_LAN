@@ -116,12 +116,12 @@ namespace SD001.Tests
         [TestMethod]
         public void ThemChiTiet_VuotTyLe_BaoLoi()
         {
-            var items = new List<ET_ComboChiTiet> { new ET_ComboChiTiet { TyLePhanBo = 60 } };
+            var items = new List<ET_ComboChiTiet> { new ET_ComboChiTiet { IdCombo = 1, TyLePhanBo = 60 } };
             _mockChiTietGateway.Setup(g => g.LoadDS()).Returns(items);
             
             var result = _bus.ThemChiTiet(1, 1, 1, 50);
             Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("Tổng tỷ lệ phân bổ không được vượt quá 100%.", result.ErrorMessage);
+            Assert.AreEqual("Tổng tỷ lệ phân bổ không được vượt quá 100%.", result.ErrorMessage, "[TDD Expectation] Các chi tiết trong Combo không được phép có tổng tỷ lệ lớn hơn 100%.");
         }
         
         [TestMethod]
@@ -197,7 +197,7 @@ namespace SD001.Tests
             var result = _bus.ThemChiTiet(idCombo: 1, idSanPham: 2, soLuong: -5, tyLePhanBo: 20);
 
             // Trong hàm ThemChiTiet hiện tại CHỈ Check Tổng tỉ lệ > 100, hoàn toàn KHÔNG check Số lượng < 0
-            Assert.IsFalse(result.IsSuccess, "Thực tế: Code ThemChiTiet không hề có Validation cho thuộc tính Số Lượng!");
+            Assert.IsFalse(result.IsSuccess, "[TDD Expectation] Bắt buộc ném lỗi khi Số lượng linh kiện chèn vào Combo <= 0.");
             Assert.AreEqual("Số lượng phải lớn hơn 0.", result.ErrorMessage);
         }
         #endregion

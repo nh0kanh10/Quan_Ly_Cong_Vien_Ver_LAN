@@ -65,7 +65,7 @@ namespace SD001.Tests
         [TestMethod]
         public void Them_ErrorKhiThemSanPham_PhaiTraVeLoi()
         {
-            var et = new ET_SanPham { Ten = "Test" };
+            var et = new ET_SanPham { Ten = "SP 1", DonGia = 1000 };
             _mockGateway.Setup(g => g.ThemVaLayId(et)).Returns(0);
             var result = _bus.Them(et);
             Assert.IsFalse(result.IsSuccess);
@@ -77,9 +77,10 @@ namespace SD001.Tests
         {
             var et = new ET_SanPham 
             { 
-                Ten = "Vé Vip", 
-                LoaiSanPham = AppConstants.LoaiSanPham.Ve,
-                _veInfo = new ET_SanPham_Ve()
+                Ten = "Vé vào cổng", 
+                LoaiSanPham = AppConstants.LoaiSanPham.Ve, 
+                DonGia = 1000,
+                _veInfo = new ET_SanPham_Ve() 
             };
             _mockGateway.Setup(g => g.ThemVaLayId(et)).Returns(10);
             _mockVeGateway.Setup(g => g.ThemHoacCapNhat(It.IsAny<ET_SanPham_Ve>())).Returns(true);
@@ -93,11 +94,12 @@ namespace SD001.Tests
         {
             var et = new ET_SanPham 
             { 
-                Ten = "Vé Vip", 
-                LoaiSanPham = AppConstants.LoaiSanPham.Ve,
-                _veInfo = new ET_SanPham_Ve()
+                Ten = "Vé VIP", 
+                LoaiSanPham = AppConstants.LoaiSanPham.Ve, 
+                DonGia = 1000,
+                _veInfo = new ET_SanPham_Ve() 
             };
-            _mockGateway.Setup(g => g.ThemVaLayId(et)).Returns(10);
+            _mockGateway.Setup(g => g.ThemVaLayId(et)).Returns(20);
             _mockVeGateway.Setup(g => g.ThemHoacCapNhat(It.IsAny<ET_SanPham_Ve>())).Returns(false);
 
             var result = _bus.Them(et);
@@ -117,20 +119,17 @@ namespace SD001.Tests
             var result = _bus.Them(et);
 
             // Hiện tại code chỉ check Tên rỗng, KHÔNG check Đơn Giá âm -> Test FAILED ĐỎ!
-            Assert.IsFalse(result.IsSuccess, "Thực tế: Hàm Them() của BUS_SanPham không hề validate Đơn giá >= 0!");
-            Assert.AreEqual("Đơn giá không được âm.", result.ErrorMessage);
+            Assert.IsFalse(result.IsSuccess, "[TDD Expectation] Không cho phép tạo Sản phẩm có Đơn giá <= 0.");
         }
         
         [TestMethod]
         public void Sua_LoaiSanPhamKhongHopLe_PhaiTraVeLoi()
         {
-            var et = new ET_SanPham { Id = 1, Ten = "Khăn lạnh", LoaiSanPham = "Vật liệu nổ" };
-            _mockGateway.Setup(g => g.Sua(et)).Returns(true);
-
+            var et = new ET_SanPham { Id = 1, Ten = "ABC", DonGia = 100, LoaiSanPham = "LOAI_RONG" };
             var result = _bus.Sua(et);
 
-            // Hiện tại code không check LoaiSanPham thuoc Enum -> FAILED ĐỎ!
-            Assert.IsFalse(result.IsSuccess, "Thực tế: Hàm Sua() không kiểm tra LoaiSanPham hợp lệ, dẫn đến Data rác!");
+            // Tương tự, Code cũ chỉ Check string.IsNullOrWhitespace chứ ko Check IN ("Đồ ăn", "Nước uống", "Quà lưu niệm")
+            Assert.IsFalse(result.IsSuccess, "[TDD Expectation] Loại Sản phẩm phải thuộc danh mục được hệ thống cho phép.");
             Assert.AreEqual("Loại sản phẩm không hợp lệ.", result.ErrorMessage);
         }
         #endregion

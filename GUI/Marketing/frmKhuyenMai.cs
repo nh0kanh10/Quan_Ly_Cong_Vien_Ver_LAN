@@ -128,11 +128,11 @@ namespace GUI
         {
             txtMaCode.Text = row.MaCode;
             txtTenKM.Text = row.TenKhuyenMai;
-            cboLoaiGiam.Text = row.LoaiGiamGia;
+            cboLoaiGiam.SelectedIndex = row.LoaiGiamGia == ET.AppConstants.LoaiKhuyenMai.SoTien ? 1 : 0;
             txtGiaTri.Text = row.GiaTriGiam.ToString("n0");
             txtDonToiThieu.Text = row.DonToiThieu.HasValue ? row.DonToiThieu.Value.ToString("n0") : "";
-            dtpNgayBD.Value = row.NgayBatDau;
-            dtpNgayKT.Value = row.NgayKetThuc;
+            dtpNgayBD.DateTime = row.NgayBatDau;
+            dtpNgayKT.DateTime = row.NgayKetThuc;
             chkTrangThai.Checked = row.TrangThai;
         }
 
@@ -154,12 +154,15 @@ namespace GUI
                 Id = _currentEntity?.Id ?? 0,
                 MaCode = txtMaCode.Text.Trim(),
                 TenKhuyenMai = txtTenKM.Text.Trim(),
-                LoaiGiamGia = cboLoaiGiam.Text,
+                LoaiGiamGia = cboLoaiGiam.SelectedIndex == 1 ? ET.AppConstants.LoaiKhuyenMai.SoTien : ET.AppConstants.LoaiKhuyenMai.PhanTram,
                 GiaTriGiam = giaTri,
                 DonToiThieu = donMin,
-                NgayBatDau = dtpNgayBD.Value.Date,
-                NgayKetThuc = dtpNgayKT.Value.Date,
-                TrangThai = chkTrangThai.Checked
+                NgayBatDau = dtpNgayBD.DateTime.Date,
+                NgayKetThuc = dtpNgayKT.DateTime.Date,
+                TrangThai = chkTrangThai.Checked,
+                CreatedAt = _currentEntity != null ? _currentEntity.CreatedAt : DateTime.Now,
+                CreatedBy = _currentEntity != null ? _currentEntity.CreatedBy : null,
+                IsDeleted = _currentEntity != null ? _currentEntity.IsDeleted : false
             };
         }
 
@@ -170,8 +173,8 @@ namespace GUI
             cboLoaiGiam.SelectedIndex = 0;
             txtGiaTri.Clear();
             txtDonToiThieu.Clear();
-            dtpNgayBD.Value = DateTime.Today;
-            dtpNgayKT.Value = DateTime.Today.AddMonths(1);
+            dtpNgayBD.DateTime = DateTime.Today;
+            dtpNgayKT.DateTime = DateTime.Today.AddMonths(1);
             chkTrangThai.Checked = true;
             _currentEntity = null;
         }
@@ -221,7 +224,7 @@ namespace GUI
             }
 
             // Ngày kết thúc phải sau ngày bắt đầu
-            if (dtpNgayKT.Value <= dtpNgayBD.Value)
+            if (dtpNgayKT.DateTime <= dtpNgayBD.DateTime)
             {
                 TDCMessageBox.Show("Ngày kết thúc phải sau ngày bắt đầu!", "Thông báo");
                 return false;

@@ -20,7 +20,7 @@ namespace GUI.AI
 
         public AIChatPanel()
         {
-            InitializeDesign();
+            InitializeComponent();
             WireEvents();
 
             AppendBotMessage("Xin chào! Tôi là trợ lý AI Đại Nam.\nBạn có thể hỏi tôi điều gì hoặc nói tên chức năng cần mở.");
@@ -44,9 +44,9 @@ namespace GUI.AI
             };
         }
 
-        // ══════════════════════════════════════════════════════════════
+        // 
         //  PUBLIC API
-        // ══════════════════════════════════════════════════════════════
+        // 
 
         public void SwitchContext(string contextName, string description)
         {
@@ -196,16 +196,6 @@ namespace GUI.AI
                 e.Graphics.DrawRectangle(pen, 0, 0, Width - 1, Height - 1);
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // AIChatPanel
-            // 
-            this.Name = "AIChatPanel";
-            this.Size = new System.Drawing.Size(276, 204);
-            this.ResumeLayout(false);
 
-        }
     }
 }

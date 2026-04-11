@@ -75,10 +75,10 @@ namespace BUS
     public interface IKhuyenMaiGateway { List<ET_KhuyenMai> LoadDS(); bool Them(ET_KhuyenMai et); bool Sua(ET_KhuyenMai et); bool Xoa(int id); }
     public interface ISuKienGateway { List<ET_SuKien> LoadDS(); bool Them(ET_SuKien et); bool Sua(ET_SuKien et); bool Xoa(int id); }
     public interface IBangGiaGateway { List<ET_BangGia> LayTheoSanPham(int idSanPham); List<ET_BangGia> LayGiaHienTai(int idSanPham, TimeSpan gio); bool Them(ET_BangGia et); bool Sua(ET_BangGia et); bool Xoa(int id); }
-    public interface ICauHinhNgayLeGateway { bool LaNgayLe(DateTime ngay); }
+    public interface ICauHinhNgayLeGateway { ET_CauHinhNgayLe LayNgayLeChoNgay(DateTime ngay); List<ET_CauHinhNgayLe> LoadDS(); bool Them(ET_CauHinhNgayLe et); bool Sua(ET_CauHinhNgayLe et); bool Xoa(int id); }
     public interface IQuyDoiDonViGateway { List<ET_QuyDoiDonVi> LoadDS(); bool Them(ET_QuyDoiDonVi et); bool Sua(ET_QuyDoiDonVi et); bool Xoa(int id); }
     public interface IQuyTacDiemGateway { List<ET_QuyTacDiem> LoadDS(); List<ET_QuyTacDiem> LayQuyTacActive(); }
-    public interface IThueDoChiTietGateway { List<ET_ThueDoChiTiet> LoadDS(); bool Them(ET_ThueDoChiTiet et); bool Sua(ET_ThueDoChiTiet et); ET_ThueDoChiTiet LayTheoId(int id); }
+    public interface IThueDoChiTietGateway { List<ET_ThueDoChiTiet> LoadDS(); bool Them(ET_ThueDoChiTiet et); bool Sua(ET_ThueDoChiTiet et); ET_ThueDoChiTiet LayTheoId(int id); int ThemVaLayId(ET_ThueDoChiTiet et); List<ET_DanhSachChuaTraView> LoadDanhSachChuaTra(DateTime tuNgay, DateTime denNgay); }
 
     internal class DefaultDonHangGateway : IDonHangGateway
     {
@@ -158,10 +158,10 @@ namespace BUS
     internal class DefaultKhuyenMaiGateway : IKhuyenMaiGateway { public List<ET_KhuyenMai> LoadDS() => DAL_KhuyenMai.Instance.LoadDS(); public bool Them(ET_KhuyenMai et) => DAL_KhuyenMai.Instance.Them(et); public bool Sua(ET_KhuyenMai et) => DAL_KhuyenMai.Instance.Sua(et); public bool Xoa(int id) => DAL_KhuyenMai.Instance.Xoa(id); }
     internal class DefaultSuKienGateway : ISuKienGateway { public List<ET_SuKien> LoadDS() => DAL_SuKien.Instance.LoadDS(); public bool Them(ET_SuKien et) => DAL_SuKien.Instance.Them(et); public bool Sua(ET_SuKien et) => DAL_SuKien.Instance.Sua(et); public bool Xoa(int id) => DAL_SuKien.Instance.Xoa(id); }
     internal class DefaultBangGiaGateway : IBangGiaGateway { public List<ET_BangGia> LayTheoSanPham(int idSanPham) => DAL_BangGia.Instance.LayTheoSanPham(idSanPham); public List<ET_BangGia> LayGiaHienTai(int idSanPham, TimeSpan gio) => DAL_BangGia.Instance.LayGiaHienTai(idSanPham, gio); public bool Them(ET_BangGia et) => DAL_BangGia.Instance.Them(et); public bool Sua(ET_BangGia et) => DAL_BangGia.Instance.Sua(et); public bool Xoa(int id) => DAL_BangGia.Instance.Xoa(id); }
-    internal class DefaultCauHinhNgayLeGateway : ICauHinhNgayLeGateway { public bool LaNgayLe(DateTime ngay) => DAL_CauHinhNgayLe.Instance.LaNgayLe(ngay); }
+    internal class DefaultCauHinhNgayLeGateway : ICauHinhNgayLeGateway { public ET_CauHinhNgayLe LayNgayLeChoNgay(DateTime ngay) => DAL_CauHinhNgayLe.Instance.LayNgayLeChoNgay(ngay); public List<ET_CauHinhNgayLe> LoadDS() => DAL_CauHinhNgayLe.Instance.LoadDS(); public bool Them(ET_CauHinhNgayLe et) => DAL_CauHinhNgayLe.Instance.Them(et); public bool Sua(ET_CauHinhNgayLe et) => DAL_CauHinhNgayLe.Instance.Sua(et); public bool Xoa(int id) => DAL_CauHinhNgayLe.Instance.Xoa(id); }
     internal class DefaultQuyDoiDonViGateway : IQuyDoiDonViGateway { public List<ET_QuyDoiDonVi> LoadDS() => DAL_QuyDoiDonVi.Instance.LoadDS(); public bool Them(ET_QuyDoiDonVi et) => DAL_QuyDoiDonVi.Instance.Them(et); public bool Sua(ET_QuyDoiDonVi et) => DAL_QuyDoiDonVi.Instance.Sua(et); public bool Xoa(int id) => DAL_QuyDoiDonVi.Instance.Xoa(id); }
     internal class DefaultQuyTacDiemGateway : IQuyTacDiemGateway { public List<ET_QuyTacDiem> LoadDS() => DAL_QuyTacDiem.Instance.LoadDS(); public List<ET_QuyTacDiem> LayQuyTacActive() => DAL_QuyTacDiem.Instance.LayQuyTacActive(); }
-    internal class DefaultThueDoChiTietGateway : IThueDoChiTietGateway { public List<ET_ThueDoChiTiet> LoadDS() => DAL_ThueDoChiTiet.Instance.LoadDS(); public bool Them(ET_ThueDoChiTiet et) => DAL_ThueDoChiTiet.Instance.Them(et); public bool Sua(ET_ThueDoChiTiet et) => DAL_ThueDoChiTiet.Instance.Sua(et); public ET_ThueDoChiTiet LayTheoId(int id) => DAL_ThueDoChiTiet.Instance.LayTheoId(id); }
+    internal class DefaultThueDoChiTietGateway : IThueDoChiTietGateway { public List<ET_ThueDoChiTiet> LoadDS() => DAL_ThueDoChiTiet.Instance.LoadDS(); public bool Them(ET_ThueDoChiTiet et) => DAL_ThueDoChiTiet.Instance.Them(et); public bool Sua(ET_ThueDoChiTiet et) => DAL_ThueDoChiTiet.Instance.Sua(et); public ET_ThueDoChiTiet LayTheoId(int id) => DAL_ThueDoChiTiet.Instance.LayTheoId(id); public int ThemVaLayId(ET_ThueDoChiTiet et) => DAL_ThueDoChiTiet.Instance.ThemVaLayId(et); public List<ET_DanhSachChuaTraView> LoadDanhSachChuaTra(DateTime tuNgay, DateTime denNgay) => DAL_ThueDoChiTiet.Instance.LoadDanhSachChuaTra(tuNgay, denNgay); }
 
     // --- BUS-to-BUS Interfaces ---
     public interface IBUS_GiaoDichVi {

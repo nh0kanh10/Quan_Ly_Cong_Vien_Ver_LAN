@@ -84,6 +84,8 @@ namespace BUS
 
         public ResponseResult ThemChiTiet(int idCombo, int idSanPham, int soLuong, decimal tyLePhanBo)
         {
+            if (soLuong <= 0) return ResponseResult.Error("Số lượng phải lớn hơn 0.");
+
             // Kiểm tra tổng TyLePhanBo có vượt quá 100% không
             var chiTiets = LayChiTiet(idCombo);
             decimal tongTyLe = chiTiets.Sum(x => x.TyLePhanBo) + tyLePhanBo;

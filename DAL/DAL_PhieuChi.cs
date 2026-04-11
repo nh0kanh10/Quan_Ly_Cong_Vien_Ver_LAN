@@ -29,6 +29,7 @@ namespace DAL
                     SoTien = s.SoTien,
                     LyDo = s.LyDo,
                     ThoiGian = s.ThoiGian,
+                    IdDonHang = s.IdDonHang,
                     CreatedAt = s.CreatedAt,
                     CreatedBy = s.CreatedBy
                 }).ToList();
@@ -51,6 +52,7 @@ namespace DAL
                     obj.SoTien = et.SoTien;
                     obj.LyDo = et.LyDo;
                     obj.ThoiGian = et.ThoiGian;
+                    obj.IdDonHang = et.IdDonHang;
                     obj.CreatedAt = et.CreatedAt;
                     obj.CreatedBy = et.CreatedBy;
                     db.GetTable<PhieuChi>().InsertOnSubmit(obj);
@@ -72,6 +74,7 @@ namespace DAL
                         obj.SoTien = et.SoTien;
                         obj.LyDo = et.LyDo;
                         obj.ThoiGian = et.ThoiGian;
+                        obj.IdDonHang = et.IdDonHang;
                         obj.CreatedAt = et.CreatedAt;
                         obj.CreatedBy = et.CreatedBy;
                         db.SubmitChanges();
@@ -111,6 +114,7 @@ namespace DAL
                     SoTien = s.SoTien,
                     LyDo = s.LyDo,
                     ThoiGian = s.ThoiGian,
+                    IdDonHang = s.IdDonHang,
                     CreatedAt = s.CreatedAt,
                     CreatedBy = s.CreatedBy
                 }).FirstOrDefault();

@@ -40,7 +40,7 @@ namespace SD001.Tests
         [TestMethod]
         public void Them_TenHopLe_TraVeSuccess()
         {
-            var et = new ET_TroChoi { TenTroChoi = "Tàu Lượn Siêu Tốc", MoTa = "Đu quay mạo hiểm" };
+            var et = new ET_TroChoi { TenTroChoi = "Tàu Lượn Siêu Tốc", MoTa = "Đu quay mạo hiểm", IdKhuVuc = 1, TrangThai = "Hoạt động" };
             _mockGateway.Setup(g => g.Them(It.IsAny<ET_TroChoi>())).Returns(true);
 
             var result = _bus.Them(et);
@@ -61,7 +61,7 @@ namespace SD001.Tests
         [TestMethod]
         public void Them_LoiGateway_TraVeFail()
         {
-            var et = new ET_TroChoi { TenTroChoi = "Tàu Lượn Siêu Tốc" };
+            var et = new ET_TroChoi { TenTroChoi = "Tàu Lượn Siêu Tốc", IdKhuVuc = 1, TrangThai = "Hoạt động" };
             _mockGateway.Setup(g => g.Them(It.IsAny<ET_TroChoi>())).Returns(false); // Gateway trả false
 
             var result = _bus.Them(et);
@@ -138,7 +138,7 @@ namespace SD001.Tests
             var result = _bus.Them(et);
 
             // Code hiện hành không chặn Trạng thái lạ -> Lưu thẳng -> Test FAILED MÀU ĐỎ!
-            Assert.IsFalse(result.IsSuccess, "Thực tế: Code hiện tại cho phép Lưu mọi loại chuỗi vào Trạng thái (Lỗi Nghiệp vụ)!");
+            Assert.IsFalse(result.IsSuccess, "[TDD Expectation] Trạng thái trò chơi phải được chuẩn hóa (Hoạt động/Bảo trì/Tạm ngưng) chứ không nhận chuỗi tự do.");
             Assert.AreEqual("Trạng thái không hợp lệ.", result.ErrorMessage);
         }
 
@@ -151,7 +151,7 @@ namespace SD001.Tests
             var result = _bus.Them(et);
 
             // Mong đợi hệ thống chặn Khu vực có ID rác âm, nhưng code không có -> Test FAILED MÀU ĐỎ!
-            Assert.IsFalse(result.IsSuccess, "Thực tế: Hệ thống chấp nhận lưu IdKhuVuc là số âm gây rác Database!");
+            Assert.IsFalse(result.IsSuccess, "[TDD Expectation] IdKhuVuc tham chiếu bắt buộc phải là số nguyên dương (>0).");
             Assert.AreEqual("Khu vực không hợp lệ.", result.ErrorMessage);
         }
 

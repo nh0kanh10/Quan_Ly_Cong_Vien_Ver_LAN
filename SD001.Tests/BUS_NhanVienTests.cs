@@ -133,7 +133,7 @@ namespace SD001.Tests
             var error = _bus.ValidateNhanVien(et, true);
 
             // Nếu NgaySinh = null, Year = 0. Khi đó 2026 - 0 = 2026 tuổi (Lớn hơn 18). 
-            Assert.AreNotEqual(string.Empty, error, "Thực tế: Code hiện tại bỏ lọt Validation năm sinh. Chưa điền tuổi vẫn coi là trên 18 tuổi!");
+            Assert.AreNotEqual(string.Empty, error, "[TDD Expectation] Hệ thống phải phát hiện trường hợp Null/Empty đối với Ngày sinh và yêu cầu nhập liệu hợp lệ.");
             Assert.AreEqual("Vui lòng nhập ngày sinh.", error);
         }
 
@@ -143,7 +143,7 @@ namespace SD001.Tests
             var nv = new ET_NhanVien { HoTen = "Test C", NgaySinh = DateTime.Now.AddYears(-17), DienThoai = "0123456789" };
             var result = _bus.Sua(nv);
             Assert.IsFalse(result.IsSuccess);
-            Assert.AreEqual("Nhân viên phải từ 18 tuổi trở lên.", result.ErrorMessage);
+            Assert.AreEqual("Nhân viên phải từ 18 tuổi trở lên.", result.ErrorMessage, "[TDD Expectation] Phải validate độ tuổi >= 18 ngay cả khi thiếu dữ liệu CCCD.");
         }
         #endregion
     }

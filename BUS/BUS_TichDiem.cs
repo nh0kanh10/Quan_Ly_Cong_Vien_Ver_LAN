@@ -125,24 +125,7 @@ namespace BUS
                 int soDuTruoc = kh.DiemTichLuy;
                 int soDuSau = soDuTruoc + soDiem;
 
-                // Cập nhật tổng điểm trên KhachHang
                 kh.DiemTichLuy = soDuSau;
-
-                // === AUTO UPGRADE ===
-                if (kh.LoaiKhach == AppConstants.LoaiKhachHang.CaNhan ||
-                    kh.LoaiKhach == AppConstants.LoaiKhachHang.HocSinhSinhVien ||
-                    kh.LoaiKhach == AppConstants.LoaiKhachHang.Vip)
-                {
-                    if (soDuSau >= 500 && kh.LoaiKhach != AppConstants.LoaiKhachHang.VVIP)
-                    {
-                        kh.LoaiKhach = AppConstants.LoaiKhachHang.VVIP;
-                    }
-                    else if (soDuSau >= 200 && soDuSau < 500 && kh.LoaiKhach != AppConstants.LoaiKhachHang.Vip)
-                    {
-                        kh.LoaiKhach = AppConstants.LoaiKhachHang.Vip;
-                    }
-                }
-
                 var resSua = BUS_KhachHang.Instance.Sua(kh);
                 if (!resSua.IsSuccess) return OperationResult.Failed("Không thể cập nhật điểm khách hàng.");
 

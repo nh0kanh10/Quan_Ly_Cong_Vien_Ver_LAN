@@ -110,6 +110,8 @@
     <Compile Include="ET_ThietBiTaoSong.cs" />
     <Compile Include="ET_ThueChoi.cs" />
     <Compile Include="ET_ThueDoChiTiet.cs" />
+    <Compile Include="ET_DanhSachChuaTraView.cs" />
+    <Compile Include="ET_ThuHoiView.cs" />
     <Compile Include="ET_ThueTu.cs" />
     <Compile Include="ET_TonKho_View.cs" />
     <Compile Include="ET_TheKho.cs" />

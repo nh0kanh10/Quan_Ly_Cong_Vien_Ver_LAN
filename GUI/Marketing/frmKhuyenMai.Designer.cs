@@ -38,9 +38,13 @@ namespace GUI
             this.lblDonToiThieu = new System.Windows.Forms.Label();
             this.txtDonToiThieu = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblNgayBD = new System.Windows.Forms.Label();
-            this.dtpNgayBD = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            this.dtpNgayBD = new DevExpress.XtraEditors.DateEdit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpNgayBD.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpNgayBD.Properties.CalendarTimeProperties)).BeginInit();
             this.lblNgayKT = new System.Windows.Forms.Label();
-            this.dtpNgayKT = new Guna.UI2.WinForms.Guna2DateTimePicker();
+            this.dtpNgayKT = new DevExpress.XtraEditors.DateEdit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpNgayKT.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpNgayKT.Properties.CalendarTimeProperties)).BeginInit();
             this.lblTrangThai = new System.Windows.Forms.Label();
             this.chkTrangThai = new Guna.UI2.WinForms.Guna2ToggleSwitch();
             this.pnlSpacer = new Guna.UI2.WinForms.Guna2Panel();
@@ -303,18 +307,16 @@ namespace GUI
             // 
             // dtpNgayBD
             // 
-            this.dtpNgayBD.BorderRadius = 4;
-            this.dtpNgayBD.Checked = true;
-            this.dtpNgayBD.CustomFormat = "dd/MM/yyyy";
-            this.dtpNgayBD.FillColor = System.Drawing.Color.White;
-            this.dtpNgayBD.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpNgayBD.Location = new System.Drawing.Point(20, 397);
-            this.dtpNgayBD.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
-            this.dtpNgayBD.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
+                        this.dtpNgayBD.Location = new System.Drawing.Point(20, 397);
             this.dtpNgayBD.Name = "dtpNgayBD";
+            this.dtpNgayBD.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dtpNgayBD.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dtpNgayBD.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.dtpNgayBD.Properties.Appearance.Options.UseFont = true;
             this.dtpNgayBD.Size = new System.Drawing.Size(175, 36);
             this.dtpNgayBD.TabIndex = 6;
-            this.dtpNgayBD.Value = new System.DateTime(2026, 4, 1, 0, 0, 0, 0);
             // 
             // lblNgayKT
             // 
@@ -327,18 +329,16 @@ namespace GUI
             // 
             // dtpNgayKT
             // 
-            this.dtpNgayKT.BorderRadius = 4;
-            this.dtpNgayKT.Checked = true;
-            this.dtpNgayKT.CustomFormat = "dd/MM/yyyy";
-            this.dtpNgayKT.FillColor = System.Drawing.Color.White;
-            this.dtpNgayKT.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpNgayKT.Location = new System.Drawing.Point(210, 397);
-            this.dtpNgayKT.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
-            this.dtpNgayKT.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
+                        this.dtpNgayKT.Location = new System.Drawing.Point(210, 397);
             this.dtpNgayKT.Name = "dtpNgayKT";
+            this.dtpNgayKT.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dtpNgayKT.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dtpNgayKT.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.dtpNgayKT.Properties.Appearance.Options.UseFont = true;
             this.dtpNgayKT.Size = new System.Drawing.Size(180, 36);
             this.dtpNgayKT.TabIndex = 7;
-            this.dtpNgayKT.Value = new System.DateTime(2026, 4, 1, 0, 0, 0, 0);
             // 
             // lblTrangThai
             // 
@@ -440,6 +440,10 @@ namespace GUI
             this.gbModuleThongTin.ResumeLayout(false);
             this.gbModuleThongTin.PerformLayout();
             this.gbChucNang.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dtpNgayBD.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpNgayBD.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpNgayKT.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpNgayKT.Properties)).EndInit();
             this.ResumeLayout(false);
         }
 
@@ -466,9 +470,9 @@ namespace GUI
         private System.Windows.Forms.Label lblDonToiThieu;
         private Guna.UI2.WinForms.Guna2TextBox txtDonToiThieu;
         private System.Windows.Forms.Label lblNgayBD;
-        private Guna.UI2.WinForms.Guna2DateTimePicker dtpNgayBD;
+        private DevExpress.XtraEditors.DateEdit dtpNgayBD;
         private System.Windows.Forms.Label lblNgayKT;
-        private Guna.UI2.WinForms.Guna2DateTimePicker dtpNgayKT;
+        private DevExpress.XtraEditors.DateEdit dtpNgayKT;
         private System.Windows.Forms.Label lblTrangThai;
         private Guna.UI2.WinForms.Guna2ToggleSwitch chkTrangThai;
         private Guna.UI2.WinForms.Guna2Panel pnlSpacer;
@@ -479,4 +483,5 @@ namespace GUI
         private Guna.UI2.WinForms.Guna2Button btnLamMoi;
     }
 }
+
 

@@ -16,14 +16,16 @@ namespace GUI
         {
             this.pnlHeader = new System.Windows.Forms.Panel();
             this.lblFormTitle = new System.Windows.Forms.Label();
-            this.cboTramChoThue = new System.Windows.Forms.ComboBox();
+            this.cboTramChoThue = new Guna.UI2.WinForms.Guna2ComboBox();
             this.lblTramIcon = new System.Windows.Forms.Label();
-            this.tabControl = new System.Windows.Forms.TabControl();
+            this.tabControl = new Guna.UI2.WinForms.Guna2TabControl();
             this.tabGiaoDo = new System.Windows.Forms.TabPage();
             this.splitGiaoDo = new DevExpress.XtraEditors.SplitContainerControl();
             this.txtTimKiem = new Guna.UI2.WinForms.Guna2TextBox();
             this.gridControlSanPham = new DevExpress.XtraGrid.GridControl();
             this.gridViewSanPham = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.gridControlGioHang = new DevExpress.XtraGrid.GridControl();
+            this.gridViewGioHang = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.pnlKhachHangGiao = new System.Windows.Forms.Panel();
             this.lblSoDuVi = new System.Windows.Forms.Label();
             this.lblTenKH = new System.Windows.Forms.Label();
@@ -35,17 +37,23 @@ namespace GUI
             this.lblTongCong = new System.Windows.Forms.Label();
             this.lblTongCoc = new System.Windows.Forms.Label();
             this.lblTongThue = new System.Windows.Forms.Label();
-            this.gridControlGioHang = new DevExpress.XtraGrid.GridControl();
-            this.gridViewGioHang = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.tabNhanTra = new System.Windows.Forms.TabPage();
             this.splitNhanTra = new DevExpress.XtraEditors.SplitContainerControl();
+            this.pnlChuaTra = new System.Windows.Forms.Panel();
+            this.gridControlChuaTra = new DevExpress.XtraGrid.GridControl();
+            this.gridViewChuaTra = new DevExpress.XtraGrid.Views.Grid.GridView();
+            this.pnlChuaTraTop = new System.Windows.Forms.Panel();
+            this.lbThongBao = new System.Windows.Forms.Label();
+            this.btnXemChuaTra = new Guna.UI2.WinForms.Guna2Button();
+            this.dtpDenNgay = new DevExpress.XtraEditors.DateEdit();
+            this.dtpTuNgay = new DevExpress.XtraEditors.DateEdit();
             this.pnlKhachHangTra = new System.Windows.Forms.Panel();
             this.lblSoDuViTra = new System.Windows.Forms.Label();
             this.lblTenKHTra = new System.Windows.Forms.Label();
             this.txtMaDonHang = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtRfidTra = new Guna.UI2.WinForms.Guna2TextBox();
             this.pnlActionTra = new System.Windows.Forms.Panel();
-            this.btnBaoHong = new Guna.UI2.WinForms.Guna2Button();
+            this.btnXacNhanTra = new Guna.UI2.WinForms.Guna2Button();
             this.btnTraDu = new Guna.UI2.WinForms.Guna2Button();
             this.gridControlDangThue = new DevExpress.XtraGrid.GridControl();
             this.gridViewDangThue = new DevExpress.XtraGrid.Views.Grid.GridView();
@@ -60,10 +68,10 @@ namespace GUI
             this.splitGiaoDo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlSanPham)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewSanPham)).BeginInit();
-            this.pnlKhachHangGiao.SuspendLayout();
-            this.pnlTongTien.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlGioHang)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewGioHang)).BeginInit();
+            this.pnlKhachHangGiao.SuspendLayout();
+            this.pnlTongTien.SuspendLayout();
             this.tabNhanTra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitNhanTra)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitNhanTra.Panel1)).BeginInit();
@@ -71,6 +79,14 @@ namespace GUI
             ((System.ComponentModel.ISupportInitialize)(this.splitNhanTra.Panel2)).BeginInit();
             this.splitNhanTra.Panel2.SuspendLayout();
             this.splitNhanTra.SuspendLayout();
+            this.pnlChuaTra.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlChuaTra)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewChuaTra)).BeginInit();
+            this.pnlChuaTraTop.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpDenNgay.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpDenNgay.Properties.CalendarTimeProperties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpTuNgay.Properties)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpTuNgay.Properties.CalendarTimeProperties)).BeginInit();
             this.pnlKhachHangTra.SuspendLayout();
             this.pnlActionTra.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.gridControlDangThue)).BeginInit();
@@ -87,7 +103,7 @@ namespace GUI
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Name = "pnlHeader";
             this.pnlHeader.Padding = new System.Windows.Forms.Padding(13, 9, 13, 9);
-            this.pnlHeader.Size = new System.Drawing.Size(1237, 52);
+            this.pnlHeader.Size = new System.Drawing.Size(1423, 52);
             this.pnlHeader.TabIndex = 1;
             // 
             // lblFormTitle
@@ -96,7 +112,7 @@ namespace GUI
             this.lblFormTitle.AutoSize = true;
             this.lblFormTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblFormTitle.ForeColor = System.Drawing.Color.White;
-            this.lblFormTitle.Location = new System.Drawing.Point(1666, 12);
+            this.lblFormTitle.Location = new System.Drawing.Point(1852, 12);
             this.lblFormTitle.Name = "lblFormTitle";
             this.lblFormTitle.Size = new System.Drawing.Size(222, 30);
             this.lblFormTitle.TabIndex = 0;
@@ -104,12 +120,18 @@ namespace GUI
             // 
             // cboTramChoThue
             // 
+            this.cboTramChoThue.BackColor = System.Drawing.Color.Transparent;
+            this.cboTramChoThue.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cboTramChoThue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboTramChoThue.Font = new System.Drawing.Font("Segoe UI Semibold", 11F);
-            this.cboTramChoThue.Location = new System.Drawing.Point(43, 12);
+            this.cboTramChoThue.FocusedColor = System.Drawing.Color.Empty;
+            this.cboTramChoThue.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.cboTramChoThue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
+            this.cboTramChoThue.FormattingEnabled = true;
+            this.cboTramChoThue.ItemHeight = 30;
+            this.cboTramChoThue.Location = new System.Drawing.Point(69, 8);
             this.cboTramChoThue.Name = "cboTramChoThue";
-            this.cboTramChoThue.Size = new System.Drawing.Size(241, 28);
-            this.cboTramChoThue.TabIndex = 1;
+            this.cboTramChoThue.Size = new System.Drawing.Size(304, 36);
+            this.cboTramChoThue.TabIndex = 3;
             this.cboTramChoThue.SelectedIndexChanged += new System.EventHandler(this.cboTramChoThue_SelectedIndexChanged);
             // 
             // lblTramIcon
@@ -119,9 +141,9 @@ namespace GUI
             this.lblTramIcon.ForeColor = System.Drawing.Color.White;
             this.lblTramIcon.Location = new System.Drawing.Point(13, 13);
             this.lblTramIcon.Name = "lblTramIcon";
-            this.lblTramIcon.Size = new System.Drawing.Size(24, 25);
+            this.lblTramIcon.Size = new System.Drawing.Size(53, 25);
             this.lblTramIcon.TabIndex = 2;
-            this.lblTramIcon.Text = "📍";
+            this.lblTramIcon.Text = "Trạm";
             // 
             // tabControl
             // 
@@ -129,21 +151,40 @@ namespace GUI
             this.tabControl.Controls.Add(this.tabNhanTra);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Font = new System.Drawing.Font("Segoe UI Semibold", 11F);
+            this.tabControl.ItemSize = new System.Drawing.Size(180, 40);
             this.tabControl.Location = new System.Drawing.Point(0, 52);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1237, 737);
+            this.tabControl.Size = new System.Drawing.Size(1423, 737);
+            this.tabControl.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
+            this.tabControl.TabButtonHoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(52)))), ((int)(((byte)(70)))));
+            this.tabControl.TabButtonHoverState.Font = new System.Drawing.Font("Segoe UI Semibold", 10F);
+            this.tabControl.TabButtonHoverState.ForeColor = System.Drawing.Color.White;
+            this.tabControl.TabButtonHoverState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(52)))), ((int)(((byte)(70)))));
+            this.tabControl.TabButtonIdleState.BorderColor = System.Drawing.Color.Empty;
+            this.tabControl.TabButtonIdleState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(42)))), ((int)(((byte)(57)))));
+            this.tabControl.TabButtonIdleState.Font = new System.Drawing.Font("Segoe UI Semibold", 10F);
+            this.tabControl.TabButtonIdleState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(156)))), ((int)(((byte)(160)))), ((int)(((byte)(167)))));
+            this.tabControl.TabButtonIdleState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(42)))), ((int)(((byte)(57)))));
+            this.tabControl.TabButtonSelectedState.BorderColor = System.Drawing.Color.Empty;
+            this.tabControl.TabButtonSelectedState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(29)))), ((int)(((byte)(37)))), ((int)(((byte)(49)))));
+            this.tabControl.TabButtonSelectedState.Font = new System.Drawing.Font("Segoe UI Semibold", 10F);
+            this.tabControl.TabButtonSelectedState.ForeColor = System.Drawing.Color.White;
+            this.tabControl.TabButtonSelectedState.InnerColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(132)))), ((int)(((byte)(255)))));
+            this.tabControl.TabButtonSize = new System.Drawing.Size(180, 40);
             this.tabControl.TabIndex = 0;
+            this.tabControl.TabMenuBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(42)))), ((int)(((byte)(57)))));
+            this.tabControl.TabMenuOrientation = Guna.UI2.WinForms.TabMenuOrientation.HorizontalTop;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
             // tabGiaoDo
             // 
             this.tabGiaoDo.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(250)))), ((int)(((byte)(252)))));
             this.tabGiaoDo.Controls.Add(this.splitGiaoDo);
-            this.tabGiaoDo.Location = new System.Drawing.Point(4, 29);
+            this.tabGiaoDo.Location = new System.Drawing.Point(4, 44);
             this.tabGiaoDo.Name = "tabGiaoDo";
             this.tabGiaoDo.Padding = new System.Windows.Forms.Padding(4);
-            this.tabGiaoDo.Size = new System.Drawing.Size(1229, 704);
+            this.tabGiaoDo.Size = new System.Drawing.Size(1415, 689);
             this.tabGiaoDo.TabIndex = 0;
             this.tabGiaoDo.Text = "📤  GIAO ĐỒ CHO THUÊ";
             // 
@@ -160,11 +201,11 @@ namespace GUI
             // 
             // splitGiaoDo.Panel2
             // 
+            this.splitGiaoDo.Panel2.Controls.Add(this.gridControlGioHang);
             this.splitGiaoDo.Panel2.Controls.Add(this.pnlKhachHangGiao);
             this.splitGiaoDo.Panel2.Controls.Add(this.pnlTongTien);
-            this.splitGiaoDo.Panel2.Controls.Add(this.gridControlGioHang);
             this.splitGiaoDo.ShowSplitGlyph = DevExpress.Utils.DefaultBoolean.True;
-            this.splitGiaoDo.Size = new System.Drawing.Size(1221, 696);
+            this.splitGiaoDo.Size = new System.Drawing.Size(1407, 681);
             this.splitGiaoDo.SplitterPosition = 618;
             this.splitGiaoDo.TabIndex = 0;
             // 
@@ -190,7 +231,7 @@ namespace GUI
             this.gridControlSanPham.Location = new System.Drawing.Point(0, 0);
             this.gridControlSanPham.MainView = this.gridViewSanPham;
             this.gridControlSanPham.Name = "gridControlSanPham";
-            this.gridControlSanPham.Size = new System.Drawing.Size(618, 696);
+            this.gridControlSanPham.Size = new System.Drawing.Size(618, 681);
             this.gridControlSanPham.TabIndex = 0;
             this.gridControlSanPham.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewSanPham});
@@ -206,6 +247,25 @@ namespace GUI
             this.gridViewSanPham.RowHeight = 39;
             this.gridViewSanPham.DoubleClick += new System.EventHandler(this.gridViewSanPham_DoubleClick);
             // 
+            // gridControlGioHang
+            // 
+            this.gridControlGioHang.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControlGioHang.Location = new System.Drawing.Point(0, 138);
+            this.gridControlGioHang.MainView = this.gridViewGioHang;
+            this.gridControlGioHang.Name = "gridControlGioHang";
+            this.gridControlGioHang.Size = new System.Drawing.Size(779, 335);
+            this.gridControlGioHang.TabIndex = 3;
+            this.gridControlGioHang.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridViewGioHang});
+            // 
+            // gridViewGioHang
+            // 
+            this.gridViewGioHang.DetailHeight = 303;
+            this.gridViewGioHang.GridControl = this.gridControlGioHang;
+            this.gridViewGioHang.Name = "gridViewGioHang";
+            this.gridViewGioHang.OptionsView.ShowGroupPanel = false;
+            this.gridViewGioHang.RowHeight = 35;
+            // 
             // pnlKhachHangGiao
             // 
             this.pnlKhachHangGiao.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(245)))), ((int)(((byte)(249)))));
@@ -216,7 +276,7 @@ namespace GUI
             this.pnlKhachHangGiao.Location = new System.Drawing.Point(0, 0);
             this.pnlKhachHangGiao.Name = "pnlKhachHangGiao";
             this.pnlKhachHangGiao.Padding = new System.Windows.Forms.Padding(9);
-            this.pnlKhachHangGiao.Size = new System.Drawing.Size(593, 138);
+            this.pnlKhachHangGiao.Size = new System.Drawing.Size(779, 138);
             this.pnlKhachHangGiao.TabIndex = 2;
             // 
             // lblSoDuVi
@@ -253,7 +313,7 @@ namespace GUI
             this.txtRfidGiao.Name = "txtRfidGiao";
             this.txtRfidGiao.PlaceholderText = "Quẹt vòng RFID khách hàng...";
             this.txtRfidGiao.SelectedText = "";
-            this.txtRfidGiao.Size = new System.Drawing.Size(575, 51);
+            this.txtRfidGiao.Size = new System.Drawing.Size(761, 51);
             this.txtRfidGiao.TabIndex = 2;
             this.txtRfidGiao.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRfidGiao_KeyDown);
             // 
@@ -267,19 +327,20 @@ namespace GUI
             this.pnlTongTien.Controls.Add(this.lblTongCoc);
             this.pnlTongTien.Controls.Add(this.lblTongThue);
             this.pnlTongTien.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlTongTien.Location = new System.Drawing.Point(0, 488);
+            this.pnlTongTien.Location = new System.Drawing.Point(0, 473);
             this.pnlTongTien.Name = "pnlTongTien";
             this.pnlTongTien.Padding = new System.Windows.Forms.Padding(9);
-            this.pnlTongTien.Size = new System.Drawing.Size(593, 208);
+            this.pnlTongTien.Size = new System.Drawing.Size(779, 208);
             this.pnlTongTien.TabIndex = 1;
             // 
             // btnHuyGiao
             // 
+            this.btnHuyGiao.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnHuyGiao.BorderRadius = 8;
             this.btnHuyGiao.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.btnHuyGiao.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnHuyGiao.ForeColor = System.Drawing.Color.White;
-            this.btnHuyGiao.Location = new System.Drawing.Point(14, 167);
+            this.btnHuyGiao.Location = new System.Drawing.Point(194, 167);
             this.btnHuyGiao.Name = "btnHuyGiao";
             this.btnHuyGiao.Size = new System.Drawing.Size(569, 35);
             this.btnHuyGiao.TabIndex = 0;
@@ -288,11 +349,12 @@ namespace GUI
             // 
             // btnThanhToanTienMat
             // 
+            this.btnThanhToanTienMat.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnThanhToanTienMat.BorderRadius = 10;
             this.btnThanhToanTienMat.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(158)))), ((int)(((byte)(11)))));
             this.btnThanhToanTienMat.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
             this.btnThanhToanTienMat.ForeColor = System.Drawing.Color.White;
-            this.btnThanhToanTienMat.Location = new System.Drawing.Point(300, 117);
+            this.btnThanhToanTienMat.Location = new System.Drawing.Point(480, 117);
             this.btnThanhToanTienMat.Name = "btnThanhToanTienMat";
             this.btnThanhToanTienMat.Size = new System.Drawing.Size(283, 43);
             this.btnThanhToanTienMat.TabIndex = 1;
@@ -301,11 +363,12 @@ namespace GUI
             // 
             // btnThanhToanRfid
             // 
+            this.btnThanhToanRfid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnThanhToanRfid.BorderRadius = 10;
             this.btnThanhToanRfid.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
             this.btnThanhToanRfid.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
             this.btnThanhToanRfid.ForeColor = System.Drawing.Color.White;
-            this.btnThanhToanRfid.Location = new System.Drawing.Point(11, 118);
+            this.btnThanhToanRfid.Location = new System.Drawing.Point(191, 118);
             this.btnThanhToanRfid.Name = "btnThanhToanRfid";
             this.btnThanhToanRfid.Size = new System.Drawing.Size(283, 43);
             this.btnThanhToanRfid.TabIndex = 2;
@@ -314,66 +377,48 @@ namespace GUI
             // 
             // lblTongCong
             // 
-            this.lblTongCong.AutoSize = true;
-            this.lblTongCong.Font = new System.Drawing.Font("Segoe UI", 14F, System.Drawing.FontStyle.Bold);
-            this.lblTongCong.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(23)))), ((int)(((byte)(42)))));
-            this.lblTongCong.Location = new System.Drawing.Point(9, 78);
+            this.lblTongCong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTongCong.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
+            this.lblTongCong.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
+            this.lblTongCong.Location = new System.Drawing.Point(463, 72);
             this.lblTongCong.Name = "lblTongCong";
-            this.lblTongCong.Size = new System.Drawing.Size(99, 25);
+            this.lblTongCong.Size = new System.Drawing.Size(300, 35);
             this.lblTongCong.TabIndex = 3;
             this.lblTongCong.Text = "TỔNG: 0đ";
+            this.lblTongCong.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblTongCoc
             // 
-            this.lblTongCoc.AutoSize = true;
-            this.lblTongCoc.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold);
+            this.lblTongCoc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTongCoc.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
             this.lblTongCoc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(158)))), ((int)(((byte)(11)))));
-            this.lblTongCoc.Location = new System.Drawing.Point(7, 52);
+            this.lblTongCoc.Location = new System.Drawing.Point(463, 40);
             this.lblTongCoc.Name = "lblTongCoc";
-            this.lblTongCoc.Size = new System.Drawing.Size(106, 20);
+            this.lblTongCoc.Size = new System.Drawing.Size(300, 25);
             this.lblTongCoc.TabIndex = 4;
             this.lblTongCoc.Text = "Tiền cọc: 0đ";
+            this.lblTongCoc.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // lblTongThue
             // 
-            this.lblTongThue.AutoSize = true;
-            this.lblTongThue.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.lblTongThue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblTongThue.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.lblTongThue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(65)))), ((int)(((byte)(85)))));
-            this.lblTongThue.Location = new System.Drawing.Point(12, 25);
+            this.lblTongThue.Location = new System.Drawing.Point(463, 10);
             this.lblTongThue.Name = "lblTongThue";
-            this.lblTongThue.Size = new System.Drawing.Size(94, 20);
+            this.lblTongThue.Size = new System.Drawing.Size(300, 25);
             this.lblTongThue.TabIndex = 5;
             this.lblTongThue.Text = "Tiền thuê: 0đ";
-            // 
-            // gridControlGioHang
-            // 
-            this.gridControlGioHang.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridControlGioHang.Location = new System.Drawing.Point(0, 132);
-            this.gridControlGioHang.MainView = this.gridViewGioHang;
-            this.gridControlGioHang.Name = "gridControlGioHang";
-            this.gridControlGioHang.Size = new System.Drawing.Size(593, 358);
-            this.gridControlGioHang.TabIndex = 0;
-            this.gridControlGioHang.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
-            this.gridViewGioHang});
-            // 
-            // gridViewGioHang
-            // 
-            this.gridViewGioHang.DetailHeight = 303;
-            this.gridViewGioHang.GridControl = this.gridControlGioHang;
-            this.gridViewGioHang.Name = "gridViewGioHang";
-            this.gridViewGioHang.OptionsView.ShowGroupPanel = false;
-            this.gridViewGioHang.RowHeight = 35;
+            this.lblTongThue.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // tabNhanTra
             // 
             this.tabNhanTra.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(250)))), ((int)(((byte)(252)))));
             this.tabNhanTra.Controls.Add(this.splitNhanTra);
-            this.tabNhanTra.Location = new System.Drawing.Point(4, 29);
+            this.tabNhanTra.Location = new System.Drawing.Point(4, 44);
             this.tabNhanTra.Name = "tabNhanTra";
             this.tabNhanTra.Padding = new System.Windows.Forms.Padding(4);
-            this.tabNhanTra.Size = new System.Drawing.Size(1229, 704);
+            this.tabNhanTra.Size = new System.Drawing.Size(1415, 689);
             this.tabNhanTra.TabIndex = 1;
             this.tabNhanTra.Text = "📥  NHẬN TRẢ ĐỒ";
             // 
@@ -385,6 +430,7 @@ namespace GUI
             // 
             // splitNhanTra.Panel1
             // 
+            this.splitNhanTra.Panel1.Controls.Add(this.pnlChuaTra);
             this.splitNhanTra.Panel1.Controls.Add(this.pnlKhachHangTra);
             // 
             // splitNhanTra.Panel2
@@ -392,9 +438,106 @@ namespace GUI
             this.splitNhanTra.Panel2.Controls.Add(this.pnlActionTra);
             this.splitNhanTra.Panel2.Controls.Add(this.gridControlDangThue);
             this.splitNhanTra.ShowSplitGlyph = DevExpress.Utils.DefaultBoolean.True;
-            this.splitNhanTra.Size = new System.Drawing.Size(1221, 696);
+            this.splitNhanTra.Size = new System.Drawing.Size(1407, 681);
             this.splitNhanTra.SplitterPosition = 600;
             this.splitNhanTra.TabIndex = 0;
+            // 
+            // pnlChuaTra
+            // 
+            this.pnlChuaTra.Controls.Add(this.gridControlChuaTra);
+            this.pnlChuaTra.Controls.Add(this.pnlChuaTraTop);
+            this.pnlChuaTra.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pnlChuaTra.Location = new System.Drawing.Point(0, 226);
+            this.pnlChuaTra.Name = "pnlChuaTra";
+            this.pnlChuaTra.Size = new System.Drawing.Size(600, 455);
+            this.pnlChuaTra.TabIndex = 1;
+            // 
+            // gridControlChuaTra
+            // 
+            this.gridControlChuaTra.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridControlChuaTra.Location = new System.Drawing.Point(0, 93);
+            this.gridControlChuaTra.MainView = this.gridViewChuaTra;
+            this.gridControlChuaTra.Name = "gridControlChuaTra";
+            this.gridControlChuaTra.Size = new System.Drawing.Size(600, 362);
+            this.gridControlChuaTra.TabIndex = 1;
+            this.gridControlChuaTra.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
+            this.gridViewChuaTra});
+            // 
+            // gridViewChuaTra
+            // 
+            this.gridViewChuaTra.GridControl = this.gridControlChuaTra;
+            this.gridViewChuaTra.Name = "gridViewChuaTra";
+            this.gridViewChuaTra.OptionsBehavior.Editable = false;
+            this.gridViewChuaTra.OptionsView.ShowGroupPanel = false;
+            this.gridViewChuaTra.DoubleClick += new System.EventHandler(this.GridViewChuaTra_DoubleClick);
+            // 
+            // pnlChuaTraTop
+            // 
+            this.pnlChuaTraTop.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(250)))), ((int)(((byte)(252)))));
+            this.pnlChuaTraTop.Controls.Add(this.lbThongBao);
+            this.pnlChuaTraTop.Controls.Add(this.btnXemChuaTra);
+            this.pnlChuaTraTop.Controls.Add(this.dtpDenNgay);
+            this.pnlChuaTraTop.Controls.Add(this.dtpTuNgay);
+            this.pnlChuaTraTop.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlChuaTraTop.Location = new System.Drawing.Point(0, 0);
+            this.pnlChuaTraTop.Name = "pnlChuaTraTop";
+            this.pnlChuaTraTop.Size = new System.Drawing.Size(600, 93);
+            this.pnlChuaTraTop.TabIndex = 0;
+            // 
+            // lbThongBao
+            // 
+            this.lbThongBao.AutoSize = true;
+            this.lbThongBao.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lbThongBao.ForeColor = System.Drawing.Color.Red;
+            this.lbThongBao.Location = new System.Drawing.Point(18, 60);
+            this.lbThongBao.Name = "lbThongBao";
+            this.lbThongBao.Size = new System.Drawing.Size(0, 19);
+            this.lbThongBao.TabIndex = 3;
+            // 
+            // btnXemChuaTra
+            // 
+            this.btnXemChuaTra.BorderRadius = 4;
+            this.btnXemChuaTra.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.btnXemChuaTra.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.btnXemChuaTra.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.btnXemChuaTra.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.btnXemChuaTra.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(64)))), ((int)(((byte)(175)))));
+            this.btnXemChuaTra.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.btnXemChuaTra.ForeColor = System.Drawing.Color.White;
+            this.btnXemChuaTra.Location = new System.Drawing.Point(345, 15);
+            this.btnXemChuaTra.Name = "btnXemChuaTra";
+            this.btnXemChuaTra.Size = new System.Drawing.Size(100, 40);
+            this.btnXemChuaTra.TabIndex = 2;
+            this.btnXemChuaTra.Text = "Xem";
+            this.btnXemChuaTra.Click += new System.EventHandler(this.BtnXemChuaTra_Click);
+            // 
+            // dtpDenNgay
+            // 
+            this.dtpDenNgay.EditValue = new System.DateTime(2023, 1, 1, 0, 0, 0, 0);
+            this.dtpDenNgay.Location = new System.Drawing.Point(180, 15);
+            this.dtpDenNgay.Name = "dtpDenNgay";
+            this.dtpDenNgay.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.dtpDenNgay.Properties.Appearance.Options.UseFont = true;
+            this.dtpDenNgay.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dtpDenNgay.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dtpDenNgay.Size = new System.Drawing.Size(150, 26);
+            this.dtpDenNgay.TabIndex = 1;
+            // 
+            // dtpTuNgay
+            // 
+            this.dtpTuNgay.EditValue = new System.DateTime(2023, 1, 1, 0, 0, 0, 0);
+            this.dtpTuNgay.Location = new System.Drawing.Point(15, 15);
+            this.dtpTuNgay.Name = "dtpTuNgay";
+            this.dtpTuNgay.Properties.Appearance.Font = new System.Drawing.Font("Segoe UI", 11F);
+            this.dtpTuNgay.Properties.Appearance.Options.UseFont = true;
+            this.dtpTuNgay.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dtpTuNgay.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
+            new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.dtpTuNgay.Size = new System.Drawing.Size(150, 26);
+            this.dtpTuNgay.TabIndex = 0;
             // 
             // pnlKhachHangTra
             // 
@@ -466,42 +609,43 @@ namespace GUI
             this.txtRfidTra.TabIndex = 5;
             this.txtRfidTra.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRfidTra_KeyDown);
             // 
+            // 
             // pnlActionTra
             // 
             this.pnlActionTra.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(245)))), ((int)(((byte)(249)))));
-            this.pnlActionTra.Controls.Add(this.btnBaoHong);
             this.pnlActionTra.Controls.Add(this.btnTraDu);
+            this.pnlActionTra.Controls.Add(this.btnXacNhanTra);
             this.pnlActionTra.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlActionTra.Location = new System.Drawing.Point(0, 635);
+            this.pnlActionTra.Location = new System.Drawing.Point(0, 620);
             this.pnlActionTra.Name = "pnlActionTra";
             this.pnlActionTra.Padding = new System.Windows.Forms.Padding(9);
-            this.pnlActionTra.Size = new System.Drawing.Size(611, 61);
+            this.pnlActionTra.Size = new System.Drawing.Size(797, 61);
             this.pnlActionTra.TabIndex = 1;
             // 
-            // btnBaoHong
+            // btnXacNhanTra
             // 
-            this.btnBaoHong.BorderRadius = 10;
-            this.btnBaoHong.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(158)))), ((int)(((byte)(11)))));
-            this.btnBaoHong.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnBaoHong.ForeColor = System.Drawing.Color.White;
-            this.btnBaoHong.Location = new System.Drawing.Point(231, 9);
-            this.btnBaoHong.Name = "btnBaoHong";
-            this.btnBaoHong.Size = new System.Drawing.Size(197, 43);
-            this.btnBaoHong.TabIndex = 0;
-            this.btnBaoHong.Text = "BÁO HỎNG / MẤT";
-            this.btnBaoHong.Click += new System.EventHandler(this.btnBaoHong_Click);
+            this.btnXacNhanTra.BorderRadius = 10;
+            this.btnXacNhanTra.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
+            this.btnXacNhanTra.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnXacNhanTra.ForeColor = System.Drawing.Color.White;
+            this.btnXacNhanTra.Location = new System.Drawing.Point(9, 9);
+            this.btnXacNhanTra.Name = "btnXacNhanTra";
+            this.btnXacNhanTra.Size = new System.Drawing.Size(419, 43);
+            this.btnXacNhanTra.TabIndex = 1;
+            this.btnXacNhanTra.Text = "XÁC NHẬN THU HỒI ĐỒ";
+            this.btnXacNhanTra.Click += new System.EventHandler(this.btnXacNhanTra_Click);
             // 
             // btnTraDu
             // 
             this.btnTraDu.BorderRadius = 10;
-            this.btnTraDu.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
+            this.btnTraDu.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(130)))), ((int)(((byte)(246)))));
             this.btnTraDu.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.btnTraDu.ForeColor = System.Drawing.Color.White;
-            this.btnTraDu.Location = new System.Drawing.Point(9, 9);
+            this.btnTraDu.Location = new System.Drawing.Point(434, 9);
             this.btnTraDu.Name = "btnTraDu";
-            this.btnTraDu.Size = new System.Drawing.Size(214, 43);
-            this.btnTraDu.TabIndex = 1;
-            this.btnTraDu.Text = "TRẢ ĐỦ - HOÀN CỌC";
+            this.btnTraDu.Size = new System.Drawing.Size(150, 43);
+            this.btnTraDu.TabIndex = 2;
+            this.btnTraDu.Text = "TRẢ ĐỦ (F12)";
             this.btnTraDu.Click += new System.EventHandler(this.btnTraDu_Click);
             // 
             // gridControlDangThue
@@ -510,7 +654,7 @@ namespace GUI
             this.gridControlDangThue.Location = new System.Drawing.Point(0, 0);
             this.gridControlDangThue.MainView = this.gridViewDangThue;
             this.gridControlDangThue.Name = "gridControlDangThue";
-            this.gridControlDangThue.Size = new System.Drawing.Size(611, 696);
+            this.gridControlDangThue.Size = new System.Drawing.Size(797, 681);
             this.gridControlDangThue.TabIndex = 0;
             this.gridControlDangThue.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewDangThue});
@@ -528,7 +672,7 @@ namespace GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1237, 789);
+            this.ClientSize = new System.Drawing.Size(1423, 789);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.pnlHeader);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -547,12 +691,11 @@ namespace GUI
             this.splitGiaoDo.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.gridControlSanPham)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.gridViewSanPham)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlGioHang)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewGioHang)).EndInit();
             this.pnlKhachHangGiao.ResumeLayout(false);
             this.pnlKhachHangGiao.PerformLayout();
             this.pnlTongTien.ResumeLayout(false);
-            this.pnlTongTien.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.gridControlGioHang)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.gridViewGioHang)).EndInit();
             this.tabNhanTra.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitNhanTra.Panel1)).EndInit();
             this.splitNhanTra.Panel1.ResumeLayout(false);
@@ -560,6 +703,15 @@ namespace GUI
             this.splitNhanTra.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitNhanTra)).EndInit();
             this.splitNhanTra.ResumeLayout(false);
+            this.pnlChuaTra.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.gridControlChuaTra)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridViewChuaTra)).EndInit();
+            this.pnlChuaTraTop.ResumeLayout(false);
+            this.pnlChuaTraTop.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpDenNgay.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpDenNgay.Properties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpTuNgay.Properties.CalendarTimeProperties)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dtpTuNgay.Properties)).EndInit();
             this.pnlKhachHangTra.ResumeLayout(false);
             this.pnlKhachHangTra.PerformLayout();
             this.pnlActionTra.ResumeLayout(false);
@@ -573,9 +725,9 @@ namespace GUI
 
         private System.Windows.Forms.Panel pnlHeader;
         private System.Windows.Forms.Label lblFormTitle;
-        private System.Windows.Forms.ComboBox cboTramChoThue;
+        private Guna.UI2.WinForms.Guna2ComboBox cboTramChoThue;
         private System.Windows.Forms.Label lblTramIcon;
-        private System.Windows.Forms.TabControl tabControl;
+        private Guna.UI2.WinForms.Guna2TabControl tabControl;
         private System.Windows.Forms.TabPage tabGiaoDo;
         private System.Windows.Forms.TabPage tabNhanTra;
         private DevExpress.XtraEditors.SplitContainerControl splitGiaoDo;
@@ -586,8 +738,6 @@ namespace GUI
         private Guna.UI2.WinForms.Guna2TextBox txtRfidGiao;
         private System.Windows.Forms.Label lblTenKH;
         private System.Windows.Forms.Label lblSoDuVi;
-        private DevExpress.XtraGrid.GridControl gridControlGioHang;
-        private DevExpress.XtraGrid.Views.Grid.GridView gridViewGioHang;
         private System.Windows.Forms.Panel pnlTongTien;
         private System.Windows.Forms.Label lblTongThue;
         private System.Windows.Forms.Label lblTongCoc;
@@ -603,8 +753,18 @@ namespace GUI
         private DevExpress.XtraGrid.GridControl gridControlDangThue;
         private DevExpress.XtraGrid.Views.Grid.GridView gridViewDangThue;
         private System.Windows.Forms.Panel pnlActionTra;
+        private Guna.UI2.WinForms.Guna2Button btnXacNhanTra;
         private Guna.UI2.WinForms.Guna2Button btnTraDu;
-        private Guna.UI2.WinForms.Guna2Button btnBaoHong;
         private Guna.UI2.WinForms.Guna2TextBox txtMaDonHang;
+        private DevExpress.XtraGrid.GridControl gridControlGioHang;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridViewGioHang;
+        private System.Windows.Forms.Panel pnlChuaTra;
+        private System.Windows.Forms.Panel pnlChuaTraTop;
+        private DevExpress.XtraEditors.DateEdit dtpTuNgay;
+        private DevExpress.XtraEditors.DateEdit dtpDenNgay;
+        private Guna.UI2.WinForms.Guna2Button btnXemChuaTra;
+        private System.Windows.Forms.Label lbThongBao;
+        private DevExpress.XtraGrid.GridControl gridControlChuaTra;
+        private DevExpress.XtraGrid.Views.Grid.GridView gridViewChuaTra;
     }
 }

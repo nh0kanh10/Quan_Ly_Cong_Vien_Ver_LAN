@@ -54,13 +54,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BUS_Connection.cs" />
-    <Compile Include="BUS_NhaHang.cs" />
-    <Compile Include="BUS_QuyenHan.cs" />
+    <Compile Include="BUS_BangGia.cs" />
+    <Compile Include="BUS_CauHinhNgayLe.cs" />
+    <Compile Include="BUS_Dependencies.cs" />
     <Compile Include="BUS_KhuVuc.cs" />
     <Compile Include="BUS_KhachHang.cs" />
     <Compile Include="BUS_KhuyenMai.cs" />
     <Compile Include="BUS_SuKien.cs" />
     <Compile Include="BUS_DonViTinh.cs" />
+    <Compile Include="BUS_NhaHang.cs" />
+    <Compile Include="BUS_QuyenHan.cs" />
     <Compile Include="BUS_NhanVien.cs" />
     <Compile Include="BUS_DonHang.cs" />
     <Compile Include="BUS_SanPham.cs" />
@@ -80,12 +83,10 @@
     <Compile Include="BUS_KhoHang.cs" />
     <Compile Include="BUS_NhaCungCap.cs" />
     <Compile Include="BUS_DatPhongChiTiet.cs" />
-    <Compile Include="BUS_Dependencies.cs" />
     <Compile Include="BUS_VaiTro.cs" />
     <Compile Include="BUS_PhanQuyen.cs" />
     <Compile Include="BUS_Phong.cs" />
     <Compile Include="BUS_VeDienTu.cs" />
-    <Compile Include="BUS_BangGia.cs" />
     <Compile Include="BUS_ThueDo.cs" />
     <Compile Include="BUS_GuiXe.cs" />
     <Compile Include="BUS_TroChoi.cs" />

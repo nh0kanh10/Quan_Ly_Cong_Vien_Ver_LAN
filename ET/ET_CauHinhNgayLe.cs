@@ -5,10 +5,18 @@ namespace ET
 {
     public class ET_CauHinhNgayLe
     {
-        [DisplayName("Ngày")]
-        public DateTime Ngay { get; set; }
+        public int Id { get; set; }
 
         [DisplayName("Tên ngày lễ")]
         public string TenNgayLe { get; set; }
+
+        [DisplayName("Từ ngày")]
+        public DateTime NgayBatDau { get; set; }
+
+        [DisplayName("Đến ngày")]
+        public DateTime NgayKetThuc { get; set; }
+
+        [DisplayName("Mô tả")]
+        public string MoTa { get; set; }
     }
 }

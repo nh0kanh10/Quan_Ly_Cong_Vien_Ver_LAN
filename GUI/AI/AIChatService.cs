@@ -68,7 +68,7 @@ namespace GUI.AI
         public async Task<AIResponse> SendMessage(string userMessage)
         {
             if (!AIConfig.HasApiKey())
-                return new AIResponse { Text = "⚙ Chưa cấu hình API Key. Vào Settings để nhập Gemini API Key.", IsError = true };
+                return new AIResponse { Text = "Chưa cấu hình API Key. Vào Settings để nhập Gemini API Key.", IsError = true };
 
             // Thêm tin nhắn user
             _history.Add(new GeminiContent
@@ -203,15 +203,15 @@ namespace GUI.AI
             }
             catch (TaskCanceledException)
             {
-                return new AIResponse { Text = "⏱ Quá thời gian chờ. Gemini API không phản hồi kịp.", IsError = true };
+                return new AIResponse { Text = "Quá thời gian chờ. Gemini API không phản hồi kịp.", IsError = true };
             }
             catch (HttpRequestException ex)
             {
-                return new AIResponse { Text = $"🌐 Lỗi mạng: {ex.Message}", IsError = true };
+                return new AIResponse { Text = $"Lỗi mạng: {ex.Message}", IsError = true };
             }
             catch (Exception ex)
             {
-                return new AIResponse { Text = $"❌ Lỗi: {ex.Message}", IsError = true };
+                return new AIResponse { Text = $"Lỗi: {ex.Message}", IsError = true };
             }
             finally
             {
@@ -244,7 +244,7 @@ namespace GUI.AI
             var resp = await _http.PostAsync(AIConfig.Endpoint, content);
 
             if ((int)resp.StatusCode == 429)
-                return ParseResponse("{\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"😴 Tôi đang hơi mệt (quá nhiều yêu cầu), chờ tôi 5 giây nhé!\"}],\"role\":\"model\"}}]}");
+                return ParseResponse("{\"candidates\":[{\"content\":{\"parts\":[{\"text\":\"Tôi đang hơi mệt (quá nhiều yêu cầu), chờ tôi 5 giây nhé!\"}],\"role\":\"model\"}}]}");
 
             string responseJson = await resp.Content.ReadAsStringAsync();
 
@@ -274,9 +274,9 @@ namespace GUI.AI
             return parsed;
         }
 
-        // ══════════════════════════════════════════════════════════════
+        // 
         //  SERIALIZATION HELPERS
-        // ══════════════════════════════════════════════════════════════
+        // 
 
         private GeminiApiResponse ParseResponse(string json)
         {

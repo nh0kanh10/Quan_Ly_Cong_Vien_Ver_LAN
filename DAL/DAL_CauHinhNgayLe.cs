@@ -18,34 +18,30 @@ namespace DAL
             }
         }
 
-        // Cache ngày lễ trong năm (load 1 lần duy nhất)
-        private HashSet<DateTime> _cache;
-        private int _cachedYear = -1;
+        // Cache events
+        private List<ET_CauHinhNgayLe> _cache;
+        private DateTime _lastCacheTime;
 
-        /// <summary>
-        /// Kiểm tra ngày có phải ngày lễ không. Cache theo năm.
-        /// </summary>
-        public bool LaNgayLe(DateTime ngay)
+        public ET_CauHinhNgayLe LayNgayLeChoNgay(DateTime ngay)
         {
-            if (_cachedYear != ngay.Year)
+            if (_cache == null || (DateTime.Now - _lastCacheTime).TotalMinutes > 5)
             {
-                _cache = new HashSet<DateTime>(
-                    db.GetTable<CauHinhNgayLe>()
-                      .Where(x => x.Ngay.Year == ngay.Year)
-                      .Select(x => x.Ngay.Date)
-                );
-                _cachedYear = ngay.Year;
+                _cache = LoadDS();
+                _lastCacheTime = DateTime.Now;
             }
-            return _cache.Contains(ngay.Date);
+            return _cache.FirstOrDefault(x => ngay.Date >= x.NgayBatDau.Date && ngay.Date <= x.NgayKetThuc.Date);
         }
 
         public List<ET_CauHinhNgayLe> LoadDS()
         {
             return db.GetTable<CauHinhNgayLe>().Select(s => new ET_CauHinhNgayLe
             {
-                Ngay = s.Ngay,
-                TenNgayLe = s.TenNgayLe
-            }).OrderBy(x => x.Ngay).ToList();
+                Id = s.Id,
+                NgayBatDau = s.NgayBatDau,
+                NgayKetThuc = s.NgayKetThuc,
+                TenNgayLe = s.TenNgayLe,
+                MoTa = s.MoTa
+            }).OrderBy(x => x.NgayBatDau).ToList();
         }
 
         public bool Them(ET_CauHinhNgayLe et)
@@ -54,25 +50,44 @@ namespace DAL
             {
                 db.GetTable<CauHinhNgayLe>().InsertOnSubmit(new CauHinhNgayLe
                 {
-                    Ngay = et.Ngay.Date,
-                    TenNgayLe = et.TenNgayLe
+                    NgayBatDau = et.NgayBatDau.Date,
+                    NgayKetThuc = et.NgayKetThuc.Date,
+                    TenNgayLe = et.TenNgayLe,
+                    MoTa = et.MoTa
                 });
                 db.SubmitChanges();
-                _cachedYear = -1; // Invalidate cache
+                _cache = null; // Invalidate cache
                 return true;
             }
             catch { return false; }
         }
 
-        public bool Xoa(DateTime ngay)
+        public bool Sua(ET_CauHinhNgayLe et)
         {
             try
             {
-                var obj = db.GetTable<CauHinhNgayLe>().FirstOrDefault(x => x.Ngay == ngay.Date);
+                var obj = db.GetTable<CauHinhNgayLe>().FirstOrDefault(x => x.Id == et.Id);
+                if (obj == null) return false;
+                obj.NgayBatDau = et.NgayBatDau.Date;
+                obj.NgayKetThuc = et.NgayKetThuc.Date;
+                obj.TenNgayLe = et.TenNgayLe;
+                obj.MoTa = et.MoTa;
+                db.SubmitChanges();
+                _cache = null;
+                return true;
+            }
+            catch { return false; }
+        }
+
+        public bool Xoa(int id)
+        {
+            try
+            {
+                var obj = db.GetTable<CauHinhNgayLe>().FirstOrDefault(x => x.Id == id);
                 if (obj == null) return false;
                 db.GetTable<CauHinhNgayLe>().DeleteOnSubmit(obj);
                 db.SubmitChanges();
-                _cachedYear = -1;
+                _cache = null;
                 return true;
             }
             catch { return false; }

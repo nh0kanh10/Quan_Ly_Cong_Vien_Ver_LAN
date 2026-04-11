@@ -9,6 +9,7 @@ namespace ET
         public decimal SoTien { get; set; }
         public string LyDo { get; set; }
         public DateTime ThoiGian { get; set; }
+        public int? IdDonHang { get; set; }
         public DateTime CreatedAt { get; set; }
         public int? CreatedBy { get; set; }
     }

@@ -56,33 +56,43 @@ public class TicketRepo
     {
         using var conn = _db.CreateConnection();
 
-        var isHoliday = await conn.ExecuteScalarAsync<int>(
-            "SELECT COUNT(1) FROM CauHinhNgayLe WHERE Ngay = @date",
+        var holidayId = await conn.ExecuteScalarAsync<int?>(
+            "SELECT TOP 1 Id FROM CauHinhNgayLe WHERE @date >= NgayBatDau AND @date <= NgayKetThuc",
             new { date = date.Date });
 
         var now = DateTime.Now.TimeOfDay;
-        var bangGia = await conn.QueryFirstOrDefaultAsync<(decimal GiaNgayThuong, decimal GiaCuoiTuan, decimal GiaNgayLe)>(@"
-            SELECT GiaNgayThuong, GiaCuoiTuan, GiaNgayLe
+        var listGia = await conn.QueryAsync<(decimal GiaBan, string LoaiGiaApDung, int? IdNgayLe)>(@"
+            SELECT GiaBan, LoaiGiaApDung, IdNgayLe
             FROM BangGia
             WHERE IdSanPham = @idSanPham
-              AND GioBatDau <= @now AND GioKetThuc >= @now
-            ORDER BY Id DESC",
+              AND GioBatDau <= @now AND GioKetThuc >= @now",
             new { idSanPham, now });
 
-        if (bangGia.GiaNgayThuong == 0)
+        if (!listGia.Any())
         {
             var fallback = await conn.ExecuteScalarAsync<decimal>(
                 "SELECT DonGia FROM SanPham WHERE Id = @idSanPham", new { idSanPham });
             return new TicketPrice { IdSanPham = idSanPham, GiaApDung = fallback, LoaiGia = "Thuong" };
         }
 
-        if (isHoliday > 0)
-            return new TicketPrice { IdSanPham = idSanPham, GiaApDung = bangGia.GiaNgayLe, LoaiGia = "NgayLe" };
+        if (holidayId.HasValue)
+        {
+            var specific = listGia.FirstOrDefault(x => x.LoaiGiaApDung == "NgayLe" && x.IdNgayLe == holidayId.Value);
+            if (specific != default) return new TicketPrice { IdSanPham = idSanPham, GiaApDung = specific.GiaBan, LoaiGia = "NgayLe" };
+            
+            var generic = listGia.FirstOrDefault(x => x.LoaiGiaApDung == "NgayLe" && !x.IdNgayLe.HasValue);
+            if (generic != default) return new TicketPrice { IdSanPham = idSanPham, GiaApDung = generic.GiaBan, LoaiGia = "NgayLe" };
+        }
 
         if (date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
-            return new TicketPrice { IdSanPham = idSanPham, GiaApDung = bangGia.GiaCuoiTuan, LoaiGia = "CuoiTuan" };
+        {
+            var weekend = listGia.FirstOrDefault(x => x.LoaiGiaApDung == "CuoiTuan");
+            if (weekend != default) return new TicketPrice { IdSanPham = idSanPham, GiaApDung = weekend.GiaBan, LoaiGia = "CuoiTuan" };
+        }
 
-        return new TicketPrice { IdSanPham = idSanPham, GiaApDung = bangGia.GiaNgayThuong, LoaiGia = "Thuong" };
+        var defaultPrice = listGia.FirstOrDefault(x => x.LoaiGiaApDung == "MacDinh");
+        var price = defaultPrice != default ? defaultPrice.GiaBan : listGia.First().GiaBan;
+        return new TicketPrice { IdSanPham = idSanPham, GiaApDung = price, LoaiGia = "Thuong" };
     }
 
     #endregion
@@ -563,24 +573,39 @@ public class TicketRepo
 
     private async Task<decimal> GetPriceInternal(IDbConnection conn, IDbTransaction? tx, int idSanPham, DateTime date)
     {
-        var isHoliday = await conn.ExecuteScalarAsync<int>(
-            "SELECT COUNT(1) FROM CauHinhNgayLe WHERE Ngay = @date",
+        var holidayId = await conn.ExecuteScalarAsync<int?>(
+            "SELECT TOP 1 Id FROM CauHinhNgayLe WHERE @date >= NgayBatDau AND @date <= NgayKetThuc",
             new { date = date.Date }, tx);
 
         var now = DateTime.Now.TimeOfDay;
-        var bg = await conn.QueryFirstOrDefaultAsync<(decimal GiaNgayThuong, decimal GiaCuoiTuan, decimal GiaNgayLe)>(@"
-            SELECT GiaNgayThuong, GiaCuoiTuan, GiaNgayLe FROM BangGia
-            WHERE IdSanPham = @idSanPham AND GioBatDau <= @now AND GioKetThuc >= @now
-            ORDER BY Id DESC",
+        var listGia = await conn.QueryAsync<(decimal GiaBan, string LoaiGiaApDung, int? IdNgayLe)>(@"
+            SELECT GiaBan, LoaiGiaApDung, IdNgayLe
+            FROM BangGia
+            WHERE IdSanPham = @idSanPham
+              AND GioBatDau <= @now AND GioKetThuc >= @now",
             new { idSanPham, now }, tx);
 
-        if (bg.GiaNgayThuong == 0)
+        if (!listGia.Any())
             return await conn.ExecuteScalarAsync<decimal>(
                 "SELECT DonGia FROM SanPham WHERE Id = @idSanPham", new { idSanPham }, tx);
 
-        if (isHoliday > 0) return bg.GiaNgayLe;
-        if (date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday) return bg.GiaCuoiTuan;
-        return bg.GiaNgayThuong;
+        if (holidayId.HasValue)
+        {
+            var specific = listGia.FirstOrDefault(x => x.LoaiGiaApDung == "NgayLe" && x.IdNgayLe == holidayId.Value);
+            if (specific != default) return specific.GiaBan;
+            
+            var generic = listGia.FirstOrDefault(x => x.LoaiGiaApDung == "NgayLe" && !x.IdNgayLe.HasValue);
+            if (generic != default) return generic.GiaBan;
+        }
+
+        if (date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
+        {
+            var weekend = listGia.FirstOrDefault(x => x.LoaiGiaApDung == "CuoiTuan");
+            if (weekend != default) return weekend.GiaBan;
+        }
+
+        var defaultPrice = listGia.FirstOrDefault(x => x.LoaiGiaApDung == "MacDinh");
+        return defaultPrice != default ? defaultPrice.GiaBan : listGia.First().GiaBan;
     }
 
     private static string GenerateTicketCode(Random rng)

@@ -14,7 +14,7 @@
     <Deterministic>true</Deterministic>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <RuntimeIdentifiers>win</RuntimeIdentifiers>
-  <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -25,7 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,7 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-  <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
+    <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AForge, Version=2.2.5.0, Culture=neutral, PublicKeyToken=c1db6ff4eaa06aeb, processorArchitecture=MSIL">
@@ -298,14 +298,14 @@
     <Compile Include="Restaurant\frmDatBan.Designer.cs">
       <DependentUpon>frmDatBan.cs</DependentUpon>
     </Compile>
-    <Compile Include="Catalog\frmBangGia.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Catalog\frmBangGia.Designer.cs">
-      <DependentUpon>frmBangGia.cs</DependentUpon>
-    </Compile>
     <Compile Include="Catalog\frmSanPham.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Catalog\frmCauHinhNgayLe.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Catalog\frmCauHinhNgayLe.Designer.cs">
+      <DependentUpon>frmCauHinhNgayLe.cs</DependentUpon>
     </Compile>
     <Compile Include="Catalog\frmSanPham.Designer.cs">
       <DependentUpon>frmSanPham.cs</DependentUpon>
@@ -370,29 +370,11 @@
     <Compile Include="Catalog\frmCombo.Designer.cs">
       <DependentUpon>frmCombo.cs</DependentUpon>
     </Compile>
-    <Compile Include="Catalog\frmComboChiTiet.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Catalog\frmComboChiTiet.Designer.cs">
-      <DependentUpon>frmComboChiTiet.cs</DependentUpon>
-    </Compile>
     <Compile Include="Marketing\frmKhuyenMai.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Marketing\frmKhuyenMai.Designer.cs">
       <DependentUpon>frmKhuyenMai.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wallet_RFID\frmViDienTu.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Wallet_RFID\frmViDienTu.Designer.cs">
-      <DependentUpon>frmViDienTu.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Wallet_RFID\frmTheRFID.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Wallet_RFID\frmTheRFID.Designer.cs">
-      <DependentUpon>frmTheRFID.cs</DependentUpon>
     </Compile>
     <Compile Include="Ticket\frmAppDatVeMoPhong.cs">
       <SubType>Form</SubType>
@@ -479,6 +461,9 @@
     </Compile>
     <EmbeddedResource Include="AI\AIChatPanel.resx">
       <DependentUpon>AIChatPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Catalog\frmCauHinhNgayLe.resx">
+      <DependentUpon>frmCauHinhNgayLe.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Customer\frmChonDichVuDoanDialog.resx">
       <DependentUpon>frmChonDichVuDoanDialog.cs</DependentUpon>
@@ -588,9 +573,6 @@
     <EmbeddedResource Include="Wallet_RFID\frmQuayNapTien.resx">
       <DependentUpon>frmQuayNapTien.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Catalog\frmBangGia.resx">
-      <DependentUpon>frmBangGia.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Catalog\frmSanPham.resx">
       <DependentUpon>frmSanPham.cs</DependentUpon>
     </EmbeddedResource>
@@ -603,9 +585,6 @@
     <EmbeddedResource Include="Catalog\frmCombo.resx">
       <DependentUpon>frmCombo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Catalog\frmComboChiTiet.resx">
-      <DependentUpon>frmComboChiTiet.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Order\frmDonHang.resx">
       <DependentUpon>frmDonHang.cs</DependentUpon>
     </EmbeddedResource>
@@ -615,14 +594,8 @@
     <EmbeddedResource Include="System\frmTemplate_CRUD.resx">
       <DependentUpon>frmTemplate_CRUD.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Wallet_RFID\frmTheRFID.resx">
-      <DependentUpon>frmTheRFID.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Zone_Game\frmTroChoi.resx">
       <DependentUpon>frmTroChoi.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Wallet_RFID\frmViDienTu.resx">
-      <DependentUpon>frmViDienTu.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <!-- <EmbeddedResource Include="Properties\licenses.licx" /> -->

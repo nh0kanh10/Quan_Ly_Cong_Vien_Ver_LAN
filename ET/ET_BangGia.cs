@@ -12,17 +12,15 @@ namespace ET
         [Browsable(false)]
         public int IdSanPham { get; set; }
 
-        [DisplayName("Giá N.Thường")]
+        [DisplayName("Mức Giá")]
         [DefaultValue(0)]
-        public decimal GiaNgayThuong { get; set; }
+        public decimal GiaBan { get; set; }
 
-        [DisplayName("Giá Cuối Tuần")]
-        [DefaultValue(0)]
-        public decimal GiaCuoiTuan { get; set; }
+        [DisplayName("Áp dụng cho")]
+        public string LoaiGiaApDung { get; set; } = "MacDinh";
 
-        [DisplayName("Giá Ngày Lễ")]
-        [DefaultValue(0)]
-        public decimal GiaNgayLe { get; set; }
+        [Browsable(false)]
+        public int? IdNgayLe { get; set; }
 
         [DisplayName("Từ")]
         public TimeSpan GioBatDau { get; set; } = TimeSpan.Zero;
@@ -66,18 +64,12 @@ namespace ET
         {
             get
             {
-                if (col == nameof(GiaNgayThuong) && GiaNgayThuong < 0)
-                    return "Giá không được âm";
-                if (col == nameof(GiaCuoiTuan) && GiaCuoiTuan < 0)
-                    return "Giá không được âm";
-                if (col == nameof(GiaNgayLe) && GiaNgayLe < 0)
+                if (col == nameof(GiaBan) && GiaBan < 0)
                     return "Giá không được âm";
                 if (col == nameof(PhutBlock) && PhutBlock.HasValue && PhutBlock <= 0)
                     return "Phút block phải > 0";
                 if (col == nameof(PhutTiep) && PhutTiep.HasValue && PhutTiep <= 0)
                     return "Phút tiếp phải > 0";
-                if (col == nameof(GiaNgayThuong) && GiaNgayLe > 0 && GiaNgayThuong > GiaNgayLe)
-                    return "Giá thường đắt hơn giá Lễ?";
                 return null;
             }
         }

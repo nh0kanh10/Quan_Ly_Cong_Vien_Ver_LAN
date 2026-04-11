@@ -13,7 +13,7 @@ namespace GUI
         private string _currentRfid = null;
         
 
-        public frmQuayNapTien()
+        public frmQuayNapTien(string maRfid = null)
         {
             InitializeComponent();
             
@@ -22,6 +22,15 @@ namespace GUI
             ApplyPermissions();
 
             SetFormState(false);
+            
+            if (!string.IsNullOrEmpty(maRfid))
+            {
+                this.Shown += (s, e) =>
+                {
+                    txtMaRfid.Text = maRfid;
+                    BtnTraCuu_Click(null, null);
+                };
+            }
         }
 
         private void btnLamMoi_Click(object sender, EventArgs e)

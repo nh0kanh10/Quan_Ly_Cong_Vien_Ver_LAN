@@ -353,11 +353,30 @@ namespace GUI
                 {
                     var view = sender as DevExpress.XtraGrid.Views.Grid.GridView;
                     string loaiGD = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "LoaiGiaoDich")?.ToString() ?? "";
+                    string nhom = view.GetListSourceRowCellValue(e.ListSourceRowIndex, "NhomGiaoDich")?.ToString() ?? "";
 
-                    if (IsPositiveTransaction(loaiGD))
-                        e.DisplayText = "+ " + soTien.ToString("N0") + " đ";
+                    if (nhom == "Giao dịch thường")
+                    {
+                        if (loaiGD.Contains("hoàn tiền") || loaiGD.Contains("Hoàn tiền"))
+                        {
+                            e.DisplayText = "+ " + soTien.ToString("N0") + " đ";
+                        }
+                        else if (loaiGD.Contains("Hủy") || loaiGD.Contains("hủy"))
+                        {
+                            e.DisplayText = soTien.ToString("N0") + " đ";
+                        }
+                        else
+                        {
+                            e.DisplayText = "- " + soTien.ToString("N0") + " đ";
+                        }
+                    }
                     else
-                        e.DisplayText = "- " + soTien.ToString("N0") + " đ";
+                    {
+                        if (IsPositiveTransaction(loaiGD))
+                            e.DisplayText = "+ " + soTien.ToString("N0") + " đ";
+                        else
+                            e.DisplayText = "- " + soTien.ToString("N0") + " đ";
+                    }
                 }
             }
         }
@@ -368,18 +387,40 @@ namespace GUI
             {
                 var view = sender as DevExpress.XtraGrid.Views.Grid.GridView;
                 string loaiGD = view.GetRowCellValue(e.RowHandle, "LoaiGiaoDich")?.ToString() ?? "";
+                string nhom = view.GetRowCellValue(e.RowHandle, "NhomGiaoDich")?.ToString() ?? "";
                 
                 e.Appearance.Font = new Font(e.Appearance.Font, FontStyle.Bold);
                 e.Appearance.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Far; // Sạn 2: Ép canh phải tuyệt đối
 
-
-                if (IsPositiveTransaction(loaiGD))
+                if (nhom == "Giao dịch thường")
                 {
-                    e.Appearance.ForeColor = Color.FromArgb(5, 150, 105);
+                    if (loaiGD.Contains("hoàn tiền") || loaiGD.Contains("Hoàn tiền"))
+                    {
+                        e.Appearance.ForeColor = Color.FromArgb(5, 150, 105); 
+                    }
+                    else if (loaiGD.Contains("Hủy") || loaiGD.Contains("hủy"))
+                    {
+                        e.Appearance.ForeColor = Color.FromArgb(245, 158, 11); 
+                    }
+                    else if (loaiGD.Contains("nợ") || loaiGD.Contains("Nợ"))
+                    {
+                        e.Appearance.ForeColor = Color.FromArgb(37, 99, 235); 
+                    }
+                    else
+                    {
+                        e.Appearance.ForeColor = Color.FromArgb(220, 38, 38); 
+                    }
                 }
                 else
                 {
-                    e.Appearance.ForeColor = Color.FromArgb(220, 38, 38);
+                    if (IsPositiveTransaction(loaiGD))
+                    {
+                        e.Appearance.ForeColor = Color.FromArgb(5, 150, 105);
+                    }
+                    else
+                    {
+                        e.Appearance.ForeColor = Color.FromArgb(220, 38, 38);
+                    }
                 }
             }
         }
@@ -512,26 +553,73 @@ namespace GUI
             lblTongChiTieu.Text = _selectedKH.TongChiTieu.ToString("N0") + "đ";
         }
 
+        private class LsGiaoDichViewModel
+        {
+            public DateTime ThoiGian { get; set; }
+            public string NhomGiaoDich { get; set; }
+            public string LoaiGiaoDich { get; set; }
+            public decimal SoTien { get; set; }
+            public string MaCode { get; set; }
+        }
+
         private void LoadTabGiaoDich()
         {
-            if (_selectedVi == null)
+            if (_selectedKH == null)
             {
                 gridGiaoDich.DataSource = null;
                 return;
             }
 
-            var ds = BUS_KhachHang.Instance.LayLichSuGiaoDich(_selectedVi.Id);
-            gridGiaoDich.DataSource = ds;
+            var listCombined = new List<LsGiaoDichViewModel>();
+
+            if (_selectedVi != null)
+            {
+                var dsVi = BUS_KhachHang.Instance.LayLichSuGiaoDich(_selectedVi.Id);
+                foreach (var viGiaoDich in dsVi)
+                {
+                    listCombined.Add(new LsGiaoDichViewModel
+                    {
+                        ThoiGian = viGiaoDich.ThoiGian,
+                        NhomGiaoDich = "Giao dịch ví",
+                        LoaiGiaoDich = viGiaoDich.LoaiGiaoDich,
+                        SoTien = viGiaoDich.SoTien,
+                        MaCode = viGiaoDich.MaCode
+                    });
+                }
+            }
+
+            var dsDonHang = BUS_DonHang.Instance.LoadDS().Where(x => x.IdKhachHang == _selectedKH.Id).ToList();
+            foreach (var dh in dsDonHang)
+            {
+                listCombined.Add(new LsGiaoDichViewModel
+                {
+                    ThoiGian = dh.ThoiGian,
+                    NhomGiaoDich = "Giao dịch thường",
+                    LoaiGiaoDich = "Hóa đơn - " + dh.TenTrangThai,
+                    SoTien = dh.TongTien - dh.TienGiamGia,
+                    MaCode = dh.MaCode
+                });
+            }
+
+            listCombined = listCombined.OrderByDescending(x => x.ThoiGian).ToList();
+
+            gridGiaoDich.DataSource = listCombined;
             gridViewGiaoDich.PopulateColumns();
 
             var v = gridViewGiaoDich;
             foreach (DevExpress.XtraGrid.Columns.GridColumn col in v.Columns)
                 col.Visible = false;
 
+            ShowColumn(v, "NhomGiaoDich", "Nhóm GD", 100);
             ShowColumn(v, "ThoiGian", "Thời Gian", 140);
             ShowColumn(v, "LoaiGiaoDich", "Loại GD", 130);
             ShowColumn(v, "SoTien", "Số Tiền", 130);
             ShowColumn(v, "MaCode", "Mã GD", 150);
+
+            if (v.Columns["NhomGiaoDich"] != null)
+            {
+                v.Columns["NhomGiaoDich"].GroupIndex = 0;
+            }
 
             if (v.Columns["SoTien"] != null)
             {
@@ -545,6 +633,9 @@ namespace GUI
                 v.Columns["ThoiGian"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.DateTime;
                 v.Columns["ThoiGian"].DisplayFormat.FormatString = "dd/MM/yy HH:mm";
             }
+            
+            v.OptionsView.ShowGroupPanel = false;
+            v.ExpandAllGroups();
             v.OptionsView.ColumnAutoWidth = true;
         }
 
@@ -693,7 +784,7 @@ namespace GUI
                 return;
             }
 
-            using (var frm = new frmQuayNapTien())
+            using (var frm = new frmQuayNapTien(theRfid.MaRfid))
             {
                 ThemeManager.ShowAsPopup(frm);
             }

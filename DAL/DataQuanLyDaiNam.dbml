@@ -52,9 +52,9 @@
     <Type Name="BangGia">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="IdSanPham" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="GiaNgayThuong" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
-      <Column Name="GiaCuoiTuan" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
-      <Column Name="GiaNgayLe" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
+      <Column Name="GiaBan" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
+      <Column Name="LoaiGiaApDung" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="IdNgayLe" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="GioBatDau" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
       <Column Name="GioKetThuc" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
       <Column Name="PhutBlock" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -65,6 +65,7 @@
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="CauHinhNgayLe_BangGia" Member="CauHinhNgayLe" ThisKey="IdNgayLe" OtherKey="Id" Type="CauHinhNgayLe" IsForeignKey="true" />
       <Association Name="SanPham_BangGia" Member="SanPham" ThisKey="IdSanPham" OtherKey="Id" Type="SanPham" IsForeignKey="true" />
     </Type>
   </Table>
@@ -112,8 +113,12 @@
   </Table>
   <Table Name="dbo.CauHinhNgayLe" Member="CauHinhNgayLes">
     <Type Name="CauHinhNgayLe">
-      <Column Name="Ngay" Type="System.DateTime" DbType="Date NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TenNgayLe" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="NgayBatDau" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="NgayKetThuc" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="MoTa" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Association Name="CauHinhNgayLe_BangGia" Member="BangGias" ThisKey="Id" OtherKey="IdNgayLe" Type="BangGia" />
     </Type>
   </Table>
   <Table Name="dbo.ChatLuongNuoc" Member="ChatLuongNuocs">

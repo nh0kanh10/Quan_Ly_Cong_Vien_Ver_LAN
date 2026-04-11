@@ -36,6 +36,11 @@ namespace BUS
 
         public List<ET_ThueDoChiTiet> LoadDS() => _thueDoGateway.LoadDS();
 
+        public List<ET_DanhSachChuaTraView> GetDanhSachDonChuaTra(DateTime tuNgay, DateTime denNgay)
+        {
+            return _thueDoGateway.LoadDanhSachChuaTra(tuNgay, denNgay);
+        }
+
         public OperationResult RentMultipleItems(ET_DonHang dh, List<ET.RentalCartItem> cart, string phuongThuc, int idNhanVien)
         {
             if (cart == null || cart.Count == 0) return OperationResult.Failed("Giỏ hàng trống.");
@@ -132,6 +137,7 @@ namespace BUS
 
         public OperationResult ReturnItem(int idThueDo, bool coPhat, decimal tienPhat, int idNhanVien)
         {
+            if (coPhat && tienPhat < 0) return OperationResult.Failed("Tiền phạt không được âm.");
             try
             {
                 using (var ts = new System.Transactions.TransactionScope())
@@ -175,6 +181,7 @@ namespace BUS
                             ET_PhieuChi pc = new ET_PhieuChi
                             {
                                 MaCode = "PC-REF-" + DateTime.Now.Ticks.ToString().Substring(10),
+                                IdDonHang = td.IdGiaoDichCoc.HasValue ? _giaoDichGateway.LayTheoId(td.IdGiaoDichCoc.Value)?.IdDonHangLienQuan ?? 0 : 0,
                                 SoTien = tienHoanVeVi,
                                 LyDo = coPhat ? "Hoàn cọc (Đã trừ lố giờ/phạt)" : "Hoàn full cọc",
                                 ThoiGian = DateTime.Now, CreatedAt = DateTime.Now, CreatedBy = idNhanVien
@@ -218,6 +225,184 @@ namespace BUS
             catch (Exception ex)
             {
                 return OperationResult.Failed("Lỗi hoàn cọc: " + ex.Message);
+            }
+        }
+
+        public OperationResult XacNhanThuHoiDoBatch(List<ET.ET_ThueDoChiTiet> dsDangThueHopLe, List<ET.ET_ThuHoiView> dsXuLy, Dictionary<int, decimal> phiDenBuTheoSP, int idNhanVien)
+        {
+            try
+            {
+                using (var ts = new System.Transactions.TransactionScope())
+                {
+                    // Trackers cho dòng tiền (Cash/Wallet)
+                    // Vì một đơn hàng có thể thanh toán bằng 1 ví, nhiều ví, hoặc tiền mặt,
+                    // Ta phải gộp chung theo IdGiaoDichCoc (Đại diện cho 1 lần thanh toán cọc/1 ví).
+                    // Nếu IdGiaoDichCoc == null -> Tiền mặt
+                    
+                    var moneyByCocTransaction = new Dictionary<int?, (decimal sumCocUnfreeze, decimal sumPhatLoGio, decimal sumPhatHuHong, int idDonHangLienQuan)>();
+
+                    foreach (var item in dsXuLy)
+                    {
+                        var cacDongGoc = dsDangThueHopLe.Where(x => x.IdSanPham == item.IdSanPham).ToList();
+                        
+                        // Prevent UI bugs
+                        if (item.TraLanNay + item.BaoMat > cacDongGoc.Count)
+                            return OperationResult.Failed($"Lỗi: Số lượng thu hồi của [{item.TenSanPham}] vượt quá số lượng khách đang giữ!");
+
+                        int index = 0;
+                        decimal tienPhatHuHongSanPhamNay = phiDenBuTheoSP.ContainsKey(item.IdSanPham) ? phiDenBuTheoSP[item.IdSanPham] : 0;
+                        decimal phiDenBuTrungBinh = item.BaoMat > 0 ? (tienPhatHuHongSanPhamNay / item.BaoMat) : 0;
+
+                        // --- A. XỬ LÝ TRẢ BÌNH THƯỜNG ---
+                        for (int i = 0; i < item.TraLanNay; i++)
+                        {
+                            var dong = cacDongGoc[index];
+
+                            // Tính lố giờ
+                            TimeSpan duration = DateTime.Now - dong.ThoiGianBatDau;
+                            int tongPhut = Math.Max(0, (int)Math.Ceiling(duration.TotalMinutes));
+                            decimal tongTienThueThucTe = BUS_BangGia.Instance.TinhTienThueTheoPhut(dong.IdSanPham, dong.ThoiGianBatDau, tongPhut);
+                            decimal phiLoGio = Math.Max(0, tongTienThueThucTe - dong.TienThueDaThu);
+
+                            // Cập nhật Dictionary Cashflow
+                            if (!moneyByCocTransaction.ContainsKey(dong.IdGiaoDichCoc))
+                            {
+                                int idDH = 0;
+                                if (dong.IdGiaoDichCoc.HasValue) 
+                                    idDH = _giaoDichGateway.LayTheoId(dong.IdGiaoDichCoc.Value)?.IdDonHangLienQuan ?? 0;
+                                moneyByCocTransaction[dong.IdGiaoDichCoc] = (0, 0, 0, idDH);
+                            }
+
+                            var current = moneyByCocTransaction[dong.IdGiaoDichCoc];
+                            moneyByCocTransaction[dong.IdGiaoDichCoc] = (
+                                current.sumCocUnfreeze + dong.SoTienCoc, 
+                                current.sumPhatLoGio + phiLoGio, 
+                                current.sumPhatHuHong, // No hu hong
+                                current.idDonHangLienQuan
+                            );
+
+                            dong.TrangThaiCoc = phiLoGio > 0 ? "DaPhat" : "DaHoan";
+                            dong.ThoiGianKetThuc = DateTime.Now;
+                            _thueDoGateway.Sua(dong);
+                            index++;
+                        }
+
+                        // --- B. XỬ LÝ MẤT HỎNG ---
+                        for (int i = 0; i < item.BaoMat; i++)
+                        {
+                            var dong = cacDongGoc[index];
+
+                            // Tính lố giờ
+                            TimeSpan duration = DateTime.Now - dong.ThoiGianBatDau;
+                            int tongPhut = Math.Max(0, (int)Math.Ceiling(duration.TotalMinutes));
+                            decimal tongTienThueThucTe = BUS_BangGia.Instance.TinhTienThueTheoPhut(dong.IdSanPham, dong.ThoiGianBatDau, tongPhut);
+                            decimal phiLoGio = Math.Max(0, tongTienThueThucTe - dong.TienThueDaThu);
+
+                            if (!moneyByCocTransaction.ContainsKey(dong.IdGiaoDichCoc))
+                            {
+                                int idDH = 0;
+                                if (dong.IdGiaoDichCoc.HasValue) 
+                                    idDH = _giaoDichGateway.LayTheoId(dong.IdGiaoDichCoc.Value)?.IdDonHangLienQuan ?? 0;
+                                moneyByCocTransaction[dong.IdGiaoDichCoc] = (0, 0, 0, idDH);
+                            }
+
+                            var current = moneyByCocTransaction[dong.IdGiaoDichCoc];
+                            moneyByCocTransaction[dong.IdGiaoDichCoc] = (
+                                current.sumCocUnfreeze + dong.SoTienCoc, 
+                                current.sumPhatLoGio + phiLoGio, 
+                                current.sumPhatHuHong + phiDenBuTrungBinh,
+                                current.idDonHangLienQuan
+                            );
+
+                            dong.TrangThaiCoc = "DaPhat";
+                            dong.ThoiGianKetThuc = DateTime.Now;
+                            _thueDoGateway.Sua(dong);
+                            index++;
+                        }
+                    }
+
+                    // 3. XỬ LÝ DÒNG TIỀN THEO TỪNG GIAO DỊCH CỌC
+                    decimal tongThuThemTienMatToanBo = 0;
+
+                    foreach (var kvp in moneyByCocTransaction)
+                    {
+                        var idGiaoDichCoc = kvp.Key;
+                        var info = kvp.Value;
+                        
+                        decimal tongPhat = info.sumPhatLoGio + info.sumPhatHuHong;
+                        decimal tienHoanVeVi = Math.Max(0, info.sumCocUnfreeze - tongPhat);
+                        decimal tienPhatVuotCoc = Math.Max(0, tongPhat - info.sumCocUnfreeze);
+
+                        if (idGiaoDichCoc.HasValue) // Thanh toán bằng Ví (RFID)
+                        {
+                            var gdCoc = _giaoDichGateway.LayTheoId(idGiaoDichCoc.Value);
+                            var vi = _viGateway.LayTheoId(gdCoc.IdVi);
+
+                            vi.SoDuDongBang -= info.sumCocUnfreeze;
+                            vi.SoDuKhaDung += tienHoanVeVi;
+
+                            _viGateway.Sua(vi);
+
+                            // Ghi 1 Phiếu Hoàn duy nhất cho Ví này
+                            if (tienHoanVeVi > 0)
+                            {
+                                var gdHoan = new ET_GiaoDichVi
+                                {
+                                    MaCode = "GD-REF-BT-" + DateTime.Now.Ticks.ToString().Substring(10),
+                                    IdVi = vi.Id,
+                                    LoaiGiaoDich = AppConstants.LoaiGiaoDichVi.HoanCoc,
+                                    SoTien = tienHoanVeVi,
+                                    ThoiGian = DateTime.Now, CreatedAt = DateTime.Now, CreatedBy = idNhanVien
+                                };
+                                _giaoDichGateway.ThemVaLayId(gdHoan);
+                            }
+                        }
+                        else // Tiền mặt
+                        {
+                            if (tienHoanVeVi > 0)
+                            {
+                                ET_PhieuChi pc = new ET_PhieuChi
+                                {
+                                    MaCode = "PC-REF-BT-" + DateTime.Now.Ticks.ToString().Substring(10),
+                                    IdDonHang = info.idDonHangLienQuan,
+                                    SoTien = tienHoanVeVi,
+                                    LyDo = "Hoàn cọc thu hồi đồ thuê (Gộp)",
+                                    ThoiGian = DateTime.Now, CreatedAt = DateTime.Now, CreatedBy = idNhanVien
+                                };
+                                _phieuChiGateway.Them(pc);
+                            }
+                        }
+
+                        // Nếu phạt nặng hơn cọc -> Tạo PHIẾU THU BỔ SUNG KHÁCH PHẢI TRẢ TIỀN MẶT
+                        if (tienPhatVuotCoc > 0)
+                        {
+                            tongThuThemTienMatToanBo += tienPhatVuotCoc;
+
+                            ET_PhieuThu ptPhat = new ET_PhieuThu
+                            {
+                                MaCode = "PT-PEN-BT-" + DateTime.Now.Ticks.ToString().Substring(10),
+                                IdDonHang = info.idDonHangLienQuan,
+                                SoTien = tienPhatVuotCoc,
+                                PhuongThuc = AppConstants.PhuongThucThanhToan.TienMat,
+                                ThoiGian = DateTime.Now, CreatedAt = DateTime.Now, CreatedBy = idNhanVien
+                            };
+                            _phieuThuGateway.Them(ptPhat);
+                        }
+                    }
+
+                    ts.Complete();
+
+                    if (tongThuThemTienMatToanBo > 0)
+                    {
+                        return OperationResult.Success($"Đã thu hồi lô đồ thành công.\n⚠️ LƯU Ý PHẠT VƯỢT CỌC: Hệ thống tạo 1 hóa đơn phụ thu {tongThuThemTienMatToanBo:N0}đ TIỀN MẶT do tiền phạt vượt quá tiền cọc.");
+                    }
+
+                    return OperationResult.Success("Đã thu hồi đồ và cập nhật hoàn cọc thành công!");
+                }
+            }
+            catch (Exception ex)
+            {
+                return OperationResult.Failed("Lỗi hệ thống khi thu hồi lô đồ: " + ex.Message);
             }
         }
     }

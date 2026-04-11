@@ -185,29 +185,38 @@ GO
 
     -- =========== LỊCH NGÀY LỄ TẾT ===========
     CREATE TABLE CauHinhNgayLe (
-        Ngay DATE PRIMARY KEY,
-        TenNgayLe NVARCHAR(100) NOT NULL
+        Id INT IDENTITY(1,1) PRIMARY KEY,
+        TenNgayLe NVARCHAR(100) NOT NULL,
+        NgayBatDau DATE NOT NULL,
+        NgayKetThuc DATE NOT NULL,
+        MoTa NVARCHAR(500) NULL,
+        CONSTRAINT CHK_NgayKetThuc_LonHon CHECK (NgayKetThuc >= NgayBatDau)
     );
 
-    -- =========== MA TRẬN GIÁ PHẲNG (FLAT PRICING MATRIX) ===========
+    -- =========== BẢNG GIÁ ===========
     CREATE TABLE BangGia (
         Id INT IDENTITY(1,1) PRIMARY KEY,
         IdSanPham INT NOT NULL,
-        -- 3 cột giá
-        GiaNgayThuong DECIMAL(15,0) NOT NULL DEFAULT 0,
-        GiaCuoiTuan   DECIMAL(15,0) NOT NULL DEFAULT 0,
-        GiaNgayLe     DECIMAL(15,0) NOT NULL DEFAULT 0,
+        
+        -- Mức giá
+        GiaBan  DECIMAL(15,0) NOT NULL DEFAULT 0,
+        LoaiGiaApDung NVARCHAR(20) CHECK (LoaiGiaApDung IN ('MacDinh', 'CuoiTuan', 'NgayLe')) NOT NULL DEFAULT 'MacDinh',
+        IdNgayLe INT NULL REFERENCES CauHinhNgayLe(Id),
+        
         -- Khung giờ (mặc định cả ngày, sửa khi Happy Hour)
         GioBatDau  TIME NOT NULL DEFAULT '00:00',
         GioKetThuc TIME NOT NULL DEFAULT '23:59',
+        
         -- Config thuê giờ (NULL = bán đứt)
         PhutBlock  INT NULL,
         PhutTiep   INT NULL,
         GiaPhuThu  DECIMAL(15,0) NULL,
+        
         -- Tiền cọc (NULL = không cần cọc)
         TienCoc    DECIMAL(15,0) NULL,
+        
         -- Audit
-        TrangThai  NVARCHAR(20) NOT NULL DEFAULT N'HoạtĐộng',
+        TrangThai  NVARCHAR(20) NOT NULL DEFAULT 'HoatDong',
         CreatedAt  DATETIME NOT NULL DEFAULT GETDATE(),
         CreatedBy  INT NULL,
         CONSTRAINT ChkGioHopLe CHECK (GioKetThuc >= GioBatDau)
@@ -388,6 +397,7 @@ GO
         SoTien DECIMAL(15,0) NOT NULL CHECK (SoTien >= 0),
         LyDo NVARCHAR(255) NULL,
         ThoiGian DATETIME NOT NULL DEFAULT GETDATE(),
+        IdDonHang INT NULL,
         CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
         CreatedBy INT NULL
     );
@@ -1161,6 +1171,7 @@ GO
     ALTER TABLE GiaoDichVi ADD CONSTRAINT FkGiaoDichViParentTransactionId FOREIGN KEY (ParentTransactionId) REFERENCES GiaoDichVi(Id);
     ALTER TABLE GiaoDichVi ADD CONSTRAINT FkGiaoDichViCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
     ALTER TABLE PhieuThu ADD CONSTRAINT FkPhieuThuIdDonHang FOREIGN KEY (IdDonHang) REFERENCES DonHang(Id);
+    ALTER TABLE PhieuChi ADD CONSTRAINT FkPhieuChiIdDonHang FOREIGN KEY (IdDonHang) REFERENCES DonHang(Id);
     ALTER TABLE PhieuThu ADD CONSTRAINT FkPhieuThuIdGiaoDichVi FOREIGN KEY (IdGiaoDichVi) REFERENCES GiaoDichVi(Id);
     ALTER TABLE PhieuThu ADD CONSTRAINT FkPhieuThuCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
     ALTER TABLE PhieuChi ADD CONSTRAINT FkPhieuChiCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
@@ -1320,7 +1331,7 @@ GO
     -- ── [CAT-2] Missing CHECK Constraints ─────────────────────────────
     --    BangGia.TrangThai: Dùng Vietnamese diacritics khớp C# code
     ALTER TABLE BangGia ADD CONSTRAINT ChkBangGiaTrangThai
-        CHECK (TrangThai IN (N'HoạtĐộng', N'TạmNgưng', N'NgừngÁpDụng'));
+        CHECK (TrangThai IN ('HoatDong', 'TamNgung', 'NgungApDung'));
 
     --    VeDienTu.SoLuotConLai: Ngăn quét vượt (< 0)
     ALTER TABLE VeDienTu ADD CONSTRAINT ChkVeDienTuSoLuot
@@ -1489,23 +1500,21 @@ HAVING ABS(dh.TongTien - (ISNULL(SUM(ctdh.ThanhTien), 0) - ISNULL(dh.TienGiamGia
 GO
 
 -- =================== [FIX Lỗ hổng 3]: FILTERED UNIQUE INDEX BẢNG GIÁ ===================
--- Ngăn 2 dòng giá active cho cùng 1 SP cùng khung giờ
+-- Ngăn 2 dòng giá active cho cùng 1 SP cùng khung giờ và cùng loại giá
 CREATE UNIQUE INDEX UxBangGia_ActiveSPGio
-    ON BangGia(IdSanPham, GioBatDau, GioKetThuc)
-    WHERE TrangThai = N'HoạtĐộng';
+    ON BangGia(IdSanPham, LoaiGiaApDung, GioBatDau, GioKetThuc)
+    WHERE TrangThai = 'HoatDong';
 GO
 
--- =================== [FIX Lỗ hổng 10]: BẢNG LỊCH SỬ GIÁ ===================
+-- =================== [FIX Lỗ hổng 10]: BẢNG LỊCH SỬ GIÁ =================y==
 CREATE TABLE BangGia_LichSu (
     Id INT IDENTITY(1,1) PRIMARY KEY,
     IdBangGia INT NOT NULL,
     IdSanPham INT NOT NULL,
-    GiaNgayThuong_Cu DECIMAL(15,0),
-    GiaCuoiTuan_Cu   DECIMAL(15,0),
-    GiaNgayLe_Cu     DECIMAL(15,0),
-    GiaNgayThuong_Moi DECIMAL(15,0),
-    GiaCuoiTuan_Moi   DECIMAL(15,0),
-    GiaNgayLe_Moi     DECIMAL(15,0),
+    LoaiGiaApDung_Cu NVARCHAR(50),
+    GiaBan_Cu DECIMAL(15,0),
+    LoaiGiaApDung_Moi NVARCHAR(50),
+    GiaBan_Moi DECIMAL(15,0),
     ThoiGianThayDoi DATETIME NOT NULL DEFAULT GETDATE(),
     GhiChu NVARCHAR(200) NULL
 );
@@ -1516,21 +1525,20 @@ CREATE TRIGGER TrgBangGiaLichSu ON BangGia AFTER UPDATE
 AS
 BEGIN
     SET NOCOUNT ON;
-    IF UPDATE(GiaNgayThuong) OR UPDATE(GiaCuoiTuan) OR UPDATE(GiaNgayLe)
+    IF UPDATE(GiaBan) OR UPDATE(LoaiGiaApDung)
     BEGIN
         INSERT INTO BangGia_LichSu
             (IdBangGia, IdSanPham,
-             GiaNgayThuong_Cu, GiaCuoiTuan_Cu, GiaNgayLe_Cu,
-             GiaNgayThuong_Moi, GiaCuoiTuan_Moi, GiaNgayLe_Moi)
+             LoaiGiaApDung_Cu, GiaBan_Cu,
+             LoaiGiaApDung_Moi, GiaBan_Moi)
         SELECT
             i.Id, i.IdSanPham,
-            d.GiaNgayThuong, d.GiaCuoiTuan, d.GiaNgayLe,
-            i.GiaNgayThuong, i.GiaCuoiTuan, i.GiaNgayLe
+            d.LoaiGiaApDung, d.GiaBan,
+            i.LoaiGiaApDung, i.GiaBan
         FROM inserted i
         JOIN deleted d ON i.Id = d.Id
-        WHERE d.GiaNgayThuong <> i.GiaNgayThuong
-           OR d.GiaCuoiTuan <> i.GiaCuoiTuan
-           OR d.GiaNgayLe <> i.GiaNgayLe;
+        WHERE d.GiaBan <> i.GiaBan
+           OR d.LoaiGiaApDung <> i.LoaiGiaApDung;
 
         -- Đồng thời cập nhật UpdatedAt
         UPDATE bg SET bg.UpdatedAt = GETDATE()
@@ -1565,15 +1573,12 @@ GO
         (N'Admin'), (N'QuanLy'), (N'NhanVien'), (N'ThuKho'), (N'KeToan');
 
     -- 19.1b CauHinhNgayLe (Lịch ngày lễ)
-    INSERT INTO CauHinhNgayLe (Ngay, TenNgayLe) VALUES
-    ('2026-01-01', N'Tết Dương Lịch'),
-    ('2026-02-17', N'Tết Nguyên Đán (Mùng 1)'),
-    ('2026-02-18', N'Tết Nguyên Đán (Mùng 2)'),
-    ('2026-02-19', N'Tết Nguyên Đán (Mùng 3)'),
-    ('2026-04-02', N'Giỗ Tổ Hùng Vương'),
-    ('2026-04-30', N'Giải phóng Miền Nam'),
-    ('2026-05-01', N'Quốc Tế Lao Động'),
-    ('2026-09-02', N'Quốc Khánh');
+    INSERT INTO CauHinhNgayLe (TenNgayLe, NgayBatDau, NgayKetThuc) VALUES
+    (N'Tết Dương Lịch', '2026-01-01', '2026-01-01'),
+    (N'Tết Nguyên Đán', '2026-02-17', '2026-02-19'),
+    (N'Giỗ Tổ Hùng Vương', '2026-04-02', '2026-04-02'),
+    (N'Lễ 30/4 & 1/5', '2026-04-30', '2026-05-01'),
+    (N'Quốc Khánh', '2026-09-02', '2026-09-02');
 
     -- 19.2 QuyenHan (ĐẦY ĐỦ tất cả MaQuyen mà code C# đang dùng)
     INSERT INTO QuyenHan (MaQuyen, MoTa) VALUES
@@ -2076,25 +2081,27 @@ DECLARE @sp_dlx2 INT = (SELECT Id FROM SanPham WHERE MaCode = 'SP012');
 DECLARE @sp_fam2 INT = (SELECT Id FROM SanPham WHERE MaCode = 'SP013_F');
 DECLARE @sp_vip2 INT = (SELECT Id FROM SanPham WHERE MaCode = 'SP014_V');
 
--- Phòng KS: GiaNgayThuong / GiaCuoiTuan / GiaNgayLe
+-- Phòng KS: GiaBan
 IF @sp_sup2 IS NOT NULL
-INSERT INTO BangGia (IdSanPham, GiaNgayThuong, GiaCuoiTuan, GiaNgayLe) VALUES
-    (@sp_sup2, 600000, 800000, 1000000);
+INSERT INTO BangGia (IdSanPham, LoaiGiaApDung, GiaBan) VALUES
+    (@sp_sup2, 'MacDinh', 600000), (@sp_sup2, 'CuoiTuan', 800000), (@sp_sup2, 'NgayLe', 1000000);
 IF @sp_dlx2 IS NOT NULL
-INSERT INTO BangGia (IdSanPham, GiaNgayThuong, GiaCuoiTuan, GiaNgayLe) VALUES
-    (@sp_dlx2, 1000000, 1200000, 1500000);
+INSERT INTO BangGia (IdSanPham, LoaiGiaApDung, GiaBan) VALUES
+    (@sp_dlx2, 'MacDinh', 1000000), (@sp_dlx2, 'CuoiTuan', 1200000), (@sp_dlx2, 'NgayLe', 1500000);
 IF @sp_fam2 IS NOT NULL
-INSERT INTO BangGia (IdSanPham, GiaNgayThuong, GiaCuoiTuan, GiaNgayLe) VALUES
-    (@sp_fam2, 1200000, 1500000, 1800000);
+INSERT INTO BangGia (IdSanPham, LoaiGiaApDung, GiaBan) VALUES
+    (@sp_fam2, 'MacDinh', 1200000), (@sp_fam2, 'CuoiTuan', 1500000), (@sp_fam2, 'NgayLe', 1800000);
 IF @sp_vip2 IS NOT NULL
-INSERT INTO BangGia (IdSanPham, GiaNgayThuong, GiaCuoiTuan, GiaNgayLe) VALUES
-    (@sp_vip2, 2500000, 3000000, 3500000);
+INSERT INTO BangGia (IdSanPham, LoaiGiaApDung, GiaBan) VALUES
+    (@sp_vip2, 'MacDinh', 2500000), (@sp_vip2, 'CuoiTuan', 3000000), (@sp_vip2, 'NgayLe', 3500000);
 
 -- Thuê xe điện: Block 60p đầu, lố mỗi 30p thêm 100k
 DECLARE @sp_xe_dien INT = (SELECT Id FROM SanPham WHERE MaCode = 'SP007');
 IF @sp_xe_dien IS NOT NULL
-INSERT INTO BangGia (IdSanPham, GiaNgayThuong, GiaCuoiTuan, GiaNgayLe, PhutBlock, PhutTiep, GiaPhuThu, TienCoc) VALUES
-    (@sp_xe_dien, 300000, 350000, 400000, 60, 30, 100000, 500000);
+INSERT INTO BangGia (IdSanPham, LoaiGiaApDung, GiaBan, PhutBlock, PhutTiep, GiaPhuThu, TienCoc) VALUES
+    (@sp_xe_dien, 'MacDinh', 300000, 60, 30, 100000, 500000),
+    (@sp_xe_dien, 'CuoiTuan', 350000, 60, 30, 100000, 500000),
+    (@sp_xe_dien, 'NgayLe', 400000, 60, 30, 100000, 500000);
 GO
 
 -- =================== SECTION 21: SEED DỮ LIỆU BẢNG MỚI ===================

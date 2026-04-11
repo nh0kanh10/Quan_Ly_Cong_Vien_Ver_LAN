@@ -22,9 +22,9 @@ namespace DAL
         {
             Id = s.Id,
             IdSanPham = s.IdSanPham,
-            GiaNgayThuong = s.GiaNgayThuong,
-            GiaCuoiTuan = s.GiaCuoiTuan,
-            GiaNgayLe = s.GiaNgayLe,
+            GiaBan = s.GiaBan,
+            LoaiGiaApDung = s.LoaiGiaApDung,
+            IdNgayLe = s.IdNgayLe,
             GioBatDau = s.GioBatDau,
             GioKetThuc = s.GioKetThuc,
             PhutBlock = s.PhutBlock,
@@ -44,7 +44,7 @@ namespace DAL
         public List<ET_BangGia> LayTheoSanPham(int idSanPham)
         {
             return db.GetTable<BangGia>()
-                .Where(x => x.IdSanPham == idSanPham && x.TrangThai == "HoạtĐộng")
+                .Where(x => x.IdSanPham == idSanPham)
                 .ToList()
                 .Select(s => Map(s))
                 .ToList();
@@ -63,7 +63,7 @@ namespace DAL
         {
             return db.GetTable<BangGia>()
                 .Where(x => x.IdSanPham == idSanPham
-                         && x.TrangThai == "HoạtĐộng"
+                         && x.TrangThai == AppConstants.TrangThaiChung.HoatDong
                          && x.GioBatDau <= gioHienTai
                          && x.GioKetThuc >= gioHienTai)
                 .ToList()
@@ -79,16 +79,16 @@ namespace DAL
                 var obj = new BangGia
                 {
                     IdSanPham = et.IdSanPham,
-                    GiaNgayThuong = et.GiaNgayThuong,
-                    GiaCuoiTuan = et.GiaCuoiTuan,
-                    GiaNgayLe = et.GiaNgayLe,
+                    GiaBan = et.GiaBan,
+                    LoaiGiaApDung = et.LoaiGiaApDung,
+                    IdNgayLe = et.IdNgayLe,
                     GioBatDau = et.GioBatDau,
                     GioKetThuc = et.GioKetThuc,
                     PhutBlock = et.PhutBlock,
                     PhutTiep = et.PhutTiep,
                     GiaPhuThu = et.GiaPhuThu,
                     TienCoc = et.TienCoc,
-                    TrangThai = et.TrangThai ?? "HoạtĐộng",
+                    TrangThai = string.IsNullOrEmpty(et.TrangThai) ? AppConstants.TrangThaiChung.HoatDong : et.TrangThai,
                     CreatedAt = DateTime.Now,
                     CreatedBy = et.CreatedBy
                 };
@@ -97,7 +97,10 @@ namespace DAL
                 et.Id = obj.Id;
                 return true;
             }
-            catch { return false; }
+            catch (Exception ex)
+            {
+                throw; 
+            }
         }
 
         public bool Sua(ET_BangGia et)
@@ -106,9 +109,9 @@ namespace DAL
             {
                 var obj = db.GetTable<BangGia>().FirstOrDefault(x => x.Id == et.Id);
                 if (obj == null) return false;
-                obj.GiaNgayThuong = et.GiaNgayThuong;
-                obj.GiaCuoiTuan = et.GiaCuoiTuan;
-                obj.GiaNgayLe = et.GiaNgayLe;
+                obj.GiaBan = et.GiaBan;
+                obj.LoaiGiaApDung = et.LoaiGiaApDung;
+                obj.IdNgayLe = et.IdNgayLe;
                 obj.GioBatDau = et.GioBatDau;
                 obj.GioKetThuc = et.GioKetThuc;
                 obj.PhutBlock = et.PhutBlock;

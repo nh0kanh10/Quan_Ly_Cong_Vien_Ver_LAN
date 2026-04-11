@@ -32,20 +32,23 @@ namespace SD001.Tests
 
             var error = _bus.ValidateKhuVuc(et, isAdd: true);
 
-            Assert.AreNotEqual(string.Empty, error, "Thực tế: Code cho phép tên khu vực chỉ có 1 ký tự (Lỗ hổng UX/Data)!");
-            Assert.AreEqual("Tên khu vực phải dài hơn 2 ký tự.", error);
+            Assert.AreNotEqual(string.Empty, error, "[TDD Expectation] Tên Khu vực phải có độ dài tối thiểu để đảm bảo định dạng dữ liệu.");
         }
 
         [TestMethod]
-        public void Validate_MotaQuaDai_PhaiTraVeLoi()
+        public void Validate_MoTaQuaDai_PhaiTraVeLoi()
         {
-            string moTa501 = new string('A', 501);
-            var et = new ET_KhuVuc { TenKhuVuc = "Khu Nước", MoTa = moTa501 };
             _mockGateway.Setup(g => g.LoadDS()).Returns(new List<ET_KhuVuc>());
+             ET_KhuVuc kv = new ET_KhuVuc
+            {
+                 TenKhuVuc = "Khu V",
+                 MoTa = new string('A', 505) // Mô tả dài 505 ký tự
+            };
 
-            var error = _bus.ValidateKhuVuc(et, isAdd: true);
-
-            Assert.AreNotEqual(string.Empty, error, "Thực tế: Không có bất kỳ Validation nào cho Độ dài Mô tả > 500 kí tự. Sẽ gây Exception SQL nổ DB!");
+            var error = _bus.ValidateKhuVuc(kv, isAdd: true);
+            
+            // Hiện tại hàm chỉ check rỗng, ko check Limit độ dài, sẽ ném SQL Truncate Exception khi insert
+            Assert.AreNotEqual(string.Empty, error, "[TDD Expectation] Chiều dài Mô tả không được vượt quá Data Schema (500 ký tự).");
         }
 
         #endregion

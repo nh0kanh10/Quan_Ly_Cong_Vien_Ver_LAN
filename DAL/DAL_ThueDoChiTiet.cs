@@ -185,5 +185,33 @@ namespace DAL
                 TienThueDaThu = s.TienThueDaThu
             }).ToList();
         }
+
+        /// <summary>
+        /// Lấy danh sách thống kê đồ chưa trả có filter ngày bắt đầu
+        /// </summary>
+        public List<ET_DanhSachChuaTraView> LoadDanhSachChuaTra(DateTime tuNgay, DateTime denNgay)
+        {
+            var q = from td in db.GetTable<ThueDoChiTiet>()
+                    where td.TrangThaiCoc == "ChuaHoan"
+                       && td.ThoiGianBatDau >= tuNgay.Date
+                       && td.ThoiGianBatDau < denNgay.Date.AddDays(1)
+                    join ct in db.GetTable<ChiTietDonHang>() on td.IdChiTietDonHang equals ct.Id
+                    join dh in db.GetTable<DonHang>() on ct.IdDonHang equals dh.Id
+                    join sp in db.GetTable<SanPham>() on td.IdSanPham equals sp.Id
+                    join kh in db.GetTable<KhachHang>() on dh.IdKhachHang equals kh.Id into KhachHangGroup
+                    from khg in KhachHangGroup.DefaultIfEmpty()
+                    orderby td.ThoiGianBatDau descending
+                    select new ET_DanhSachChuaTraView
+                    {
+                        IdThueDo = td.Id,
+                        MaCode = dh.MaCode,
+                        TenKhachHang = khg != null ? khg.HoTen : "Khách vãng lai",
+                        HeaderNhom = dh.MaCode + " - " + (khg != null ? khg.HoTen : "Khách vãng lai"),
+                        TenSanPham = sp.Ten,
+                        SoLuong = td.SoLuong,
+                        ThoiGianThue = td.ThoiGianBatDau
+                    };
+            return q.ToList();
+        }
     }
 }

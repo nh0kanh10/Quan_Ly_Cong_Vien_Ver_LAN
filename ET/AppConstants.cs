@@ -20,6 +20,21 @@ namespace ET
             public const string DaHuy = "DaHuy";
             public const string HoanTienMotPhan = "HoanTienMotPhan";
             public const string DaHoanTien = "DaHoanTien";
+
+            public static string GetTenTrangThai(string trangThai)
+            {
+                switch (trangThai)
+                {
+                    case ChoThanhToan: return "Chờ thanh toán";
+                    case DaThanhToan: return "Đã thanh toán";
+                    case DangXuLy: return "Đang xử lý";
+                    case GhiNoCongTy: return "Ghi nợ công ty";
+                    case DaHuy: return "Đã hủy";
+                    case HoanTienMotPhan: return "Hoàn tiền một phần";
+                    case DaHoanTien: return "Đã hoàn tiền";
+                    default: return trangThai;
+                }
+            }
         }
 
         public static class TrangThaiTheRfid
@@ -94,6 +109,27 @@ namespace ET
             public const string GiaNghiTrua = "GiaNghiTrua";
             public const string GiaTheoNgay = "GiaTheoNgay";
             public const string PhatVatTu = "PhatVatTu";
+        }
+
+        public static class LoaiGiaApDung
+        {
+            public const string MacDinh = "MacDinh";
+            public const string CuoiTuan = "CuoiTuan";
+            public const string NgayLe = "NgayLe";
+        }
+
+        public static class LoaiKhuyenMai
+        {
+            public const string PhanTram = "PhanTram";
+            public const string SoTien = "SoTien";
+            public const string DongGia = "DongGia";
+            public const string MuaXTangY = "MuaXTangY";
+        }
+
+        public static class TrangThaiChung
+        {
+            public const string HoatDong = "HoatDong";
+            public const string TamNgung = "TamNgung";
         }
 
         public static class TrangThaiSanPham

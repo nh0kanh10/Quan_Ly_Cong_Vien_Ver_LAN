@@ -274,7 +274,6 @@ namespace GUI
             }
         }
 
-        /// <summary>Per-row editor: SP có quy đổi → ComboBox chọn ĐVT; không có → ReadOnly text</summary>
         private RepositoryItemComboBox _repDVTCombo;
         private void OnCartCustomRowCellEdit(object sender, DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventArgs e)
         {
@@ -1060,7 +1059,7 @@ namespace GUI
             int currentUserId = GetCurrentUserId();
             var donHang = new ET_DonHang
             {
-                MaCode = "DH-DOAN-" + DateTime.Now.ToString("yyMMddHHmmss") + "-" + Guid.NewGuid().ToString().Substring(0, 4).ToUpper(),
+                MaCode = "DHD" + DateTime.Now.ToString("yyMMddHHmmss"),
                 IdDoan = _currentBooking.Id,
                 TongTien = 0,
                 TienGiamGia = 0,
@@ -1139,13 +1138,13 @@ namespace GUI
         /// </summary>
         private void UpdateDiscountPreview()
         {
-            if (_tongTien <= 0 || _selectedKH == null)
+            if (_tongTien <= 0)
             {
                 lblTongTienTitle.Text = "";
                 return;
             }
 
-            decimal pctVip = GetVipDiscount(_selectedKH.LoaiKhach);
+            decimal pctVip = _selectedKH != null ? GetVipDiscount(_selectedKH.LoaiKhach) : 0m;
             var kmEvent = BUS_KhuyenMai.Instance.GetBestActivePromotion(_tongTien);
             decimal pctEvent = 0m;
             if (kmEvent != null)
@@ -1164,20 +1163,37 @@ namespace GUI
             decimal thucThu = _tongTien - tienGiam;
 
             // So sánh với điểm tích lũy
-            int diemKhaDung = BUS_TichDiem.Instance.TinhDiemKhaDung(_selectedKH.DiemTichLuy, _tongTien);
+            int diemKhaDung = _selectedKH != null ? BUS_TichDiem.Instance.TinhDiemKhaDung(_selectedKH.DiemTichLuy, _tongTien) : 0;
             decimal tienGiamDiem = BUS_TichDiem.Instance.TinhGiaTriDiem(diemKhaDung);
 
             if (tienGiam > 0 || tienGiamDiem > 0)
             {
                 string info;
                 if (tienGiamDiem > tienGiam && diemKhaDung > 0)
-                    info = string.Format("Giảm: -{0:N0}đ |  Điểm: -{1:N0}đ -> TT: {2:N0}đ",
-                        tienGiam, tienGiamDiem, _tongTien - tienGiamDiem);
+                    info = string.Format("CÓ THỂ DÙNG ĐIỂM VIP: Giảm -{0:N0}đ -> TT: {1:N0}đ",
+                        tienGiamDiem, _tongTien - tienGiamDiem);
                 else if (tienGiam > 0)
-                    info = string.Format("Giảm {0}%: -{1:N0}đ -> Thanh toán: {2:N0}đ",
-                        (int)(pctMax * 100), tienGiam, thucThu);
+                {
+                    if (pctMax == pctVip && pctVip > pctEvent)
+                    {
+                        info = string.Format(" ĐANG CÓ [Khách {3}] GIẢM {0}%: -{1:N0}đ -> TT: {2:N0}đ",
+                            (int)(pctMax * 100), tienGiam, thucThu, _selectedKH.LoaiKhach);
+                    }
+                    else if (kmEvent != null)
+                    {
+                        info = string.Format(" ĐANG CÓ [{3}] GIẢM {0}%: -{1:N0}đ -> TT: {2:N0}đ",
+                            (int)(pctMax * 100), tienGiam, thucThu, kmEvent.TenKhuyenMai);
+                    }
+                    else
+                    {
+                        info = string.Format(" ĐANG CÓ CHƯƠNG TRÌNH GIẢM {0}%: -{1:N0}đ -> TT: {2:N0}đ",
+                            (int)(pctMax * 100), tienGiam, thucThu);
+                    }
+                }
                 else
+                {
                     info = string.Format("Dùng {0} điểm -> Giảm {1:N0}đ", diemKhaDung, tienGiamDiem);
+                }
 
                 lblTongTienTitle.Text = info;
                 lblTongTienTitle.ForeColor = ThemeManager.SuccessColor;
@@ -1185,6 +1201,26 @@ namespace GUI
             else
             {
                 lblTongTienTitle.Text = "";
+            }
+
+            // [HINT LOGIC] Gợi ý khuyến mãi nếu mua thêm không quá 100M VND (hoặc 100k user asked, let's say 100k)
+            var hint = BUS_KhuyenMai.Instance.GetPromotionHint(_tongTien);
+            if (hint != null)
+            {
+                decimal missing = hint.DonToiThieu.GetValueOrDefault(0) - _tongTien;
+                if (missing > 0 && missing <= 100000)
+                {
+                    string hintText = $"Gợi ý: Mua thêm {missing:N0}đ để kích hoạt [{hint.TenKhuyenMai}]";
+                    if (string.IsNullOrEmpty(lblTongTienTitle.Text))
+                    {
+                        lblTongTienTitle.Text = hintText;
+                        lblTongTienTitle.ForeColor = ThemeManager.WarningColor;
+                    }
+                    else
+                    {
+                        lblTongTienTitle.Text += $" | {hintText}";
+                    }
+                }
             }
         }
 
@@ -1204,7 +1240,7 @@ namespace GUI
                     : (tongGoc > 0 ? kmEvent.GiaTriGiam / tongGoc : 0);
             }
             decimal pctMax = Math.Max(pctVip, pctEvent);
-            // [FIX] Chiết khấu chỉ trên Vé/DichVu
+            // Chiết khấu chỉ trên Vé/DichVu
             decimal tongDuocGiam = _cart
                 .Where(item => !IsPhysicalProduct(item.LoaiSanPham))
                 .Sum(item => item.ThanhTien);

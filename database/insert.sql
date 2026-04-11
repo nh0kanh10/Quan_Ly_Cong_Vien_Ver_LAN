@@ -1093,17 +1093,21 @@ BEGIN TRY
         IF @@ROWCOUNT = 0 BREAK;
     END
 
-    WHILE (SELECT COUNT(1) FROM BangGia) < 4
+    WHILE (SELECT COUNT(1) FROM BangGia) < 12
     BEGIN
-        INSERT INTO BangGia (IdSanPham, GiaNgayThuong, GiaCuoiTuan, GiaNgayLe)
-        SELECT TOP 1
-            sp.Id,
-            sp.DonGia,
-            CAST(sp.DonGia * 1.2 AS DECIMAL(15,0)),
-            CAST(sp.DonGia * 1.5 AS DECIMAL(15,0))
-        FROM SanPham sp
-        WHERE NOT EXISTS (SELECT 1 FROM BangGia bg WHERE bg.IdSanPham = sp.Id);
-        IF @@ROWCOUNT = 0 BREAK;
+        DECLARE @sp_id INT = (
+            SELECT TOP 1 Id FROM SanPham sp 
+            WHERE NOT EXISTS (SELECT 1 FROM BangGia bg WHERE bg.IdSanPham = sp.Id)
+        );
+        IF @sp_id IS NULL BREAK;
+
+        DECLARE @dongia DECIMAL(15,0) = (SELECT DonGia FROM SanPham WHERE Id = @sp_id);
+
+        INSERT INTO BangGia (IdSanPham, LoaiGiaApDung, GiaBan)
+        VALUES 
+            (@sp_id, 'MacDinh', @dongia),
+            (@sp_id, 'CuoiTuan', CAST(@dongia * 1.2 AS DECIMAL(15,0))),
+            (@sp_id, 'NgayLe', CAST(@dongia * 1.5 AS DECIMAL(15,0)));
     END
 
     WHILE (SELECT COUNT(1) FROM ViTriNgoi) < 4
@@ -1139,15 +1143,25 @@ BEGIN TRY
     WHERE NOT EXISTS (SELECT 1 FROM SanPham p WHERE p.MaCode = q.MaCode);
 
     -- 5.20 BangGia: Flat pricing cho sản phẩm thuê (có tiền cọc)
-    INSERT INTO BangGia (IdSanPham, GiaNgayThuong, GiaCuoiTuan, GiaNgayLe, TienCoc, PhutBlock, PhutTiep, GiaPhuThu)
-    SELECT sp.Id, sp.DonGia, CAST(sp.DonGia * 1.2 AS DECIMAL(15,0)), CAST(sp.DonGia * 1.5 AS DECIMAL(15,0)), 50000, 60, 30, CAST(sp.DonGia * 0.5 AS DECIMAL(15,0))
-    FROM SanPham sp WHERE sp.MaCode = 'SP004'
-      AND NOT EXISTS (SELECT 1 FROM BangGia bg WHERE bg.IdSanPham = sp.Id);
+    DECLARE @sp004 INT = (SELECT Id FROM SanPham WHERE MaCode = 'SP004');
+    DECLARE @dg004 DECIMAL(15,0) = (SELECT DonGia FROM SanPham WHERE MaCode = 'SP004');
+    IF @sp004 IS NOT NULL AND NOT EXISTS (SELECT 1 FROM BangGia WHERE IdSanPham = @sp004)
+    BEGIN
+        INSERT INTO BangGia (IdSanPham, LoaiGiaApDung, GiaBan, TienCoc, PhutBlock, PhutTiep, GiaPhuThu) VALUES
+        (@sp004, 'MacDinh', @dg004, 50000, 60, 30, CAST(@dg004 * 0.5 AS DECIMAL(15,0))),
+        (@sp004, 'CuoiTuan', CAST(@dg004 * 1.2 AS DECIMAL(15,0)), 50000, 60, 30, CAST(@dg004 * 0.5 AS DECIMAL(15,0))),
+        (@sp004, 'NgayLe', CAST(@dg004 * 1.5 AS DECIMAL(15,0)), 50000, 60, 30, CAST(@dg004 * 0.5 AS DECIMAL(15,0)));
+    END
 
-    INSERT INTO BangGia (IdSanPham, GiaNgayThuong, GiaCuoiTuan, GiaNgayLe, TienCoc, PhutBlock, PhutTiep, GiaPhuThu)
-    SELECT sp.Id, sp.DonGia, CAST(sp.DonGia * 1.2 AS DECIMAL(15,0)), CAST(sp.DonGia * 1.5 AS DECIMAL(15,0)), 100000, 60, 30, CAST(sp.DonGia * 0.5 AS DECIMAL(15,0))
-    FROM SanPham sp WHERE sp.MaCode = 'THUE-PHAO-02'
-      AND NOT EXISTS (SELECT 1 FROM BangGia bg WHERE bg.IdSanPham = sp.Id);
+    DECLARE @spphao INT = (SELECT Id FROM SanPham WHERE MaCode = 'THUE-PHAO-02');
+    DECLARE @dgphao DECIMAL(15,0) = (SELECT DonGia FROM SanPham WHERE MaCode = 'THUE-PHAO-02');
+    IF @spphao IS NOT NULL AND NOT EXISTS (SELECT 1 FROM BangGia WHERE IdSanPham = @spphao)
+    BEGIN
+        INSERT INTO BangGia (IdSanPham, LoaiGiaApDung, GiaBan, TienCoc, PhutBlock, PhutTiep, GiaPhuThu) VALUES
+        (@spphao, 'MacDinh', @dgphao, 100000, 60, 30, CAST(@dgphao * 0.5 AS DECIMAL(15,0))),
+        (@spphao, 'CuoiTuan', CAST(@dgphao * 1.2 AS DECIMAL(15,0)), 100000, 60, 30, CAST(@dgphao * 0.5 AS DECIMAL(15,0))),
+        (@spphao, 'NgayLe', CAST(@dgphao * 1.5 AS DECIMAL(15,0)), 100000, 60, 30, CAST(@dgphao * 0.5 AS DECIMAL(15,0)));
+    END
 
     -- ======================================================================
     -- 5.21 SEED DATA ĐOÀN KHÁCH & ĐOÀN KHÁCH DỊCH VỤ (MULTI-SERVICE)

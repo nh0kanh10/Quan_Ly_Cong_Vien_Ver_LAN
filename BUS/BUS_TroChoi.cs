@@ -28,6 +28,12 @@ namespace BUS
             if (string.IsNullOrWhiteSpace(et.TenTroChoi))
                 return new ResponseResult { IsSuccess = false, ErrorMessage = "Tên trò chơi không được rỗng!" };
 
+            if (et.IdKhuVuc <= 0)
+                return new ResponseResult { IsSuccess = false, ErrorMessage = "Khu vực không hợp lệ." };
+
+            if (et.TrangThai != "Hoạt động" && et.TrangThai != "Tạm ngưng" && et.TrangThai != "Bảo trì")
+                return new ResponseResult { IsSuccess = false, ErrorMessage = "Trạng thái không hợp lệ." };
+
             if (string.IsNullOrWhiteSpace(et.MaCode))
                 et.MaCode = "TC-" + DateTime.Now.ToString("yyyyMMddHHmmss");
 

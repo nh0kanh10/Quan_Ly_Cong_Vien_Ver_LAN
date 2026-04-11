@@ -27,6 +27,7 @@
   - [x] Fix khẩn cấp lỗi "Rò rỉ bốc hơi tiền cọc" trong tính năng `GhepBan` (đã thêm code hoàn tiền `GiaiToaTienCoc`).
   - [x] Ngăn chặn hacker bắt gói tin đổi giá (Server-side Recalculation) tại `BUS_DonHang`.
   - [x] Chốt áo giáp TransactionScope cho hàm `HoanTatKiemKe` (Inventory) chống mất đối xứng chênh lệch dữ liệu Kho.
+  - [x] Tái cấu trúc (Refactor) hệ thống Bảng Giá và Cấu Hình Ngày Lễ từ cố định sang DYNAMIC (theo khoảng thời gian), cập nhật thành công cả DAL, BUS, Unit Test POS và Web API.
   - [ ] Phát triển AI Chatbot / Cấu hình tính năng Web / App.
 
 ## 3. Các hạng mục CHỜ XỬ LÝ (Pending & Next Phases)

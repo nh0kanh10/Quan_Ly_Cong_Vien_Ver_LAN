@@ -22,17 +22,7 @@ namespace ET
         {
             get
             {
-                switch (TrangThai)
-                {
-                    case "ChoThanhToan": return "Chờ thanh toán";
-                    case "DaThanhToan": return "Đã thanh toán";
-                    case "DangXuLy": return "Đang xử lý";
-                    case "GhiNoCongTy": return "Ghi nợ công ty";
-                    case "DaHuy": return "Đã hủy";
-                    case "HoanTienMotPhan": return "Hoàn tiền một phần";
-                    case "DaHoanTien": return "Đã hoàn tiền";
-                    default: return TrangThai;
-                }
+                return AppConstants.TrangThaiDonHang.GetTenTrangThai(TrangThai);
             }
         }
     }

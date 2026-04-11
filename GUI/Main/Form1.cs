@@ -126,14 +126,11 @@ namespace GUI
                     Items = new MenuDef[]
                     {
                         new MenuDef { Text = "Sản Phẩm",      Icon = IconChar.BoxOpen,        Permissions = new[] { "VIEW_PRICE" },     FormType = typeof(frmSanPham) },
-                        new MenuDef { Text = "Bảng Giá",       Icon = IconChar.SackDollar,     Permissions = new[] { "VIEW_PRICE" },     FormType = typeof(frmBangGia) },
                         new MenuDef { Text = "Combo",          Icon = IconChar.Cubes,          Permissions = new[] { "VIEW_PRICE" },     FormType = typeof(frmCombo) },
                         new MenuDef { Text = "Khu Vực",        Icon = IconChar.MapMarkerAlt,   Permissions = new[] { "VIEW_REGION" },    FormType = typeof(frmKhuVuc) },
                         new MenuDef { Text = "Khách Hàng",     Icon = IconChar.UserGroup,      Permissions = new[] { "VIEW_CUSTOMER" },  FormType = typeof(frmKhachHang) },
                         new MenuDef { Text = "Đoàn Khách",    Icon = IconChar.PeopleGroup,    Permissions = new[] { "VIEW_CUSTOMER" },  FormType = typeof(frmDoanKhach) },
                         new MenuDef { Text = "Khuyến Mãi",     Icon = IconChar.Tags,           Permissions = new[] { "VIEW_PROMOTION" }, FormType = typeof(frmKhuyenMai) },
-                        new MenuDef { Text = "Thẻ RFID",       Icon = IconChar.IdCardClip,     Permissions = new[] { "VIEW_RFID" },      FormType = typeof(frmTheRFID) },
-                        new MenuDef { Text = "Ví Điện Tử",     Icon = IconChar.AddressBook,    Permissions = new[] { "VIEW_WALLET" },    FormType = typeof(frmViDienTu) },
                     }
                 },
                 // ── VẬN HÀNH ──
@@ -839,6 +836,7 @@ namespace GUI
             _btnAIChatBubble.Image = IconHelper.GetBitmap(IconChar.Robot, Color.White, 24);
             _btnAIChatBubble.Cursor = Cursors.Hand;
             _btnAIChatBubble.Animated = true;
+            _btnAIChatBubble.UseTransparentBackground = true;
             _btnAIChatBubble.ShadowDecoration.Enabled = true;
             _btnAIChatBubble.ShadowDecoration.Color = Color.FromArgb(100, 212, 175, 55);
             _btnAIChatBubble.ShadowDecoration.Depth = 8;

@@ -9,6 +9,7 @@ using FontAwesome.Sharp;
 using DevExpress.XtraGrid.Views.Base;
 using DevExpress.XtraGrid.Columns;
 using DevExpress.XtraEditors.Repository;
+using GUI.Catalog;
 
 namespace GUI
 {
@@ -18,12 +19,13 @@ namespace GUI
         private enum FormState { Browse, AddNew, Edit }
         private FormState _state = FormState.Browse;
         private ET_SanPham _current;
+        private ET.ET_QuyDoiDonVi _currentQuyDoi;
+        private int _currentBangGiaId = 0;
 
         public frmSanPham()
         {
             InitializeComponent();
             InitIcons();
-            WireEvents();
             ApplyStyles();
             ApplyPermissions();
             
@@ -32,26 +34,38 @@ namespace GUI
             gridBangGia.BringToFront();
         }
 
+        private void BtnThemNgayLe_Click(object sender, EventArgs e)
+        {
+            var frm = new frmCauHinhNgayLe();
+            ThemeManager.ShowAsPopup(frm);
+            
+            // Reload cboNgayLe
+            var dsNgayLe = DAL.DAL_CauHinhNgayLe.Instance.LoadDS();
+            cboNgayLe.DataSource = dsNgayLe;
+            cboNgayLe.DisplayMember = "TenNgayLe";
+            cboNgayLe.ValueMember = "Id";
+            if (cboNgayLe.Items.Count > 0) cboNgayLe.SelectedIndex = 0;
+        }
+
         public void InitIcons()
         {
             btnThemMoi.Image = IconHelper.GetBitmap(IconChar.Plus, Color.FromArgb(30, 64, 175), 16);
             btnLuuTab1.Image = IconHelper.GetBitmap(IconChar.FloppyDisk, Color.White, 16);
             btnXoaSP.Image = IconHelper.GetBitmap(IconChar.TrashCan, Color.White, 16);
-            btnThemQuyDoi.Image = IconHelper.GetBitmap(IconChar.Plus, Color.FromArgb(30, 64, 175), 14);
             btnXoaQuyDoi.Image = IconHelper.GetBitmap(IconChar.TrashCan, Color.FromArgb(244, 63, 94), 14);
-            btnThemGia.Image = IconHelper.GetBitmap(IconChar.Plus, Color.FromArgb(30, 64, 175), 14);
-            btnXoaGia.Image = IconHelper.GetBitmap(IconChar.TrashCan, Color.FromArgb(244, 63, 94), 14);
         }
 
-        // ════════════════════════════════════════════════════
+        // 
         //  INIT & LOAD
-        // ════════════════════════════════════════════════════
+        // 
         private void frmSanPham_Load(object sender, EventArgs e)
         {
             InitCombos();
             AddGuideLabels();
             LoadMasterGrid();
             SetState(FormState.Browse);
+            
+            chkThueTheoGio_CheckedChanged(null, null);
         }
 
         private void AddGuideLabels()
@@ -59,7 +73,7 @@ namespace GUI
             // Tab 2 guide
             var lblGuideQD = new Label
             {
-                Text = "💡 Chọn đơn vị lớn, nhập hệ số quy đổi (bao nhiêu ĐVT nhỏ = 1 ĐVT lớn), giá bán riêng nếu có -> bấm [+ Thêm]",
+                Text = " Chọn đơn vị lớn, nhập hệ số quy đổi (bao nhiêu ĐVT nhỏ = 1 ĐVT lớn), giá bán riêng nếu có -> bấm [+ Thêm]",
                 AutoSize = false, Dock = DockStyle.Bottom, Height = 22,
                 Font = new Font("Segoe UI", 8.5F, FontStyle.Italic),
                 ForeColor = Color.FromArgb(100, 116, 139),
@@ -71,47 +85,39 @@ namespace GUI
             // Tab 3 guide — flat pricing
             var lblGuideBG = new Label
             {
-                Text = "💡 Nhập giá Ngày Thường, Cuối tuần, Ngày Lễ. Nếu sản phẩm thuê: bổ sung Tiền Cọc + cấu hình Block -> bấm [+ Thêm]",
+                Text = " Nhập giá Ngày Thường, Cuối tuần, Ngày Lễ. Nếu sản phẩm thuê: bổ sung Tiền Cọc + cấu hình Block -> bấm [+ Thêm]",
                 AutoSize = false, Dock = DockStyle.Bottom, Height = 22,
                 Font = new Font("Segoe UI", 8.5F, FontStyle.Italic),
                 ForeColor = Color.FromArgb(100, 116, 139),
                 TextAlign = ContentAlignment.MiddleLeft, Padding = new Padding(15, 0, 0, 0)
             };
             pnlBangGiaInput.Controls.Add(lblGuideBG);
-            pnlBangGiaInput.Height = 115;
+            pnlBangGiaInput.Height = 165;
         }
 
-        private void WireEvents()
+        private void chkThueTheoGio_CheckedChanged(object sender, EventArgs e)
         {
-            this.Load += frmSanPham_Load;
-
-            // Master grid selection
-            gridViewMaster.FocusedRowChanged += OnMasterFocusChanged;
-
-            // Search
-            txtTimKiem.TextChanged += (s, e) => gridViewMaster.ApplyFindFilter(txtTimKiem.Text.Trim());
-
-            // Buttons
-            btnThemMoi.Click += BtnThemMoi_Click;
-            btnLuuTab1.Click += BtnLuu_Click;
-            btnXoaSP.Click += BtnXoaSP_Click;
-
-            // Tab 2 actions
-            btnThemQuyDoi.Click += BtnThemQuyDoi_Click;
-            btnXoaQuyDoi.Click += BtnXoaQuyDoi_Click;
-
-            // Tab 3 actions (flat pricing)
-            btnThemGia.Click += BtnThemGia_Click;
-            btnSuaGia.Click += BtnSuaGia_Click;
-            btnLamMoiGia.Click += BtnLamMoiGia_Click;
-            btnXoaGia.Click += BtnXoaGia_Click;
-            gridViewBangGia.FocusedRowChanged += GridViewBangGia_FocusedRowChanged;
-
-            // Dynamic UI: show/hide Vé panel
-            cboLoaiSP.SelectedIndexChanged += (s, e) =>
+            txtBG_TienCoc.Visible = lblBG_TienCoc.Visible = chkThueTheoGio.Checked;
+            txtBG_PhutBlock.Visible = lblBG_PhutBlock.Visible = chkThueTheoGio.Checked;
+            txtBG_PhutTiep.Visible = lblBG_PhutTiep.Visible = chkThueTheoGio.Checked;
+            txtBG_GiaPhuThu.Visible = lblBG_GiaPhuThu.Visible = chkThueTheoGio.Checked;
+            if (!chkThueTheoGio.Checked)
             {
-                pnlVeExtensions.Visible = (cboLoaiSP.Text == AppConstants.LoaiSanPham.Ve);
-            };
+                txtBG_TienCoc.Text = "";
+                txtBG_PhutBlock.Text = "";
+                txtBG_PhutTiep.Text = "";
+                txtBG_GiaPhuThu.Text = "";
+            }
+        }
+
+        private void TxtTimKiem_TextChanged(object sender, EventArgs e)
+        {
+            gridViewMaster.ApplyFindFilter(txtTimKiem.Text.Trim());
+        }
+
+        private void CboLoaiSP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            pnlVeExtensions.Visible = (cboLoaiSP.Text == AppConstants.LoaiSanPham.Ve);
         }
 
         private void InitCombos()
@@ -160,10 +166,42 @@ namespace GUI
             cboQD_DVTLon.DisplayMember = "Ten";
             cboQD_DVTLon.ValueMember = "Id";
 
-            // === Tab 3: Flat pricing — không cần combo LoaiGia ===
+            // === Tab 3: Flat pricing ===
             cboBG_TrangThai.Items.Clear();
-            cboBG_TrangThai.Items.AddRange(new object[] { "HoạtĐộng", "TạmNgưng" });
+            cboBG_TrangThai.Items.AddRange(new object[] { 
+                AppConstants.TrangThaiChung.HoatDong, 
+                AppConstants.TrangThaiChung.TamNgung 
+            });
             cboBG_TrangThai.SelectedIndex = 0;
+
+            // Loại Giá Áp Dụng
+            cboLoaiGiaApDung.Items.Clear();
+            cboLoaiGiaApDung.Items.AddRange(new object[] { 
+                AppConstants.LoaiGiaApDung.MacDinh, 
+                AppConstants.LoaiGiaApDung.CuoiTuan, 
+                AppConstants.LoaiGiaApDung.NgayLe 
+            });
+            cboLoaiGiaApDung.SelectedIndex = 0;
+            cboLoaiGiaApDung.SelectedIndexChanged += CboLoaiGiaApDung_SelectedIndexChanged;
+
+            var dsNgayLe = DAL.DAL_CauHinhNgayLe.Instance.LoadDS();
+            cboNgayLe.DataSource = dsNgayLe;
+            cboNgayLe.DisplayMember = "TenNgayLe";
+            cboNgayLe.ValueMember = "Id";
+            cboNgayLe.Enabled = false;
+        }
+
+        private void CboLoaiGiaApDung_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboLoaiGiaApDung.Text == AppConstants.LoaiGiaApDung.NgayLe)
+            {
+                cboNgayLe.Enabled = true;
+            }
+            else
+            {
+                cboNgayLe.Enabled = false;
+                cboNgayLe.SelectedIndex = -1;
+            }
         }
 
         public void ApplyStyles()
@@ -254,7 +292,7 @@ namespace GUI
                     lblNoSelection.Visible = (_current == null);
                     tabQuyDoi.Enabled = (_current != null);
                     tabBangGia.Enabled = (_current != null);
-                    btnLuuTab1.Text = "💾  LƯU CẤU HÌNH";
+                    btnLuuTab1.Text = "LƯU CẤU HÌNH";
                     btnXoaSP.Visible = (_current != null);
                     break;
 
@@ -264,7 +302,7 @@ namespace GUI
                     tabQuyDoi.Enabled = false;
                     tabBangGia.Enabled = false;
                     tabDetails.SelectedTab = tabThongTin;
-                    btnLuuTab1.Text = "✨  TẠO MỚI";
+                    btnLuuTab1.Text = "TẠO MỚI";
                     btnXoaSP.Visible = false;
                     lblTenSP.Text = "SẢN PHẨM MỚI";
                     lblMaCode.Text = "Chưa lưu — Nhập thông tin Tab 1 rồi bấm [TẠO MỚI]";
@@ -276,7 +314,7 @@ namespace GUI
                     lblNoSelection.Visible = false;
                     tabQuyDoi.Enabled = true;
                     tabBangGia.Enabled = true;
-                    btnLuuTab1.Text = "💾  LƯU CẤU HÌNH";
+                    btnLuuTab1.Text = "LƯU CẤU HÌNH";
                     btnXoaSP.Visible = true;
                     break;
             }
@@ -309,6 +347,17 @@ namespace GUI
             slkKhuVuc.EditValue = sp.IdKhuVuc;
             cboTrangThai.Text = sp.TrangThai;
             txtMoTa.Text = sp.MoTa;
+
+            if (!string.IsNullOrEmpty(sp.HinhAnh))
+            {
+                picHinhAnh.ImageLocation = sp.HinhAnh;
+                picHinhAnh.Tag = sp.HinhAnh;
+            }
+            else
+            {
+                picHinhAnh.Image = null;
+                picHinhAnh.Tag = null;
+            }
 
             // Dynamic Vé panel
             bool isVe = sp.LoaiSanPham == AppConstants.LoaiSanPham.Ve;
@@ -347,6 +396,8 @@ namespace GUI
             pnlVeExtensions.Visible = false;
             slkTroChoi.EditValue = null;
             spnSoLuot.EditValue = 1;
+            picHinhAnh.Image = null;
+            picHinhAnh.Tag = null;
             if (txtTen.CanFocus) txtTen.Focus();
         }
 
@@ -437,7 +488,8 @@ namespace GUI
                 LoaiSanPham = cboLoaiSP.Text,
                 MoTa = txtMoTa.Text.Trim(),
                 TrangThai = cboTrangThai.Text,
-                IdKhuVuc = slkKhuVuc.EditValue != null ? (int?)Convert.ToInt32(slkKhuVuc.EditValue) : null
+                IdKhuVuc = slkKhuVuc.EditValue != null ? (int?)Convert.ToInt32(slkKhuVuc.EditValue) : null,
+                HinhAnh = picHinhAnh.Tag?.ToString()
             };
 
             if (et.LoaiSanPham == AppConstants.LoaiSanPham.Ve)
@@ -493,6 +545,10 @@ namespace GUI
             gridQuyDoi.DataSource = _listQuyDoi;
             gridViewQuyDoi.PopulateColumns();
             FormatQuyDoiGrid();
+
+            this.BeginInvoke(new Action(() => {
+                BtnLamMoiQuyDoi_Click(null, null);
+            }));
         }
 
         private void FormatQuyDoiGrid()
@@ -509,8 +565,8 @@ namespace GUI
 
             if (v.Columns["IdDonViLon"] != null) { v.Columns["IdDonViLon"].Caption = "Đơn Vị Lớn"; v.Columns["IdDonViLon"].ColumnEdit = repDVT; }
             if (v.Columns["IdDonViNho"] != null) { v.Columns["IdDonViNho"].Caption = "Đơn Vị Nhỏ (Gốc)"; v.Columns["IdDonViNho"].ColumnEdit = repDVT; }
-            if (v.Columns["TyLeQuyDoi"] != null) { v.Columns["TyLeQuyDoi"].Caption = "Hệ Số"; v.Columns["TyLeQuyDoi"].DisplayFormat.FormatString = "N0"; }
-            if (v.Columns["GiaBanRieng"] != null) { v.Columns["GiaBanRieng"].Caption = "Giá Bán Riêng"; v.Columns["GiaBanRieng"].DisplayFormat.FormatString = "#,##0"; }
+            if (v.Columns["TyLeQuyDoi"] != null) { v.Columns["TyLeQuyDoi"].Caption = "Hệ Số"; v.Columns["TyLeQuyDoi"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric; v.Columns["TyLeQuyDoi"].DisplayFormat.FormatString = "N0"; }
+            if (v.Columns["GiaBanRieng"] != null) { v.Columns["GiaBanRieng"].Caption = "Giá Bán Riêng"; v.Columns["GiaBanRieng"].DisplayFormat.FormatType = DevExpress.Utils.FormatType.Numeric; v.Columns["GiaBanRieng"].DisplayFormat.FormatString = "#,##0"; }
 
             v.OptionsBehavior.Editable = false;
             v.OptionsView.ColumnAutoWidth = true;
@@ -520,14 +576,41 @@ namespace GUI
         {
             if (_current == null) return;
             if (cboQD_DVTLon.SelectedValue == null) { TDCMessageBox.Show("Vui lòng chọn đơn vị lớn!", "Thông báo"); return; }
+            
+            int donViLon = Convert.ToInt32(cboQD_DVTLon.SelectedValue);
+            
+            if (donViLon == _current.IdDonViCoBan)
+            {
+                TDCMessageBox.Show("Đơn vị quy đổi không được trùng với Đơn vị nhỏ (gốc)!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (_listQuyDoi.Any(x => x.IdDonViLon == donViLon))
+            {
+                TDCMessageBox.Show("Loại Đơn vị quy đổi này đã tồn tại trong danh sách!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             decimal heSo = 1;
             decimal.TryParse(txtQD_HeSo.Text.Replace(",", ""), out heSo);
-            if (heSo <= 0) { TDCMessageBox.Show("Hệ số phải > 0!", "Thông báo"); return; }
+            if (heSo <= 1) 
+            { 
+                TDCMessageBox.Show("Hệ số quy đổi phải lớn hơn 1! (Ví dụ: 1 Thùng = 24 Lon)", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); 
+                txtQD_HeSo.Focus();
+                return; 
+            }
+
             decimal? giaRieng = null;
             if (!string.IsNullOrWhiteSpace(txtQD_GiaRieng.Text))
             {
                 decimal gr;
-                if (decimal.TryParse(txtQD_GiaRieng.Text.Replace(".", "").Replace(",", ""), out gr)) giaRieng = gr;
+                if (!decimal.TryParse(txtQD_GiaRieng.Text.Replace(".", "").Replace(",", ""), out gr) || gr < 0)
+                {
+                    TDCMessageBox.Show("Giá bán riêng không hợp lệ (phải là số >= 0)!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtQD_GiaRieng.Focus();
+                    return;
+                }
+                giaRieng = gr;
             }
             var et = new ET_QuyDoiDonVi
             {
@@ -542,6 +625,94 @@ namespace GUI
             var res = BUS_SanPham.Instance.LuuQuyDoi(et);
             if (res.IsSuccess) { LoadQuyDoi(_current.Id); txtQD_HeSo.Text = "1"; txtQD_GiaRieng.Text = ""; }
             else TDCMessageBox.Show(res.ErrorMessage, "Lỗi");
+        }
+
+
+        private void GridViewQuyDoi_FocusedRowChanged(object sender, DevExpress.XtraGrid.Views.Base.FocusedRowChangedEventArgs e)
+        {
+            if (gridViewQuyDoi.FocusedRowHandle < 0) return;
+            _currentQuyDoi = gridViewQuyDoi.GetFocusedRow() as ET_QuyDoiDonVi;
+            if (_currentQuyDoi == null) return;
+
+            cboQD_DVTLon.SelectedValue = _currentQuyDoi.IdDonViLon;
+            txtQD_HeSo.Text = _currentQuyDoi.TyLeQuyDoi.ToString("N0");
+            txtQD_GiaRieng.Text = _currentQuyDoi.GiaBanRieng?.ToString("N0") ?? "";
+            
+            btnThemQuyDoi.Enabled = false;
+        }
+
+        private void GridViewQuyDoi_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
+        {
+            GridViewQuyDoi_FocusedRowChanged(sender, null);
+        }
+
+        private void BtnSuaQuyDoi_Click(object s, EventArgs e)
+        {
+            if (_currentQuyDoi == null)
+            {
+                TDCMessageBox.Show("Vui lòng chọn dòng cần sửa!", "Thông báo");
+                return;
+            }
+
+            if (cboQD_DVTLon.SelectedValue == null) { TDCMessageBox.Show("Vui lòng chọn đơn vị lớn!", "Thông báo"); return; }
+            
+            int donViLon = Convert.ToInt32(cboQD_DVTLon.SelectedValue);
+            
+            if (donViLon == _current.IdDonViCoBan)
+            {
+                TDCMessageBox.Show("Đơn vị quy đổi không được trùng với Đơn vị nhỏ (gốc)!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (_listQuyDoi.Any(x => x.IdDonViLon == donViLon && x.Id != _currentQuyDoi.Id))
+            {
+                TDCMessageBox.Show("Loại Đơn vị quy đổi này đã được sử dụng ở một dòng khác!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            decimal heSo = 1;
+            decimal.TryParse(txtQD_HeSo.Text.Replace(",", ""), out heSo);
+            if (heSo <= 1) 
+            { 
+                TDCMessageBox.Show("Hệ số quy đổi phải lớn hơn 1! (Ví dụ: 1 Thùng = 24 Lon)", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning); 
+                txtQD_HeSo.Focus();
+                return; 
+            }
+
+            decimal? giaRieng = null;
+            if (!string.IsNullOrWhiteSpace(txtQD_GiaRieng.Text))
+            {
+                decimal gr;
+                if (!decimal.TryParse(txtQD_GiaRieng.Text.Replace(".", "").Replace(",", ""), out gr) || gr < 0)
+                {
+                    TDCMessageBox.Show("Giá bán riêng không hợp lệ (phải là số >= 0)!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtQD_GiaRieng.Focus();
+                    return;
+                }
+                giaRieng = gr;
+            }
+
+            _currentQuyDoi.IdDonViLon = Convert.ToInt32(cboQD_DVTLon.SelectedValue);
+            _currentQuyDoi.TyLeQuyDoi = heSo;
+            _currentQuyDoi.GiaBanRieng = giaRieng;
+
+            var res = BUS_SanPham.Instance.LuuQuyDoi(_currentQuyDoi);
+            if (res.IsSuccess) 
+            { 
+                LoadQuyDoi(_current.Id); 
+                BtnLamMoiQuyDoi_Click(null, null); 
+                TDCMessageBox.Show("Sửa quy đổi thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else TDCMessageBox.Show(res.ErrorMessage, "Lỗi");
+        }
+
+        private void BtnLamMoiQuyDoi_Click(object s, EventArgs e)
+        {
+            _currentQuyDoi = null;
+            txtQD_HeSo.Text = "1";
+            txtQD_GiaRieng.Text = "";
+            gridViewQuyDoi.FocusedRowHandle = DevExpress.XtraGrid.GridControl.InvalidRowHandle;
+            btnThemQuyDoi.Enabled = true;
         }
 
         private void BtnXoaQuyDoi_Click(object s, EventArgs e)
@@ -569,6 +740,11 @@ namespace GUI
             gridBangGia.DataSource = _listBangGia;
             gridViewBangGia.PopulateColumns();
             FormatBangGiaGrid();
+
+            // Sửa lỗi DevExpress GridView tự động focus dòng 0 khiến nút Thêm bị khoá
+            this.BeginInvoke(new Action(() => {
+                BtnLamMoiGia_Click(null, null);
+            }));
         }
 
         private void FormatBangGiaGrid()
@@ -580,8 +756,8 @@ namespace GUI
             foreach (var c in hide) if (v.Columns[c] != null) v.Columns[c].Visible = false;
 
             // ── Format price columns ──
-            string[] priceCols = { "GiaNgayThuong", "GiaCuoiTuan", "GiaNgayLe", "TienCoc", "GiaPhuThu" };
-            string[] priceLabels = { "Giá N.Thường", "Giá Cuối Tuần", "Giá Ngày Lễ", "Tiền Cọc", "Phụ thu lố" };
+            string[] priceCols = { "GiaBan", "TienCoc", "GiaPhuThu" };
+            string[] priceLabels = { "Giá Bán", "Tiền Cọc", "Phụ thu lố" };
             for (int i = 0; i < priceCols.Length; i++)
             {
                 if (v.Columns[priceCols[i]] != null)
@@ -602,12 +778,12 @@ namespace GUI
             if (v.Columns["PhutTiep"] != null) { v.Columns["PhutTiep"].Caption = "Lố (phút)"; v.Columns["PhutTiep"].Width = 70; }
 
             // Computed & status
-            if (v.Columns["LoaiGia"] != null) { v.Columns["LoaiGia"].Caption = "Loại"; v.Columns["LoaiGia"].Width = 80; }
+            if (v.Columns["LoaiGiaApDung"] != null) { v.Columns["LoaiGiaApDung"].Caption = "Loại Giá"; v.Columns["LoaiGiaApDung"].Width = 100; }
             if (v.Columns["TrangThai"] != null) { v.Columns["TrangThai"].Caption = "TT"; v.Columns["TrangThai"].Width = 70; }
 
-            // Column order: LoaiGia -> GiaNgayThuong -> GiaCuoiTuan -> GiaNgayLe -> TienCoc -> Block -> Lố -> PhuThu -> Giờ -> TT
+            // Column order
             int pos = 0;
-            string[] order = { "LoaiGia", "GiaNgayThuong", "GiaCuoiTuan", "GiaNgayLe", "TienCoc",
+            string[] order = { "LoaiGiaApDung", "GiaBan", "TienCoc",
                                "PhutBlock", "PhutTiep", "GiaPhuThu", "GioBatDau", "GioKetThuc", "TrangThai" };
             foreach (var col in order)
             {
@@ -615,7 +791,7 @@ namespace GUI
             }
 
             v.OptionsBehavior.Editable = false;
-            v.OptionsView.ColumnAutoWidth = false;
+            v.OptionsView.ColumnAutoWidth = true;
             v.BestFitColumns();
         }
 
@@ -624,33 +800,45 @@ namespace GUI
             if (_current == null) return;
 
             // Parse prices from input panel
-            decimal giaThuong = ParseCurrency(txtBG_GiaThuong.Text);
-            decimal giaCuoiTuan = ParseCurrency(txtBG_GiaCuoiTuan.Text);
-            decimal giaNgayLe = ParseCurrency(txtBG_GiaNgayLe.Text);
+            decimal giaBan = ParseCurrency(txtBG_GiaThuong.Text); // Tái sử dụng TextBox "Gia Thuong" làm ô nhập Giá Bán
             decimal? tienCoc = string.IsNullOrWhiteSpace(txtBG_TienCoc.Text) ? (decimal?)null : ParseCurrency(txtBG_TienCoc.Text);
             
             // Parse new fields
+            int? phutBlock = string.IsNullOrWhiteSpace(txtBG_PhutBlock.Text) ? (int?)null : Convert.ToInt32(ParseCurrency(txtBG_PhutBlock.Text));
             int? phutTiep = string.IsNullOrWhiteSpace(txtBG_PhutTiep.Text) ? (int?)null : Convert.ToInt32(ParseCurrency(txtBG_PhutTiep.Text));
             decimal? giaPhuThu = string.IsNullOrWhiteSpace(txtBG_GiaPhuThu.Text) ? (decimal?)null : ParseCurrency(txtBG_GiaPhuThu.Text);
 
-            if (giaThuong <= 0)
+            if (giaBan <= 0)
             {
-                TDCMessageBox.Show("Giá Ngày Thường phải > 0!", "Thông báo");
+                TDCMessageBox.Show("Giá bán phải > 0!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtBG_GiaThuong.Focus();
                 return;
             }
 
-            // Auto-fill if empty
-            if (giaCuoiTuan <= 0) giaCuoiTuan = Math.Round(giaThuong * 1.2m, 0);
-            if (giaNgayLe <= 0) giaNgayLe = Math.Round(giaThuong * 1.5m, 0);
+            if (cboLoaiGiaApDung.Text == AppConstants.LoaiGiaApDung.NgayLe && cboNgayLe.SelectedValue == null)
+            {
+                TDCMessageBox.Show("Vui lòng chọn cụ thể một Ngày Lễ!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Đã bind
+            int? idNgayLe = cboLoaiGiaApDung.Text == AppConstants.LoaiGiaApDung.NgayLe && cboNgayLe.SelectedValue != null 
+                            ? (int?)Convert.ToInt32(cboNgayLe.SelectedValue) : null;
+
+            if (_listBangGia.Any(x => x.LoaiGiaApDung == cboLoaiGiaApDung.Text && x.IdNgayLe == idNgayLe))
+            {
+                TDCMessageBox.Show("Cấu hình giá cho điều kiện này đã đụng hàng với một cấu hình khác! Vui lòng chọn dòng bên dưới để Sửa.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             var et = new ET_BangGia
             {
                 IdSanPham = _current.Id,
-                GiaNgayThuong = giaThuong,
-                GiaCuoiTuan = giaCuoiTuan,
-                GiaNgayLe = giaNgayLe,
+                GiaBan = giaBan,
+                LoaiGiaApDung = cboLoaiGiaApDung.Text,
+                IdNgayLe = idNgayLe,
                 TienCoc = tienCoc,
+                PhutBlock = phutBlock,
                 PhutTiep = phutTiep,
                 GiaPhuThu = giaPhuThu,
                 TrangThai = cboBG_TrangThai.Text
@@ -672,16 +860,28 @@ namespace GUI
             _currentGia = gridViewBangGia.GetFocusedRow() as ET_BangGia;
             if (_currentGia == null) return;
 
-            txtBG_GiaThuong.Text = _currentGia.GiaNgayThuong.ToString("N0");
-            txtBG_GiaCuoiTuan.Text = _currentGia.GiaCuoiTuan.ToString("N0");
-            txtBG_GiaNgayLe.Text = _currentGia.GiaNgayLe.ToString("N0");
+            txtBG_GiaThuong.Text = _currentGia.GiaBan.ToString("N0");
+            cboLoaiGiaApDung.Text = _currentGia.LoaiGiaApDung;
+            if (_currentGia.IdNgayLe.HasValue) 
+                cboNgayLe.SelectedValue = _currentGia.IdNgayLe.Value;
+            else 
+                cboNgayLe.SelectedIndex = -1;
+
+            chkThueTheoGio.Checked = _currentGia.PhutBlock.HasValue || _currentGia.PhutTiep.HasValue || _currentGia.TienCoc.HasValue;
+
             txtBG_TienCoc.Text = _currentGia.TienCoc?.ToString("N0") ?? "";
+            txtBG_PhutBlock.Text = _currentGia.PhutBlock?.ToString() ?? "";
             txtBG_PhutTiep.Text = _currentGia.PhutTiep?.ToString() ?? "";
             txtBG_GiaPhuThu.Text = _currentGia.GiaPhuThu?.ToString("N0") ?? "";
             cboBG_TrangThai.Text = _currentGia.TrangThai;
 
             // Đổi màu nút để người dùng biết đang ở chế độ sửa
             btnThemGia.Enabled = false;
+        }
+
+        private void GridViewBangGia_RowClick(object sender, DevExpress.XtraGrid.Views.Grid.RowClickEventArgs e)
+        {
+            GridViewBangGia_FocusedRowChanged(sender, null);
         }
 
         private void BtnSuaGia_Click(object s, EventArgs e)
@@ -692,29 +892,40 @@ namespace GUI
                 return;
             }
 
-            decimal giaThuong = ParseCurrency(txtBG_GiaThuong.Text);
-            decimal giaCuoiTuan = ParseCurrency(txtBG_GiaCuoiTuan.Text);
-            decimal giaNgayLe = ParseCurrency(txtBG_GiaNgayLe.Text);
+            decimal giaBan = ParseCurrency(txtBG_GiaThuong.Text);
             decimal? tienCoc = string.IsNullOrWhiteSpace(txtBG_TienCoc.Text) ? (decimal?)null : ParseCurrency(txtBG_TienCoc.Text);
             
+            int? phutBlock = string.IsNullOrWhiteSpace(txtBG_PhutBlock.Text) ? (int?)null : Convert.ToInt32(ParseCurrency(txtBG_PhutBlock.Text));
             int? phutTiep = string.IsNullOrWhiteSpace(txtBG_PhutTiep.Text) ? (int?)null : Convert.ToInt32(ParseCurrency(txtBG_PhutTiep.Text));
             decimal? giaPhuThu = string.IsNullOrWhiteSpace(txtBG_GiaPhuThu.Text) ? (decimal?)null : ParseCurrency(txtBG_GiaPhuThu.Text);
 
-            if (giaThuong <= 0)
+            if (giaBan <= 0)
             {
-                TDCMessageBox.Show("Giá Ngày Thường phải > 0!", "Thông báo");
+                TDCMessageBox.Show("Giá bán phải > 0!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtBG_GiaThuong.Focus();
                 return;
             }
 
-            // Auto-fill if empty
-            if (giaCuoiTuan <= 0) giaCuoiTuan = Math.Round(giaThuong * 1.2m, 0);
-            if (giaNgayLe <= 0) giaNgayLe = Math.Round(giaThuong * 1.5m, 0);
+            if (cboLoaiGiaApDung.Text == AppConstants.LoaiGiaApDung.NgayLe && cboNgayLe.SelectedValue == null)
+            {
+                TDCMessageBox.Show("Vui lòng chọn cụ thể một Ngày Lễ!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            _currentGia.GiaNgayThuong = giaThuong;
-            _currentGia.GiaCuoiTuan = giaCuoiTuan;
-            _currentGia.GiaNgayLe = giaNgayLe;
+            int? idNgayLe = cboLoaiGiaApDung.Text == AppConstants.LoaiGiaApDung.NgayLe && cboNgayLe.SelectedValue != null 
+                                    ? (int?)Convert.ToInt32(cboNgayLe.SelectedValue) : null;
+
+            if (_listBangGia.Any(x => x.LoaiGiaApDung == cboLoaiGiaApDung.Text && x.IdNgayLe == idNgayLe && x.Id != _currentGia.Id))
+            {
+                TDCMessageBox.Show("Cấu hình giá cho điều kiện này đã đụng hàng với một cấu hình khác!", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            _currentGia.GiaBan = giaBan;
+            _currentGia.LoaiGiaApDung = cboLoaiGiaApDung.Text;
+            _currentGia.IdNgayLe = idNgayLe;
             _currentGia.TienCoc = tienCoc;
+            _currentGia.PhutBlock = phutBlock;
             _currentGia.PhutTiep = phutTiep;
             _currentGia.GiaPhuThu = giaPhuThu;
             _currentGia.TrangThai = cboBG_TrangThai.Text;
@@ -733,9 +944,10 @@ namespace GUI
         {
             _currentGia = null;
             txtBG_GiaThuong.Text = "0";
-            txtBG_GiaCuoiTuan.Text = "";
-            txtBG_GiaNgayLe.Text = "";
+            cboLoaiGiaApDung.SelectedIndex = 0;
+            cboNgayLe.SelectedIndex = -1;
             txtBG_TienCoc.Text = "";
+            txtBG_PhutBlock.Text = "";
             txtBG_PhutTiep.Text = "";
             txtBG_GiaPhuThu.Text = "";
             
@@ -764,6 +976,19 @@ namespace GUI
             decimal val = 0;
             decimal.TryParse(text.Replace(".", "").Replace(",", ""), out val);
             return val;
+        }
+
+        private void BtnChonAnh_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog ofd = new OpenFileDialog())
+            {
+                ofd.Filter = "Images|*.jpg;*.png;*.bmp";
+                if (ofd.ShowDialog() == DialogResult.OK)
+                {
+                    picHinhAnh.ImageLocation = ofd.FileName;
+                    picHinhAnh.Tag = ofd.FileName;
+                }
+            }
         }
     }
 }

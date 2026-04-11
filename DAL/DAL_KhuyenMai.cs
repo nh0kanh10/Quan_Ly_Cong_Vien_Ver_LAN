@@ -94,7 +94,7 @@ namespace DAL
             try {
                 var obj = db.GetTable<KhuyenMai>().FirstOrDefault(x => x.Id == id);
                 if (obj != null) {
-                    db.GetTable<KhuyenMai>().DeleteOnSubmit(obj);
+                    obj.IsDeleted = true;
                     db.SubmitChanges();
                     return true;
                 }

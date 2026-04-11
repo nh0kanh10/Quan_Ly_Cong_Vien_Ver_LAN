@@ -109,9 +109,11 @@ namespace BUS
         public string ValidateKhuVuc(ET_KhuVuc et, bool isAdd)
         {
             if (string.IsNullOrWhiteSpace(et.TenKhuVuc)) return "Tên khu vực không được để trống.";
+            if (et.TenKhuVuc.Length <= 2) return "Tên khu vực phải dài hơn 2 ký tự.";
             
-            // [Bugfix SD-003]: Giới hạn độ dài Tên khu vực 100 ký tự
+            // [Bugfix SD-003]: Giới hạn độ dài Tên khu vực 100 ký tự, Mô tả 500 ký tự
             if (et.TenKhuVuc.Length > 100) return "Tên khu vực không được vượt quá 100 ký tự.";
+            if (!string.IsNullOrEmpty(et.MoTa) && et.MoTa.Length > 500) return "Mô tả không được vượt quá 500 ký tự.";
 
             var ds = _gateway.LoadDS();
             if (isAdd)

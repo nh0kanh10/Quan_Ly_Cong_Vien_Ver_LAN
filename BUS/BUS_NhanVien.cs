@@ -106,12 +106,14 @@ namespace BUS
             if (string.IsNullOrWhiteSpace(et.DienThoai)) return "Vui lòng nhập số điện thoại.";
             if (et.DienThoai.Length < 10) return "Số điện thoại không hợp lệ (phải từ 10 số).";
             
-            if (string.IsNullOrWhiteSpace(et.Cccd)) return "Vui lòng nhập số CCCD.";
-            if (et.Cccd.Length != 12) return "Số CCCD phải đủ 12 số.";
-
-            int year = et.NgaySinh.HasValue ? et.NgaySinh.Value.Year : 0;
+            // Age over CCCD priority check
+            if (!et.NgaySinh.HasValue) return "Vui lòng nhập ngày sinh.";
+            int year = et.NgaySinh.Value.Year;
             if (DateTime.Now.Year - year < 18)
                 return "Nhân viên phải từ 18 tuổi trở lên.";
+
+            if (string.IsNullOrWhiteSpace(et.Cccd)) return "Vui lòng nhập số CCCD.";
+            if (et.Cccd.Length != 12) return "Số CCCD phải đủ 12 số.";
 
             if (!string.IsNullOrWhiteSpace(et.Email) && !et.Email.Contains("@")) 
                 return "Email không hợp lệ.";
