@@ -1,14 +1,6 @@
-    -- ==================================================================
-    -- DATABASE: DaiNamResort
-    -- MÔ TẢ: Quản lý tổng hợp khu du lịch Đại Nam (Bản Chuẩn Academic + MVP)
-    -- BAO GỒM: Khách sạn, biển, trường đua, vườn thú, nhà hàng, kho, ví điện tử,...
-    -- UPDATE: Vá lỗi Logic Pricing (UoM), Xử lý Duplicate Indexes, Thêm SP & Audit
-    -- ==================================================================
-
-    -- TẠO DATABASE (Nếu chưa có)
 USE master;
 GO
-DECLARE @RecreateDb BIT = 1; -- ĐÃ BẬT: reset full mỗi lần chạy để tránh lỗi Object Already Exists
+DECLARE @RecreateDb BIT = 1;
 IF @RecreateDb = 1 AND DB_ID('DaiNamResort') IS NOT NULL
 BEGIN
     ALTER DATABASE DaiNamResort SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
@@ -21,7 +13,7 @@ GO
 USE DaiNamResort;
 GO
 
-    -- =================== 1. Danh Mục Cơ Bản (Master Data) ===================
+    -- =================== 1. Danh Mục Cơ Bản  ===================
     CREATE TABLE VaiTro (
         Id INT IDENTITY(1,1) PRIMARY KEY,
         TenVaiTro NVARCHAR(50) NOT NULL UNIQUE
@@ -43,7 +35,8 @@ GO
         Id INT IDENTITY(1,1) PRIMARY KEY,
         MaCode VARCHAR(20) UNIQUE,
         IdVaiTro INT NOT NULL,
-        IdKhuVuc INT NULL, -- Gỡ FOREIGN KEY để tránh lỗi khóa chéo (Circular Reference với KhuVuc), Đã thêm ở cuối file
+        IdNguoiQuanLy INT NULL REFERENCES NhanVien(Id),
+        IdKhuVuc INT NULL,
         HoTen NVARCHAR(100) NOT NULL,
         GioiTinh NVARCHAR(10) CHECK (GioiTinh IN (N'Nam', N'Nữ', N'Khác')),
         NgaySinh DATE,
@@ -58,6 +51,15 @@ GO
         TenDangNhap NVARCHAR(50) NULL UNIQUE,
         MatKhau NVARCHAR(100) NULL,
         GhiChu NVARCHAR(MAX) NULL,
+        -- HR Module
+        LoaiKhoi NVARCHAR(20) NOT NULL DEFAULT 'VanHanh'
+            CONSTRAINT ChkNV_LoaiKhoi CHECK (LoaiKhoi IN ('VanHanh', 'HanhChinh')),
+        LoaiHopDong  NVARCHAR(20) NOT NULL DEFAULT 'FullTime'
+            CONSTRAINT ChkNV_LoaiHopDong CHECK (LoaiHopDong IN ('FullTime','PartTime','TheoMua','Intern')),
+        NhomCongViec NVARCHAR(20) NOT NULL DEFAULT 'ThuongThuong'
+            CONSTRAINT ChkNV_NhomCongViec CHECK (NhomCongViec IN ('ThuongThuong','NangNhocNguyHiem','DacBietNguyHiem')),
+        LuongCoBan   DECIMAL(15,0) NULL,   -- FullTime: lương/tháng
+        LuongTheoGio DECIMAL(10,0) NULL,   -- PartTime/Intern: lương/giờ
         CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
         UpdatedAt DATETIME NULL,
         IsDeleted BIT NOT NULL DEFAULT 0
@@ -65,17 +67,16 @@ GO
 
     CREATE TABLE DoanKhach (
         Id INT IDENTITY(1,1) PRIMARY KEY,
-        MaBooking VARCHAR(20) NULL UNIQUE,          -- Mã quét tại cổng (Sales sinh ra khi đặt trước)
+        MaBooking VARCHAR(20) NULL UNIQUE,          -- Mã quét tại cổng
         TenDoan NVARCHAR(100) NOT NULL,
         MaSoThue NVARCHAR(20) NULL,
         NguoiDaiDien NVARCHAR(100) NULL,
         DienThoaiLienHe NVARCHAR(20) NULL,
         ChietKhau DECIMAL(5,2) NOT NULL DEFAULT 0 CHECK (ChietKhau >= 0 AND ChietKhau <= 100),
-        SoLuongKhach INT NOT NULL DEFAULT 0 CHECK (SoLuongKhach >= 0), -- Pax / Headcount
+        SoLuongKhach INT NOT NULL DEFAULT 0 CHECK (SoLuongKhach >= 0), 
         NgayDen DATE NULL,                          -- Ngày đoàn dự kiến đến
         NgayDi DATE NULL,                           -- Ngày đoàn dự kiến đi (NULL = trong ngày)
         TrangThai NVARCHAR(20) CHECK (TrangThai IN (N'DaDat', N'DangPhucVu', N'DaXuatVe', N'DaHoanTat', N'HetHan', N'DaHuy')) DEFAULT N'DaDat',
-        IdCombo INT NULL,                           -- [DEPRECATED v2.0] KHÔNG sử dụng. Dùng bảng DoanKhach_DichVu thay thế. Giữ lại chỉ để backward-compatible
         CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
         UpdatedAt DATETIME NULL,
         CreatedBy INT NULL,
@@ -85,22 +86,21 @@ GO
     -- =========== DỊCH VỤ ĐOÀN KHÁCH (Booking Tổng — Đa dịch vụ) ===========
     CREATE TABLE DoanKhach_DichVu (
         Id INT IDENTITY(1,1) PRIMARY KEY,
-        IdDoan INT NOT NULL,          -- FK → DoanKhach
+        IdDoan INT NOT NULL,          
         LoaiDichVu NVARCHAR(20) NOT NULL CHECK (LoaiDichVu IN ('Ve','Combo','Phong','BanAn','DichVu')),
-        IdCombo INT NULL,             -- FK → Combo (khi LoaiDichVu = 'Combo')
-        IdSanPham INT NULL,           -- FK → SanPham (khi LoaiDichVu = 'Ve'/'DichVu')
+        IdCombo INT NULL,             -- FK đến Combo (khi LoaiDichVu = 'Combo')
+        IdSanPham INT NULL,           -- FK đến SanPham (khi LoaiDichVu = 'Ve'/'DichVu')
         SoLuong INT NOT NULL DEFAULT 1 CHECK (SoLuong > 0),
-        SoLuongDaDung INT NOT NULL DEFAULT 0,             -- Track tiêu thụ tại các trạm (Gate/POS/Restaurant)
+        SoLuongDaDung INT NOT NULL DEFAULT 0,             -- kiểm tra tiêu thụ tại các trạm (Gate/POS/Restaurant)
         DonGia DECIMAL(15,0) NOT NULL DEFAULT 0 CHECK (DonGia >= 0),
         ThanhTien AS (SoLuong * DonGia) PERSISTED, -- Tự động tính
 
         -- Lịch trình (Ngày dùng dịch vụ cụ thể, tour có thể nhiều ngày)
         NgaySuDung DATETIME NULL,
 
-        -- Truy vết vận hành: link sang mảng KS/NH
         IdThamChieu INT NULL,         -- IdDatPhongChiTiet / IdDatBan tương ứng
 
-        -- Truy vết tài chính: link sang hóa đơn khi CHỐT
+        -- Truy vết gắn hóa đơn khi chốt
         IdChiTietDonHang INT NULL,    -- NULL = chưa chốt, NOT NULL = ĐÃ xuất hóa đơn
 
         GhiChu NVARCHAR(MAX) NULL,
@@ -126,9 +126,10 @@ GO
         NgayDangKy DATETIME NOT NULL DEFAULT GETDATE(),
         CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
         UpdatedAt DATETIME NULL,
-        CreatedBy INT NULL,
+        CreatedBy INT NULL, 
         IsDeleted BIT NOT NULL DEFAULT 0
     );
+
     CREATE UNIQUE NONCLUSTERED INDEX UQ_KhachHang_Email ON KhachHang(Email) WHERE Email IS NOT NULL;
 
     CREATE TABLE KhuVuc (
@@ -144,8 +145,6 @@ GO
         IsDeleted BIT NOT NULL DEFAULT 0
     );
 
-    -- =========== TRÒ CHƠI đã được gộp vào DanhSachThietBi (LoaiThietBi='TroChoi') ===========
-    -- Xem bảng DanhSachThietBi ở phần 16. BẢO TRÌ THIẾT BỊ TẬP TRUNG
 
     -- =========== KIỂM SOÁT ĐƠN VỊ TÍNH (UoM) ===========
     CREATE TABLE DonViTinh (
@@ -163,8 +162,8 @@ GO
         MaCode VARCHAR(20) UNIQUE,
         Ten NVARCHAR(100) NOT NULL,
         LoaiSanPham NVARCHAR(20) CHECK (LoaiSanPham IN ('Ve', 'Combo', 'Thue', 'AnUong', 'LuuTru', 'DoLuuNiem', 'GuiXe', 'DichVu', 'Khac')) NOT NULL,
-        IdDonViCoBan INT NOT NULL, -- Fix Logic: Biết DonGia là của Lon hay Thùng
-        DonGia DECIMAL(15,0) NOT NULL CHECK (DonGia >= 0), -- [Convention] Giá niêm yết (List Price). BUS luôn tra BangGia trước; fallback về DonGia nếu BangGia chưa có dòng active
+        IdDonViCoBan INT NOT NULL,
+        DonGia DECIMAL(15,0) NOT NULL CHECK (DonGia >= 0), -- Giá niêm yết 
         IdKhuVuc INT NULL,
         MoTa NVARCHAR(MAX) NULL,
         TrangThai NVARCHAR(20) CHECK (TrangThai IN ('DangBan', 'TamNgung', 'NgungBan', 'HetHang')) NOT NULL DEFAULT 'DangBan',
@@ -175,12 +174,12 @@ GO
         IsDeleted BIT NOT NULL DEFAULT 0
     );
 
-    -- Weak Entity: Thuộc tính riêng cho SanPham loại 'Ve' (Ticket-specific)
+    -- Thực thể sắp mạnh: Thuộc tính riêng cho SanPham loại 'Ve' 
     CREATE TABLE SanPham_Ve (
-        IdSanPham INT NOT NULL PRIMARY KEY,    -- Weak Entity: PK = FK → SanPham
+        IdSanPham INT NOT NULL PRIMARY KEY,   
         CanTaoToken BIT NOT NULL DEFAULT 1,
         SoLuotQuyDoi INT NOT NULL DEFAULT 1,
-        IdThietBi INT NULL                      -- FK → DanhSachThietBi (NULL = vé cổng/combo, NOT NULL = vé trò chơi)
+        IdThietBi INT NULL                      -- DanhSachThietBi (NULL = vé cổng/combo, NOT NULL = vé trò chơi)
     );
 
     -- =========== LỊCH NGÀY LỄ TẾT ===========
@@ -203,11 +202,11 @@ GO
         LoaiGiaApDung NVARCHAR(20) CHECK (LoaiGiaApDung IN ('MacDinh', 'CuoiTuan', 'NgayLe')) NOT NULL DEFAULT 'MacDinh',
         IdNgayLe INT NULL REFERENCES CauHinhNgayLe(Id),
         
-        -- Khung giờ (mặc định cả ngày, sửa khi Happy Hour)
+        -- Khung giờ (mặc định cả ngày)
         GioBatDau  TIME NOT NULL DEFAULT '00:00',
         GioKetThuc TIME NOT NULL DEFAULT '23:59',
         
-        -- Config thuê giờ (NULL = bán đứt)
+        --  thuê giờ (NULL = bán đứt)
         PhutBlock  INT NULL,
         PhutTiep   INT NULL,
         GiaPhuThu  DECIMAL(15,0) NULL,
@@ -215,7 +214,6 @@ GO
         -- Tiền cọc (NULL = không cần cọc)
         TienCoc    DECIMAL(15,0) NULL,
         
-        -- Audit
         TrangThai  NVARCHAR(20) NOT NULL DEFAULT 'HoatDong',
         CreatedAt  DATETIME NOT NULL DEFAULT GETDATE(),
         CreatedBy  INT NULL,
@@ -228,8 +226,7 @@ GO
         IdDonViNho INT NOT NULL,
         IdDonViLon INT NOT NULL,
         TyLeQuyDoi DECIMAL(10,2) NOT NULL CHECK (TyLeQuyDoi > 0),
-        GiaBanRieng DECIMAL(15,0) NULL CHECK (GiaBanRieng IS NULL OR GiaBanRieng >= 0), -- Fix Logic: Mua sỉ rẻ hơn mua lẻ
-        LaDonViCoBan BIT NOT NULL DEFAULT 0,
+        GiaBanRieng DECIMAL(15,0) NULL CHECK (GiaBanRieng IS NULL OR GiaBanRieng >= 0), 
         CreatedAt DATETIME NOT NULL DEFAULT GETDATE()
     );
 
@@ -255,7 +252,7 @@ GO
         TyLePhanBo DECIMAL(5,2) NOT NULL DEFAULT 0 CHECK (TyLePhanBo >= 0 AND TyLePhanBo <= 100) -- Tổng cộng 100% để chia doanh thu
     );
 
-    -- =================== 2. ĐƠN HÀNG & GIAO DỊCH ===================
+    -- =================== ĐƠN HÀNG & GIAO DỊCH ===================
     CREATE TABLE SuKien (
         Id INT IDENTITY(1,1) PRIMARY KEY,
         MaCode VARCHAR(20) UNIQUE,
@@ -311,10 +308,8 @@ GO
         DonGiaGoc DECIMAL(15,0) NOT NULL CHECK (DonGiaGoc >= 0),
         TienGiamGiaDong DECIMAL(15,0) NOT NULL DEFAULT 0 CHECK (TienGiamGiaDong >= 0),
         DonGiaThucTe DECIMAL(15,0) NOT NULL CHECK (DonGiaThucTe >= 0),
-        ThanhTien AS (SoLuong * DonGiaThucTe) PERSISTED,   -- Computed: tự tính thành tiền
-        -- [Convention LH2] IdSanPham hoặc IdCombo NÊN có giá trị.
-        -- Trường hợp cả 2 NULL: booking placeholder (MoBan), phụ thu nhà hàng (ThemPhuThu).
-        -- Validate tại BUS layer thay vì DB constraint để tránh block edge cases.
+        ThanhTien AS (SoLuong * DonGiaThucTe) PERSISTED,  
+        
     );
 
     CREATE TABLE ViTriNgoi (
@@ -323,8 +318,8 @@ GO
         Hang NVARCHAR(10) NOT NULL,
         SoGhe INT NOT NULL CHECK (SoGhe > 0),
         LoaiGhe NVARCHAR(20) CHECK (LoaiGhe IN ('Thuong', 'Vip')) NOT NULL,
-        IdSanPham INT NULL, -- Ánh xạ loại vé để lấy giá từ BangGia
-        IdKhanDai INT NULL, -- Tách fk để tránh Forward Reference lỗi KhanDai
+        IdSanPham INT NULL, 
+        IdKhanDai INT NULL, 
         CONSTRAINT UqViTriNgoiTheoKhanDai UNIQUE (IdKhanDai, Hang, SoGhe),
         RowVer ROWVERSION NOT NULL
     );
@@ -341,7 +336,7 @@ GO
     );
 
     CREATE TABLE VeKhanDai (
-        IdVeDienTu UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,  -- Weak Entity: PK = FK
+        IdVeDienTu UNIQUEIDENTIFIER NOT NULL PRIMARY KEY,  
         IdViTriNgoi INT NOT NULL
     );
 
@@ -383,12 +378,10 @@ GO
         IdGiaoDichVi INT NULL,
         SoTien DECIMAL(15,0) NOT NULL CHECK (SoTien >= 0),
         PhuongThuc NVARCHAR(20) CHECK (PhuongThuc IN ('TienMat', 'ChuyenKhoan', 'The', 'TheNganHang', 'ViDienTu', 'ViRFID', 'MoMo', 'VnPay', 'QR')) NOT NULL,
-        MaGiaoDichDoiTac VARCHAR(100) NULL, -- Lưu TransactionId của Webhook
+        MaGiaoDichDoiTac VARCHAR(100) NULL,
         ThoiGian DATETIME NOT NULL DEFAULT GETDATE(),
         CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
         CreatedBy INT NULL
-        -- [FIX LH8] Đã bỏ CHECK exclusive (NOT IdDonHang AND IdGiaoDichVi).
-        -- Cho phép mọi tổ hợp: chỉ DH, chỉ GD, cả 2 (thanh toán ví cho đơn hàng), hoặc cả 2 NULL (ngoại lai)
     );
 
     CREATE TABLE PhieuChi (
@@ -405,16 +398,17 @@ GO
     -- =================== 4. DỊCH VỤ THUÊ ===================
     CREATE TABLE ThueDoChiTiet (
         Id INT IDENTITY(1,1) PRIMARY KEY,
-        IdChiTietDonHang INT NOT NULL,             -- Fix: qua CTDH thay vì bypass DonHang trực tiếp
+        IdChiTietDonHang INT NOT NULL,           
         IdSanPham INT NOT NULL,
         SoLuong INT NOT NULL CHECK (SoLuong > 0),
         ThoiGianBatDau DATETIME NOT NULL,
         ThoiGianKetThuc DATETIME NULL,
         SoTienCoc DECIMAL(15,0) NOT NULL CHECK (SoTienCoc >= 0),
         TrangThaiCoc NVARCHAR(20) CHECK (TrangThaiCoc IN ('ChuaHoan', 'DaHoan', 'DaPhat')) NOT NULL DEFAULT 'ChuaHoan',
-        IdGiaoDichCoc INT NULL,
-        IdGiaoDichHoanCoc INT NULL,
-        IdGiaoDichPhat INT NULL,
+        -- Hỗ trợ cả tiền mặt (PhieuThu.PhuongThuc='TienMat') lẫn RFID (PhuongThuc='ViRFID')
+        IdPhieuThuCoc INT NULL,       -- FK -> PhieuThu (thu cọc lúc bắt đầu thuê)
+        IdPhieuChiHoanCoc INT NULL,   -- FK → PhieuChi (hoàn cọc khi trả đồ đúng hạn)
+        IdPhieuThuPhat INT NULL,      -- FK → PhieuThu (khách đóng phạt khi hỏng/trả trễ)
         TienThueDaThu DECIMAL(18,0) NOT NULL DEFAULT 0
     );
 
@@ -770,10 +764,11 @@ GO
         IsDeleted BIT NOT NULL DEFAULT 0
     );
 
-    CREATE TABLE KhoHang (
+        CREATE TABLE KhoHang (
         Id INT IDENTITY(1,1) PRIMARY KEY,
         TenKho NVARCHAR(100) NOT NULL,
         LoaiKho NVARCHAR(20) CHECK (LoaiKho IN ('TrungTam', 'Kiosk', 'NhaHang')) NOT NULL,
+        IdKhuVuc INT NULL REFERENCES KhuVuc(Id),
         DiaChi NVARCHAR(200) NULL,
         CreatedAt DATETIME NOT NULL DEFAULT GETDATE(),
         IsDeleted BIT NOT NULL DEFAULT 0
@@ -1121,7 +1116,7 @@ GO
                 WHERE c.IdCombo = x.IdCombo
             ) s
             WHERE x.IdCombo IS NOT NULL
-              AND cb.TrangThai = N'Kích hoạt'             -- Skip 'Bản nháp'
+              AND cb.TrangThai = 'KichHoat'   -- [FIX E] Match CHECK constraint ('KichHoat' không dấu, không khoảng trắng)
               AND ABS(ISNULL(s.TongTyLe, 0) - 100) > 0.01
         )
         BEGIN
@@ -1177,9 +1172,11 @@ GO
     ALTER TABLE PhieuChi ADD CONSTRAINT FkPhieuChiCreatedBy FOREIGN KEY (CreatedBy) REFERENCES NhanVien(Id);
     ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdCTDH FOREIGN KEY (IdChiTietDonHang) REFERENCES ChiTietDonHang(Id);
     ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdSanPham FOREIGN KEY (IdSanPham) REFERENCES SanPham(Id);
-    ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdGiaoDichCoc FOREIGN KEY (IdGiaoDichCoc) REFERENCES GiaoDichVi(Id);
-    ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdGiaoDichHoanCoc FOREIGN KEY (IdGiaoDichHoanCoc) REFERENCES GiaoDichVi(Id);
-    ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdGiaoDichPhat FOREIGN KEY (IdGiaoDichPhat) REFERENCES GiaoDichVi(Id);
+    -- [FIX] Cọc/hoàn/phạt qua PhieuThu/PhieuChi thay vì GiaoDichVi
+    -- PhieuThu.PhuongThuc ghi nhận TienMat/ViRFID — không bắt buộc khách phải có ví
+    ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdPhieuThuCoc FOREIGN KEY (IdPhieuThuCoc) REFERENCES PhieuThu(Id);
+    ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdPhieuChiHoanCoc FOREIGN KEY (IdPhieuChiHoanCoc) REFERENCES PhieuChi(Id);
+    ALTER TABLE ThueDoChiTiet ADD CONSTRAINT FkThueDoChiTietIdPhieuThuPhat FOREIGN KEY (IdPhieuThuPhat) REFERENCES PhieuThu(Id);
     ALTER TABLE TuDo ADD CONSTRAINT FkTuDoIdKhuVuc FOREIGN KEY (IdKhuVuc) REFERENCES KhuVuc(Id);
     ALTER TABLE ThueTu ADD CONSTRAINT FkThueTuIdChiTietThue FOREIGN KEY (IdChiTietThue) REFERENCES ThueDoChiTiet(Id);
     ALTER TABLE ThueTu ADD CONSTRAINT FkThueTuIdTuDo FOREIGN KEY (IdTuDo) REFERENCES TuDo(Id);
@@ -1802,6 +1799,7 @@ GO
 
 DECLARE @don_vi_ve INT = (SELECT Id FROM DonViTinh WHERE KyHieu = 'V');
 DECLARE @don_vi_lon INT = (SELECT Id FROM DonViTinh WHERE KyHieu = 'L');
+
 DECLARE @khu_ve_id INT = (SELECT Id FROM KhuVuc WHERE MaCode = 'KV06');
 DECLARE @khu_bien_id INT = (SELECT Id FROM KhuVuc WHERE MaCode = 'KV01');
 DECLARE @khu_dua_id INT = (SELECT Id FROM KhuVuc WHERE MaCode = 'KV02');
@@ -1875,6 +1873,7 @@ INSERT INTO SanPham (MaCode, Ten, LoaiSanPham, IdDonViCoBan, DonGia, IdKhuVuc, T
     ('SP019', N'Massage/Spa 60 phút', 'DichVu', @don_vi_ve, 500000, @khu_ks_id, 'DangBan');
 
     -- Trò chơi đã nằm trong DanhSachThietBi (LoaiThietBi='TroChoi') — seed ở phần 21.2
+       
 
     -- Cấp phát SanPham_Ve cho tất cả vé (ban đầu IdThietBi = NULL)
     INSERT INTO SanPham_Ve (IdSanPham, IdThietBi)
@@ -2198,7 +2197,6 @@ SELECT
     GETDATE() - 7,
     (SELECT TOP 1 Id FROM NhanVien)
 FROM ChiTietNhapKho WHERE IdPhieuNhap = @IdPhieuNhapInit;
-
 -- =====================================================================
 -- 🚨 GIẢ LẬP GIAO DỊCH LỊCH SỬ THẺ KHO (MOCK TRANSACTIONS CHO SỔ THẺ KHO)
 -- =====================================================================
@@ -2271,4 +2269,327 @@ BEGIN
         WHERE Id = @IdKhachHang;
     END
 END
+GO
+
+-- =======================================================================
+-- PATCH HR MODULE — Quản Lý Nhân Sự Đầy Đủ
+-- Căn cứ: BLLĐ 2019, Luật BHXH, Thông tư 02/2011/TT-BVHTTDL
+-- Tài liệu nghiệp vụ: docs/HR_BUSINESS_RULES.md
+-- Tất cả con số (hệ số, ngày phép...) lưu trong CauHinhHeThong
+-- =======================================================================
+
+-- ── BƯỚC 1: CẤU HÌNH HỆ THỐNG (Rule Engine thay cho hardcode) ──────────
+CREATE TABLE CauHinhHeThong (
+    Khoa        NVARCHAR(100) NOT NULL PRIMARY KEY,
+    GiaTri      NVARCHAR(500) NOT NULL,
+    MoTa        NVARCHAR(300) NULL,
+    UpdatedAt   DATETIME NULL,
+    UpdatedBy   INT NULL REFERENCES NhanVien(Id)
+);
+GO
+
+INSERT INTO CauHinhHeThong (Khoa, GiaTri, MoTa) VALUES
+    ('PHEP_NAM_THUONG_THUONG',  '12',      N'Ngày phép cơ bản NV thường (Đ.113 BLLĐ 2019)'),
+    ('PHEP_NAM_NANG_NHOC',      '14',      N'Ngày phép NV nặng nhọc nguy hiểm'),
+    ('PHEP_NAM_DAC_BIET',       '16',      N'Ngày phép NV đặc biệt nguy hiểm'),
+    ('PHEP_NAM_THAMNIEN_CYCLE', '5',       N'Cứ N năm thâm niên thì +1 ngày phép'),
+    ('HE_SO_TANG_CA_THUONG',    '1.5',     N'Hệ số tăng ca ngày thường (Đ.98 BLLĐ 2019)'),
+    ('HE_SO_TANG_CA_CUOI_TUAN', '2.0',     N'Hệ số tăng ca ngày nghỉ hàng tuần'),
+    ('HE_SO_TANG_CA_NGAY_LE',   '3.0',     N'Hệ số tăng ca ngày lễ Tết'),
+    ('HE_SO_CA_DEM',            '1.3',     N'Phụ trội ban đêm 22h-6h'),
+    ('TANG_CA_TOIDA_THANG',     '40',      N'Giờ tăng ca tối đa/tháng (Đ.107 BLLĐ)'),
+    ('TANG_CA_TOIDA_NAM',       '200',     N'Giờ tăng ca tối đa/năm (thông thường)'),
+    ('CHUNGCHI_CANHBAO_NGAY',   '30',      N'Ngày trước hết hạn cảnh báo chứng chỉ'),
+    ('NHIBBU_DEADLINE_NGAY',    '30',      N'Số ngày phải dùng ngày bù sau khi tích lũy'),
+    ('PHUCAP_NGUYHIEM_THANG',   '500000',  N'Phụ cấp khu nguy hiểm/tháng (nội bộ Đại Nam)'),
+    ('DIEM_QUY_DOI_VND',        '1000',    N'Số tiền để đổi 1 điểm tích lũy'),
+    ('DIEM_HET_HAN_THANG',      '24',      N'Số tháng điểm hết hạn');
+GO
+
+-- ── Cột HR đã thêm trực tiếp vào CREATE TABLE NhanVien ở trên ──────────
+
+-- ── BƯỚC 3: CaLamMau — Template thay thế CHECK cứng ────────────────────
+CREATE TABLE CaLamMau (
+    Id          INT IDENTITY(1,1) PRIMARY KEY,
+    TenCa       NVARCHAR(50) NOT NULL,
+    GioBatDau   TIME NOT NULL,
+    GioKetThuc  TIME NOT NULL,
+    SoGioChuan  AS (CAST((CASE WHEN GioKetThuc >= GioBatDau THEN DATEDIFF(MINUTE, GioBatDau, GioKetThuc) ELSE DATEDIFF(MINUTE, GioBatDau, GioKetThuc) + 1440 END) / 60.0 AS DECIMAL(4,2))) PERSISTED,
+    LoaiCa      NVARCHAR(20) NOT NULL
+        CHECK (LoaiCa IN ('CoDinh','LinhHoat')),
+    IsActive    BIT NOT NULL DEFAULT 1
+);
+GO
+
+INSERT INTO CaLamMau (TenCa, GioBatDau, GioKetThuc, LoaiCa) VALUES
+    (N'Ca Sáng',          '06:00', '14:00', 'CoDinh'),
+    (N'Ca Chiều',         '14:00', '22:00', 'CoDinh'),
+    (N'Ca Tối/Đêm',       '22:00', '06:00', 'CoDinh'),
+    (N'Ca Hành Chính',    '08:00', '17:00', 'CoDinh'),
+    (N'PT Buổi Sáng',     '07:00', '12:00', 'LinhHoat'),
+    (N'PT Buổi Chiều',    '13:00', '18:00', 'LinhHoat'),
+    (N'PT Cuối Tuần',     '08:00', '20:00', 'LinhHoat');
+GO
+
+-- ── BƯỚC 4: Redesign LichLamViec ────────────────────────────────────────
+-- Xóa bảng cũ trước (đã có dữ liệu seed trong schema gốc nếu có)
+IF OBJECT_ID('LichLamViec', 'U') IS NOT NULL
+    DROP TABLE LichLamViec;
+GO
+
+CREATE TABLE LichLamViec (
+    Id              INT IDENTITY(1,1) PRIMARY KEY,
+    IdNhanVien      INT NOT NULL REFERENCES NhanVien(Id),
+    IdKhuVuc        INT NOT NULL REFERENCES KhuVuc(Id),
+    NgayLam         DATE NOT NULL,
+    IdCaLamMau      INT NOT NULL REFERENCES CaLamMau(Id),
+    LoaiNgayLam     NVARCHAR(20) NOT NULL DEFAULT 'ThuongThuong'
+        CHECK (LoaiNgayLam IN ('ThuongThuong','CuoiTuan','NgayLe','LamBu')),
+    LoaiNV          NVARCHAR(20) NOT NULL DEFAULT 'FullTime'
+        CHECK (LoaiNV IN ('FullTime','PartTime','TheoMua','Intern')),
+    TrangThai       NVARCHAR(20) NOT NULL DEFAULT 'KeHoach'
+        CHECK (TrangThai IN ('KeHoach','DaXacNhan','DaNghi','NghiPhep','HoanThanh')),
+    GhiChu          NVARCHAR(200) NULL,
+    CreatedBy       INT NULL REFERENCES NhanVien(Id),
+    CreatedAt       DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT UqLich_NV_Ngay_Ca UNIQUE (IdNhanVien, NgayLam, IdCaLamMau)
+);
+GO
+
+-- ── BƯỚC 5: BangChamCong — Quẹt thẻ RFID thực tế ───────────────────────
+CREATE TABLE BangChamCong (
+    Id              INT IDENTITY(1,1) PRIMARY KEY,
+    IdNhanVien      INT NOT NULL REFERENCES NhanVien(Id),
+    IdLichLamViec   INT NULL REFERENCES LichLamViec(Id),  -- NULL = quẹt ngoài lịch (OT đột xuất)
+    ThoiGianVao     DATETIME NOT NULL,
+    ThoiGianRa      DATETIME NULL,   -- SoGioThucTe tính ở BUS layer (C# code)
+    LoaiNgayLam     NVARCHAR(20) NOT NULL DEFAULT 'ThuongThuong'
+        CHECK (LoaiNgayLam IN ('ThuongThuong','CuoiTuan','NgayLe','LamBu')),
+    ChinhSachLe     NVARCHAR(20) NULL
+        CHECK (ChinhSachLe IN ('TinhTien300pct','TichNgayBu')),
+    TrangThai       NVARCHAR(20) NOT NULL DEFAULT 'DangLam'
+        CHECK (TrangThai IN ('DangLam','DungGio','TreGio','VeSom','TangCa')),
+    GhiChu          NVARCHAR(200) NULL,
+    CONSTRAINT UqChamCong_NV_Vao UNIQUE (IdNhanVien, ThoiGianVao)
+);
+GO
+
+-- ── BƯỚC 6: NghiBu — Tích lũy ngày bù khi làm lễ ───────────────────────
+CREATE TABLE NghiBu (
+    Id                  INT IDENTITY(1,1) PRIMARY KEY,
+    IdNhanVien          INT NOT NULL REFERENCES NhanVien(Id),
+    NgayLamBuGoc        DATE NOT NULL,           -- ngày lễ đã làm
+    SoNgayBuTichLuy     DECIMAL(3,1) NOT NULL,   -- thường = 1.0
+    SoNgayBuDaDung      DECIMAL(3,1) NOT NULL DEFAULT 0,
+    SoNgayBuConLai      AS (SoNgayBuTichLuy - SoNgayBuDaDung) PERSISTED,
+    NgayHetHan          DATE NOT NULL,           -- +30 ngày theo Luật
+    IdBangChamCong      INT NULL REFERENCES BangChamCong(Id)
+);
+GO
+
+
+-- ── BƯỚC 8: ChungChiNhanVien — Chứng chỉ hành nghề ──────────────────────
+CREATE TABLE ChungChiNhanVien (
+    Id              INT IDENTITY(1,1) PRIMARY KEY,
+    IdNhanVien      INT NOT NULL REFERENCES NhanVien(Id),
+    LoaiChungChi    NVARCHAR(50) NOT NULL
+        CHECK (LoaiChungChi IN (
+            'CuuHoBoiLoi',
+            'SoCuuYTe_CPR',
+            'VanHanhThietBiCoKhi',
+            'ChamSocDongVatHoangDa',
+            'LaiXeNangHang',
+            'AnToanDien',
+            'Khac'
+        )),
+    SoChungChi      NVARCHAR(50) NULL,
+    NhaCap          NVARCHAR(100) NULL,
+    NgayCap         DATE NOT NULL,
+    NgayHetHan      DATE NOT NULL,
+    TrangThai       AS (
+        CASE
+            WHEN NgayHetHan < CAST(GETDATE() AS DATE) THEN 'HetHan'
+            WHEN DATEDIFF(DAY, GETDATE(), NgayHetHan) <= 30 THEN 'SapHetHan'
+            ELSE 'ConHieuLuc'
+        END
+    ),
+    HinhAnhFile     VARCHAR(255) NULL
+);
+GO
+
+-- ── BƯỚC 9: SoNgayPhepNam — Theo dõi số ngày phép mỗi năm ───────────────
+CREATE TABLE SoNgayPhepNam (
+    Id                      INT IDENTITY(1,1) PRIMARY KEY,
+    IdNhanVien              INT NOT NULL REFERENCES NhanVien(Id),
+    Nam                     INT NOT NULL,
+    SoNgayPhepPhatSinh      INT NOT NULL,   -- Tính từ NhomCongViec + Thâm niên
+    SoNgayDaDung            INT NOT NULL DEFAULT 0,
+    SoNgayConLai            AS (SoNgayPhepPhatSinh - SoNgayDaDung) PERSISTED,
+    CONSTRAINT UqPhepNam_NV_Nam UNIQUE (IdNhanVien, Nam)
+);
+GO
+
+-- ── BƯỚC 10: DonXinNghi — Nhân viên tự xin, Manager duyệt ──────────────
+CREATE TABLE DonXinNghi (
+    Id                  INT IDENTITY(1,1) PRIMARY KEY,
+    IdNhanVien          INT NOT NULL REFERENCES NhanVien(Id),
+    LoaiNghi            NVARCHAR(30) NOT NULL
+        CHECK (LoaiNghi IN (
+            'PhepNam',           -- 100% Công ty
+            'NghiOm',            -- 75% BHXH
+            'ThaiSanNu',         -- 100% BHXH (6 tháng)
+            'ThaiSanNam',        -- 100% BHXH (5-14 ngày)
+            'TaiNanLaoDong',     -- 100% BHXH
+            'NghiBu',            -- dùng ngày bù tích lũy
+            'NghiLe',            -- nghỉ lễ bắt buộc 11 ngày/năm
+            'DotXuatCoLuong',    -- cưới/tang 3 ngày, 100% Công ty
+            'NghiKhongLuong'     -- 0%
+        )),
+    NgayBatDau          DATE NOT NULL,
+    NgayKetThuc         DATE NOT NULL,
+    SoNgay              AS (DATEDIFF(DAY, NgayBatDau, NgayKetThuc) + 1) PERSISTED,
+    TiLeLuongHuong      DECIMAL(5,2) NOT NULL,  -- 0, 75.00, 100.00
+    NguonChiTra         NVARCHAR(10) NOT NULL
+        CHECK (NguonChiTra IN ('CongTy','BHXH')),
+    LyDo                NVARCHAR(500) NULL,
+    TepDinhKem          VARCHAR(255) NULL,       -- đường dẫn file giấy tờ
+    TrangThai           NVARCHAR(20) NOT NULL DEFAULT 'ChoDuyet'
+        CHECK (TrangThai IN ('ChoDuyet','DaDuyet','TuChoi','DaHuy')),
+    IdNguoiDuyet        INT NULL REFERENCES NhanVien(Id),
+    NgayDuyet           DATETIME NULL,
+    GhiChuDuyet         NVARCHAR(200) NULL,
+    CreatedAt           DATETIME NOT NULL DEFAULT GETDATE(),
+    CONSTRAINT ChkDonNghi_Ngay CHECK (NgayKetThuc >= NgayBatDau)
+);
+GO
+
+-- ── BƯỚC 11: TaiNanLaoDong ───────────────────────────────────────────────
+CREATE TABLE TaiNanLaoDong (
+    Id                  INT IDENTITY(1,1) PRIMARY KEY,
+    IdNhanVien          INT NOT NULL REFERENCES NhanVien(Id),
+    NgayTaiNan          DATE NOT NULL,
+    LoaiTaiNan          NVARCHAR(30) NOT NULL
+        CHECK (LoaiTaiNan IN ('NguoiMay','DongVat','DuoiNuoc','NgaHuong','ChayNam','Khac')),
+    MucDo               NVARCHAR(20) NOT NULL
+        CHECK (MucDo IN ('Nhe','TrungBinh','NangNe','TuVong')),
+    MoTa                NVARCHAR(MAX) NOT NULL,
+    IdSuCo              INT NULL REFERENCES SuCo(Id),
+    NgayNghiBatDau      DATE NULL,
+    NgayNghiKetThuc     DATE NULL,
+    SoNgayNghi          AS (
+        CASE WHEN NgayNghiBatDau IS NOT NULL AND NgayNghiKetThuc IS NOT NULL
+             THEN DATEDIFF(DAY, NgayNghiBatDau, NgayNghiKetThuc) + 1
+             ELSE NULL END
+    ) PERSISTED,
+    TiLeBHXH            DECIMAL(5,2) NULL,       -- % lương BHXH chi trả
+    TrangThai           NVARCHAR(20) NOT NULL DEFAULT 'DangDieuTri'
+        CHECK (TrangThai IN ('DangDieuTri','DaDieuTri','TamTat','VinhVien','TuVong')),
+    CreatedAt           DATETIME NOT NULL DEFAULT GETDATE()
+);
+GO
+
+-- ── BƯỚC 12: KyLuat ─────────────────────────────────────────────────────
+CREATE TABLE KyLuat (
+    Id                      INT IDENTITY(1,1) PRIMARY KEY,
+    IdNhanVien              INT NOT NULL REFERENCES NhanVien(Id),
+    NgayApDung              DATE NOT NULL,
+    HinhThuc                NVARCHAR(30) NOT NULL
+        CHECK (HinhThuc IN (
+            'CanhCao',           -- Lưu 1 năm, xóa nếu không tái phạm
+            'TruLuong',          -- Trừ tiền lương kỳ đó
+            'DinhChiCoLuong',    -- Tối đa 15 ngày, chờ điều tra
+            'SaThái'             -- Vi phạm nghiêm trọng
+        )),
+    SoTienTru               DECIMAL(15,0) NOT NULL DEFAULT 0,
+    SoNgayDinhChi           INT NOT NULL DEFAULT 0,
+    MoTa                    NVARCHAR(500) NOT NULL,
+    IdNguoiQuyetDinh        INT NOT NULL REFERENCES NhanVien(Id),
+    NgayHetHieuLuc          DATE NULL,           -- NULL = vĩnh viễn
+    CreatedAt               DATETIME NOT NULL DEFAULT GETDATE()
+);
+GO
+
+-- ── BƯỚC 13: BangLuong — Chốt tháng FullTime + PartTime ─────────────────
+CREATE TABLE BangLuong (
+    Id                  INT IDENTITY(1,1) PRIMARY KEY,
+    IdNhanVien          INT NOT NULL REFERENCES NhanVien(Id),
+    Thang               TINYINT NOT NULL CHECK (Thang BETWEEN 1 AND 12),
+    Nam                 INT NOT NULL,
+    LoaiHopDong         NVARCHAR(20) NOT NULL,   -- Snapshot tại thời điểm chốt
+
+    -- FullTime
+    LuongCoBan          DECIMAL(15,0) NULL,
+    NgayLamKeHoach      INT NULL,
+    NgayLamThucTe       INT NULL,
+
+    -- PartTime
+    SoGioThucTe         DECIMAL(7,2) NULL,
+    LuongTheoGio        DECIMAL(10,0) NULL,
+
+    -- Chung
+    SoGioTangCa         DECIMAL(5,2) NOT NULL DEFAULT 0,
+    ThuongTangCa        DECIMAL(15,0) NOT NULL DEFAULT 0,
+    PhuCapNguyHiem      DECIMAL(15,0) NOT NULL DEFAULT 0,
+    PhuCapKhac          DECIMAL(15,0) NOT NULL DEFAULT 0,
+    TongTruKyLuat       DECIMAL(15,0) NOT NULL DEFAULT 0,
+    TongGross           DECIMAL(15,0) NOT NULL DEFAULT 0,
+    ThucLinh            DECIMAL(15,0) NOT NULL DEFAULT 0,
+    TrangThai           NVARCHAR(20) NOT NULL DEFAULT 'DangTinh'
+        CHECK (TrangThai IN ('DangTinh','DaChot','DaThanhToan')),
+    GhiChu              NVARCHAR(300) NULL,
+    CreatedBy           INT NULL REFERENCES NhanVien(Id),
+    CreatedAt           DATETIME NOT NULL DEFAULT GETDATE(),
+
+    CONSTRAINT UqBangLuong_NV_Thang UNIQUE (IdNhanVien, Thang, Nam)
+);
+GO
+
+-- ── INDEX BỔ SUNG ────────────────────────────────────────────────────────
+CREATE INDEX Ix_Lich_NV_Thang        ON LichLamViec(IdNhanVien, NgayLam);
+CREATE INDEX Ix_Lich_KhuVuc_Ngay     ON LichLamViec(IdKhuVuc, NgayLam);
+CREATE INDEX Ix_Cham_NV_Ngay         ON BangChamCong(IdNhanVien, ThoiGianVao);
+CREATE INDEX Ix_DonNghi_NV_TT        ON DonXinNghi(IdNhanVien, TrangThai);
+CREATE INDEX Ix_ChungChi_NV          ON ChungChiNhanVien(IdNhanVien, NgayHetHan);
+CREATE INDEX Ix_Luong_NV             ON BangLuong(IdNhanVien, Nam, Thang);
+CREATE INDEX Ix_TaiNan_NV            ON TaiNanLaoDong(IdNhanVien, NgayTaiNan);
+GO
+
+-- ── VIEW: Cảnh báo chứng chỉ sắp hết hạn ───────────────────────────────
+CREATE VIEW V_ChungChiSapHetHan AS
+SELECT
+    nv.HoTen,
+    nv.MaCode          AS MaNhanVien,
+    kv.TenKhuVuc       AS KhuVucChinh,
+    cc.LoaiChungChi,
+    cc.SoChungChi,
+    cc.NgayHetHan,
+    DATEDIFF(DAY, GETDATE(), cc.NgayHetHan) AS SoNgayConLai,
+    cc.TrangThai
+FROM ChungChiNhanVien cc
+JOIN NhanVien nv ON cc.IdNhanVien = nv.Id
+LEFT JOIN KhuVuc kv ON nv.IdKhuVuc = kv.Id
+WHERE cc.TrangThai IN ('SapHetHan','HetHan')
+  AND nv.IsDeleted = 0;
+GO
+
+-- ── VIEW: Tổng hợp ngày phép còn lại toàn công ty ──────────────────────
+CREATE VIEW V_PhepNamToanCongTy AS
+SELECT
+    nv.HoTen, nv.MaCode, nv.LoaiHopDong, nv.NhomCongViec,
+    p.Nam,
+    p.SoNgayPhepPhatSinh,
+    p.SoNgayDaDung,
+    p.SoNgayConLai,
+    DATEDIFF(YEAR, nv.CreatedAt, GETDATE()) AS NamThamnien
+FROM SoNgayPhepNam p
+JOIN NhanVien nv ON p.IdNhanVien = nv.Id
+WHERE nv.IsDeleted = 0
+  AND p.Nam = YEAR(GETDATE());
+GO
+
+-- ── SEED: Tạo bản ghi phép năm 2026 cho NV Admin ────────────────────────
+INSERT INTO SoNgayPhepNam (IdNhanVien, Nam, SoNgayPhepPhatSinh)
+SELECT Id, 2026, 12 FROM NhanVien WHERE IsDeleted = 0;
+GO
+
 GO

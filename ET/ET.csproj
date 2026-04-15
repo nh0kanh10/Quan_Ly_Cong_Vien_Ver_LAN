@@ -91,6 +91,10 @@
     <Compile Include="ET_NhaCungCap.cs" />
     <Compile Include="ET_NhaHang.cs" />
     <Compile Include="ET_NhanVien.cs" />
+    <Compile Include="ET_ChungChiNhanVien.cs" />
+    <Compile Include="ET_KyLuat.cs" />
+    <Compile Include="ET_DonXinNghi.cs" />
+    <Compile Include="ET_TaiNanLaoDong.cs" />
     <Compile Include="ET_PhanQuyen.cs" />
     <Compile Include="ET_PhieuChi.cs" />
     <Compile Include="ET_PhieuNhapKho.cs" />

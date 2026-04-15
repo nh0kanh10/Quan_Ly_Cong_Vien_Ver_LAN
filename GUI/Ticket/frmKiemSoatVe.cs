@@ -14,7 +14,7 @@ namespace GUI
 {
     public partial class frmKiemSoatVe : Form, IBaseForm
     {
-        // === State ===
+        //  State 
         private int _countPass = 0;
         private int _countFail = 0;
         private int _flashStep = 0;
@@ -154,9 +154,9 @@ namespace GUI
             return null; // Cổng chung -> check khu vực only
         }
 
-        // ============================================================
+        // 
         // SCANNER INPUT
-        // ============================================================
+        // 
 
         private void txtScanner_KeyDown(object sender, KeyEventArgs e)
         {
@@ -187,9 +187,9 @@ namespace GUI
             }
         }
 
-        // ============================================================
+        // 
         // CORE: PROCESS SCAN
-        // ============================================================
+        // 
 
         private void ProcessScan(string code)
         {
@@ -304,9 +304,9 @@ namespace GUI
             UpdateCounter();
         }
 
-        // ============================================================
+        // 
         // FEEDBACK DISPLAY (Left panel — big icon + text)
-        // ============================================================
+        // 
 
         private void ShowFeedback(Color bgColor, IconChar icon, string title, string subTitle)
         {
@@ -341,9 +341,9 @@ namespace GUI
             timerReset.Stop();
         }
 
-        // ============================================================
+        // 
         // TICKET INFO CARD (Right panel — ticket details)
-        // ============================================================
+        // 
 
         private void ShowTicketInfo(string maVe, string tenDV, string tenKhu, string luotConLai, DateTime? ngayMua, Color accentColor, string verdict)
         {
@@ -383,9 +383,9 @@ namespace GUI
             pnlTicketInfo.BorderColor = CARD_BORDER;
         }
 
-        // ============================================================
+        // 
         // FLASH BORDER ANIMATION (visual gate feedback)
-        // ============================================================
+        // 
 
         private void FlashBorder(Color color)
         {
@@ -416,9 +416,9 @@ namespace GUI
             }
         }
 
-        // ============================================================
+        // 
         // COUNTER & HISTORY
-        // ============================================================
+        // 
 
         private void UpdateCounter()
         {
@@ -436,9 +436,9 @@ namespace GUI
             if (lstHistory.Items.Count > 50) lstHistory.Items.RemoveAt(50);
         }
 
-        // ============================================================
+        // 
         // CAMERA SCANNER (Webcam barcode/QR decode)
-        // ============================================================
+        // 
 
         private void btnToggleCamera_Click(object sender, EventArgs e)
         {

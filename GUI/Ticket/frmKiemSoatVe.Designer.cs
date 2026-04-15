@@ -23,9 +23,10 @@ namespace GUI
             this.btnToggleCamera = new Guna.UI2.WinForms.Guna2Button();
             this.btnScanFile = new Guna.UI2.WinForms.Guna2Button();
             this.pnlHeader = new System.Windows.Forms.Panel();
+            this.cboTroChoi = new System.Windows.Forms.ComboBox();
             this.cboKhuVuc = new System.Windows.Forms.ComboBox();
-            this.lblGateTitle = new System.Windows.Forms.Label();
             this.picGateIcon = new System.Windows.Forms.PictureBox();
+            this.lblGateTitle = new System.Windows.Forms.Label();
             this.pnlScannerBar = new System.Windows.Forms.Panel();
             this.txtScanInput = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblScanIcon = new System.Windows.Forms.Label();
@@ -50,19 +51,58 @@ namespace GUI
             this.txtScanner = new Guna.UI2.WinForms.Guna2TextBox();
             this.timerReset = new System.Windows.Forms.Timer(this.components);
             this.timerFlash = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.picGateIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picCamera)).BeginInit();
+            this.pnlHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picGateIcon)).BeginInit();
             this.pnlScannerBar.SuspendLayout();
             this.pnlMain.SuspendLayout();
             this.pnlTicketInfo.SuspendLayout();
             this.pnlFeedback.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picStatus)).BeginInit();
             this.SuspendLayout();
-            this.cboTroChoi = new System.Windows.Forms.ComboBox();
+            // 
+            // picCamera
+            // 
+            this.picCamera.BackColor = System.Drawing.Color.Black;
+            this.picCamera.Location = new System.Drawing.Point(127, 0);
+            this.picCamera.Name = "picCamera";
+            this.picCamera.Size = new System.Drawing.Size(151, 140);
+            this.picCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picCamera.TabIndex = 10;
+            this.picCamera.TabStop = false;
+            this.picCamera.Visible = false;
+            // 
+            // btnToggleCamera
+            // 
+            this.btnToggleCamera.BorderRadius = 8;
+            this.btnToggleCamera.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnToggleCamera.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(130)))), ((int)(((byte)(246)))));
+            this.btnToggleCamera.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnToggleCamera.ForeColor = System.Drawing.Color.White;
+            this.btnToggleCamera.Location = new System.Drawing.Point(135, 10);
+            this.btnToggleCamera.Name = "btnToggleCamera";
+            this.btnToggleCamera.Size = new System.Drawing.Size(120, 36);
+            this.btnToggleCamera.TabIndex = 2;
+            this.btnToggleCamera.Text = "Bật Cam";
+            this.btnToggleCamera.Click += new System.EventHandler(this.btnToggleCamera_Click);
+            // 
+            // btnScanFile
+            // 
+            this.btnScanFile.BorderRadius = 8;
+            this.btnScanFile.Dock = System.Windows.Forms.DockStyle.Left;
+            this.btnScanFile.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(197)))), ((int)(((byte)(94)))));
+            this.btnScanFile.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.btnScanFile.ForeColor = System.Drawing.Color.White;
+            this.btnScanFile.Location = new System.Drawing.Point(255, 10);
+            this.btnScanFile.Name = "btnScanFile";
+            this.btnScanFile.Size = new System.Drawing.Size(120, 36);
+            this.btnScanFile.TabIndex = 3;
+            this.btnScanFile.Text = "Chọn Ảnh";
+            this.btnScanFile.Click += new System.EventHandler(this.btnScanFile_Click);
             // 
             // pnlHeader
             // 
-            this.pnlHeader.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(23)))), ((int)(((byte)(42)))));
+            this.pnlHeader.BackColor = System.Drawing.Color.CornflowerBlue;
             this.pnlHeader.Controls.Add(this.cboTroChoi);
             this.pnlHeader.Controls.Add(this.cboKhuVuc);
             this.pnlHeader.Controls.Add(this.picGateIcon);
@@ -71,12 +111,12 @@ namespace GUI
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Name = "pnlHeader";
             this.pnlHeader.Padding = new System.Windows.Forms.Padding(10, 8, 10, 8);
-            this.pnlHeader.Size = new System.Drawing.Size(900, 50);
+            this.pnlHeader.Size = new System.Drawing.Size(1432, 50);
             this.pnlHeader.TabIndex = 4;
             // 
             // cboTroChoi
             // 
-            this.cboTroChoi.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(44)))), ((int)(((byte)(58)))));
+            this.cboTroChoi.BackColor = System.Drawing.Color.CornflowerBlue;
             this.cboTroChoi.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboTroChoi.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cboTroChoi.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -88,7 +128,7 @@ namespace GUI
             // 
             // cboKhuVuc
             // 
-            this.cboKhuVuc.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(44)))), ((int)(((byte)(58)))));
+            this.cboKhuVuc.BackColor = System.Drawing.Color.CornflowerBlue;
             this.cboKhuVuc.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cboKhuVuc.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cboKhuVuc.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -97,6 +137,17 @@ namespace GUI
             this.cboKhuVuc.Name = "cboKhuVuc";
             this.cboKhuVuc.Size = new System.Drawing.Size(220, 25);
             this.cboKhuVuc.TabIndex = 2;
+            // 
+            // picGateIcon
+            // 
+            this.picGateIcon.BackColor = System.Drawing.Color.Transparent;
+            this.picGateIcon.Dock = System.Windows.Forms.DockStyle.Left;
+            this.picGateIcon.Location = new System.Drawing.Point(10, 8);
+            this.picGateIcon.Name = "picGateIcon";
+            this.picGateIcon.Size = new System.Drawing.Size(36, 34);
+            this.picGateIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.picGateIcon.TabIndex = 2;
+            this.picGateIcon.TabStop = false;
             // 
             // lblGateTitle
             // 
@@ -108,50 +159,39 @@ namespace GUI
             this.lblGateTitle.Text = "  CỔNG KIỂM SOÁT VÉ";
             this.lblGateTitle.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // picGateIcon
-            // 
-            this.picGateIcon.BackColor = System.Drawing.Color.Transparent;
-            this.picGateIcon.Dock = System.Windows.Forms.DockStyle.Left;
-            this.picGateIcon.Location = new System.Drawing.Point(12, 0);
-            this.picGateIcon.Name = "picGateIcon";
-            this.picGateIcon.Size = new System.Drawing.Size(36, 55);
-            this.picGateIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.picGateIcon.TabIndex = 2;
-            this.picGateIcon.TabStop = false;
-            // 
             // pnlScannerBar
             // 
-            this.pnlScannerBar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(24)))), ((int)(((byte)(34)))));
+            this.pnlScannerBar.BackColor = System.Drawing.Color.CornflowerBlue;
             this.pnlScannerBar.Controls.Add(this.txtScanInput);
             this.pnlScannerBar.Controls.Add(this.btnScanFile);
             this.pnlScannerBar.Controls.Add(this.btnToggleCamera);
             this.pnlScannerBar.Controls.Add(this.lblScanIcon);
             this.pnlScannerBar.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlScannerBar.Location = new System.Drawing.Point(0, 0);
+            this.pnlScannerBar.Location = new System.Drawing.Point(0, 50);
             this.pnlScannerBar.Name = "pnlScannerBar";
             this.pnlScannerBar.Padding = new System.Windows.Forms.Padding(15, 10, 15, 10);
-            this.pnlScannerBar.Size = new System.Drawing.Size(900, 56);
+            this.pnlScannerBar.Size = new System.Drawing.Size(1432, 56);
             this.pnlScannerBar.TabIndex = 3;
             // 
             // txtScanInput
             // 
-            this.txtScanInput.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
+            this.txtScanInput.BorderColor = System.Drawing.Color.White;
             this.txtScanInput.BorderRadius = 8;
             this.txtScanInput.BorderThickness = 2;
             this.txtScanInput.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtScanInput.DefaultText = "";
             this.txtScanInput.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtScanInput.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(42)))));
+            this.txtScanInput.FillColor = System.Drawing.Color.Gainsboro;
             this.txtScanInput.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(130)))), ((int)(((byte)(246)))));
             this.txtScanInput.Font = new System.Drawing.Font("Consolas", 14F, System.Drawing.FontStyle.Bold);
             this.txtScanInput.ForeColor = System.Drawing.Color.White;
-            this.txtScanInput.Location = new System.Drawing.Point(135, 10);
+            this.txtScanInput.Location = new System.Drawing.Point(375, 10);
             this.txtScanInput.Margin = new System.Windows.Forms.Padding(5, 0, 0, 0);
             this.txtScanInput.Name = "txtScanInput";
             this.txtScanInput.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(85)))), ((int)(((byte)(100)))));
             this.txtScanInput.PlaceholderText = "Nhập hoặc quét mã vé -> Enter...";
             this.txtScanInput.SelectedText = "";
-            this.txtScanInput.Size = new System.Drawing.Size(750, 36);
+            this.txtScanInput.Size = new System.Drawing.Size(1042, 36);
             this.txtScanInput.TabIndex = 0;
             this.txtScanInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtScanInput_KeyDown);
             // 
@@ -159,69 +199,30 @@ namespace GUI
             // 
             this.lblScanIcon.Dock = System.Windows.Forms.DockStyle.Left;
             this.lblScanIcon.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.lblScanIcon.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(155)))));
+            this.lblScanIcon.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(64)))));
             this.lblScanIcon.Location = new System.Drawing.Point(15, 10);
             this.lblScanIcon.Name = "lblScanIcon";
             this.lblScanIcon.Size = new System.Drawing.Size(120, 36);
             this.lblScanIcon.TabIndex = 1;
-            this.lblScanIcon.Text = " 📷  Quét vé:";
+            this.lblScanIcon.Text = " Quét vé:";
             this.lblScanIcon.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // btnToggleCamera
-            // 
-            this.btnToggleCamera.BorderRadius = 8;
-            this.btnToggleCamera.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnToggleCamera.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(130)))), ((int)(((byte)(246)))));
-            this.btnToggleCamera.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnToggleCamera.ForeColor = System.Drawing.Color.White;
-            this.btnToggleCamera.Location = new System.Drawing.Point(120, 10);
-            this.btnToggleCamera.Name = "btnToggleCamera";
-            this.btnToggleCamera.Size = new System.Drawing.Size(120, 36);
-            this.btnToggleCamera.TabIndex = 2;
-            this.btnToggleCamera.Text = "\uD83D\uDCF7 Bật Cam";
-            this.btnToggleCamera.Click += new System.EventHandler(this.btnToggleCamera_Click);
-            // 
-            // btnScanFile
-            // 
-            this.btnScanFile.BorderRadius = 8;
-            this.btnScanFile.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnScanFile.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(197)))), ((int)(((byte)(94)))));
-            this.btnScanFile.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.btnScanFile.ForeColor = System.Drawing.Color.White;
-            this.btnScanFile.Location = new System.Drawing.Point(245, 10);
-            this.btnScanFile.Name = "btnScanFile";
-            this.btnScanFile.Size = new System.Drawing.Size(120, 36);
-            this.btnScanFile.TabIndex = 3;
-            this.btnScanFile.Text = "\uD83D\uDCC2 Ch\u1ECDn \u1EA2nh";
-            this.btnScanFile.Click += new System.EventHandler(this.btnScanFile_Click);
-            // 
-            // picCamera
-            // 
-            this.picCamera.BackColor = System.Drawing.Color.Black;
-            this.picCamera.Location = new System.Drawing.Point(20, 20);
-            this.picCamera.Name = "picCamera";
-            this.picCamera.Size = new System.Drawing.Size(320, 240);
-            this.picCamera.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picCamera.TabIndex = 10;
-            this.picCamera.TabStop = false;
-            this.picCamera.Visible = false;
             // 
             // pnlMain
             // 
             this.pnlMain.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(24)))));
-            this.pnlMain.Controls.Add(this.picCamera);
             this.pnlMain.Controls.Add(this.pnlTicketInfo);
             this.pnlMain.Controls.Add(this.pnlFeedback);
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlMain.Location = new System.Drawing.Point(0, 56);
+            this.pnlMain.Location = new System.Drawing.Point(0, 106);
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Padding = new System.Windows.Forms.Padding(20, 20, 20, 10);
-            this.pnlMain.Size = new System.Drawing.Size(900, 402);
+            this.pnlMain.Size = new System.Drawing.Size(1432, 457);
             this.pnlMain.TabIndex = 0;
             // 
             // pnlTicketInfo
             // 
-            this.pnlTicketInfo.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
+            this.pnlTicketInfo.BackColor = System.Drawing.Color.WhiteSmoke;
+            this.pnlTicketInfo.BorderColor = System.Drawing.Color.Transparent;
             this.pnlTicketInfo.BorderRadius = 12;
             this.pnlTicketInfo.BorderThickness = 1;
             this.pnlTicketInfo.Controls.Add(this.lblTicketNgayMua);
@@ -232,11 +233,11 @@ namespace GUI
             this.pnlTicketInfo.Controls.Add(this.lblTicketVerdict);
             this.pnlTicketInfo.Controls.Add(this.lblTicketHeader);
             this.pnlTicketInfo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlTicketInfo.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(42)))));
+            this.pnlTicketInfo.FillColor = System.Drawing.Color.White;
             this.pnlTicketInfo.Location = new System.Drawing.Point(440, 20);
             this.pnlTicketInfo.Name = "pnlTicketInfo";
             this.pnlTicketInfo.Padding = new System.Windows.Forms.Padding(20, 15, 20, 15);
-            this.pnlTicketInfo.Size = new System.Drawing.Size(440, 372);
+            this.pnlTicketInfo.Size = new System.Drawing.Size(972, 427);
             this.pnlTicketInfo.TabIndex = 0;
             // 
             // lblTicketNgayMua
@@ -246,7 +247,7 @@ namespace GUI
             this.lblTicketNgayMua.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(155)))));
             this.lblTicketNgayMua.Location = new System.Drawing.Point(20, 187);
             this.lblTicketNgayMua.Name = "lblTicketNgayMua";
-            this.lblTicketNgayMua.Size = new System.Drawing.Size(400, 22);
+            this.lblTicketNgayMua.Size = new System.Drawing.Size(932, 22);
             this.lblTicketNgayMua.TabIndex = 0;
             // 
             // lblTicketLuot
@@ -256,7 +257,7 @@ namespace GUI
             this.lblTicketLuot.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(34)))), ((int)(((byte)(197)))), ((int)(((byte)(94)))));
             this.lblTicketLuot.Location = new System.Drawing.Point(20, 159);
             this.lblTicketLuot.Name = "lblTicketLuot";
-            this.lblTicketLuot.Size = new System.Drawing.Size(400, 28);
+            this.lblTicketLuot.Size = new System.Drawing.Size(932, 28);
             this.lblTicketLuot.TabIndex = 1;
             // 
             // lblTicketKhuVuc
@@ -266,7 +267,7 @@ namespace GUI
             this.lblTicketKhuVuc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(155)))));
             this.lblTicketKhuVuc.Location = new System.Drawing.Point(20, 135);
             this.lblTicketKhuVuc.Name = "lblTicketKhuVuc";
-            this.lblTicketKhuVuc.Size = new System.Drawing.Size(400, 24);
+            this.lblTicketKhuVuc.Size = new System.Drawing.Size(932, 24);
             this.lblTicketKhuVuc.TabIndex = 2;
             // 
             // lblTicketTenDV
@@ -276,7 +277,7 @@ namespace GUI
             this.lblTicketTenDV.ForeColor = System.Drawing.Color.White;
             this.lblTicketTenDV.Location = new System.Drawing.Point(20, 107);
             this.lblTicketTenDV.Name = "lblTicketTenDV";
-            this.lblTicketTenDV.Size = new System.Drawing.Size(400, 28);
+            this.lblTicketTenDV.Size = new System.Drawing.Size(932, 28);
             this.lblTicketTenDV.TabIndex = 3;
             // 
             // lblTicketMaVe
@@ -286,20 +287,20 @@ namespace GUI
             this.lblTicketMaVe.ForeColor = System.Drawing.Color.White;
             this.lblTicketMaVe.Location = new System.Drawing.Point(20, 77);
             this.lblTicketMaVe.Name = "lblTicketMaVe";
-            this.lblTicketMaVe.Size = new System.Drawing.Size(400, 30);
+            this.lblTicketMaVe.Size = new System.Drawing.Size(932, 30);
             this.lblTicketMaVe.TabIndex = 4;
             this.lblTicketMaVe.Text = "---";
             // 
             // lblTicketVerdict
             // 
-            this.lblTicketVerdict.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(65)))), ((int)(((byte)(80)))));
+            this.lblTicketVerdict.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.lblTicketVerdict.Dock = System.Windows.Forms.DockStyle.Top;
             this.lblTicketVerdict.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.lblTicketVerdict.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(155)))));
+            this.lblTicketVerdict.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.lblTicketVerdict.Location = new System.Drawing.Point(20, 45);
             this.lblTicketVerdict.Margin = new System.Windows.Forms.Padding(0, 5, 0, 10);
             this.lblTicketVerdict.Name = "lblTicketVerdict";
-            this.lblTicketVerdict.Size = new System.Drawing.Size(400, 32);
+            this.lblTicketVerdict.Size = new System.Drawing.Size(932, 32);
             this.lblTicketVerdict.TabIndex = 5;
             this.lblTicketVerdict.Text = "N/A";
             this.lblTicketVerdict.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -311,24 +312,25 @@ namespace GUI
             this.lblTicketHeader.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(155)))));
             this.lblTicketHeader.Location = new System.Drawing.Point(20, 15);
             this.lblTicketHeader.Name = "lblTicketHeader";
-            this.lblTicketHeader.Size = new System.Drawing.Size(400, 30);
+            this.lblTicketHeader.Size = new System.Drawing.Size(932, 30);
             this.lblTicketHeader.TabIndex = 6;
             this.lblTicketHeader.Text = "🎫 THÔNG TIN VÉ";
             // 
             // pnlFeedback
             // 
-            this.pnlFeedback.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(60)))), ((int)(((byte)(80)))));
+            this.pnlFeedback.BorderColor = System.Drawing.Color.WhiteSmoke;
             this.pnlFeedback.BorderRadius = 16;
             this.pnlFeedback.BorderThickness = 2;
+            this.pnlFeedback.Controls.Add(this.picCamera);
             this.pnlFeedback.Controls.Add(this.lblStatusSub);
             this.pnlFeedback.Controls.Add(this.lblStatusTitle);
             this.pnlFeedback.Controls.Add(this.picStatus);
             this.pnlFeedback.Dock = System.Windows.Forms.DockStyle.Left;
-            this.pnlFeedback.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(32)))), ((int)(((byte)(42)))));
+            this.pnlFeedback.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.pnlFeedback.Location = new System.Drawing.Point(20, 20);
             this.pnlFeedback.Margin = new System.Windows.Forms.Padding(0, 0, 15, 0);
             this.pnlFeedback.Name = "pnlFeedback";
-            this.pnlFeedback.Size = new System.Drawing.Size(420, 372);
+            this.pnlFeedback.Size = new System.Drawing.Size(420, 427);
             this.pnlFeedback.TabIndex = 1;
             // 
             // lblStatusSub
@@ -357,7 +359,7 @@ namespace GUI
             // 
             // picStatus
             // 
-            this.picStatus.BackColor = System.Drawing.Color.Transparent;
+            this.picStatus.BackColor = System.Drawing.Color.Black;
             this.picStatus.Dock = System.Windows.Forms.DockStyle.Top;
             this.picStatus.Location = new System.Drawing.Point(0, 0);
             this.picStatus.Name = "picStatus";
@@ -372,16 +374,16 @@ namespace GUI
             this.lblCounter.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.lblCounter.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.lblCounter.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(130)))), ((int)(((byte)(155)))));
-            this.lblCounter.Location = new System.Drawing.Point(0, 618);
+            this.lblCounter.Location = new System.Drawing.Point(0, 723);
             this.lblCounter.Name = "lblCounter";
-            this.lblCounter.Size = new System.Drawing.Size(900, 32);
+            this.lblCounter.Size = new System.Drawing.Size(1432, 32);
             this.lblCounter.TabIndex = 2;
             this.lblCounter.Text = "   ✅ Hợp lệ: 0     ❌ Từ chối: 0     📊 Tổng quét: 0";
             this.lblCounter.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // lstHistory
             // 
-            this.lstHistory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(24)))), ((int)(((byte)(32)))));
+            this.lstHistory.BackColor = System.Drawing.Color.Gainsboro;
             this.lstHistory.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lstHistory.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colTime,
@@ -393,9 +395,9 @@ namespace GUI
             this.lstHistory.FullRowSelect = true;
             this.lstHistory.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.lstHistory.HideSelection = false;
-            this.lstHistory.Location = new System.Drawing.Point(0, 458);
+            this.lstHistory.Location = new System.Drawing.Point(0, 563);
             this.lstHistory.Name = "lstHistory";
-            this.lstHistory.Size = new System.Drawing.Size(900, 160);
+            this.lstHistory.Size = new System.Drawing.Size(1432, 160);
             this.lstHistory.TabIndex = 1;
             this.lstHistory.UseCompatibleStateImageBehavior = false;
             this.lstHistory.View = System.Windows.Forms.View.Details;
@@ -446,7 +448,7 @@ namespace GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(900, 650);
+            this.ClientSize = new System.Drawing.Size(1432, 755);
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.lstHistory);
             this.Controls.Add(this.lblCounter);
@@ -456,8 +458,9 @@ namespace GUI
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "frmKiemSoatVe";
             this.Text = "KIỂM SOÁT VÉ";
-            ((System.ComponentModel.ISupportInitialize)(this.picGateIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picCamera)).EndInit();
+            this.pnlHeader.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picGateIcon)).EndInit();
             this.pnlScannerBar.ResumeLayout(false);
             this.pnlMain.ResumeLayout(false);
             this.pnlTicketInfo.ResumeLayout(false);

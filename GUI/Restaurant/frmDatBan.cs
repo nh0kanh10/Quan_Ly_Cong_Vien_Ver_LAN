@@ -12,7 +12,7 @@ namespace GUI
 {
     public partial class frmDatBan : Form
     {
-        // === Menu Cache (Zero-Latency) ===
+        //  Menu Cache (Zero-Latency) 
         private List<ET_SanPham> _menuCache;
 
         // State
@@ -88,18 +88,18 @@ namespace GUI
             UpdateButtonState(null);
         }
 
-        // ==========================================
+        // 
         // PHÍM TẮT
-        // ==========================================
+        // 
         private void frmDatBan_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F3) { btnGoiMon_Click(sender, e); e.Handled = true; }
             else if (e.KeyCode == Keys.F9) { btnThanhToan_Click(sender, e); e.Handled = true; }
         }
 
-        // ==========================================
+        // 
         // LOAD
-        // ==========================================
+        // 
         private void frmDatBan_Load(object sender, EventArgs e)
         {
             _menuCache = BUS_SanPham.Instance.LoadDS()
@@ -136,9 +136,9 @@ namespace GUI
             UpdateContext(null, null);
         }
 
-        // ==========================================
+        // 
         // SƠ ĐỒ BÀN
-        // ==========================================
+        // 
         private void LoadTableMap()
         {
             _banList = BUS_BanAn.Instance.LoadTheoNhaHang(_currentNhaHangId);
@@ -264,9 +264,9 @@ namespace GUI
             }
         }
 
-        // ==========================================
+        // 
         // CLICK BÀN: Single = preview, Double = chọn/bỏ chọn
-        // ==========================================
+        // 
         private void tileViewTable_ItemClick(object sender, TileViewItemClickEventArgs e)
         {
             // Single click = CHỈ XEM THÔNG TIN (preview), KHÔNG select
@@ -399,9 +399,9 @@ namespace GUI
             tileViewTable.LayoutChanged();
         }
 
-        // ==========================================
+        // 
         // CONTEXT BINDING — Header cột phải
-        // ==========================================
+        // 
         private void UpdateContext(string maBan, string trangThai)
         {
             if (string.IsNullOrEmpty(maBan))
@@ -438,9 +438,9 @@ namespace GUI
             UpdateButtonState(trangThai);
         }
 
-        // ==========================================
+        // 
         // CONTEXT-AWARE UI — Enable/Disable nút theo trạng thái bàn
-        // ==========================================
+        // 
         private void UpdateButtonState(string trangThai)
         {
             bool isTrong = (trangThai == AppConstants.TrangThaiPhong.Trong);
@@ -486,9 +486,9 @@ namespace GUI
             }
         }
 
-        // ==========================================
+        // 
         // BILL
-        // ==========================================
+        // 
         private decimal _tongTienBill = 0;
 
         private void LoadBill()
@@ -581,9 +581,9 @@ namespace GUI
             lblBillTitle.Text = "🛒 BILL — Chưa chọn bàn";
         }
 
-        // ==========================================
+        // 
         // LEGEND
-        // ==========================================
+        // 
         private void BuildLegend()
         {
             pnlLegend.Controls.Clear();
@@ -611,9 +611,9 @@ namespace GUI
             }
         }
 
-        // ==========================================
+        // 
         // NÚT CHỨC NĂNG — Command Center
-        // ==========================================
+        // 
 
         // ── GọI MÓN (F3) — Popup Menu (Batch mode) ──
         private void btnGoiMon_Click(object sender, EventArgs e)
@@ -955,7 +955,7 @@ namespace GUI
                 var r = BUS_DatBan.Instance.ThanhToan(_currentDonHangId, _selectedBanIds, phuongThuc);
                 if (r.IsSuccess)
                 {
-                    // === RECEIPT PREVIEW ===
+                    //  RECEIPT PREVIEW 
                     var chiTiets = BUS_DatBan.Instance.LayBill(_currentDonHangId);
                     string receipt = "═════ HOÁ ĐƠN NHÀ HÀNG ═════\n\n";
                     foreach (var ct in chiTiets)

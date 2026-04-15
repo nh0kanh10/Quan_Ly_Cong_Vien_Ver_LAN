@@ -49,7 +49,18 @@ namespace BUS
 
         public List<ET_KhoHang> LoadDS()
         {
-            return _khoHangGateway.LoadDS().Where(x => x.IsDeleted == false).ToList();
+            var p = _khoHangGateway.LoadDS().Where(x => x.IsDeleted == false).ToList();
+            var dsKhuVuc = BUS_KhuVuc.Instance.LoadDS();
+            var dictKhuVuc = dsKhuVuc.ToDictionary(x => x.Id, x => x.TenKhuVuc);
+            
+            foreach (var item in p)
+            {
+                if (item.IdKhuVuc.HasValue && dictKhuVuc.ContainsKey(item.IdKhuVuc.Value))
+                    item.TenKhuVuc = dictKhuVuc[item.IdKhuVuc.Value];
+                else
+                    item.TenKhuVuc = "Kho Tổng";
+            }
+            return p;
         }
 
         public List<ET_KhoHang> TimKiem(string keyword, string filter)
@@ -238,7 +249,8 @@ namespace BUS
                         var sp = dictSanPham[item.IdSanPham.Value];
                         if (sp.LoaiSanPham == AppConstants.LoaiSanPham.AnUong || sp.LoaiSanPham == AppConstants.LoaiSanPham.DoLuuNiem)
                         {
-                            listTheKhoToInsert.Add(CreateLedgerEntry(idKhoXuLy, sp.Id, -item.SoLuong, donHangId, createdBy, "POS Auto-Deduct"));
+                            int qtyDeduct = item.SoLuong * item.TyLeQuyDoi;
+                            listTheKhoToInsert.Add(CreateLedgerEntry(idKhoXuLy, sp.Id, -qtyDeduct, donHangId, createdBy, "POS Auto-Deduct"));
                         }
                     }
                     else if (item.IdCombo.HasValue)
@@ -246,7 +258,7 @@ namespace BUS
                         var comboDetails = allComboDetails.Where(x => x.IdCombo == item.IdCombo.Value).ToList();
                         foreach (var cd in comboDetails)
                         {
-                            int qtyToDeduct = cd.SoLuong * item.SoLuong;
+                            int qtyToDeduct = cd.SoLuong * item.SoLuong * item.TyLeQuyDoi; 
                             var sp = _sanPhamGateway.LayTheoId(cd.IdSanPham);
                             if (sp != null && (sp.LoaiSanPham == AppConstants.LoaiSanPham.AnUong || sp.LoaiSanPham == AppConstants.LoaiSanPham.DoLuuNiem)) 
                             {
@@ -330,6 +342,18 @@ namespace BUS
                 IdThamChieu = idRef, ThoiGianGiaoDich = DateTime.Now,
                 CreatedBy = userId, GhiChu = note + " DonHang #" + idRef
             };
+        }
+
+        public void WriteLedgerThueDo(int idKho, int idSP, int qty, int idRef, int userId, string loaiGiaoDich, string note)
+        {
+            var tk = new ET_TheKho
+            {
+                IdKho = idKho, IdSanPham = idSP, LoaiGiaoDich = loaiGiaoDich, 
+                SoLuongThayDoi = qty, TonCuoi = null, DonGiaVatTu = null,
+                IdThamChieu = idRef, ThoiGianGiaoDich = DateTime.Now,
+                CreatedBy = userId, GhiChu = note
+            };
+            _theKhoGateway.Them(tk);
         }
     }
 }

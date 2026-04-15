@@ -1,0 +1,467 @@
+﻿Defect ID,Title,Screen,Pre-condition,Steps,Test Data,Expected Results,Actual Results,Priority,Severity,Date,Owner,TC ID,Build,System,Assign To,Status
+DEF_POS_001,Thanh toán khi giỏ hàng trống — hệ thống vẫn cho thanh toán,Màn hình Bán hàng,Đăng nhập thành công. Giỏ hàng trống.,"1. Mở phần mềm Quản lý Công viên Đại Nam.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Không thêm gì vào giỏ (giỏ trống).
+5. Nhấn F9 (Thanh toán tiền mặt).
+6. Quan sát phản hồi.",Giỏ hàng 0 đồng,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ trống (0 đồng).
+5. Nhấn F9.
+6. Hộp thoại: ""Giỏ hàng trống!"" hiển thị. Không cho thanh toán.",Hệ thống vẫn hiện popup xác nhận với Tổng đơn = 0 VNĐ. Nhấn Có thì tạo đơn hàng 0đ trong cơ sở dữ liệu.,High,Major,2026-04-10,QA_NhiNT,POS_064,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_POS_002,Tìm kiếm sản phẩm không dấu — không trả kết quả,Màn hình Bán hàng,Đăng nhập thành công. Danh sách SP có Nước suối 500ml.,"1. Mở phần mềm.
+2. Đăng nhập ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn F1 để chuyển vào ô tìm kiếm.
+5. Gõ ""nuoc suoi"" (không dấu).
+6. Quan sát danh sách sản phẩm.",Gõ từ khóa không dấu: nuoc suoi,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Con trỏ vào ô tìm kiếm.
+5. Danh sách sản phẩm tự động lọc ngay khi gõ.
+6. Hiển thị các sản phẩm có tên chứa ""Nước"" (VD: Nước ngọt lon, Nước suối 500ml).",Danh sách sản phẩm trống. Hệ thống chỉ tìm chính xác có dấu. Nhân viên phải gõ đúng dấu mới ra kết quả.,Low,Minor,2026-04-10,QA_NhiNT,POS_012,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_POS_003,Sản phẩm mới chưa có giá — hiện 0 đồng và vẫn cho bán,Màn hình Bán hàng,Đăng nhập thành công. SP mới tạo chưa có giá trong bảng giá.,"1. Mở phần mềm.
+2. Đăng nhập ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Quan sát giá hiển thị trên thẻ của sản phẩm mới tạo.
+5. Double-click để thêm vào giỏ.
+6. Thanh toán.",SP mới chưa có giá,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giá trên thẻ hiện đúng giá theo ngày.
+5. Giá khớp với bảng giá cấu hình.",SP hiện 0đ trong danh sách. Thêm giỏ bình thường. Thanh toán tổng 0đ. Mất hàng không thu tiền.,Medium,Major,2026-04-10,QA_NhiNT,POS_014,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_POS_004,Cột ĐVT hiện mã số thay vì tên đơn vị,Màn hình Bán hàng,Đăng nhập thành công. SP Nước ngọt có quy đổi: Lon và Thùng.,"1. Mở phần mềm.
+2. Đăng nhập ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Nước ngọt lon"".
+5. Trong giỏ click vào ô cột ĐVT.
+6. Quan sát ô ĐVT.",Nước ngọt. ĐVT Lon,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Nước ngọt lon xuất hiện trong giỏ ĐVT mặc định = Lon.
+5. Click vào ô ĐVT -> hiện danh sách xổ xuống gồm: Lon, Thùng, Lốc.
+6. Cho phép chọn đơn vị khác.",Cột ĐVT hiện mã số (VD: 3) thay vì tên Thùng. Nhân viên không biết đang bán theo đơn vị nào.,Medium,Minor,2026-04-10,QA_NhiNT,POS_033,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_POS_005,Chiết khấu tính sai — giảm cho cả đồ ăn uống,Màn hình Bán hàng,Đăng nhập thành công. KH VVIP chiết khấu 25%.,"1. Mở phần mềm.
+2. Đăng nhập ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Tìm KH ""KH002"" (VVIP -25%).
+5. Double-click ""Vé Người lớn"" (200.000đ).
+6. Double-click ""Cơm phần"" (22.500đ).
+7. Quan sát dòng preview chiết khấu và tổng tiền thực thu.",Vé 200K + Cơm 22.5K. KH VVIP 25%,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. KH VVIP 25% gán.
+5. Giỏ: Vé 200.000đ.
+6. Giỏ thêm: Cơm phần 22.500đ. Tổng gốc = 222.500đ.
+7. Giảm 25% CHỈ trên Vé (200.000đ) = 50.000đ. Cơm phần KHÔNG bị giảm. Thực thu = 172.500đ.",Hệ thống giảm 25% trên toàn bộ đơn hàng: (200K + 22.5K) x 25% = 55.625đ. Tổng chỉ còn 166.875đ. Mất 5.625đ doanh thu đồ ăn uống.,High,Major,2026-04-10,QA_NhiNT,POS_054,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_POS_006,Thanh toán ví RFID không quẹt KH — vẫn cho thanh toán,Màn hình Bán hàng,Đăng nhập thành công. Giỏ có hàng. Chưa quẹt thẻ RFID.,"1. Mở phần mềm.
+2. Đăng nhập ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào SP bất kỳ.
+5. KHÔNG tìm khách hàng (nhãn vẫn là ""Khách vãng lai"").
+6. Nhấn F10 (Thanh toán Ví RFID).
+7. Quan sát phản hồi.",Giỏ có hàng. Chưa quẹt thẻ,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có SP.
+5. Chưa gán khách hàng.
+6. Nhấn F10.
+7. Hộp thoại: ""Thanh toán ví RFID bắt buộc phải quẹt thẻ khách hàng trước!"" hiển thị. Không thực hiện thanh toán.",Hệ thống vẫn tạo hóa đơn thanh toán thành công dù chưa có thẻ RFID. Không trừ được ví ai cả.,Critical,Critical,2026-04-10,QA_NhiNT,POS_065,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_POS_007,Sửa SL vượt tồn kho — hệ thống không chặn,Màn hình Bán hàng,Đăng nhập thành công. Nước suối 500ml tồn kho 762 cái.,"1. Mở phần mềm.
+2. Đăng nhập ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Nước suối 500ml"" (tồn kho 762).
+5. Double-click vào ô SL gõ ""999"" nhấn Enter.
+6. Quan sát phản hồi.",Nước suối tồn kho 762. Nhập SL = 999,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: Nước suối 500ml SL=1.
+5. Nhập 999 vượt tồn kho 762.
+6. Cảnh báo hiển thị. SL tự động giảm xuống 762.",Hệ thống chấp nhận SL = 999 mà không cảnh báo. Thanh toán xong kho bị âm 237 chai.,Critical,Critical,2026-04-10,QA_NhiNT,POS_039,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_POS_008,Con trỏ không tự quay về ô quét mã sau thanh toán,Màn hình Bán hàng,Đăng nhập thành công. Vừa thanh toán xong 1 đơn.,"1. Mở phần mềm.
+2. Đăng nhập ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click ""Cơm phần"".
+5. Nhấn ""Đưa đủ"".
+6. Nhấn F9. Xác nhận ""Có"".
+7. Quan sát vị trí con trỏ sau khi thanh toán.",Sau thanh toán thành công,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: Cơm phần SL=1.
+5. Ô tiền điền đủ.
+6. Thanh toán thành công.
+7. Giỏ xóa sạch. Con trỏ quay về ô quét mã.",Con trỏ dừng ở nút thanh toán. Nhân viên phải click tay vào ô quét mã mới quét được đơn tiếp. Làm chậm quy trình.,Low,Minor,2026-04-10,QA_NhiNT,POS_063,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_POS_009,Quét mã Combo đang ngưng — vẫn thêm vào giỏ,Màn hình Bán hàng,Đăng nhập thành công. Combo CB002 đang tạm ngưng.,"1. Mở phần mềm.
+2. Đăng nhập ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ mã ""CB002"" (Combo đang tạm ngưng) vào ô quét mã nhấn Enter.
+5. Quan sát phản hồi.",Mã Combo CB002 đang ngưng,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Hệ thống tìm thấy Combo nhưng đang ngưng hoạt động.
+5. Cảnh báo hiển thị: ""Combo này đang ở trạng thái ngưng không được phép xuất bán!"". Giỏ hàng không thay đổi.",Hệ thống thêm Combo vào giỏ bình thường. Không kiểm tra trạng thái hoạt động của Combo.,High,Major,2026-04-10,QA_NhiNT,POS_030,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_POS_010,Đổi ĐVT sang Thùng khi SL lớn — kho bị âm,Màn hình Bán hàng,Đăng nhập thành công. Nước ngọt lon kho 500. 1 Thùng = 24 Lon.,"1. Mở phần mềm.
+2. Đăng nhập ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Nước ngọt lon"" (tồn kho 500 lon).
+5. Sửa SL = 100 (100 lon < 500 hợp lệ).
+6. Đổi ĐVT sang ""Thùng"" (1 Thùng = 24 lon). Lúc này 100 Thùng = 2400 lon > 500 tồn.
+7. Quan sát phản hồi.",Nước ngọt tồn 500 lon. SL = 100. Đổi sang Thùng,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: Nước ngọt lon ĐVT=Lon SL=1.
+5. SL = 100 hợp lệ (100 < 500).
+6. Đổi sang Thùng -> 100 x 24 = 2400 > 500 tồn.
+7. Cảnh báo hiển thị. ĐVT tự động quay về Lon.",Hệ thống đổi ĐVT thành công. SL vẫn = 100 Thùng = 2400 lon. Thanh toán xong kho âm 1900 lon.,Critical,Critical,2026-04-10,QA_NhiNT,POS_042,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_POS_011,Nhấn Escape khi giỏ trống — vẫn hiện hộp thoại hủy,Màn hình Bán hàng,Đăng nhập thành công. Giỏ hàng trống.,"1. Mở phần mềm.
+2. Đăng nhập ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Không thêm gì vào giỏ trống.
+5. Nhấn phím Escape.
+6. Quan sát phản hồi.",Giỏ hàng trống,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ trống.
+5. Nhấn Escape.
+6. KHÔNG hiện hộp thoại xác nhận (vì giỏ trống không có gì để hủy). Màn hình giữ nguyên.",Hệ thống vẫn hiện hộp thoại xác nhận hủy dù giỏ trống. Gây nhầm lẫn cho nhân viên.,Low,Minor,2026-04-10,QA_NhiNT,POS_072,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_POS_012,Tiền khách đưa thiếu — nút thanh toán vẫn bấm được,Màn hình Bán hàng,Đăng nhập thành công. Giỏ có Vé Người lớn 200.000đ.,"1. Mở phần mềm.
+2. Đăng nhập ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Vé Người lớn"" (giá 200.000đ).
+5. Gõ ""50000"" vào ô tiền khách đưa.
+6. Nhấn nút thanh toán tiền mặt.
+7. Quan sát.",Vé 200K. Tiền đưa 50K,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: Vé 200.000đ.
+5. Tiền khách đưa = 50.000.
+6. Nhãn hiện: ""CÒN THIẾU: 150.000 đ"" (màu đỏ). Nút thanh toán bị khóa.",Nút thanh toán vẫn bấm được. Hệ thống tạo đơn với tiền khách đưa chỉ 50K cho đơn 200K. Thiếu 150K.,High,Major,2026-04-10,QA_NhiNT,POS_060,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_GATE_001,Bộ đếm không reset khi đổi khu vực,Màn hình Kiểm soát vé,Đăng nhập thành công. Đang ở Khu A. Đã quét 5 vé (Hợp lệ: 3 / Từ chối: 2).,"1. Mở phần mềm.
+2. Đăng nhập ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A. Quét 3 vé hợp lệ + 2 vé từ chối.
+5. Đổi dropdown sang Khu B.
+6. Quan sát bộ đếm.",Đổi từ Khu A sang Khu B,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Bộ đếm: Hợp lệ = 3 Từ chối = 2 Tổng = 5.
+5. Đổi sang Khu B.
+6. Bộ đếm vẫn giữ giá trị cũ (Hợp lệ = 3) không reset về 0.",Bộ đếm hiện 0 / 0 / 0 ngay khi đổi khu. Mất dữ liệu thống kê của phiên làm việc.,Medium,Minor,2026-04-10,QA_NhiNT,GATE_061,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_GATE_002,Quét vé hết lượt — lượt vẫn bị trừ thêm,Màn hình Kiểm soát vé,Đăng nhập thành công. Vé có 1 lượt duy nhất.,"1. Mở phần mềm.
+2. Đăng nhập ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A và Cổng chung.
+5. Quét ""VE-ONCE"" lần 1.
+6. Quét ""VE-ONCE"" lần 2.
+7. Quan sát.",VE-ONCE có 1 lượt,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Lần 1: MỜI VÀO. Lượt còn: 0.
+6. Lần 2: TỪ CHỐI — hết lượt. Lượt vẫn = 0 không trừ thêm.",Lần 2 vẫn hiện MỜI VÀO và trừ lượt xuống -1. Vé bị âm lượt.,Critical,Critical,2026-04-10,QA_NhiNT,GATE_029,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_GATE_003,Quét vé sai khu vực — lượt bị trừ oan,Màn hình Kiểm soát vé,Đăng nhập thành công. Đang gác Khu A. Vé VE-002 thuộc Khu B có 3 lượt.,"1. Mở phần mềm.
+2. Đăng nhập ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A.
+5. Ghi nhận lượt vé VE-002 (thuộc Khu B) = 3.
+6. Quét ""VE-002"" tại Khu A.
+7. Kiểm tra lượt vé sau quét.",VE-002 thuộc Khu B. Lượt = 3,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Khu A.
+5. Lượt trước = 3.
+6. SAI KHU VỰC.
+7. Lượt vẫn = 3 (KHÔNG bị trừ vì quét không hợp lệ).",Lượt bị trừ còn 2. Hệ thống trừ lượt trước khi kiểm tra khu vực.,Critical,Critical,2026-04-10,QA_NhiNT,GATE_012,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_GATE_004,Dropdown trò chơi không cập nhật khi đổi khu vực,Màn hình Kiểm soát vé,Đăng nhập thành công. Khu A có: Tàu Lượn và Đu Quay. Khu B có: Nhà Ma.,"1. Mở phần mềm.
+2. Đăng nhập ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A. Dropdown Trò chơi hiện Tàu Lượn và Đu Quay.
+5. Đổi sang Khu B.
+6. Quan sát dropdown Trò chơi.",Đổi Khu A sang Khu B,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Danh sách trò chơi thuộc Khu A.
+5. Đổi khu vực.
+6. Dropdown Trò chơi tự cập nhật danh sách thuộc Khu B. Trò Khu A biến mất.",Danh sách trò chơi giữ nguyên của Khu A (Tàu Lượn và Đu Quay) kèm thêm trò Khu B (Nhà Ma). Bị trùng và nhầm khu.,Medium,Major,2026-04-10,QA_NhiNT,GATE_031,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_GATE_005,Thẻ thông tin hiện lượt trước khi trừ — sai số liệu,Màn hình Kiểm soát vé,Đăng nhập thành công. Vé có 3 lượt.,"1. Mở phần mềm.
+2. Đăng nhập ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A và Cổng chung.
+5. Quét mã vé hợp lệ (3 lượt).
+6. Quan sát thẻ thông tin vé.",Vé có 3 lượt,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Chọn xong.
+5. MỜI VÀO.
+6. Thẻ thông tin hiện: Lượt còn: 2 (đã trừ 1).",Thẻ thông tin hiện Lượt còn lại: 3 (hiện số trước khi trừ). Hiển thị lệch so với thực tế.,Medium,Major,2026-04-10,QA_NhiNT,GATE_042,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_GATE_006,Panel kết quả không tự reset sau 5 giây,Màn hình Kiểm soát vé,Đăng nhập thành công. Vừa quét 1 vé hợp lệ.,"1. Mở phần mềm.
+2. Đăng nhập ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A và Cổng chung.
+5. Quét mã vé hợp lệ. Panel hiện MỜI VÀO.
+6. Đợi 5 giây không thao tác gì.
+7. Quan sát trạng thái panel.",Vé hợp lệ. Đợi 5 giây,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Chọn xong.
+5. Panel: MỜI VÀO nền xanh.
+6. Chờ 5 giây.
+7. Panel tự quay về trạng thái SẴN SÀNG.",Panel vẫn giữ trạng thái MỜI VÀO sau 5 giây. Không tự quay về. Nhân viên bị nhầm khi nhìn từ xa.,Low,Minor,2026-04-11,QA_NhiNT,GATE_024,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_GATE_007,Quét mã có ký tự đặc biệt — ứng dụng bị dừng,Màn hình Kiểm soát vé,Đăng nhập thành công. Form đang ở trạng thái sẵn sàng.,"1. Mở phần mềm.
+2. Đăng nhập ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Gõ ""!@#$%^&*()"" vào ô mã vé nhấn Enter.
+5. Quan sát phản hồi.",Gõ ký tự đặc biệt,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Gõ ký tự đặc biệt.
+5. Panel: KHÔNG TÌM THẤY. Không lỗi. Hệ thống xử lý an toàn.",Hệ thống bị dừng hoạt động khi gõ ký tự đặc biệt. Phải đóng và mở lại ứng dụng.,Medium,Major,2026-04-11,QA_NhiNT,GATE_049,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_GATE_008,Quét booking đoàn chưa xác nhận — vẫn cho vào,Màn hình Kiểm soát vé,Đăng nhập thành công. Booking chưa được xác nhận tại Lễ tân.,"1. Mở phần mềm.
+2. Đăng nhập ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn khu vực và Cổng chung.
+5. Gõ mã booking đoàn chưa được xác nhận tại Lễ tân.
+6. Quan sát kết quả.",Booking chưa xác nhận,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Cổng chung.
+5. Booking chưa xác nhận.
+6. Hệ thống kiểm tra trạng thái booking và báo BOOKING LỖI.",Hệ thống cho vào bình thường dù booking chưa xác nhận. Khách vào cổng mà chưa làm thủ tục.,High,Major,2026-04-11,QA_NhiNT,GATE_057,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_GATE_009,Lịch sử quét không giới hạn 50 dòng — bộ nhớ tăng dần,Màn hình Kiểm soát vé,Đăng nhập thành công. Cổng hoạt động liên tục.,"1. Mở phần mềm.
+2. Đăng nhập ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A và Cổng chung.
+5. Quét liên tiếp 55 vé.
+6. Đếm số dòng trong lịch sử quét.",Quét 55 vé liên tục,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Chọn xong.
+5. Quét 55 lần.
+6. Lịch sử chỉ giữ tối đa 50 dòng gần nhất. 5 dòng cũ nhất đã bị đẩy ra.",Lịch sử chứa tất cả 55 dòng. Cuộn trang chậm. Bộ nhớ tăng dần. Không tự xóa dòng cũ.,Medium,Minor,2026-04-11,QA_NhiNT,GATE_028,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_GATE_010,Ô nhập mã mất con trỏ khi click ra ngoài,Màn hình Kiểm soát vé,Đăng nhập thành công. Form đang ở trạng thái sẵn sàng.,"1. Mở phần mềm.
+2. Đăng nhập ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A và Cổng chung.
+5. Click chuột ra ngoài ô nhập mã.
+6. Gõ bàn phím.
+7. Quan sát.",Click vùng khác,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Chọn xong.
+5. Click vùng khác.
+6. Gõ bàn phím.
+7. Ký tự vẫn nhập vào ô mã vé (ô tự động giữ con trỏ).",Click vùng khác thì ô nhập mã mất con trỏ. Gõ bàn phím không nhập vào ô. Phải click lại vào ô mới quét được.,Medium,Minor,2026-04-10,QA_NhiNT,GATE_005,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_BK_001,Tìm đoàn bằng SĐT — không tìm được,Màn hình Xuất vé đoàn,Đăng nhập thành công. Đoàn có SĐT liên hệ = 0901234567.,"1. Mở phần mềm.
+2. Đăng nhập ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ SĐT ""0901234567"" vào ô tìm kiếm.
+5. Nhấn nút Tìm.
+6. Quan sát panel thông tin.",SĐT: 0901234567,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Gõ SĐT.
+5. Tìm thấy booking gắn với SĐT này.
+6. Panel hiện thông tin đoàn tương ứng.",Không tìm thấy. Hệ thống chỉ tìm theo mã booking. SĐT không được hỗ trợ tìm kiếm.,Medium,Major,2026-04-10,QA_NhiNT,BK_006,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_BK_002,Booking ngày đến hôm qua — vẫn hiện hợp lệ,Màn hình Xuất vé đoàn,Đăng nhập thành công. Booking có ngày đến = ngày hôm qua.,"1. Mở phần mềm.
+2. Đăng nhập ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking có ngày đến = ngày hôm qua.
+5. Quan sát nhãn trạng thái và nút Xuất Vé.",Booking ngày đến = hôm qua,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Tìm thấy.
+5. Nhãn báo: Booking đã HẾT HẠN. Nút Xuất Vé bị khóa.",Nhãn xanh báo Booking hợp lệ. Nút Xuất Vé vẫn nhấn được. Hệ thống so sánh ngày bị sai.,High,Major,2026-04-10,QA_NhiNT,BK_073,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_BK_003,Nút Xuất Vé nhấn được khi chưa tìm booking,Màn hình Xuất vé đoàn,Đăng nhập thành công. Mới mở form. Chưa tìm booking nào.,"1. Mở phần mềm.
+2. Đăng nhập ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Không tìm booking (chưa nhập gì).
+5. Nhấn nút Xuất Vé.
+6. Quan sát.",Mới mở form. Chưa tìm,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Chưa tìm.
+5. Nút Xuất Vé bị khóa (xám) không bấm được.",Nút Xuất Vé nhấn được bình thường. Khi nhấn ứng dụng bị văng do không có dữ liệu đoàn.,Critical,Critical,2026-04-10,QA_NhiNT,BK_003,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_BK_004,Xác nhận xong — form không tự reset,Màn hình Xuất vé đoàn,Đăng nhập thành công. Vừa xác nhận 1 đoàn thành công.,"1. Mở phần mềm.
+2. Đăng nhập ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking hợp lệ. Nhấn Xuất Vé. Nhấn Có.
+5. Quan sát form sau khi xác nhận.",Vừa xác nhận thành công,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Xác nhận thành công.
+5. Ô tìm kiếm trống. Panel thông tin trống. Nút Xuất Vé khóa lại. Sẵn sàng nhận đoàn tiếp.",Panel vẫn hiện thông tin đoàn cũ. Nút Xuất Vé vẫn nhấn được. Nhấn lại thì ứng dụng bị văng.,Medium,Major,2026-04-11,QA_NhiNT,BK_031,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_BK_005,Tìm booking có khoảng trắng đầu cuối — không tìm thấy,Màn hình Xuất vé đoàn,Đăng nhập thành công. Booking mã BK-20260401-001 tồn tại.,"1. Mở phần mềm.
+2. Đăng nhập ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ "" BK-20260401-001 "" (có khoảng trắng đầu cuối) nhấn Tìm.
+5. Quan sát.",Chuỗi có khoảng trắng đầu cuối,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Gõ mã có khoảng trắng.
+5. Hệ thống tự xóa khoảng trắng rồi tìm. Tìm thấy booking.",Không tìm thấy. Hệ thống so sánh nguyên chuỗi chưa xóa khoảng trắng. Phải gõ chính xác không có dấu cách.,Low,Minor,2026-04-11,QA_NhiNT,BK_069,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_BK_006,Popup kết quả bị trống dòng chiết khấu khi CK = 0%,Màn hình Xuất vé đoàn,Đăng nhập thành công. Đoàn có chiết khấu = 0%.,"1. Mở phần mềm.
+2. Đăng nhập ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking hợp lệ (CK 0%).
+5. Xuất Vé. Nhấn Có.
+6. Đọc popup kết quả.",Đoàn CK = 0%,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Tìm thấy.
+5. Xác nhận thành công.
+6. Popup: Thành công. Đoàn: [tên]. Số người: [X]. Chiết khấu: 0.0%.",Popup kết quả hiện dòng Chiết khấu bị trống khi giá trị = 0. Nhân viên không biết là 0% hay lỗi hiển thị.,Low,Minor,2026-04-11,QA_NhiNT,BK_048,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_BK_007,Trường Combo bị trống khi booking không có combo,Màn hình Xuất vé đoàn,Đăng nhập thành công. Booking không chọn gói combo.,"1. Mở phần mềm.
+2. Đăng nhập ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking không có combo.
+5. Quan sát trường Combo trên panel.",Booking không có combo,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Tìm thấy.
+5. Trường Combo hiện ""(Chưa chọn gói)"".",Trường Combo bị trống hoàn toàn. Nhân viên không biết là chưa chọn hay bị lỗi hiển thị.,Low,Minor,2026-04-11,QA_NhiNT,BK_056,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_BK_008,Booking trạng thái lạ — nút Xuất Vé vẫn nhấn được,Màn hình Xuất vé đoàn,Đăng nhập thành công. Cơ sở dữ liệu có booking trạng thái không xác định.,"1. Mở phần mềm.
+2. Đăng nhập ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking có trạng thái lạ (VD: TEST_STATE).
+5. Quan sát nhãn và nút Xuất Vé.",Trạng thái không trong 4 trạng thái dự kiến,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Tìm thấy.
+5. Nhãn: Trạng thái không hợp lệ. Nút Xuất Vé bị khóa.",Nhãn trạng thái bị trống. Nút Xuất Vé vẫn nhấn được. Nhấn thì hệ thống xác nhận đoàn bị lỗi.,Medium,Major,2026-04-11,QA_NhiNT,BK_071,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_BK_009,Con trỏ không tự quay về ô tìm kiếm sau xác nhận,Màn hình Xuất vé đoàn,Đăng nhập thành công. Booking hợp lệ.,"1. Mở phần mềm.
+2. Đăng nhập ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking hợp lệ. Nhấn Xuất Vé. Nhấn Có.
+5. Quan sát vị trí con trỏ.",BK-001 hợp lệ,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Xác nhận thành công.
+5. Con trỏ tự vào ô tìm kiếm. Ô tìm kiếm trống. Sẵn sàng nhập đoàn kế.",Ô tìm vẫn hiện BK-001. Con trỏ ở nút Xuất Vé. Nhân viên phải xóa tay và click lại ô tìm.,Medium,Minor,2026-04-11,QA_NhiNT,BK_086,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_BK_010,Tìm 2 đoàn liên tiếp — panel không cập nhật đoàn mới,Màn hình Xuất vé đoàn,Đăng nhập thành công. Có 2 booking: BK-001 (Đoàn A) và BK-002 (Đoàn B).,"1. Mở phần mềm.
+2. Đăng nhập ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ ""BK-001"" nhấn Tìm. Panel hiện đoàn A.
+5. Gõ ""BK-002"" nhấn Tìm.
+6. Quan sát panel.",BK-001 (Đoàn A) và BK-002 (Đoàn B),"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Panel hiện đoàn A.
+5. Panel CẬP NHẬT thông tin đoàn B (không giữ đoàn A).
+6. Tên SĐT số lượng chiết khấu — tất cả là của đoàn B.",Panel vẫn hiện thông tin đoàn A. Không cập nhật thành đoàn B. Nhân viên xác nhận nhầm đoàn.,Medium,Major,2026-04-11,QA_NhiNT,BK_019,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_RT_001,Đổi trạm — giỏ vẫn giữ hàng trạm cũ,Màn hình Thuê đồ,Đăng nhập thành công. Giỏ thuê có Phao bơi x2 (Trạm A).,"1. Mở phần mềm.
+2. Đăng nhập ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Chọn trạm A. Thêm Phao bơi x2 vào giỏ.
+5. Đổi sang trạm B.
+6. Quan sát giỏ.",Trạm A có Phao. Giỏ có hàng,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. SP trạm A.
+5. Đổi trạm B.
+6. Danh sách cập nhật: hiện SP trạm B. SP trạm A biến mất.",Giỏ vẫn giữ Phao bơi (trạm A) nhưng danh sách SP hiện trạm B. Khi thanh toán lưu sai thông tin trạm.,Medium,Major,2026-04-10,QA_NhiNT,RT_037,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_RT_002,Thanh toán tiền mặt nhưng ví RFID bị trừ,Màn hình Thuê đồ,Đăng nhập thành công. Quẹt RFID KH. Giỏ có hàng.,"1. Mở phần mềm.
+2. Đăng nhập ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Thêm SP. Quẹt RFID khách (ví đủ).
+5. Nhấn ""Thanh toán tiền mặt"" thay vì ""Thanh toán ví"".
+6. Quan sát.",KH có RFID nhưng chọn trả tiền mặt,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. RFID gán.
+5. Nhấn thanh toán tiền mặt.
+6. Tạo đơn thuê bình thường. Ghi nhận thanh toán tiền mặt. Ví KHÔNG bị trừ.",Phương thức thanh toán ghi thành RFID (hệ thống tự gán khi khách có thẻ). Ví bị trừ dù khách không muốn.,High,Major,2026-04-10,QA_NhiNT,RT_053,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_RT_003,Phím F12 không hoạt động,Màn hình Thuê đồ,Đăng nhập thành công. Tab Nhận Trả. Bảng hiện 3 phao đang thuê.,"1. Mở phần mềm.
+2. Đăng nhập ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID khách thuê 3 phao + 1 tủ.
+5. Nhấn phím F12.
+6. Quan sát cột Khách trả và Báo mất.",3 phao + 1 tủ đang thuê,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Bảng: Phao 3 Tủ 1.
+5. Nhấn F12.
+6. Tất cả cột ""Khách trả"" tự động điền = SL đang thuê (Phao=3 Tủ=1). Báo mất = 0.",Nhấn F12 không có phản hồi. Cột Khách trả vẫn = 0. Tính năng phím tắt F12 chưa được kết nối.,Medium,Major,2026-04-11,QA_NhiNT,RT_023,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_RT_004,Hoàn cọc sai — hoàn cả tiền thuê,Màn hình Thuê đồ,Đăng nhập thành công. KH thuê 2 phao bằng ví: Thuê 100K + Cọc 400K = 500K.,"1. Mở phần mềm.
+2. Đăng nhập ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Khách thuê 2 phao (cọc 400K) ví 800K. Sau thuê ví = 300K (trừ 500K gồm thuê+cọc).
+5. Tab Nhận Trả. Quẹt RFID. Trả đủ 2 phao.
+6. Xác nhận.
+7. Kiểm tra ví.",Thuê 100K và Cọc 400K. Ví trước trả = 300K,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Ví sau thuê = 300K.
+5. Trả đủ.
+6. Hoàn cọc 400K.
+7. Ví = 700K (300K + 400K). Chính xác.",Hoàn 500K (cọc + thuê). Hệ thống hoàn cả tiền thuê. Lỗ doanh thu 100K.,Critical,Critical,2026-04-10,QA_NhiNT,RT_055,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_RT_005,Popup đền bù bị văng khi nhập chữ,Màn hình Thuê đồ,Đăng nhập thành công. Báo mất 1 phao.,"1. Mở phần mềm.
+2. Đăng nhập ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID khách thuê 3 phao.
+5. Nhập Trả = 2 Mất = 1.
+6. Nhấn Xác Nhận Trả.
+7. Popup hỏi tiền đền bù. Nhập ""abc"" vào ô tiền phạt.",Nhập chữ abc vào ô tiền phạt,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Bảng: 3 phao.
+5. Trả 2 mất 1.
+6. Xác nhận.
+7. Popup hiện. Ô nhập số tiền phạt chỉ cho nhập số.",Popup bị văng khi nhập chữ abc. Ô nhập không kiểm tra dữ liệu đầu vào.,Medium,Major,2026-04-11,QA_NhiNT,RT_019,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_RT_006,Mã biên lai bị trùng khi 2 đơn cùng giây,Màn hình Thuê đồ,Đăng nhập thành công. 2 nhân viên trên 2 máy.,"1. Mở phần mềm.
+2. Đăng nhập ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tạo đơn thuê 1: thanh toán. Ghi nhận mã biên lai 1.
+5. Tạo đơn thuê 2: thanh toán. Ghi nhận mã biên lai 2.
+6. So sánh 2 mã.",2 đơn cùng giây (14:30:22),"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Tạo 2 đơn thuê liên tiếp.
+4. Mã 1 sinh.
+5. Mã 2 sinh.
+6. Hai mã biên lai KHÁC NHAU (không trùng).",Mã biên lai trùng nhau. Cơ sở dữ liệu báo lỗi lưu trùng lặp.,Low,Minor,2026-04-11,QA_NhiNT,RT_042,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_RT_007,Tab Giám sát nhấp đúp — bảng trống không load đơn,Màn hình Thuê đồ,Đăng nhập thành công. Tab Giám sát có phiên KH A chưa trả.,"1. Mở phần mềm.
+2. Đăng nhập ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Giám sát. Có phiên KH ""Nguyễn Văn A"" (3 phao chưa về).
+5. Nhấp đúp vào dòng đó.
+6. Quan sát tab Nhận Trả.",Phiên KH A — 3 phao chưa trả,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Dòng KH A.
+5. Nhấp đúp.
+6. Tab chuyển sang Nhận Trả. Bảng đã load sẵn: Phao bơi | Đang thuê: 3.",Tab chuyển nhưng bảng trống. Thông tin thẻ RFID không tự gán. Nhân viên phải quẹt lại RFID thủ công.,Medium,Minor,2026-04-11,QA_NhiNT,RT_066,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_RT_008,Giá thuê không thay đổi theo ngày — luôn hiện giá ngày thường,Màn hình Thuê đồ,Đăng nhập thành công. Hôm nay là thứ 7 (cuối tuần). Giá cuối tuần Phao = 70K.,"1. Mở phần mềm.
+2. Đăng nhập ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Chọn trạm. Quan sát giá thuê Phao bơi.
+5. So sánh với bảng giá cấu hình cho hôm nay.",Thứ 7. Giá cuối tuần = 70K,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Giá thuê.
+5. Giá cuối tuần = 70K (cao hơn ngày thường 50K).",Giá hiện 50.000đ (giá ngày thường). Không lấy giá theo ngày. Hệ thống luôn hiện giá gốc mặc định.,High,Major,2026-04-10,QA_NhiNT,RT_078,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_RT_009,Thanh toán ví chưa quẹt RFID — vẫn thanh toán được,Màn hình Thuê đồ,Đăng nhập thành công. Giỏ có hàng. Chưa quẹt RFID.,"1. Mở phần mềm.
+2. Đăng nhập ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Cho thuê. Thêm SP.
+5. KHÔNG quẹt RFID (khách vãng lai).
+6. Nhấn ""Thanh toán ví"".
+7. Quan sát.",Giỏ có hàng. Chưa quẹt RFID,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Giỏ có hàng.
+5. Không quẹt RFID.
+6. Nhấn thanh toán ví.
+7. Hộp thoại: ""Thanh toán ví bắt buộc phải quẹt thẻ RFID trước!"". Không tạo đơn.",Hệ thống tạo đơn thành công dù chưa quẹt RFID. Không trừ được ví ai. Dữ liệu đơn thuê bị lỗi.,Critical,Critical,2026-04-10,QA_NhiNT,RT_050,v3.1.0,WinForms C#,DEV_NhiNT,Open
+DEF_RT_010,Trả + Mất vượt quá Đang thuê — hệ thống vẫn xử lý,Màn hình Thuê đồ,Đăng nhập thành công. KH thuê 3 phao.,"1. Mở phần mềm.
+2. Đăng nhập ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID khách thuê 3 phao.
+5. Nhập Trả = 2 Mất = 2 (tổng 4 > 3).
+6. Nhấn Xác Nhận Trả.
+7. Quan sát.",Trả 2 + Mất 2 = 4 > Đang thuê 3,"1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Bảng: 3 phao.
+5. Trả + Mất = 4 > 3.
+6. Nhấn xác nhận.
+7. Hộp thoại lỗi: ""Phao bơi: Số lượng trả/mất (4) vượt quá số đang thuê (3)"". Không xử lý.",Hệ thống vẫn xử lý bình thường. Hoàn cọc 2 phao và phạt 2 phao dù chỉ thuê có 3. Sai số lượng.,High,Major,2026-04-11,QA_NhiNT,RT_021,v3.1.0,WinForms C#,DEV_NhiNT,Open

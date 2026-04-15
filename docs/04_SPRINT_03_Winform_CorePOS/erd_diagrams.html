@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ERD Diagrams — DaiNamResort (Full)</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:#1a1b2e;color:#e0e0e8;min-height:100vh}
+  header{background:#22243a;border-bottom:1px solid #333;padding:14px 24px;text-align:center}
+  header h1{font-size:16px;font-weight:700;color:#a5b4fc}
+  header p{font-size:11px;color:#888;margin-top:2px}
+  nav{display:flex;gap:4px;padding:10px 24px;background:#1e2030;border-bottom:1px solid #333;overflow-x:auto}
+  nav button{padding:7px 16px;border-radius:6px;font-size:12px;font-weight:500;background:transparent;border:1px solid #333;color:#888;cursor:pointer;white-space:nowrap;font-family:inherit;transition:.2s}
+  nav button:hover:not([disabled]){border-color:#666;color:#ccc}
+  nav button.active{background:rgba(165,180,252,.1);border-color:#6366f1;color:#a5b4fc}
+  nav button[disabled]{opacity:.35;cursor:not-allowed}
+  .sub-nav{display:flex;gap:4px;padding:8px 24px;background:#1a1b2e;border-bottom:1px solid #2a2d3e}
+  .sub-nav button{padding:5px 12px;border-radius:5px;font-size:11px;font-weight:500;background:#22243a;border:1px solid #333;color:#888;cursor:pointer;font-family:inherit;transition:.2s}
+  .sub-nav button:hover{color:#ccc}
+  .sub-nav button.active{background:#2d3050;border-color:#6366f1;color:#a5b4fc}
+  main{display:flex;justify-content:center;padding:24px 16px 60px}
+  .svg-wrap{background:#fefcf0;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.4);overflow:auto;display:inline-block;max-width:100%;max-height:80vh}
+  .svg-wrap svg{display:block}
+  .legend-wrap{max-width:960px;margin:16px auto 0;display:flex;flex-wrap:wrap;gap:16px;padding:12px 20px;background:#22243a;border-radius:8px;border:1px solid #333}
+  .legend-wrap .li{display:flex;align-items:center;gap:6px;font-size:10px;color:#999}
+  .legend-wrap .li svg{flex-shrink:0}
+</style>
+</head>
+<body>
+<header>
+  <h1>ERD Diagrams — DaiNamResort Database (Full Schema)</h1>
+  <p>Hệ thống Quản lý Công viên Giải trí · 87 bảng · Entity-Relationship Diagram</p>
+</header>
+<nav id="moduleNav"></nav>
+<div class="sub-nav" id="subNav"></div>
+<main><div class="svg-wrap" id="svgWrap"></div></main>
+<div class="legend-wrap">
+  <div class="li"><svg width="24" height="18"><rect x="1" y="2" width="22" height="14" rx="3" fill="#fff" stroke="#94a3b8" stroke-width="1.2"/><rect x="1" y="2" width="22" height="7" rx="3" fill="#3b82f6"/><rect x="1" y="6" width="22" height="3" fill="#3b82f6"/></svg> Bảng (cụm này)</div>
+  <div class="li"><svg width="24" height="18"><rect x="1" y="2" width="22" height="14" rx="3" fill="#f5f6f8" stroke="#c0c7d0" stroke-width="1.2" stroke-dasharray="3,2"/><rect x="1" y="2" width="22" height="7" rx="3" fill="#94a3b8"/><rect x="1" y="6" width="22" height="3" fill="#94a3b8"/></svg> Bảng tham chiếu (cụm khác)</div>
+  <div class="li"><svg width="12" height="12"><circle cx="6" cy="6" r="4" fill="#eab308"/></svg> Primary Key</div>
+  <div class="li"><svg width="12" height="12"><circle cx="6" cy="6" r="4" fill="#3b82f6"/></svg> Foreign Key</div>
+  <div class="li"><svg width="12" height="12"><circle cx="6" cy="6" r="4" fill="#eab308" stroke="#3b82f6" stroke-width="1.5"/></svg> PK + FK</div>
+  <div class="li"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="#666" stroke-width="1.3"/><polygon points="24,3 30,6 24,9" fill="#666"/></svg> FK → PK</div>
+  <div class="li"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="#b8c0cc" stroke-width="1.3" stroke-dasharray="4,3"/><polygon points="24,3 30,6 24,9" fill="#b8c0cc"/></svg> FK → PK (xuyên cụm)</div>
+  <div class="li" style="color:#c9a227;font-style:italic">⚠ Audit cols (CreatedAt, UpdatedAt, CreatedBy, IsDeleted, RowVer) ẩn theo convention</div>
+</div>
+
+<script>
+const K={W:280,H:30,R:20,P:6,F:10.5,TF:9.5};
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function tblH(t){return K.H+t.cols.length*K.R+K.P;}
+function svgSize(tbls){let mx=0,my=0;tbls.forEach(t=>{mx=Math.max(mx,t.x+K.W);my=Math.max(my,t.y+tblH(t));});return{w:mx+60,h:my+50};}
+function drawTable(t){
+  const h=tblH(t),hc=t.g?'#94a3b8':'#3b82f6',bc=t.g?'#f5f6f8':'#fff',sc=t.g?'#c0c7d0':'#94a3b8',sd=t.g?' stroke-dasharray="5,3"':'';
+  let s='<g>';
+  s+=`<rect x="${t.x+2}" y="${t.y+2}" width="${K.W}" height="${h}" rx="5" fill="rgba(0,0,0,0.06)"/>`;
+  s+=`<rect x="${t.x}" y="${t.y}" width="${K.W}" height="${h}" rx="5" fill="${bc}" stroke="${sc}" stroke-width="1.3"${sd}/>`;
+  s+=`<rect x="${t.x}" y="${t.y}" width="${K.W}" height="${K.H}" rx="5" fill="${hc}"/>`;
+  s+=`<rect x="${t.x}" y="${t.y+K.H-5}" width="${K.W}" height="5" fill="${hc}"/>`;
+  s+=`<line x1="${t.x}" y1="${t.y+K.H}" x2="${t.x+K.W}" y2="${t.y+K.H}" stroke="${sc}" stroke-width="0.6"/>`;
+  const nm=t.g?t.id+' ↗':t.id;
+  s+=`<text x="${t.x+K.W/2}" y="${t.y+K.H/2+1}" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="600" fill="#fff">${esc(nm)}</text>`;
+  t.cols.forEach((c,i)=>{
+    const cy=t.y+K.H+(i+.5)*K.R+1,cn=c[0],ct=c[1],cf=c[2]||'';
+    const isPK=cf.includes('pk'),isFK=cf.includes('fk');
+    if(isPK&&isFK) s+=`<circle cx="${t.x+14}" cy="${cy}" r="3.5" fill="#eab308" stroke="#3b82f6" stroke-width="1.5"/>`;
+    else if(isPK) s+=`<circle cx="${t.x+14}" cy="${cy}" r="3.5" fill="#eab308"/>`;
+    else if(isFK) s+=`<circle cx="${t.x+14}" cy="${cy}" r="3.5" fill="#3b82f6"/>`;
+    s+=`<text x="${t.x+24}" y="${cy}" dominant-baseline="central" font-size="${K.F}" fill="#333">${esc(cn)}</text>`;
+    s+=`<text x="${t.x+K.W-8}" y="${cy}" text-anchor="end" dominant-baseline="central" font-size="${K.TF}" fill="#999">${esc(ct)}</text>`;
+    if(i<t.cols.length-1) s+=`<line x1="${t.x+8}" y1="${t.y+K.H+(i+1)*K.R}" x2="${t.x+K.W-8}" y2="${t.y+K.H+(i+1)*K.R}" stroke="#eee" stroke-width="0.5"/>`;
+  });
+  s+='</g>';return s;
+}
+function drawRel(r,tm){
+  const f=tm[r.f],t=tm[r.t];if(!f||!t)return'';
+  const fi=f.cols.findIndex(c=>c[0]===r.fc),ti=t.cols.findIndex(c=>c[0]===r.tc);
+  if(fi<0||ti<0)return'';
+  const fH=tblH(f),tH=tblH(t),fCX=f.x+K.W/2,tCX=t.x+K.W/2;
+  const sameCol=Math.abs(fCX-tCX)<K.W*.4;
+  const isG=f.g||t.g,color=isG?'#b8c0cc':'#666',dash=isG?' stroke-dasharray="6,3"':'';
+  let path,lx,ly,la='start';
+  if(sameCol){
+    const ox=(r.os||0)*18,x=fCX+ox;
+    if(f.y<t.y){path=`M${x},${f.y+fH}L${x},${t.y}`;lx=x+8;ly=(f.y+fH+t.y)/2;}
+    else{path=`M${x},${f.y}L${x},${t.y+tH}`;lx=x+8;ly=(f.y+t.y+tH)/2;}
+  } else {
+    const fColY=f.y+K.H+(fi+.5)*K.R+1,tColY=t.y+K.H+(ti+.5)*K.R+1;
+    const goR=tCX>fCX,fX=goR?f.x+K.W:f.x,tX=goR?t.x:t.x+K.W;
+    const midX=(fX+tX)/2+(r.os||0)*12;
+    path=`M${fX},${fColY}L${midX},${fColY}L${midX},${tColY}L${tX},${tColY}`;
+    lx=goR?fX+6:fX-6;ly=fColY-6;la=goR?'start':'end';
+  }
+  let s=`<path d="${path}" fill="none" stroke="${color}" stroke-width="1.3"${dash} marker-end="url(#ah)"/>`;
+  const lt=r.label||r.fc;
+  s+=`<text x="${lx}" y="${ly}" font-size="8" fill="${color}" font-style="italic" text-anchor="${la}">${esc(lt)}</text>`;
+  return s;
+}
+function renderERD(data){
+  const sz=svgSize(data.tables),tm={};data.tables.forEach(t=>tm[t.id]=t);
+  let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${sz.w}" height="${sz.h}" style="font-family:Inter,sans-serif">`;
+  svg+=`<defs><marker id="ah" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0,0.5 7,3 0,5.5" fill="#888"/></marker></defs>`;
+  svg+=`<rect width="${sz.w}" height="${sz.h}" fill="#fefcf0"/>`;
+  svg+=`<text x="${sz.w/2}" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#444">${esc(data.title)}</text>`;
+  svg+='<g>';data.rels.forEach(r=>{svg+=drawRel(r,tm);});svg+='</g>';
+  svg+='<g>';data.tables.forEach(t=>{svg+=drawTable(t);});svg+='</g>';
+  svg+='</svg>';document.getElementById('svgWrap').innerHTML=svg;
+}
+
+// =====================================================
+// DỮ LIỆU ERD — TOÀN BỘ DATABASE (87 bảng)
+// =====================================================
+const DIAGRAMS = {
+
+// ─── 0. TỔNG QUAN HỆ THỐNG ─────────────────────
+overview:{
+  tabs:[{id:'flow',label:'Luồng Nghiệp Vụ Chính'}],
+  diagrams:{
+    flow:{
+      title:'TỔNG QUAN · Luồng Nghiệp Vụ Chính — Sản Phẩm → Đơn Hàng → Thanh Toán → Dịch Vụ',
+      tables:[
+        {id:'DonViTinh',x:40,y:50,cols:[['Id','int','pk'],['Ten','nvarchar(50)'],['KyHieu','nvarchar(10)']]},
+        {id:'SanPham',x:360,y:50,cols:[['Id','int','pk'],['Ten','nvarchar(100)'],['LoaiSanPham','nvarchar(20)'],['IdDonViCoBan','int','fk'],['DonGia','decimal(15,0)'],['IdKhuVuc','int','fk'],['TrangThai','nvarchar(20)']]},
+        {id:'BangGia',x:700,y:50,cols:[['Id','int','pk'],['IdSanPham','int','fk'],['GiaBan','decimal(15,0)'],['LoaiGiaApDung','nvarchar(20)'],['IdNgayLe','int','fk'],['TrangThai','nvarchar(20)']]},
+        {id:'CauHinhNgayLe',x:1040,y:50,cols:[['Id','int','pk'],['TenNgayLe','nvarchar(100)'],['NgayBatDau','date'],['NgayKetThuc','date']]},
+        {id:'Combo',x:1040,y:220,cols:[['Id','int','pk'],['Ten','nvarchar(100)'],['Gia','decimal(15,0)'],['TrangThai','nvarchar(50)']]},
+        {id:'ComboChiTiet',x:1380,y:220,cols:[['Id','int','pk'],['IdCombo','int','fk'],['IdSanPham','int','fk'],['SoLuong','int'],['TyLePhanBo','decimal(5,2)']]},
+        {id:'KhuyenMai',x:1040,y:400,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['LoaiGiamGia','nvarchar(20)'],['GiaTriGiam','decimal(15,0)'],['IdSuKien','int','fk']]},
+        {id:'SuKien',x:1380,y:400,cols:[['Id','int','pk'],['TenSuKien','nvarchar(200)'],['NgayBatDau','datetime'],['NgayKetThuc','datetime']]},
+        {id:'KhachHang',x:40,y:310,cols:[['Id','int','pk'],['HoTen','nvarchar(100)'],['LoaiKhach','nvarchar(20)'],['DiemTichLuy','int'],['TongChiTieu','decimal(18,0)'],['IdDoan','int','fk']]},
+        {id:'DoanKhach',x:40,y:530,cols:[['Id','int','pk'],['TenDoan','nvarchar(100)'],['ChietKhau','decimal(5,2)'],['SoLuongKhach','int'],['TrangThai','nvarchar(20)']]},
+        {id:'DonHang',x:360,y:310,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['IdKhachHang','int','fk'],['IdDoan','int','fk'],['IdKhuyenMai','int','fk'],['TongTien','decimal(15,0)'],['TrangThai','nvarchar(20)'],['NguonBan','nvarchar(10)']]},
+        {id:'ChiTietDonHang',x:700,y:310,cols:[['Id','int','pk'],['IdDonHang','int','fk'],['IdSanPham','int','fk'],['IdCombo','int','fk'],['SoLuong','int'],['DonGiaGoc','decimal(15,0)'],['DonGiaThucTe','decimal(15,0)'],['ThanhTien','computed']]},
+        {id:'VeDienTu',x:700,y:560,cols:[['Id','uniqueid','pk'],['IdChiTietDonHang','int','fk'],['IdSanPham','int','fk'],['TrangThai','nvarchar(20)'],['SoLuotConLai','int']]},
+        {id:'ViDienTu',x:40,y:730,cols:[['Id','int','pk'],['IdKhachHang','int','fk'],['SoDuKhaDung','decimal(15,0)']]},
+        {id:'TheRFID',x:360,y:730,cols:[['MaRfid','nvarchar(50)','pk'],['IdVi','int','fk'],['TrangThai','nvarchar(20)']]},
+        {id:'GiaoDichVi',x:360,y:580,cols:[['Id','int','pk'],['IdVi','int','fk'],['LoaiGiaoDich','nvarchar(20)'],['SoTien','decimal(15,0)'],['IdDonHangLienQuan','int','fk']]},
+        {id:'PhieuThu',x:1040,y:600,cols:[['Id','int','pk'],['IdDonHang','int','fk'],['IdGiaoDichVi','int','fk'],['SoTien','decimal(15,0)'],['PhuongThuc','nvarchar(20)']]},
+        {id:'PhieuChi',x:1380,y:600,cols:[['Id','int','pk'],['SoTien','decimal(15,0)'],['LyDo','nvarchar(255)'],['IdDonHang','int','fk']]},
+        {id:'KhuVuc',x:700,y:730,cols:[['Id','int','pk'],['TenKhuVuc','nvarchar(100)'],['TrangThai','nvarchar(50)']]},
+        {id:'NhanVien',x:1040,y:730,cols:[['Id','int','pk'],['HoTen','nvarchar(100)'],['IdVaiTro','int','fk'],['IdKhuVuc','int','fk'],['TrangThai','nvarchar(50)']]},
+      ],
+      rels:[
+        {f:'SanPham',fc:'IdDonViCoBan',t:'DonViTinh',tc:'Id'},
+        {f:'BangGia',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'BangGia',fc:'IdNgayLe',t:'CauHinhNgayLe',tc:'Id'},
+        {f:'ComboChiTiet',fc:'IdCombo',t:'Combo',tc:'Id'},
+        {f:'ComboChiTiet',fc:'IdSanPham',t:'SanPham',tc:'Id',os:2},
+        {f:'KhuyenMai',fc:'IdSuKien',t:'SuKien',tc:'Id'},
+        {f:'KhachHang',fc:'IdDoan',t:'DoanKhach',tc:'Id'},
+        {f:'DonHang',fc:'IdKhachHang',t:'KhachHang',tc:'Id'},
+        {f:'DonHang',fc:'IdDoan',t:'DoanKhach',tc:'Id',os:-1,label:'IdDoan'},
+        {f:'DonHang',fc:'IdKhuyenMai',t:'KhuyenMai',tc:'Id'},
+        {f:'ChiTietDonHang',fc:'IdDonHang',t:'DonHang',tc:'Id'},
+        {f:'ChiTietDonHang',fc:'IdSanPham',t:'SanPham',tc:'Id',os:-2,label:'IdSanPham'},
+        {f:'ChiTietDonHang',fc:'IdCombo',t:'Combo',tc:'Id',os:1,label:'IdCombo'},
+        {f:'VeDienTu',fc:'IdChiTietDonHang',t:'ChiTietDonHang',tc:'Id'},
+        {f:'ViDienTu',fc:'IdKhachHang',t:'KhachHang',tc:'Id',os:-1},
+        {f:'TheRFID',fc:'IdVi',t:'ViDienTu',tc:'Id'},
+        {f:'GiaoDichVi',fc:'IdVi',t:'ViDienTu',tc:'Id',os:1,label:'IdVi'},
+        {f:'GiaoDichVi',fc:'IdDonHangLienQuan',t:'DonHang',tc:'Id',os:-1,label:'IdDonHang'},
+        {f:'PhieuThu',fc:'IdDonHang',t:'DonHang',tc:'Id',os:2,label:'IdDonHang'},
+        {f:'PhieuThu',fc:'IdGiaoDichVi',t:'GiaoDichVi',tc:'Id'},
+        {f:'PhieuChi',fc:'IdDonHang',t:'DonHang',tc:'Id',os:3,label:'IdDonHang'},
+        {f:'SanPham',fc:'IdKhuVuc',t:'KhuVuc',tc:'Id',os:1},
+        {f:'NhanVien',fc:'IdKhuVuc',t:'KhuVuc',tc:'Id'},
+      ],
+    },
+  }
+},
+
+// ─── 1. NHÂN SỰ & PHÂN QUYỀN ───────────────────
+master:{
+  tabs:[
+    {id:'auth',label:'1A. Phân Quyền & Nhân Sự'},
+    {id:'schedule',label:'1B. Khu Vực & Lịch Làm'},
+  ],
+  diagrams:{
+    auth:{
+      title:'Cụm 1A · Phân Quyền & Nhân Sự — VaiTro → PhanQuyen ← QuyenHan, NhanVien',
+      tables:[
+        {id:'VaiTro',x:60,y:60,cols:[['Id','int','pk'],['TenVaiTro','nvarchar(50)']]},
+        {id:'QuyenHan',x:660,y:60,cols:[['Id','int','pk'],['MaQuyen','varchar(50)'],['MoTa','nvarchar(200)']]},
+        {id:'PhanQuyen',x:360,y:60,cols:[['IdVaiTro','int','pk,fk'],['IdQuyen','int','pk,fk']]},
+        {id:'NhanVien',x:60,y:230,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['IdVaiTro','int','fk'],['IdKhuVuc','int','fk'],['HoTen','nvarchar(100)'],['GioiTinh','nvarchar(10)'],['ChucVu','nvarchar(50)'],['BoPhan','nvarchar(50)'],['DienThoai','nvarchar(20)'],['Email','nvarchar(100)'],['Cccd','nvarchar(20)'],['TenDangNhap','nvarchar(50)'],['MatKhau','nvarchar(100)'],['TrangThai','nvarchar(50)']]},
+        {id:'KhuVuc',x:460,y:230,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['TenKhuVuc','nvarchar(100)'],['MoTa','nvarchar(MAX)'],['TrangThai','nvarchar(50)'],['HinhAnh','varchar(255)']]},
+      ],
+      rels:[
+        {f:'PhanQuyen',fc:'IdVaiTro',t:'VaiTro',tc:'Id'},
+        {f:'PhanQuyen',fc:'IdQuyen',t:'QuyenHan',tc:'Id'},
+        {f:'NhanVien',fc:'IdVaiTro',t:'VaiTro',tc:'Id'},
+        {f:'NhanVien',fc:'IdKhuVuc',t:'KhuVuc',tc:'Id'},
+      ],
+    },
+    schedule:{
+      title:'Cụm 1B · Khu Vực & Lịch Làm Việc — NhanVien → LichLamViec ← KhuVuc + DonViTinh',
+      tables:[
+        {id:'NhanVien',x:60,y:60,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)'],['IdKhuVuc','int','fk']]},
+        {id:'KhuVuc',x:660,y:60,g:false,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['TenKhuVuc','nvarchar(100)'],['TrangThai','nvarchar(50)']]},
+        {id:'LichLamViec',x:360,y:60,cols:[['Id','int','pk'],['IdNhanVien','int','fk'],['IdKhuVuc','int','fk'],['NgayLam','date'],['CaLam','nvarchar(10)'],['GioBatDau','time'],['GioKetThuc','time'],['TrangThai','nvarchar(20)']]},
+        {id:'DonViTinh',x:60,y:310,cols:[['Id','int','pk'],['Ten','nvarchar(50)'],['KyHieu','nvarchar(10)']]},
+      ],
+      rels:[
+        {f:'LichLamViec',fc:'IdNhanVien',t:'NhanVien',tc:'Id'},
+        {f:'LichLamViec',fc:'IdKhuVuc',t:'KhuVuc',tc:'Id'},
+      ],
+    },
+  }
+},
+
+// ─── 2. SẢN PHẨM & GIÁ ─────────────────────────
+product:{
+  tabs:[
+    {id:'catalog',label:'2A. Sản Phẩm & Đơn Vị'},
+    {id:'pricing',label:'2B. Bảng Giá & Ngày Lễ'},
+    {id:'promo',label:'2C. Combo & Khuyến Mãi'},
+  ],
+  diagrams:{
+    catalog:{
+      title:'Cụm 2A · Sản Phẩm — SanPham ← DonViTinh, KhuVuc, QuyDoiDonVi, SanPham_Ve',
+      tables:[
+        {id:'DonViTinh',x:60,y:60,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(50)'],['KyHieu','nvarchar(10)']]},
+        {id:'KhuVuc',x:60,y:230,g:true,cols:[['Id','int','pk'],['TenKhuVuc','nvarchar(100)']]},
+        {id:'SanPham',x:400,y:60,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['Ten','nvarchar(100)'],['LoaiSanPham','nvarchar(20)'],['IdDonViCoBan','int','fk'],['DonGia','decimal(15,0)'],['IdKhuVuc','int','fk'],['MoTa','nvarchar(MAX)'],['TrangThai','nvarchar(20)'],['HinhAnh','varchar(255)']]},
+        {id:'SanPham_Ve',x:740,y:60,cols:[['IdSanPham','int','pk,fk'],['CanTaoToken','bit'],['SoLuotQuyDoi','int'],['IdThietBi','int','fk']]},
+        {id:'DanhSachThietBi',x:1080,y:60,g:true,cols:[['Id','int','pk'],['TenThietBi','nvarchar(100)'],['LoaiThietBi','nvarchar(30)']]},
+        {id:'QuyDoiDonVi',x:400,y:330,cols:[['Id','int','pk'],['IdSanPham','int','fk'],['IdDonViNho','int','fk'],['IdDonViLon','int','fk'],['TyLeQuyDoi','decimal(10,2)'],['GiaBanRieng','decimal(15,0)'],['LaDonViCoBan','bit']]},
+      ],
+      rels:[
+        {f:'SanPham',fc:'IdDonViCoBan',t:'DonViTinh',tc:'Id'},
+        {f:'SanPham',fc:'IdKhuVuc',t:'KhuVuc',tc:'Id'},
+        {f:'SanPham_Ve',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'SanPham_Ve',fc:'IdThietBi',t:'DanhSachThietBi',tc:'Id'},
+        {f:'QuyDoiDonVi',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'QuyDoiDonVi',fc:'IdDonViNho',t:'DonViTinh',tc:'Id',os:-1,label:'IdDonViNho'},
+        {f:'QuyDoiDonVi',fc:'IdDonViLon',t:'DonViTinh',tc:'Id',os:1,label:'IdDonViLon'},
+      ],
+    },
+    pricing:{
+      title:'Cụm 2B · Bảng Giá — SanPham → BangGia ← CauHinhNgayLe + BangGia_LichSu',
+      tables:[
+        {id:'SanPham',x:60,y:60,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)'],['DonGia','decimal(15,0)']]},
+        {id:'BangGia',x:400,y:60,cols:[['Id','int','pk'],['IdSanPham','int','fk'],['GiaBan','decimal(15,0)'],['LoaiGiaApDung','nvarchar(20)'],['IdNgayLe','int','fk'],['GioBatDau','time'],['GioKetThuc','time'],['PhutBlock','int'],['PhutTiep','int'],['GiaPhuThu','decimal(15,0)'],['TienCoc','decimal(15,0)'],['TrangThai','nvarchar(20)']]},
+        {id:'CauHinhNgayLe',x:740,y:60,cols:[['Id','int','pk'],['TenNgayLe','nvarchar(100)'],['NgayBatDau','date'],['NgayKetThuc','date'],['MoTa','nvarchar(500)']]},
+        {id:'BangGia_LichSu',x:400,y:370,cols:[['Id','int','pk'],['IdBangGia','int','fk'],['IdSanPham','int','fk'],['LoaiGiaApDung_Cu','nvarchar(50)'],['GiaBan_Cu','decimal(15,0)'],['LoaiGiaApDung_Moi','nvarchar(50)'],['GiaBan_Moi','decimal(15,0)'],['ThoiGianThayDoi','datetime']]},
+      ],
+      rels:[
+        {f:'BangGia',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'BangGia',fc:'IdNgayLe',t:'CauHinhNgayLe',tc:'Id'},
+        {f:'BangGia_LichSu',fc:'IdBangGia',t:'BangGia',tc:'Id'},
+        {f:'BangGia_LichSu',fc:'IdSanPham',t:'SanPham',tc:'Id',os:1,label:'IdSanPham'},
+      ],
+    },
+    promo:{
+      title:'Cụm 2C · Combo & Khuyến Mãi — Combo → ComboChiTiet → SanPham, KhuyenMai → SuKien',
+      tables:[
+        {id:'SanPham',x:60,y:60,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)'],['DonGia','decimal(15,0)']]},
+        {id:'Combo',x:400,y:60,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['Ten','nvarchar(100)'],['Gia','decimal(15,0)'],['MoTa','nvarchar(MAX)'],['TrangThai','nvarchar(50)']]},
+        {id:'ComboChiTiet',x:400,y:260,cols:[['Id','int','pk'],['IdCombo','int','fk'],['IdSanPham','int','fk'],['SoLuong','int'],['TyLePhanBo','decimal(5,2)']]},
+        {id:'SuKien',x:60,y:420,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['TenSuKien','nvarchar(200)'],['NgayBatDau','datetime'],['NgayKetThuc','datetime'],['TrangThai','nvarchar(50)']]},
+        {id:'KhuyenMai',x:400,y:420,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['TenKhuyenMai','nvarchar(100)'],['IdSuKien','int','fk'],['LoaiGiamGia','nvarchar(20)'],['GiaTriGiam','decimal(15,0)'],['DonToiThieu','decimal(15,0)'],['NgayBatDau','datetime'],['NgayKetThuc','datetime'],['TrangThai','bit']]},
+      ],
+      rels:[
+        {f:'ComboChiTiet',fc:'IdCombo',t:'Combo',tc:'Id'},
+        {f:'ComboChiTiet',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'KhuyenMai',fc:'IdSuKien',t:'SuKien',tc:'Id'},
+      ],
+    },
+  }
+},
+
+// ─── 3. KHÁCH HÀNG & VÍ ─────────────────────────
+customer:{
+  tabs:[
+    {id:'cust',label:'3A. Khách Hàng & Đoàn'},
+    {id:'wallet',label:'3B. Ví & RFID & Giao Dịch'},
+    {id:'loyalty',label:'3C. Loyalty & Đánh Giá'},
+  ],
+  diagrams:{
+    cust:{
+      title:'Cụm 3A · Khách Hàng & Đoàn — KhachHang ← DoanKhach → DoanKhach_DichVu',
+      tables:[
+        {id:'KhachHang',x:60,y:60,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['HoTen','nvarchar(100)'],['NgaySinh','date'],['GioiTinh','nvarchar(10)'],['Email','nvarchar(100)'],['DienThoai','nvarchar(20)'],['CmndCccd','nvarchar(20)'],['LoaiKhach','nvarchar(20)'],['DiemTichLuy','int'],['TongChiTieu','decimal(18,0)'],['IdDoan','int','fk'],['HinhAnh','varchar(255)']]},
+        {id:'DoanKhach',x:400,y:60,cols:[['Id','int','pk'],['MaBooking','varchar(20)'],['TenDoan','nvarchar(100)'],['MaSoThue','nvarchar(20)'],['NguoiDaiDien','nvarchar(100)'],['DienThoaiLienHe','nvarchar(20)'],['ChietKhau','decimal(5,2)'],['SoLuongKhach','int'],['NgayDen','date'],['NgayDi','date'],['TrangThai','nvarchar(20)']]},
+        {id:'DoanKhach_DichVu',x:400,y:380,cols:[['Id','int','pk'],['IdDoan','int','fk'],['LoaiDichVu','nvarchar(20)'],['IdCombo','int','fk'],['IdSanPham','int','fk'],['SoLuong','int'],['SoLuongDaDung','int'],['DonGia','decimal(15,0)'],['ThanhTien','computed'],['NgaySuDung','datetime'],['IdThamChieu','int'],['IdChiTietDonHang','int','fk'],['TrangThai','nvarchar(20)']]},
+        {id:'Combo',x:60,y:380,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)']]},
+        {id:'SanPham',x:60,y:500,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)']]},
+        {id:'ChiTietDonHang',x:780,y:380,g:true,cols:[['Id','int','pk'],['IdDonHang','int','fk']]},
+        {id:'TaiKhoanWeb',x:780,y:60,cols:[['Id','int','pk'],['SoDienThoai','nvarchar(20)'],['MatKhau','nvarchar(100)'],['HoTen','nvarchar(100)'],['IdKhachHang','int','fk']]},
+      ],
+      rels:[
+        {f:'KhachHang',fc:'IdDoan',t:'DoanKhach',tc:'Id'},
+        {f:'DoanKhach_DichVu',fc:'IdDoan',t:'DoanKhach',tc:'Id'},
+        {f:'DoanKhach_DichVu',fc:'IdCombo',t:'Combo',tc:'Id'},
+        {f:'DoanKhach_DichVu',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'DoanKhach_DichVu',fc:'IdChiTietDonHang',t:'ChiTietDonHang',tc:'Id'},
+        {f:'TaiKhoanWeb',fc:'IdKhachHang',t:'KhachHang',tc:'Id'},
+      ],
+    },
+    wallet:{
+      title:'Cụm 3B · Ví & RFID — KhachHang → ViDienTu → TheRFID, GiaoDichVi',
+      tables:[
+        {id:'KhachHang',x:60,y:60,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+        {id:'ViDienTu',x:400,y:60,cols:[['Id','int','pk'],['IdKhachHang','int','fk'],['SoDuKhaDung','decimal(15,0)'],['SoDuDongBang','decimal(15,0)']]},
+        {id:'TheRFID',x:740,y:60,cols:[['MaRfid','nvarchar(50)','pk'],['IdVi','int','fk'],['TrangThai','nvarchar(20)'],['NgayKichHoat','datetime'],['NgayHuy','datetime']]},
+        {id:'GiaoDichVi',x:400,y:260,cols:[['Id','int','pk'],['MaCode','varchar(50)'],['IdVi','int','fk'],['LoaiGiaoDich','nvarchar(20)'],['SoTien','decimal(15,0)'],['IdDonHangLienQuan','int','fk'],['ParentTransactionId','int','fk'],['ThoiGian','datetime']]},
+        {id:'DonHang',x:740,y:260,g:true,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['TongTien','decimal(15,0)']]},
+      ],
+      rels:[
+        {f:'ViDienTu',fc:'IdKhachHang',t:'KhachHang',tc:'Id'},
+        {f:'TheRFID',fc:'IdVi',t:'ViDienTu',tc:'Id'},
+        {f:'GiaoDichVi',fc:'IdVi',t:'ViDienTu',tc:'Id'},
+        {f:'GiaoDichVi',fc:'IdDonHangLienQuan',t:'DonHang',tc:'Id'},
+      ],
+    },
+    loyalty:{
+      title:'Cụm 3C · Loyalty & Đánh Giá — LichSuDiem, QuyTacDiem, DanhGiaDichVu',
+      tables:[
+        {id:'KhachHang',x:60,y:60,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)'],['DiemTichLuy','int']]},
+        {id:'LichSuDiem',x:400,y:60,cols:[['Id','int','pk'],['IdKhachHang','int','fk'],['LoaiGiaoDich','nvarchar(20)'],['SoDiem','int'],['SoDuTruoc','int'],['SoDuSau','int'],['IdDonHang','int','fk'],['LyDo','nvarchar(200)'],['ThoiGian','datetime']]},
+        {id:'QuyTacDiem',x:740,y:60,cols:[['Id','int','pk'],['TenQuyTac','nvarchar(100)'],['TongDonToiThieu','decimal(15,0)'],['SoDiemThuong','int'],['LoaiKhachApDung','nvarchar(20)'],['TrangThai','bit']]},
+        {id:'DonHang',x:740,y:290,g:true,cols:[['Id','int','pk'],['MaCode','varchar(20)']]},
+        {id:'DanhGiaDichVu',x:60,y:350,cols:[['Id','int','pk'],['IdKhachHang','int','fk'],['IdDonHang','int','fk'],['LoaiDichVu','nvarchar(20)'],['DiemSo','tinyint'],['NhanXet','nvarchar(1000)'],['TrangThai','nvarchar(20)'],['PhanHoiNhanVien','nvarchar(500)'],['IdNhanVienXuLy','int','fk']]},
+        {id:'NhanVien',x:400,y:350,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+      ],
+      rels:[
+        {f:'LichSuDiem',fc:'IdKhachHang',t:'KhachHang',tc:'Id'},
+        {f:'LichSuDiem',fc:'IdDonHang',t:'DonHang',tc:'Id'},
+        {f:'DanhGiaDichVu',fc:'IdKhachHang',t:'KhachHang',tc:'Id'},
+        {f:'DanhGiaDichVu',fc:'IdDonHang',t:'DonHang',tc:'Id'},
+        {f:'DanhGiaDichVu',fc:'IdNhanVienXuLy',t:'NhanVien',tc:'Id'},
+      ],
+    },
+  }
+},
+
+// ─── 4. ĐƠN HÀNG & THANH TOÁN ──────────────────
+order:{
+  tabs:[
+    {id:'order',label:'4A. Đơn Hàng & Chi Tiết'},
+    {id:'ticket',label:'4B. Vé Điện Tử & Khán Đài'},
+    {id:'payment',label:'4C. Thanh Toán & Audit'},
+  ],
+  diagrams:{
+    order:{
+      title:'Cụm 4A · Đơn Hàng — DonHang → ChiTietDonHang (Hub trung tâm)',
+      tables:[
+        {id:'KhachHang',x:60,y:60,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)'],['LoaiKhach','nvarchar(20)']]},
+        {id:'DoanKhach',x:60,y:240,g:true,cols:[['Id','int','pk'],['TenDoan','nvarchar(100)']]},
+        {id:'KhuyenMai',x:60,y:380,g:true,cols:[['Id','int','pk'],['TenKhuyenMai','nvarchar(100)']]},
+        {id:'NhanVien',x:60,y:500,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+        {id:'DonHang',x:400,y:60,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['IdKhachHang','int','fk'],['IdDoan','int','fk'],['IdKhuyenMai','int','fk'],['TienGiamGia','decimal(15,0)'],['TongTien','decimal(15,0)'],['TrangThai','nvarchar(20)'],['NguonBan','nvarchar(10)'],['GhiChu','nvarchar(500)'],['CreatedBy','int','fk']]},
+        {id:'ChiTietDonHang',x:740,y:60,cols:[['Id','int','pk'],['IdDonHang','int','fk'],['IdSanPham','int','fk'],['IdCombo','int','fk'],['SoLuong','int'],['DonGiaGoc','decimal(15,0)'],['TienGiamGiaDong','decimal(15,0)'],['DonGiaThucTe','decimal(15,0)'],['ThanhTien','computed']]},
+        {id:'SanPham',x:1080,y:60,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)'],['LoaiSanPham','nvarchar(20)'],['DonGia','decimal(15,0)']]},
+        {id:'Combo',x:1080,y:260,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)'],['Gia','decimal(15,0)']]},
+      ],
+      rels:[
+        {f:'DonHang',fc:'IdKhachHang',t:'KhachHang',tc:'Id'},
+        {f:'DonHang',fc:'IdDoan',t:'DoanKhach',tc:'Id'},
+        {f:'DonHang',fc:'IdKhuyenMai',t:'KhuyenMai',tc:'Id'},
+        {f:'DonHang',fc:'CreatedBy',t:'NhanVien',tc:'Id',label:'CreatedBy'},
+        {f:'ChiTietDonHang',fc:'IdDonHang',t:'DonHang',tc:'Id'},
+        {f:'ChiTietDonHang',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'ChiTietDonHang',fc:'IdCombo',t:'Combo',tc:'Id'},
+      ],
+    },
+    ticket:{
+      title:'Cụm 4B · Vé Điện Tử — VeDienTu, VeKhanDai ← ViTriNgoi ← KhanDai',
+      tables:[
+        {id:'ChiTietDonHang',x:60,y:60,g:true,cols:[['Id','int','pk'],['IdDonHang','int','fk'],['SoLuong','int']]},
+        {id:'SanPham',x:60,y:260,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)']]},
+        {id:'KhachHang',x:60,y:400,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+        {id:'VeDienTu',x:400,y:60,cols:[['Id','uniqueid','pk'],['MaCode','varchar(20)'],['IdChiTietDonHang','int','fk'],['IdSanPham','int','fk'],['TrangThai','nvarchar(20)'],['ThoiGianQuet','datetime'],['SoLuotConLai','int'],['IdKhachHangSuDung','int','fk']]},
+        {id:'VeKhanDai',x:400,y:340,cols:[['IdVeDienTu','uniqueid','pk,fk'],['IdViTriNgoi','int','fk']]},
+        {id:'ViTriNgoi',x:740,y:340,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['Hang','nvarchar(10)'],['SoGhe','int'],['LoaiGhe','nvarchar(20)'],['IdSanPham','int','fk'],['IdKhanDai','int','fk']]},
+        {id:'KhanDai',x:1080,y:340,cols:[['Id','int','pk'],['TenKhanDai','nvarchar(100)'],['SucChua','int']]},
+      ],
+      rels:[
+        {f:'VeDienTu',fc:'IdChiTietDonHang',t:'ChiTietDonHang',tc:'Id'},
+        {f:'VeDienTu',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'VeDienTu',fc:'IdKhachHangSuDung',t:'KhachHang',tc:'Id'},
+        {f:'VeKhanDai',fc:'IdVeDienTu',t:'VeDienTu',tc:'Id'},
+        {f:'VeKhanDai',fc:'IdViTriNgoi',t:'ViTriNgoi',tc:'Id'},
+        {f:'ViTriNgoi',fc:'IdSanPham',t:'SanPham',tc:'Id',os:1,label:'IdSanPham'},
+        {f:'ViTriNgoi',fc:'IdKhanDai',t:'KhanDai',tc:'Id'},
+      ],
+    },
+    payment:{
+      title:'Cụm 4C · Thanh Toán & Audit — PhieuThu, PhieuChi, AuditDonHang',
+      tables:[
+        {id:'DonHang',x:60,y:60,g:true,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['TongTien','decimal(15,0)'],['TrangThai','nvarchar(20)']]},
+        {id:'GiaoDichVi',x:60,y:280,g:true,cols:[['Id','int','pk'],['LoaiGiaoDich','nvarchar(20)'],['SoTien','decimal(15,0)']]},
+        {id:'NhanVien',x:60,y:440,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+        {id:'PhieuThu',x:400,y:60,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['IdDonHang','int','fk'],['IdGiaoDichVi','int','fk'],['SoTien','decimal(15,0)'],['PhuongThuc','nvarchar(20)'],['MaGiaoDichDoiTac','varchar(100)'],['ThoiGian','datetime']]},
+        {id:'PhieuChi',x:740,y:60,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['SoTien','decimal(15,0)'],['LyDo','nvarchar(255)'],['ThoiGian','datetime'],['IdDonHang','int','fk']]},
+        {id:'AuditDonHang',x:400,y:340,cols:[['Id','int','pk'],['IdDonHang','int','fk'],['TrangThaiCu','nvarchar(20)'],['TrangThaiMoi','nvarchar(20)'],['ThoiGianThayDoi','datetime'],['NguoiThayDoi','int','fk']]},
+      ],
+      rels:[
+        {f:'PhieuThu',fc:'IdDonHang',t:'DonHang',tc:'Id'},
+        {f:'PhieuThu',fc:'IdGiaoDichVi',t:'GiaoDichVi',tc:'Id'},
+        {f:'PhieuChi',fc:'IdDonHang',t:'DonHang',tc:'Id',os:1,label:'IdDonHang'},
+        {f:'AuditDonHang',fc:'IdDonHang',t:'DonHang',tc:'Id',os:-1,label:'IdDonHang'},
+        {f:'AuditDonHang',fc:'NguoiThayDoi',t:'NhanVien',tc:'Id'},
+      ],
+    },
+  }
+},
+
+// ─── 5. DỊCH VỤ CHUYÊN BIỆT ────────────────────
+service:{
+  tabs:[
+    {id:'hotel',label:'5A. Khách Sạn'},
+    {id:'rental',label:'5B. Thuê Đồ'},
+    {id:'parking',label:'5C. Bãi Đỗ Xe'},
+    {id:'restaurant',label:'5D. Nhà Hàng'},
+    {id:'zoo',label:'5E. Vườn Thú'},
+    {id:'beach',label:'5F. Biển Nhân Tạo'},
+  ],
+  diagrams:{
+    hotel:{
+      title:'Cụm 5A · Khách Sạn — LoaiPhong → Phong → DatPhong → ChiTietDatPhong',
+      tables:[
+        {id:'SanPham',x:60,y:60,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)'],['LoaiSanPham','nvarchar(20)'],['DonGia','decimal(15,0)']]},
+        {id:'LoaiPhong',x:400,y:60,cols:[['Id','int','pk'],['MaLoai','varchar(20)'],['TenLoai','nvarchar(100)'],['SucChuaMoiPhong','int'],['DienTich','decimal(8,2)'],['SoPhongNgu','int'],['LaVilla','bit'],['TrangBiTomTat','nvarchar(500)'],['IdSanPham','int','fk']]},
+        {id:'Phong',x:740,y:60,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['TenPhong','nvarchar(50)'],['IdLoaiPhong','int','fk'],['SucChua','int'],['TrangThai','nvarchar(20)']]},
+        {id:'ChiTietDonHang',x:60,y:340,g:true,cols:[['Id','int','pk'],['IdDonHang','int','fk'],['IdSanPham','int','fk'],['SoLuong','int'],['DonGiaThucTe','decimal(15,0)']]},
+        {id:'DatPhongChiTiet',x:400,y:340,cols:[['Id','int','pk'],['IdChiTietDonHang','int','fk'],['NgayNhan','datetime'],['NgayTra','datetime'],['TrangThai','nvarchar(20)']]},
+        {id:'ChiTietDatPhong',x:740,y:340,cols:[['Id','int','pk'],['IdDatPhongChiTiet','int','fk'],['IdPhong','int','fk'],['DonGiaThucTe','decimal(15,0)']]},
+      ],
+      rels:[
+        {f:'LoaiPhong',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'Phong',fc:'IdLoaiPhong',t:'LoaiPhong',tc:'Id'},
+        {f:'DatPhongChiTiet',fc:'IdChiTietDonHang',t:'ChiTietDonHang',tc:'Id'},
+        {f:'ChiTietDatPhong',fc:'IdDatPhongChiTiet',t:'DatPhongChiTiet',tc:'Id'},
+        {f:'ChiTietDatPhong',fc:'IdPhong',t:'Phong',tc:'Id'},
+      ],
+    },
+    rental:{
+      title:'Cụm 5B · Thuê Đồ — ThueDoChiTiet → ThueTu → TuDo + ThueChoi → ChoiNghiMat',
+      tables:[
+        {id:'ChiTietDonHang',x:60,y:60,g:true,cols:[['Id','int','pk'],['IdDonHang','int','fk'],['SoLuong','int']]},
+        {id:'ThueDoChiTiet',x:400,y:60,cols:[['Id','int','pk'],['IdChiTietDonHang','int','fk'],['IdSanPham','int','fk'],['SoLuong','int'],['ThoiGianBatDau','datetime'],['ThoiGianKetThuc','datetime'],['SoTienCoc','decimal(15,0)'],['TrangThaiCoc','nvarchar(20)'],['IdGiaoDichCoc','int','fk'],['IdGiaoDichHoanCoc','int','fk'],['IdGiaoDichPhat','int','fk'],['TienThueDaThu','decimal(18,0)']]},
+        {id:'SanPham',x:740,y:60,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)'],['DonGia','decimal(15,0)']]},
+        {id:'GiaoDichVi',x:60,y:360,g:true,cols:[['Id','int','pk'],['LoaiGiaoDich','nvarchar(20)'],['SoTien','decimal(15,0)']]},
+        {id:'ThueTu',x:400,y:400,cols:[['Id','int','pk'],['IdChiTietThue','int','fk'],['IdTuDo','int','fk'],['MaPin','nvarchar(10)']]},
+        {id:'TuDo',x:740,y:400,cols:[['Id','int','pk'],['IdKhuVuc','int','fk'],['MaTu','nvarchar(20)'],['KichThuoc','nvarchar(10)'],['TrangThai','nvarchar(20)']]},
+        {id:'ThueChoi',x:400,y:570,cols:[['Id','int','pk'],['IdChiTietThue','int','fk'],['IdChoi','int','fk']]},
+        {id:'ChoiNghiMat',x:740,y:530,g:true,cols:[['Id','int','pk'],['TenChoi','nvarchar(100)'],['TrangThai','nvarchar(20)']]},
+      ],
+      rels:[
+        {f:'ThueDoChiTiet',fc:'IdChiTietDonHang',t:'ChiTietDonHang',tc:'Id'},
+        {f:'ThueDoChiTiet',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'ThueDoChiTiet',fc:'IdGiaoDichCoc',t:'GiaoDichVi',tc:'Id',os:-1,label:'Cọc/Hoàn/Phạt'},
+        {f:'ThueTu',fc:'IdChiTietThue',t:'ThueDoChiTiet',tc:'Id'},
+        {f:'ThueTu',fc:'IdTuDo',t:'TuDo',tc:'Id'},
+        {f:'ThueChoi',fc:'IdChiTietThue',t:'ThueDoChiTiet',tc:'Id',os:1,label:'IdChiTietThue'},
+        {f:'ThueChoi',fc:'IdChoi',t:'ChoiNghiMat',tc:'Id'},
+      ],
+    },
+    parking:{
+      title:'Cụm 5C · Bãi Đỗ Xe — LuotVaoRa ← TheRFID, VeDoXe, GiaGuiXe, BaiDoXe',
+      tables:[
+        {id:'TheRFID',x:60,y:60,g:true,cols:[['MaRfid','nvarchar(50)','pk'],['IdVi','int','fk'],['TrangThai','nvarchar(20)']]},
+        {id:'LuotVaoRaBaiXe',x:400,y:60,cols:[['Id','int','pk'],['BienSo','nvarchar(20)'],['LoaiXe','nvarchar(20)'],['MaRfid','nvarchar(50)','fk'],['AnhBienSo','nvarchar(500)'],['ThoiGianVao','datetime'],['ThoiGianRa','datetime'],['TrangThai','nvarchar(20)']]},
+        {id:'GiaGuiXe',x:740,y:60,cols:[['Id','int','pk'],['LoaiXe','nvarchar(20)'],['TenLoaiXe','nvarchar(50)'],['GiaBanNgay','decimal(18,0)'],['GiaQuaDem','decimal(18,0)']]},
+        {id:'ChiTietDonHang',x:60,y:340,g:true,cols:[['Id','int','pk'],['IdDonHang','int','fk'],['SoLuong','int']]},
+        {id:'VeDoXeChiTiet',x:400,y:340,cols:[['Id','int','pk'],['IdChiTietDonHang','int','fk'],['IdLuotVaoRa','int','fk'],['TienPhaiTra','decimal(15,0)']]},
+        {id:'BaiDoXe',x:740,y:300,cols:[['Id','int','pk'],['TenBai','nvarchar(100)'],['TongCho','int'],['IdKhuVuc','int','fk']]},
+        {id:'KhuVuc',x:1080,y:300,g:true,cols:[['Id','int','pk'],['TenKhuVuc','nvarchar(100)']]},
+      ],
+      rels:[
+        {f:'LuotVaoRaBaiXe',fc:'MaRfid',t:'TheRFID',tc:'MaRfid'},
+        {f:'VeDoXeChiTiet',fc:'IdChiTietDonHang',t:'ChiTietDonHang',tc:'Id'},
+        {f:'VeDoXeChiTiet',fc:'IdLuotVaoRa',t:'LuotVaoRaBaiXe',tc:'Id'},
+        {f:'BaiDoXe',fc:'IdKhuVuc',t:'KhuVuc',tc:'Id'},
+      ],
+    },
+    restaurant:{
+      title:'Cụm 5D · Nhà Hàng — NhaHang → BanAn, DatBan → ChiTietDatBan',
+      tables:[
+        {id:'KhuVuc',x:60,y:60,g:true,cols:[['Id','int','pk'],['TenKhuVuc','nvarchar(100)']]},
+        {id:'NhaHang',x:400,y:60,cols:[['Id','int','pk'],['TenNhaHang','nvarchar(100)'],['IdKhuVuc','int','fk'],['SucChua','int'],['MoTa','nvarchar(MAX)']]},
+        {id:'BanAn',x:740,y:60,cols:[['Id','int','pk'],['IdNhaHang','int','fk'],['MaBan','nvarchar(20)'],['SucChua','int'],['TrangThai','nvarchar(20)']]},
+        {id:'ChiTietDonHang',x:60,y:290,g:true,cols:[['Id','int','pk'],['IdDonHang','int','fk'],['SoLuong','int']]},
+        {id:'KhachHang',x:60,y:440,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+        {id:'PhieuThu',x:60,y:570,g:true,cols:[['Id','int','pk'],['SoTien','decimal(15,0)']]},
+        {id:'DatBan',x:400,y:260,cols:[['Id','int','pk'],['IdChiTietDonHang','int','fk'],['IdNhaHang','int','fk'],['ThoiGianDat','datetime'],['ThoiGianDenDuKien','datetime'],['SoLuongKhach','int'],['TrangThai','nvarchar(20)'],['TenNguoiDat','nvarchar(100)'],['SoDienThoai','varchar(20)'],['GhiChu','nvarchar(MAX)'],['TienCoc','decimal(18,0)'],['IdPhieuThuCoc','int','fk'],['IdKhachHang','int','fk']]},
+        {id:'ChiTietDatBan',x:740,y:290,cols:[['Id','int','pk'],['IdDatBan','int','fk'],['IdBanAn','int','fk']]},
+      ],
+      rels:[
+        {f:'NhaHang',fc:'IdKhuVuc',t:'KhuVuc',tc:'Id'},
+        {f:'BanAn',fc:'IdNhaHang',t:'NhaHang',tc:'Id'},
+        {f:'DatBan',fc:'IdChiTietDonHang',t:'ChiTietDonHang',tc:'Id'},
+        {f:'DatBan',fc:'IdNhaHang',t:'NhaHang',tc:'Id'},
+        {f:'DatBan',fc:'IdKhachHang',t:'KhachHang',tc:'Id'},
+        {f:'DatBan',fc:'IdPhieuThuCoc',t:'PhieuThu',tc:'Id'},
+        {f:'ChiTietDatBan',fc:'IdDatBan',t:'DatBan',tc:'Id'},
+        {f:'ChiTietDatBan',fc:'IdBanAn',t:'BanAn',tc:'Id'},
+      ],
+    },
+    zoo:{
+      title:'Cụm 5E · Vườn Thú — KhuVucThu → ChuongTrai → DongVat, LichChoAn, DatChoThuAn',
+      tables:[
+        {id:'KhuVuc',x:60,y:60,g:true,cols:[['Id','int','pk'],['TenKhuVuc','nvarchar(100)']]},
+        {id:'KhuVucThu',x:400,y:60,cols:[['IdKhuVuc','int','pk,fk'],['DienTich','decimal(10,2)'],['SucChuaDongVat','int'],['LoaiMoiTruong','nvarchar(50)']]},
+        {id:'DongVat',x:740,y:60,cols:[['Id','int','pk'],['Ten','nvarchar(100)'],['Loai','nvarchar(50)'],['MoTa','nvarchar(MAX)'],['NgaySinh','date'],['TinhTrangSucKhoe','nvarchar(50)']]},
+        {id:'ChuongTrai',x:400,y:260,cols:[['Id','int','pk'],['IdKhuVucThu','int','fk'],['IdDongVat','int','fk'],['TenChuong','nvarchar(50)'],['SucChua','int'],['TrangThai','nvarchar(20)']]},
+        {id:'LichChoAn',x:740,y:290,cols:[['Id','int','pk'],['IdDongVat','int','fk'],['ThoiGian','datetime'],['ThucAn','nvarchar(200)'],['NguoiPhuTrach','int','fk']]},
+        {id:'NhanVien',x:1080,y:290,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+        {id:'ChiTietDonHang',x:60,y:460,g:true,cols:[['Id','int','pk'],['IdDonHang','int','fk'],['SoLuong','int']]},
+        {id:'DatChoThuAn',x:400,y:460,cols:[['Id','int','pk'],['IdChiTietDonHang','int','fk'],['IdDongVat','int','fk'],['IdVeDienTu','uniqueid','fk'],['ThoiGianDuKien','datetime'],['TrangThai','nvarchar(20)']]},
+        {id:'VeDienTu',x:60,y:620,g:true,cols:[['Id','uniqueid','pk'],['TrangThai','nvarchar(20)']]},
+      ],
+      rels:[
+        {f:'KhuVucThu',fc:'IdKhuVuc',t:'KhuVuc',tc:'Id'},
+        {f:'ChuongTrai',fc:'IdKhuVucThu',t:'KhuVucThu',tc:'IdKhuVuc'},
+        {f:'ChuongTrai',fc:'IdDongVat',t:'DongVat',tc:'Id'},
+        {f:'LichChoAn',fc:'IdDongVat',t:'DongVat',tc:'Id'},
+        {f:'LichChoAn',fc:'NguoiPhuTrach',t:'NhanVien',tc:'Id'},
+        {f:'DatChoThuAn',fc:'IdChiTietDonHang',t:'ChiTietDonHang',tc:'Id'},
+        {f:'DatChoThuAn',fc:'IdDongVat',t:'DongVat',tc:'Id',os:2,label:'IdDongVat'},
+        {f:'DatChoThuAn',fc:'IdVeDienTu',t:'VeDienTu',tc:'Id'},
+      ],
+    },
+    beach:{
+      title:'Cụm 5F · Biển Nhân Tạo — KhuVucBien, ChatLuongNuoc, TaoSong, CuuHo, ChoiNghiMat',
+      tables:[
+        {id:'KhuVuc',x:60,y:60,g:true,cols:[['Id','int','pk'],['TenKhuVuc','nvarchar(100)']]},
+        {id:'KhuVucBien',x:400,y:60,cols:[['IdKhuVuc','int','pk,fk'],['DoSauToiDa','decimal(5,2)'],['YeuCauPhao','bit']]},
+        {id:'ChatLuongNuoc',x:740,y:60,cols:[['Id','int','pk'],['IdKhuVucBien','int','fk'],['Ngay','date'],['DoMan','decimal(5,2)'],['PH','decimal(3,2)'],['NhietDo','decimal(4,2)'],['DoTrong','int'],['TrangThaiVeSinh','nvarchar(20)']]},
+        {id:'ThietBiTaoSong',x:60,y:300,cols:[['Id','int','pk'],['TenThietBi','nvarchar(100)'],['CongSuat','nvarchar(50)'],['TrangThai','nvarchar(20)']]},
+        {id:'LichTaoSong',x:400,y:300,cols:[['Id','int','pk'],['IdThietBi','int','fk'],['ThoiGianBatDau','datetime'],['ThoiGianKetThuc','datetime'],['KieuSong','nvarchar(50)']]},
+        {id:'CaTrucCuuHo',x:740,y:300,cols:[['Id','int','pk'],['IdNhanVien','int','fk'],['IdKhuVucBien','int','fk'],['ThoiGianBatDau','datetime'],['ThoiGianKetThuc','datetime']]},
+        {id:'NhanVien',x:1080,y:300,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+        {id:'ChoiNghiMat',x:400,y:520,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['IdKhuVucBien','int','fk'],['IdSanPham','int','fk'],['TenChoi','nvarchar(100)'],['SucChua','int'],['TrangThai','nvarchar(20)']]},
+        {id:'SanPham',x:740,y:520,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)'],['DonGia','decimal(15,0)']]},
+      ],
+      rels:[
+        {f:'KhuVucBien',fc:'IdKhuVuc',t:'KhuVuc',tc:'Id'},
+        {f:'ChatLuongNuoc',fc:'IdKhuVucBien',t:'KhuVucBien',tc:'IdKhuVuc'},
+        {f:'LichTaoSong',fc:'IdThietBi',t:'ThietBiTaoSong',tc:'Id'},
+        {f:'CaTrucCuuHo',fc:'IdKhuVucBien',t:'KhuVucBien',tc:'IdKhuVuc',os:1},
+        {f:'CaTrucCuuHo',fc:'IdNhanVien',t:'NhanVien',tc:'Id'},
+        {f:'ChoiNghiMat',fc:'IdKhuVucBien',t:'KhuVucBien',tc:'IdKhuVuc',os:-1,label:'IdKhuVucBien'},
+        {f:'ChoiNghiMat',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+      ],
+    },
+  }
+},
+
+// ─── 6. TRƯỜNG ĐUA ──────────────────────────────
+racing:{
+  tabs:[
+    {id:'race',label:'6A. Giải Đua & Lịch'},
+    {id:'athlete',label:'6B. VĐV & Phương Tiện'},
+    {id:'result',label:'6C. Kết Quả & Bảo Trì'},
+  ],
+  diagrams:{
+    race:{
+      title:'Cụm 6A · Giải Đua — GiaiDua → LichThiDau ← DuongDua, LoaiHinhDua',
+      tables:[
+        {id:'GiaiDua',x:60,y:60,cols:[['Id','int','pk'],['TenGiai','nvarchar(100)'],['ThoiGianBatDau','datetime'],['ThoiGianKetThuc','datetime']]},
+        {id:'LichThiDau',x:400,y:60,cols:[['Id','int','pk'],['IdGiaiDua','int','fk'],['IdDuongDua','int','fk'],['IdLoaiHinh','int','fk'],['ThoiGianDuKien','datetime']]},
+        {id:'DuongDua',x:740,y:60,cols:[['Id','int','pk'],['TenDuong','nvarchar(100)'],['ChieuDai','float'],['LoaiMat','nvarchar(50)']]},
+        {id:'LoaiHinhDua',x:740,y:250,cols:[['Id','int','pk'],['TenLoai','nvarchar(50)']]},
+      ],
+      rels:[
+        {f:'LichThiDau',fc:'IdGiaiDua',t:'GiaiDua',tc:'Id'},
+        {f:'LichThiDau',fc:'IdDuongDua',t:'DuongDua',tc:'Id'},
+        {f:'LichThiDau',fc:'IdLoaiHinh',t:'LoaiHinhDua',tc:'Id'},
+      ],
+    },
+    athlete:{
+      title:'Cụm 6B · VĐV & Phương Tiện — VanDongVien → NguaDua, PhuongTienDua',
+      tables:[
+        {id:'VanDongVien',x:60,y:60,cols:[['Id','int','pk'],['HoTen','nvarchar(100)'],['LoaiVdv','nvarchar(20)']]},
+        {id:'NguaDua',x:400,y:60,cols:[['Id','int','pk'],['TenNgua','nvarchar(100)'],['IdVdv','int','fk'],['Tuoi','int'],['ThanhTich','nvarchar(MAX)']]},
+        {id:'PhuongTienDua',x:400,y:280,cols:[['Id','int','pk'],['TenXe','nvarchar(100)'],['IdVdv','int','fk'],['TinhTrang','nvarchar(20)']]},
+      ],
+      rels:[
+        {f:'NguaDua',fc:'IdVdv',t:'VanDongVien',tc:'Id'},
+        {f:'PhuongTienDua',fc:'IdVdv',t:'VanDongVien',tc:'Id'},
+      ],
+    },
+    result:{
+      title:'Cụm 6C · Kết Quả & Bảo Trì — KetQuaDua, BaoTriPhuongTienDua',
+      tables:[
+        {id:'LichThiDau',x:60,y:60,g:true,cols:[['Id','int','pk'],['ThoiGianDuKien','datetime']]},
+        {id:'VanDongVien',x:60,y:220,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+        {id:'PhuongTienDua',x:60,y:370,g:true,cols:[['Id','int','pk'],['TenXe','nvarchar(100)']]},
+        {id:'NguaDua',x:60,y:500,g:true,cols:[['Id','int','pk'],['TenNgua','nvarchar(100)']]},
+        {id:'KetQuaDua',x:400,y:60,cols:[['Id','int','pk'],['IdLichThiDau','int','fk'],['IdVdv','int','fk'],['IdPhuongTienDua','int','fk'],['IdNguaDua','int','fk'],['ThuTuVeDich','int'],['ThanhTichThoiGian','time']]},
+        {id:'BaoTriPhuongTienDua',x:400,y:340,cols:[['Id','int','pk'],['IdPhuongTienDua','int','fk'],['IdNguaDua','int','fk'],['NgayBaoTri','date'],['NoiDung','nvarchar(MAX)'],['ChiPhi','decimal(15,0)'],['IdPhieuChi','int','fk']]},
+        {id:'PhieuChi',x:740,y:340,g:true,cols:[['Id','int','pk'],['SoTien','decimal(15,0)']]},
+      ],
+      rels:[
+        {f:'KetQuaDua',fc:'IdLichThiDau',t:'LichThiDau',tc:'Id'},
+        {f:'KetQuaDua',fc:'IdVdv',t:'VanDongVien',tc:'Id'},
+        {f:'KetQuaDua',fc:'IdPhuongTienDua',t:'PhuongTienDua',tc:'Id'},
+        {f:'KetQuaDua',fc:'IdNguaDua',t:'NguaDua',tc:'Id'},
+        {f:'BaoTriPhuongTienDua',fc:'IdPhuongTienDua',t:'PhuongTienDua',tc:'Id'},
+        {f:'BaoTriPhuongTienDua',fc:'IdNguaDua',t:'NguaDua',tc:'Id'},
+        {f:'BaoTriPhuongTienDua',fc:'IdPhieuChi',t:'PhieuChi',tc:'Id'},
+      ],
+    },
+  }
+},
+
+// ─── 7. KHO & BẢO TRÌ ───────────────────────────
+warehouse:{
+  tabs:[
+    {id:'stock',label:'7A. Kho & Tồn Kho'},
+    {id:'io',label:'7B. Nhập/Xuất Kho'},
+    {id:'check',label:'7C. Kiểm Kho'},
+    {id:'equip',label:'7D. Thiết Bị & Bảo Trì'},
+    {id:'safety',label:'7E. An Toàn & Sự Cố'},
+  ],
+  diagrams:{
+    stock:{
+      title:'Cụm 7A · Kho & Tồn Kho — KhoHang → TonKho ← SanPham, TheKho (Sổ Thẻ)',
+      tables:[
+        {id:'KhoHang',x:60,y:60,cols:[['Id','int','pk'],['TenKho','nvarchar(100)'],['LoaiKho','nvarchar(20)'],['DiaChi','nvarchar(200)']]},
+        {id:'TonKho',x:400,y:60,cols:[['Id','int','pk'],['IdKho','int','fk'],['IdSanPham','int','fk'],['SoLuong','int'],['NguongCanhBao','int']]},
+        {id:'SanPham',x:740,y:60,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)'],['LoaiSanPham','nvarchar(20)']]},
+        {id:'TheKho',x:400,y:270,cols:[['Id','int','pk'],['IdKho','int','fk'],['IdSanPham','int','fk'],['LoaiGiaoDich','varchar(20)'],['SoLuongThayDoi','int'],['TonCuoi','int'],['DonGiaVatTu','decimal(18,0)'],['IdThamChieu','int'],['ThoiGianGiaoDich','datetime'],['GhiChu','nvarchar(255)']]},
+        {id:'NhaCungCap',x:60,y:310,cols:[['Id','int','pk'],['Ten','nvarchar(200)'],['MaSoThue','nvarchar(20)'],['DiaChi','nvarchar(200)'],['DienThoai','nvarchar(20)'],['NguoiLienHe','nvarchar(100)']]},
+      ],
+      rels:[
+        {f:'TonKho',fc:'IdKho',t:'KhoHang',tc:'Id'},
+        {f:'TonKho',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'TheKho',fc:'IdKho',t:'KhoHang',tc:'Id',os:-1,label:'IdKho'},
+        {f:'TheKho',fc:'IdSanPham',t:'SanPham',tc:'Id',os:1,label:'IdSanPham'},
+      ],
+    },
+    io:{
+      title:'Cụm 7B · Nhập/Xuất Kho — Phiếu Nhập/Xuất → Chi Tiết',
+      tables:[
+        {id:'KhoHang',x:60,y:60,g:true,cols:[['Id','int','pk'],['TenKho','nvarchar(100)']]},
+        {id:'NhaCungCap',x:60,y:220,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(200)']]},
+        {id:'PhieuChi',x:60,y:380,g:true,cols:[['Id','int','pk'],['SoTien','decimal(15,0)']]},
+        {id:'SanPham',x:1080,y:60,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)']]},
+        {id:'DonViTinh',x:1080,y:220,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(50)']]},
+        {id:'DonHang',x:1080,y:380,g:true,cols:[['Id','int','pk'],['MaCode','varchar(20)']]},
+        {id:'PhieuNhapKho',x:370,y:60,cols:[['Id','int','pk'],['IdKho','int','fk'],['IdNhaCungCap','int','fk'],['NgayNhap','datetime'],['SoChungTu','nvarchar(50)'],['TongTien','decimal(15,0)'],['IdPhieuChi','int','fk']]},
+        {id:'ChiTietNhapKho',x:700,y:60,cols:[['Id','int','pk'],['IdPhieuNhap','int','fk'],['IdSanPham','int','fk'],['SoLuong','int'],['DonGiaNhap','decimal(15,0)'],['IdDonViNhap','int','fk'],['TyLeQuyDoi','decimal(10,2)']]},
+        {id:'PhieuXuatKho',x:370,y:330,cols:[['Id','int','pk'],['IdKhoXuat','int','fk'],['IdKhoNhan','int','fk'],['NgayXuat','datetime'],['LyDo','nvarchar(200)'],['IdDonHangLienQuan','int','fk']]},
+        {id:'ChiTietXuatKho',x:700,y:330,cols:[['Id','int','pk'],['IdPhieuXuat','int','fk'],['IdSanPham','int','fk'],['SoLuong','int'],['DonGiaXuat','decimal(15,0)'],['IdDonViXuat','int','fk'],['TyLeQuyDoi','decimal(10,2)']]},
+      ],
+      rels:[
+        {f:'PhieuNhapKho',fc:'IdKho',t:'KhoHang',tc:'Id'},
+        {f:'PhieuNhapKho',fc:'IdNhaCungCap',t:'NhaCungCap',tc:'Id'},
+        {f:'PhieuNhapKho',fc:'IdPhieuChi',t:'PhieuChi',tc:'Id'},
+        {f:'ChiTietNhapKho',fc:'IdPhieuNhap',t:'PhieuNhapKho',tc:'Id'},
+        {f:'ChiTietNhapKho',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'ChiTietNhapKho',fc:'IdDonViNhap',t:'DonViTinh',tc:'Id'},
+        {f:'PhieuXuatKho',fc:'IdKhoXuat',t:'KhoHang',tc:'Id',label:'IdKhoXuat'},
+        {f:'PhieuXuatKho',fc:'IdDonHangLienQuan',t:'DonHang',tc:'Id'},
+        {f:'ChiTietXuatKho',fc:'IdPhieuXuat',t:'PhieuXuatKho',tc:'Id'},
+        {f:'ChiTietXuatKho',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+        {f:'ChiTietXuatKho',fc:'IdDonViXuat',t:'DonViTinh',tc:'Id'},
+      ],
+    },
+    check:{
+      title:'Cụm 7C · Kiểm Kho — LichKiemKho → ChiTietKiemKho',
+      tables:[
+        {id:'NhanVien',x:60,y:60,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+        {id:'LichKiemKho',x:400,y:60,cols:[['Id','int','pk'],['Ca','nvarchar(10)'],['ThoiGianKiem','datetime'],['IdNhanVien','int','fk'],['GhiChu','nvarchar(500)']]},
+        {id:'ChiTietKiemKho',x:400,y:290,cols:[['Id','int','pk'],['IdLichKiem','int','fk'],['IdKho','int','fk'],['IdSanPham','int','fk'],['SoLuongThucTe','int'],['SoLuongHeThong','int'],['ChenhLech','computed'],['TrangThai','nvarchar(20)']]},
+        {id:'KhoHang',x:740,y:290,g:true,cols:[['Id','int','pk'],['TenKho','nvarchar(100)']]},
+        {id:'SanPham',x:740,y:440,g:true,cols:[['Id','int','pk'],['Ten','nvarchar(100)']]},
+      ],
+      rels:[
+        {f:'LichKiemKho',fc:'IdNhanVien',t:'NhanVien',tc:'Id'},
+        {f:'ChiTietKiemKho',fc:'IdLichKiem',t:'LichKiemKho',tc:'Id'},
+        {f:'ChiTietKiemKho',fc:'IdKho',t:'KhoHang',tc:'Id'},
+        {f:'ChiTietKiemKho',fc:'IdSanPham',t:'SanPham',tc:'Id'},
+      ],
+    },
+    equip:{
+      title:'Cụm 7D · Thiết Bị & Bảo Trì — DanhSachThietBi → LichBaoTri, Kiosk',
+      tables:[
+        {id:'KhuVuc',x:60,y:60,g:true,cols:[['Id','int','pk'],['TenKhuVuc','nvarchar(100)']]},
+        {id:'DanhSachThietBi',x:400,y:60,cols:[['Id','int','pk'],['MaCode','varchar(20)'],['TenThietBi','nvarchar(100)'],['LoaiThietBi','nvarchar(30)'],['IdKhuVuc','int','fk'],['MoTa','nvarchar(500)'],['NgayMua','date'],['GiaTriMua','decimal(15,0)'],['TrangThai','nvarchar(20)'],['ChuKyBaoTriThang','int']]},
+        {id:'LichBaoTri',x:400,y:360,cols:[['Id','int','pk'],['IdThietBi','int','fk'],['NgayBaoTri','date'],['LoaiBaoTri','nvarchar(20)'],['NoiDung','nvarchar(MAX)'],['ChiPhi','decimal(15,0)'],['IdNhanVienThucHien','int','fk'],['IdPhieuChi','int','fk'],['TrangThai','nvarchar(20)']]},
+        {id:'NhanVien',x:60,y:360,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+        {id:'PhieuChi',x:60,y:510,g:true,cols:[['Id','int','pk'],['SoTien','decimal(15,0)']]},
+        {id:'Kiosk',x:740,y:60,cols:[['Id','int','pk'],['ViTri','nvarchar(100)'],['TrangThai','nvarchar(20)']]},
+      ],
+      rels:[
+        {f:'DanhSachThietBi',fc:'IdKhuVuc',t:'KhuVuc',tc:'Id'},
+        {f:'LichBaoTri',fc:'IdThietBi',t:'DanhSachThietBi',tc:'Id'},
+        {f:'LichBaoTri',fc:'IdNhanVienThucHien',t:'NhanVien',tc:'Id'},
+        {f:'LichBaoTri',fc:'IdPhieuChi',t:'PhieuChi',tc:'Id'},
+      ],
+    },
+    safety:{
+      title:'Cụm 7E · An Toàn & Sự Cố — SuCo, ThatLac',
+      tables:[
+        {id:'KhachHang',x:60,y:60,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+        {id:'NhanVien',x:60,y:240,g:true,cols:[['Id','int','pk'],['HoTen','nvarchar(100)']]},
+        {id:'SuCo',x:400,y:60,cols:[['Id','int','pk'],['IdKhachHang','int','fk'],['IdNhanVienXuLy','int','fk'],['ThoiGian','datetime'],['MoTa','nvarchar(MAX)'],['MucDo','nvarchar(20)'],['ToaDoGps','nvarchar(100)'],['LoaiSuCo','nvarchar(20)']]},
+        {id:'ThatLac',x:400,y:340,cols:[['Id','int','pk'],['MoTaDoVat','nvarchar(MAX)'],['NoiTimThay','nvarchar(200)'],['TrangThai','nvarchar(20)'],['ThoiGian','datetime'],['IdKhachHangNhan','int','fk']]},
+      ],
+      rels:[
+        {f:'SuCo',fc:'IdKhachHang',t:'KhachHang',tc:'Id'},
+        {f:'SuCo',fc:'IdNhanVienXuLy',t:'NhanVien',tc:'Id'},
+        {f:'ThatLac',fc:'IdKhachHangNhan',t:'KhachHang',tc:'Id'},
+      ],
+    },
+  }
+},
+
+}; // END DIAGRAMS
+
+// =====================================================
+// TAB LOGIC
+// =====================================================
+let curMod='overview',curSub='';
+function initTabs(){
+  const modules=[
+    {id:'overview',label:'0. Tổng Quan'},
+    {id:'master',label:'1. Nhân Sự & Phân Quyền'},
+    {id:'product',label:'2. Sản Phẩm & Giá'},
+    {id:'customer',label:'3. Khách Hàng & Ví'},
+    {id:'order',label:'4. Đơn Hàng & Thanh Toán'},
+    {id:'service',label:'5. Dịch Vụ Chuyên Biệt'},
+    {id:'racing',label:'6. Trường Đua'},
+    {id:'warehouse',label:'7. Kho & Bảo Trì'},
+  ];
+  const nav=document.getElementById('moduleNav');
+  nav.innerHTML=modules.map(m=>`<button data-mod="${m.id}" class="${m.id===curMod?'active':''}" ${m.dis?'disabled':''}>${m.label}</button>`).join('');
+  nav.querySelectorAll('button:not([disabled])').forEach(btn=>{
+    btn.onclick=()=>{nav.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');curMod=btn.dataset.mod;renderSubTabs();};
+  });
+  renderSubTabs();
+}
+function renderSubTabs(){
+  const mod=DIAGRAMS[curMod],sn=document.getElementById('subNav');
+  sn.innerHTML=mod.tabs.map((t,i)=>`<button data-sub="${t.id}" class="${i===0?'active':''}">${t.label}</button>`).join('');
+  curSub=mod.tabs[0].id;
+  renderERD(mod.diagrams[curSub]);
+  sn.querySelectorAll('button').forEach(btn=>{
+    btn.onclick=()=>{sn.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');curSub=btn.dataset.sub;renderERD(DIAGRAMS[curMod].diagrams[curSub]);};
+  });
+}
+document.addEventListener('DOMContentLoaded',initTabs);
+</script>
+</body>
+</html>

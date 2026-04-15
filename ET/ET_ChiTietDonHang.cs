@@ -12,5 +12,7 @@ namespace ET
         public decimal DonGiaGoc { get; set; }
         public decimal TienGiamGiaDong { get; set; }
         public decimal DonGiaThucTe { get; set; }
+
+        public int TyLeQuyDoi { get; set; } = 1;
     }
 }

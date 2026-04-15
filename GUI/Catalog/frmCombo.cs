@@ -30,7 +30,7 @@ namespace GUI
             ApplyPermissions();
         }
 
-        // ===== DTO for basket grid =====
+        // == DTO for basket grid ==
         private class ComboItemDisplay
         {
             [Browsable(false)]
@@ -55,7 +55,7 @@ namespace GUI
             public decimal ThanhTien => DonGia * SoLuong;
         }
 
-        // ===== IBaseForm =====
+        // == IBaseForm ==
         public void ApplyPermissions()
         {
             var tk = SessionManager.CurrentUser;
@@ -118,7 +118,7 @@ namespace GUI
             txtTimKiemKho.IconRightClick += (s, ev) => { txtTimKiemKho.Clear(); txtTimKiemKho.Focus(); };
         }
 
-        // ===== LOAD =====
+        // == LOAD ==
         private void frmCombo_Load(object sender, EventArgs e)
         {
             InitCboTrangThai();
@@ -167,7 +167,7 @@ namespace GUI
         {
             if (gridViewKho.Columns.Count == 0) return;
 
-            // Kho only loads DangBan → TrangThai column is redundant
+            // Kho only loads DangBan -> TrangThai column is redundant
             if (gridViewKho.Columns["TrangThai"] != null)
                 gridViewKho.Columns["TrangThai"].Visible = false;
 
@@ -261,7 +261,7 @@ namespace GUI
             }
         }
 
-        // ===== COMBO LIST EVENTS =====
+        // == COMBO LIST EVENTS ==
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
         {
             gridView.ApplyFindFilter(txtTimKiem.Text.Trim());
@@ -346,7 +346,7 @@ namespace GUI
             return $"CB-{(maxNum + 1):D3}";
         }
 
-        // ===== KHO SP EVENTS =====
+        // == KHO SP EVENTS ==
         private void TxtTimKiemKho_TextChanged(object sender, EventArgs e)
         {
             gridViewKho.ApplyFindFilter(txtTimKiemKho.Text.Trim());
@@ -390,7 +390,7 @@ namespace GUI
             UpdateTongInfo();
         }
 
-        // ===== RO COMBO EVENTS =====
+        // == RO COMBO EVENTS ==
         private void LoadRoCombo(int idCombo)
         {
             var chiTiets = BUS_Combo.Instance.LayChiTiet(idCombo);
@@ -435,7 +435,7 @@ namespace GUI
             UpdateTongInfo();
         }
 
-        // ===== CHIA ĐỀU =====
+        // == CHIA ĐỀU ==
         private void BtnChiaDeu_Click(object sender, EventArgs e)
         {
             if (_roItems.Count == 0)
@@ -528,7 +528,7 @@ namespace GUI
             else return Color.FromArgb(255, v, p, q);
         }
 
-        // ===== GDI+ CHART (DELIGHTER FEATURE) =====
+        // == GDI+ CHART (DELIGHTER FEATURE) ==
         private void PnlRoInfo_Paint(object sender, PaintEventArgs e)
         {
             if (_roItems == null || _roItems.Count == 0) return;
@@ -587,7 +587,7 @@ namespace GUI
             }
         }
 
-        // ===== LƯU RỔ =====
+        // == LƯU RỔ ==
         private void BtnLuuRo_Click(object sender, EventArgs e)
         {
             if (_currentEntity == null)
@@ -638,7 +638,7 @@ namespace GUI
             }
         }
 
-        // ===== CRUD COMBO =====
+        // == CRUD COMBO ==
         private void btnThem_Click(object sender, EventArgs e)
         {
             if (!ValidateInput()) return;

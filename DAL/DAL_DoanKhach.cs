@@ -20,13 +20,7 @@ namespace DAL
 
         private ET_DoanKhach MapToET(DoanKhach s)
         {
-            // Lookup combo name for display
-            string tenCombo = null;
-            if (s.IdCombo.HasValue)
-            {
-                var combo = db.GetTable<Combo>().FirstOrDefault(c => c.Id == s.IdCombo.Value);
-                tenCombo = combo?.Ten;
-            }
+            // [DROPPED] IdCombo, TenCombo lookup — dùng DoanKhach_DichVu thay thế
             return new ET_DoanKhach
             {
                 Id = s.Id,
@@ -40,8 +34,7 @@ namespace DAL
                 NgayDen = s.NgayDen,
                 NgayDi = s.NgayDi,
                 TrangThai = s.TrangThai,
-                IdCombo = s.IdCombo,
-                TenCombo = tenCombo,
+                // [DROPPED] IdCombo, TenCombo — dùng DoanKhach_DichVu thay thế
                 CreatedAt = s.CreatedAt,
                 UpdatedAt = s.UpdatedAt,
                 CreatedBy = s.CreatedBy,
@@ -98,7 +91,7 @@ namespace DAL
                 obj.NgayDen = et.NgayDen;
                 obj.NgayDi = et.NgayDi;
                 obj.TrangThai = et.TrangThai ?? AppConstants.TrangThaiDoanKhach.DaDat;
-                obj.IdCombo = et.IdCombo;
+                // [DROPPED] IdCombo — không set nữa
                 obj.CreatedAt = et.CreatedAt;
                 obj.UpdatedAt = et.UpdatedAt;
                 obj.CreatedBy = et.CreatedBy;
@@ -124,7 +117,7 @@ namespace DAL
                     obj.NgayDen = et.NgayDen;
                     obj.NgayDi = et.NgayDi;
                     obj.TrangThai = et.TrangThai;
-                    obj.IdCombo = et.IdCombo;
+                    // [DROPPED] IdCombo
                     obj.UpdatedAt = DateTime.Now;
                     db.SubmitChanges();
                     return true;

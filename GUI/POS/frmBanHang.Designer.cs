@@ -50,10 +50,10 @@ namespace GUI
             this.btnThanhToanTienMat = new Guna.UI2.WinForms.Guna2Button();
             this.btnHuyDon = new Guna.UI2.WinForms.Guna2Button();
             this.gbKhachHang = new Guna.UI2.WinForms.Guna2GroupBox();
-            this.cboKhoXuLy = new Guna.UI2.WinForms.Guna2ComboBox();
             this.btnTimKH = new Guna.UI2.WinForms.Guna2Button();
             this.lblTenKH = new System.Windows.Forms.Label();
             this.txtMaKH = new Guna.UI2.WinForms.Guna2TextBox();
+            this.cboKhoXuLy = new Guna.UI2.WinForms.Guna2ComboBox();
             this.pnlLeft = new Guna.UI2.WinForms.Guna2Panel();
             this.gridSanPham = new DevExpress.XtraGrid.GridControl();
             this.tileViewSanPham = new DevExpress.XtraGrid.Views.Tile.TileView();
@@ -531,22 +531,6 @@ namespace GUI
             this.gbKhachHang.TabIndex = 0;
             this.gbKhachHang.Text = "KHÁCH HÀNG";
             // 
-            // cboKhoXuLy
-            // 
-            this.cboKhoXuLy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.cboKhoXuLy.BackColor = System.Drawing.Color.Transparent;
-            this.cboKhoXuLy.BorderRadius = 5;
-            this.cboKhoXuLy.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cboKhoXuLy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboKhoXuLy.FocusedColor = System.Drawing.Color.Empty;
-            this.cboKhoXuLy.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
-            this.cboKhoXuLy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(23)))), ((int)(((byte)(42)))));
-            this.cboKhoXuLy.ItemHeight = 30;
-            this.cboKhoXuLy.Location = new System.Drawing.Point(744, 19);
-            this.cboKhoXuLy.Name = "cboKhoXuLy";
-            this.cboKhoXuLy.Size = new System.Drawing.Size(252, 36);
-            this.cboKhoXuLy.TabIndex = 3;
-            // 
             // btnTimKH
             // 
             this.btnTimKH.BorderRadius = 5;
@@ -582,6 +566,22 @@ namespace GUI
             this.txtMaKH.SelectedText = "";
             this.txtMaKH.Size = new System.Drawing.Size(441, 36);
             this.txtMaKH.TabIndex = 0;
+            // 
+            // cboKhoXuLy
+            // 
+            this.cboKhoXuLy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cboKhoXuLy.BackColor = System.Drawing.Color.Transparent;
+            this.cboKhoXuLy.BorderRadius = 5;
+            this.cboKhoXuLy.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cboKhoXuLy.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboKhoXuLy.FocusedColor = System.Drawing.Color.Empty;
+            this.cboKhoXuLy.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
+            this.cboKhoXuLy.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(15)))), ((int)(((byte)(23)))), ((int)(((byte)(42)))));
+            this.cboKhoXuLy.ItemHeight = 30;
+            this.cboKhoXuLy.Location = new System.Drawing.Point(744, 19);
+            this.cboKhoXuLy.Name = "cboKhoXuLy";
+            this.cboKhoXuLy.Size = new System.Drawing.Size(252, 36);
+            this.cboKhoXuLy.TabIndex = 3;
             // 
             // pnlLeft
             // 

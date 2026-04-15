@@ -28,14 +28,14 @@ namespace GUI
             this.pnlCardCanhBao = new Guna.UI2.WinForms.Guna2Panel();
             this.lblCanhBaoTitle = new System.Windows.Forms.Label();
             this.lblCanhBaoValue = new System.Windows.Forms.Label();
+            this.txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
             this.gridTonKho = new DevExpress.XtraGrid.GridControl();
             this.gridViewTonKho = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.splitContainerControl1 = new DevExpress.XtraEditors.SplitContainerControl();
             this.pnlActions = new Guna.UI2.WinForms.Guna2Panel();
             this.btnNhapKho = new Guna.UI2.WinForms.Guna2Button();
-            this.btnXuatKho = new Guna.UI2.WinForms.Guna2Button();          
+            this.btnXuatKho = new Guna.UI2.WinForms.Guna2Button();
             this.btnKiemKe = new Guna.UI2.WinForms.Guna2Button();
-            this.txtSearch = new Guna.UI2.WinForms.Guna2TextBox();
             this.pnlFilters.SuspendLayout();
             this.pnlCards.SuspendLayout();
             this.pnlCardSapHet.SuspendLayout();
@@ -47,7 +47,6 @@ namespace GUI
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel1)).BeginInit();
             this.splitContainerControl1.Panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel2)).BeginInit();
-            this.splitContainerControl1.Panel2.SuspendLayout();
             this.splitContainerControl1.SuspendLayout();
             this.pnlActions.SuspendLayout();
             this.SuspendLayout();
@@ -66,7 +65,6 @@ namespace GUI
             this.pnlFilters.Size = new System.Drawing.Size(1200, 60);
             this.pnlFilters.TabIndex = 2;
             // 
-            // 
             // btnDongBo
             // 
             this.btnDongBo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -78,7 +76,7 @@ namespace GUI
             this.btnDongBo.Name = "btnDongBo";
             this.btnDongBo.Size = new System.Drawing.Size(160, 36);
             this.btnDongBo.TabIndex = 4;
-            this.btnDongBo.Text = "Làm Mới [F5]";
+            this.btnDongBo.Text = "Đồng bộ [F5]";
             this.btnDongBo.Click += new System.EventHandler(this.btnDongBo_Click);
             // 
             // btnKeToanNhaCungCap
@@ -122,7 +120,8 @@ namespace GUI
             // 
             this.pnlCards.BackColor = System.Drawing.Color.WhiteSmoke;
             this.pnlCards.Controls.Add(this.pnlCardSapHet);
-            this.pnlCards.Controls.Add(this.pnlCardTongVon);            this.pnlCards.Controls.Add(this.pnlCardCanhBao);
+            this.pnlCards.Controls.Add(this.pnlCardTongVon);
+            this.pnlCards.Controls.Add(this.pnlCardCanhBao);
             this.pnlCards.Controls.Add(this.txtSearch);
             this.pnlCards.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlCards.Location = new System.Drawing.Point(0, 60);
@@ -133,11 +132,11 @@ namespace GUI
             // 
             // pnlCardSapHet
             // 
+            this.pnlCardSapHet.BorderRadius = 4;
             this.pnlCardSapHet.Controls.Add(this.lblSapHetTitle);
             this.pnlCardSapHet.Controls.Add(this.lblSapHetValue);
-            this.pnlCardSapHet.CustomBorderThickness = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            this.pnlCardSapHet.BorderRadius = 4;
             this.pnlCardSapHet.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(133)))), ((int)(((byte)(100)))), ((int)(((byte)(4)))));
+            this.pnlCardSapHet.CustomBorderThickness = new System.Windows.Forms.Padding(0, 0, 0, 4);
             this.pnlCardSapHet.FillColor = System.Drawing.Color.White;
             this.pnlCardSapHet.Location = new System.Drawing.Point(20, 10);
             this.pnlCardSapHet.Name = "pnlCardSapHet";
@@ -169,11 +168,11 @@ namespace GUI
             // 
             // pnlCardTongVon
             // 
+            this.pnlCardTongVon.BorderRadius = 4;
             this.pnlCardTongVon.Controls.Add(this.lblTongVonTitle);
             this.pnlCardTongVon.Controls.Add(this.lblTongVonValue);
-            this.pnlCardTongVon.CustomBorderThickness = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            this.pnlCardTongVon.BorderRadius = 4;
             this.pnlCardTongVon.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(133)))));
+            this.pnlCardTongVon.CustomBorderThickness = new System.Windows.Forms.Padding(0, 0, 0, 4);
             this.pnlCardTongVon.FillColor = System.Drawing.Color.White;
             this.pnlCardTongVon.Location = new System.Drawing.Point(415, 10);
             this.pnlCardTongVon.Name = "pnlCardTongVon";
@@ -205,11 +204,11 @@ namespace GUI
             // 
             // pnlCardCanhBao
             // 
+            this.pnlCardCanhBao.BorderRadius = 4;
             this.pnlCardCanhBao.Controls.Add(this.lblCanhBaoTitle);
             this.pnlCardCanhBao.Controls.Add(this.lblCanhBaoValue);
-            this.pnlCardCanhBao.CustomBorderThickness = new System.Windows.Forms.Padding(0, 0, 0, 4);
-            this.pnlCardCanhBao.BorderRadius = 4;
             this.pnlCardCanhBao.CustomBorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(114)))), ((int)(((byte)(28)))), ((int)(((byte)(36)))));
+            this.pnlCardCanhBao.CustomBorderThickness = new System.Windows.Forms.Padding(0, 0, 0, 4);
             this.pnlCardCanhBao.FillColor = System.Drawing.Color.White;
             this.pnlCardCanhBao.Location = new System.Drawing.Point(810, 10);
             this.pnlCardCanhBao.Name = "pnlCardCanhBao";
@@ -239,6 +238,21 @@ namespace GUI
             this.lblCanhBaoValue.TabIndex = 1;
             this.lblCanhBaoValue.Text = "0 Loại";
             // 
+            // txtSearch
+            // 
+            this.txtSearch.BorderRadius = 4;
+            this.txtSearch.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtSearch.DefaultText = "";
+            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.txtSearch.ForeColor = System.Drawing.Color.Black;
+            this.txtSearch.Location = new System.Drawing.Point(20, 100);
+            this.txtSearch.Name = "txtSearch";
+            this.txtSearch.PlaceholderText = "Quét Barcode hoặc nhập từ khóa để lọc sản phẩm...";
+            this.txtSearch.SelectedText = "";
+            this.txtSearch.Size = new System.Drawing.Size(1160, 36);
+            this.txtSearch.TabIndex = 3;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
+            // 
             // gridTonKho
             // 
             this.gridTonKho.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -255,7 +269,6 @@ namespace GUI
             this.gridViewTonKho.GridControl = this.gridTonKho;
             this.gridViewTonKho.Name = "gridViewTonKho";
             this.gridViewTonKho.OptionsBehavior.Editable = false;
-            this.gridViewTonKho.OptionsFind.AlwaysVisible = false;
             this.gridViewTonKho.OptionsFind.FindNullPrompt = "Quét Barcode hoặc nhập từ khóa...";
             this.gridViewTonKho.OptionsView.ShowGroupPanel = false;
             // 
@@ -264,7 +277,7 @@ namespace GUI
             this.splitContainerControl1.CollapsePanel = DevExpress.XtraEditors.SplitCollapsePanel.Panel2;
             this.splitContainerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainerControl1.Horizontal = false;
-            this.splitContainerControl1.Location = new System.Drawing.Point(0, 160);
+            this.splitContainerControl1.Location = new System.Drawing.Point(0, 210);
             this.splitContainerControl1.Name = "splitContainerControl1";
             // 
             // splitContainerControl1.Panel1
@@ -275,7 +288,7 @@ namespace GUI
             // splitContainerControl1.Panel2
             // 
             this.splitContainerControl1.Panel2.Text = "Panel2";
-            this.splitContainerControl1.Size = new System.Drawing.Size(1200, 470);
+            this.splitContainerControl1.Size = new System.Drawing.Size(1200, 420);
             this.splitContainerControl1.SplitterPosition = 260;
             this.splitContainerControl1.TabIndex = 4;
             // 
@@ -296,9 +309,9 @@ namespace GUI
             // btnNhapKho
             // 
             this.btnNhapKho.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnNhapKho.FillColor = System.Drawing.Color.White;
-            this.btnNhapKho.BorderThickness = 1;
             this.btnNhapKho.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
+            this.btnNhapKho.BorderThickness = 1;
+            this.btnNhapKho.FillColor = System.Drawing.Color.White;
             this.btnNhapKho.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnNhapKho.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(65)))), ((int)(((byte)(85)))));
             this.btnNhapKho.Location = new System.Drawing.Point(680, 13);
@@ -311,9 +324,9 @@ namespace GUI
             // btnXuatKho
             // 
             this.btnXuatKho.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnXuatKho.FillColor = System.Drawing.Color.White;
-            this.btnXuatKho.BorderThickness = 1;
             this.btnXuatKho.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(213)))), ((int)(((byte)(218)))), ((int)(((byte)(223)))));
+            this.btnXuatKho.BorderThickness = 1;
+            this.btnXuatKho.FillColor = System.Drawing.Color.White;
             this.btnXuatKho.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnXuatKho.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(65)))), ((int)(((byte)(85)))));
             this.btnXuatKho.Location = new System.Drawing.Point(850, 13);
@@ -335,20 +348,6 @@ namespace GUI
             this.btnKiemKe.TabIndex = 2;
             this.btnKiemKe.Text = "[F4] Chốt Kiểm Kê";
             this.btnKiemKe.Click += new System.EventHandler(this.btnKiemKe_Click);
-            // 
-            // txtSearch
-            // 
-            this.txtSearch.BorderRadius = 4;
-            this.txtSearch.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtSearch.DefaultText = "";
-            this.txtSearch.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.txtSearch.ForeColor = System.Drawing.Color.Black;
-            this.txtSearch.Location = new System.Drawing.Point(20, 100);
-            this.txtSearch.Name = "txtSearch";
-            this.txtSearch.PlaceholderText = "Quét Barcode hoặc nhập từ khóa để lọc sản phẩm...";
-            this.txtSearch.Size = new System.Drawing.Size(1160, 36);
-            this.txtSearch.TabIndex = 3;
-            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // frmKhoHang
             // 
@@ -377,7 +376,6 @@ namespace GUI
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel1)).EndInit();
             this.splitContainerControl1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1.Panel2)).EndInit();
-            this.splitContainerControl1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).EndInit();
             this.splitContainerControl1.ResumeLayout(false);
             this.pnlActions.ResumeLayout(false);

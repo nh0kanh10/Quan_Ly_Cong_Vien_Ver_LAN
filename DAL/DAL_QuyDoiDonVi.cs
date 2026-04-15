@@ -28,7 +28,6 @@ namespace DAL
                 IdDonViLon = s.IdDonViLon,
                 TyLeQuyDoi = s.TyLeQuyDoi,
                 GiaBanRieng = s.GiaBanRieng,
-                LaDonViCoBan = s.LaDonViCoBan,
                 CreatedAt = s.CreatedAt
             }).ToList();
         }
@@ -47,7 +46,6 @@ namespace DAL
                 obj.IdDonViLon = et.IdDonViLon;
                 obj.TyLeQuyDoi = et.TyLeQuyDoi;
                 obj.GiaBanRieng = et.GiaBanRieng;
-                obj.LaDonViCoBan = et.LaDonViCoBan;
                 obj.CreatedAt = et.CreatedAt;
                 db.GetTable<QuyDoiDonVi>().InsertOnSubmit(obj);
                 db.SubmitChanges();
@@ -65,7 +63,6 @@ namespace DAL
                     obj.IdDonViLon = et.IdDonViLon;
                     obj.TyLeQuyDoi = et.TyLeQuyDoi;
                     obj.GiaBanRieng = et.GiaBanRieng;
-                    obj.LaDonViCoBan = et.LaDonViCoBan;
                     obj.CreatedAt = et.CreatedAt;
                     db.SubmitChanges();
                     return true;
@@ -96,7 +93,6 @@ namespace DAL
                 IdDonViLon = s.IdDonViLon,
                 TyLeQuyDoi = s.TyLeQuyDoi,
                 GiaBanRieng = s.GiaBanRieng,
-                LaDonViCoBan = s.LaDonViCoBan,
                 CreatedAt = s.CreatedAt
             }).FirstOrDefault();
         }

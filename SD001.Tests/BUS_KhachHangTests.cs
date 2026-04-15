@@ -303,7 +303,7 @@ namespace SD001.Tests
             // Act
             var result = _bus.XoaThongMinh(1);
 
-            // Assert — có cọc → không cho xóa
+            // Assert — có cọc -> không cho xóa
             Assert.IsFalse(result.IsSuccess);
             Assert.IsTrue(result.ErrorMessage.Contains("đóng băng"));
         }

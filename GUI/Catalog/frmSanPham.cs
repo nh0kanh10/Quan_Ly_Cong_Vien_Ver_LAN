@@ -15,21 +15,18 @@ namespace GUI
 {
     public partial class frmSanPham : Form, IBaseForm
     {
-        // ── State Machine ──
         private enum FormState { Browse, AddNew, Edit }
         private FormState _state = FormState.Browse;
         private ET_SanPham _current;
         private ET.ET_QuyDoiDonVi _currentQuyDoi;
-        private int _currentBangGiaId = 0;
+
 
         public frmSanPham()
         {
             InitializeComponent();
             InitIcons();
             ApplyStyles();
-            ApplyPermissions();
-            
-            // Xử lý docking grid để không bị trống phần dưới cùng
+            ApplyPermissions();      
             gridQuyDoi.BringToFront();
             gridBangGia.BringToFront();
         }
@@ -37,9 +34,7 @@ namespace GUI
         private void BtnThemNgayLe_Click(object sender, EventArgs e)
         {
             var frm = new frmCauHinhNgayLe();
-            ThemeManager.ShowAsPopup(frm);
-            
-            // Reload cboNgayLe
+            ThemeManager.ShowAsPopup(frm);       
             var dsNgayLe = DAL.DAL_CauHinhNgayLe.Instance.LoadDS();
             cboNgayLe.DataSource = dsNgayLe;
             cboNgayLe.DisplayMember = "TenNgayLe";
@@ -55,9 +50,6 @@ namespace GUI
             btnXoaQuyDoi.Image = IconHelper.GetBitmap(IconChar.TrashCan, Color.FromArgb(244, 63, 94), 14);
         }
 
-        // 
-        //  INIT & LOAD
-        // 
         private void frmSanPham_Load(object sender, EventArgs e)
         {
             InitCombos();
@@ -70,7 +62,6 @@ namespace GUI
 
         private void AddGuideLabels()
         {
-            // Tab 2 guide
             var lblGuideQD = new Label
             {
                 Text = " Chọn đơn vị lớn, nhập hệ số quy đổi (bao nhiêu ĐVT nhỏ = 1 ĐVT lớn), giá bán riêng nếu có -> bấm [+ Thêm]",
@@ -82,7 +73,6 @@ namespace GUI
             pnlQuyDoiInput.Controls.Add(lblGuideQD);
             pnlQuyDoiInput.Height = 75;
 
-            // Tab 3 guide — flat pricing
             var lblGuideBG = new Label
             {
                 Text = " Nhập giá Ngày Thường, Cuối tuần, Ngày Lễ. Nếu sản phẩm thuê: bổ sung Tiền Cọc + cấu hình Block -> bấm [+ Thêm]",
@@ -160,13 +150,13 @@ namespace GUI
             slkTroChoi.Properties.ValueMember = "Id";
             ThemeManager.StyleSearchLookUpEdit(slkTroChoi, new[] { "TenThietBi" }, new[] { "Trò chơi" });
 
-            // === Tab 2 Input: ĐVT Lớn ===
+            //  Tab 2 Input: ĐVT Lớn 
             var dsDVT2 = BUS_DonViTinh.Instance.LoadDS();
             cboQD_DVTLon.DataSource = dsDVT2;
             cboQD_DVTLon.DisplayMember = "Ten";
             cboQD_DVTLon.ValueMember = "Id";
 
-            // === Tab 3: Flat pricing ===
+            //  Tab 3: Flat pricing 
             cboBG_TrangThai.Items.Clear();
             cboBG_TrangThai.Items.AddRange(new object[] { 
                 AppConstants.TrangThaiChung.HoatDong, 
@@ -554,7 +544,7 @@ namespace GUI
         private void FormatQuyDoiGrid()
         {
             var v = gridViewQuyDoi;
-            string[] hide = { "Id", "IdSanPham", "LaDonViCoBan", "CreatedAt" };
+            string[] hide = { "Id", "IdSanPham", "CreatedAt" };
             foreach (var c in hide) if (v.Columns[c] != null) v.Columns[c].Visible = false;
 
             var repDVT = new RepositoryItemSearchLookUpEdit();
@@ -619,7 +609,7 @@ namespace GUI
                 IdDonViLon = Convert.ToInt32(cboQD_DVTLon.SelectedValue),
                 TyLeQuyDoi = heSo,
                 GiaBanRieng = giaRieng,
-                LaDonViCoBan = false,
+                // LaDonViCoBan đã drop
                 CreatedAt = DateTime.Now
             };
             var res = BUS_SanPham.Instance.LuuQuyDoi(et);

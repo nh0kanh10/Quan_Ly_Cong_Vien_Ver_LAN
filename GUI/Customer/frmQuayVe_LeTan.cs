@@ -46,9 +46,9 @@ namespace GUI
 
         public void LoadData() { }
 
-        // ============================================================
+        // 
         // TÌM ĐOÀN
-        // ============================================================
+        // 
 
         private void btnTimDoan_Click(object sender, EventArgs e)
         {
@@ -88,9 +88,9 @@ namespace GUI
             }
         }
 
-        // ============================================================
+        // 
         // HIỂN THỊ THÔNG TIN ĐOÀN + QUOTA
-        // ============================================================
+        // 
 
         private void HienThiDoan()
         {
@@ -192,9 +192,9 @@ namespace GUI
             lblTongQuota.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
         }
 
-        // ============================================================
+        // 
         // BƠM THÊM DỊCH VỤ
-        // ============================================================
+        // 
 
         private void btnBomThem_Click(object sender, EventArgs e)
         {
@@ -332,9 +332,9 @@ namespace GUI
             RefreshQuota();
         }
 
-        // ============================================================
+        // 
         // RÚT BỚT DỊCH VỤ
-        // ============================================================
+        // 
 
         private void btnRutBot_Click(object sender, EventArgs e)
         {
@@ -438,9 +438,9 @@ namespace GUI
             RefreshQuota();
         }
 
-        // ============================================================
+        // 
         // CHỐT ĐOÀN (Chuyển sang DaHoanTat)
-        // ============================================================
+        // 
 
         private void btnChotDoan_Click(object sender, EventArgs e)
         {
@@ -483,9 +483,9 @@ namespace GUI
             }
         }
 
-        // ============================================================
+        // 
         // CLEAR
-        // ============================================================
+        // 
 
         private void ClearAll()
         {

@@ -48,6 +48,22 @@
       <Association Name="NhaHang_BanAn" Member="NhaHang" ThisKey="IdNhaHang" OtherKey="Id" Type="NhaHang" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.BangChamCong" Member="BangChamCongs">
+    <Type Name="BangChamCong">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdNhanVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdLichLamViec" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ThoiGianVao" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="ThoiGianRa" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="LoaiNgayLam" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="ChinhSachLe" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="GhiChu" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Association Name="BangChamCong_NghiBu" Member="NghiBus" ThisKey="Id" OtherKey="IdBangChamCong" Type="NghiBu" />
+      <Association Name="LichLamViec_BangChamCong" Member="LichLamViec" ThisKey="IdLichLamViec" OtherKey="Id" Type="LichLamViec" IsForeignKey="true" />
+      <Association Name="NhanVien_BangChamCong" Member="NhanVien" ThisKey="IdNhanVien" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.BangGia" Member="BangGias">
     <Type Name="BangGia">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -74,14 +90,39 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="IdBangGia" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IdSanPham" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
-      <Column Name="GiaNgayThuong_Cu" Type="System.Decimal" DbType="Decimal(15,0)" CanBeNull="true" />
-      <Column Name="GiaCuoiTuan_Cu" Type="System.Decimal" DbType="Decimal(15,0)" CanBeNull="true" />
-      <Column Name="GiaNgayLe_Cu" Type="System.Decimal" DbType="Decimal(15,0)" CanBeNull="true" />
-      <Column Name="GiaNgayThuong_Moi" Type="System.Decimal" DbType="Decimal(15,0)" CanBeNull="true" />
-      <Column Name="GiaCuoiTuan_Moi" Type="System.Decimal" DbType="Decimal(15,0)" CanBeNull="true" />
-      <Column Name="GiaNgayLe_Moi" Type="System.Decimal" DbType="Decimal(15,0)" CanBeNull="true" />
+      <Column Name="LoaiGiaApDung_Cu" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="GiaBan_Cu" Type="System.Decimal" DbType="Decimal(15,0)" CanBeNull="true" />
+      <Column Name="LoaiGiaApDung_Moi" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="GiaBan_Moi" Type="System.Decimal" DbType="Decimal(15,0)" CanBeNull="true" />
       <Column Name="ThoiGianThayDoi" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="GhiChu" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.BangLuong" Member="BangLuongs">
+    <Type Name="BangLuong">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdNhanVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Thang" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="Nam" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LoaiHopDong" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="LuongCoBan" Type="System.Decimal" DbType="Decimal(15,0)" CanBeNull="true" />
+      <Column Name="NgayLamKeHoach" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NgayLamThucTe" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="SoGioThucTe" Type="System.Decimal" DbType="Decimal(7,2)" CanBeNull="true" />
+      <Column Name="LuongTheoGio" Type="System.Decimal" DbType="Decimal(10,0)" CanBeNull="true" />
+      <Column Name="SoGioTangCa" Type="System.Decimal" DbType="Decimal(5,2) NOT NULL" CanBeNull="false" />
+      <Column Name="ThuongTangCa" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
+      <Column Name="PhuCapNguyHiem" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
+      <Column Name="PhuCapKhac" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
+      <Column Name="TongTruKyLuat" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
+      <Column Name="TongGross" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
+      <Column Name="ThucLinh" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="GhiChu" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="NhanVien_BangLuong" Member="NhanVien" ThisKey="CreatedBy" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+      <Association Name="NhanVien_BangLuong1" Member="NhanVien1" ThisKey="IdNhanVien" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.BaoTriPhuongTienDua" Member="BaoTriPhuongTienDuas">
@@ -100,6 +141,18 @@
       <Association Name="PhuongTienDua_BaoTriPhuongTienDua1" Member="PhuongTienDua1" ThisKey="IdPhuongTienDua" OtherKey="Id" Type="PhuongTienDua" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.CaLamMau" Member="CaLamMaus">
+    <Type Name="CaLamMau">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="TenCa" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="GioBatDau" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
+      <Column Name="GioKetThuc" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
+      <Column Name="SoGioChuan" Type="System.Decimal" DbType="Decimal(4,2)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="LoaiCa" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="IsActive" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
+      <Association Name="CaLamMau_LichLamViec" Member="LichLamViecs" ThisKey="Id" OtherKey="IdCaLamMau" Type="LichLamViec" />
+    </Type>
+  </Table>
   <Table Name="dbo.CaTrucCuuHo" Member="CaTrucCuuHos">
     <Type Name="CaTrucCuuHo">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -109,6 +162,16 @@
       <Column Name="ThoiGianKetThuc" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="KhuVucBien_CaTrucCuuHo" Member="KhuVucBien" ThisKey="IdKhuVucBien" OtherKey="IdKhuVuc" Type="KhuVucBien" IsForeignKey="true" />
       <Association Name="NhanVien_CaTrucCuuHo" Member="NhanVien" ThisKey="IdNhanVien" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.CauHinhHeThong" Member="CauHinhHeThongs">
+    <Type Name="CauHinhHeThong">
+      <Column Name="Khoa" Type="System.String" DbType="NVarChar(100) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="GiaTri" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="MoTa" Type="System.String" DbType="NVarChar(300)" CanBeNull="true" />
+      <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="UpdatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="NhanVien_CauHinhHeThong" Member="NhanVien" ThisKey="UpdatedBy" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.CauHinhNgayLe" Member="CauHinhNgayLes">
@@ -236,6 +299,20 @@
       <Association Name="KhuVucBien_ChoiNghiMat" Member="KhuVucBien" ThisKey="IdKhuVucBien" OtherKey="IdKhuVuc" Type="KhuVucBien" IsForeignKey="true" />
       <Association Name="NhanVien_ChoiNghiMat" Member="NhanVien" ThisKey="CreatedBy" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
       <Association Name="SanPham_ChoiNghiMat" Member="SanPham" ThisKey="IdSanPham" OtherKey="Id" Type="SanPham" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ChungChiNhanVien" Member="ChungChiNhanViens">
+    <Type Name="ChungChiNhanVien">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdNhanVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LoaiChungChi" Type="System.String" DbType="NVarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="SoChungChi" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="NhaCap" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="NgayCap" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="NgayHetHan" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="TrangThai" Type="System.String" DbType="VarChar(10) NOT NULL" IsDbGenerated="true" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="HinhAnhFile" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Association Name="NhanVien_ChungChiNhanVien" Member="NhanVien" ThisKey="IdNhanVien" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ChuongTrai" Member="ChuongTrais">
@@ -372,7 +449,6 @@
       <Column Name="NgayDen" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Column Name="NgayDi" Type="System.DateTime" DbType="Date" CanBeNull="true" />
       <Column Name="TrangThai" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
-      <Column Name="IdCombo" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
@@ -438,6 +514,7 @@
       <Association Name="DonHang_DanhGiaDichVu" Member="DanhGiaDichVus" ThisKey="Id" OtherKey="IdDonHang" Type="DanhGiaDichVu" />
       <Association Name="DonHang_GiaoDichVi" Member="GiaoDichVis" ThisKey="Id" OtherKey="IdDonHangLienQuan" Type="GiaoDichVi" />
       <Association Name="DonHang_LichSuDiem" Member="LichSuDiems" ThisKey="Id" OtherKey="IdDonHang" Type="LichSuDiem" />
+      <Association Name="DonHang_PhieuChi" Member="PhieuChis" ThisKey="Id" OtherKey="IdDonHang" Type="PhieuChi" />
       <Association Name="DonHang_PhieuThu" Member="PhieuThus" ThisKey="Id" OtherKey="IdDonHang" Type="PhieuThu" />
       <Association Name="DonHang_PhieuXuatKho" Member="PhieuXuatKhos" ThisKey="Id" OtherKey="IdDonHangLienQuan" Type="PhieuXuatKho" />
       <Association Name="DoanKhach_DonHang" Member="DoanKhach" ThisKey="IdDoan" OtherKey="Id" Type="DoanKhach" IsForeignKey="true" />
@@ -461,6 +538,27 @@
       <Association Name="DonViTinh_QuyDoiDonVi1" Member="QuyDoiDonVis1" ThisKey="Id" OtherKey="IdDonViNho" Type="QuyDoiDonVi" />
       <Association Name="DonViTinh_SanPham" Member="SanPhams" ThisKey="Id" OtherKey="IdDonViCoBan" Type="SanPham" />
       <Association Name="NhanVien_DonViTinh" Member="NhanVien" ThisKey="CreatedBy" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.DonXinNghi" Member="DonXinNghis">
+    <Type Name="DonXinNghi">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdNhanVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LoaiNghi" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="NgayBatDau" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="NgayKetThuc" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="SoNgay" Type="System.Int32" DbType="Int" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="TiLeLuongHuong" Type="System.Decimal" DbType="Decimal(5,2) NOT NULL" CanBeNull="false" />
+      <Column Name="NguonChiTra" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
+      <Column Name="LyDo" Type="System.String" DbType="NVarChar(500)" CanBeNull="true" />
+      <Column Name="TepDinhKem" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="IdNguoiDuyet" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NgayDuyet" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="GhiChuDuyet" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="NhanVien_DonXinNghi" Member="NhanVien" ThisKey="IdNguoiDuyet" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+      <Association Name="NhanVien_DonXinNghi1" Member="NhanVien1" ThisKey="IdNhanVien" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.DuongDua" Member="DuongDuas">
@@ -509,9 +607,6 @@
       <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="GiaoDichVi_GiaoDichVi" Member="GiaoDichVis" ThisKey="Id" OtherKey="ParentTransactionId" Type="GiaoDichVi" />
       <Association Name="GiaoDichVi_PhieuThu" Member="PhieuThus" ThisKey="Id" OtherKey="IdGiaoDichVi" Type="PhieuThu" />
-      <Association Name="GiaoDichVi_ThueDoChiTiet" Member="ThueDoChiTiets" ThisKey="Id" OtherKey="IdGiaoDichCoc" Type="ThueDoChiTiet" />
-      <Association Name="GiaoDichVi_ThueDoChiTiet1" Member="ThueDoChiTiets1" ThisKey="Id" OtherKey="IdGiaoDichHoanCoc" Type="ThueDoChiTiet" />
-      <Association Name="GiaoDichVi_ThueDoChiTiet2" Member="ThueDoChiTiets2" ThisKey="Id" OtherKey="IdGiaoDichPhat" Type="ThueDoChiTiet" />
       <Association Name="DonHang_GiaoDichVi" Member="DonHang" ThisKey="IdDonHangLienQuan" OtherKey="Id" Type="DonHang" IsForeignKey="true" />
       <Association Name="GiaoDichVi_GiaoDichVi" Member="GiaoDichVi1" ThisKey="ParentTransactionId" OtherKey="Id" Type="GiaoDichVi" IsForeignKey="true" />
       <Association Name="NhanVien_GiaoDichVi" Member="NhanVien" ThisKey="CreatedBy" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
@@ -583,6 +678,7 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="TenKho" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="LoaiKho" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="IdKhuVuc" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="DiaChi" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
@@ -592,6 +688,7 @@
       <Association Name="KhoHang_PhieuXuatKho1" Member="PhieuXuatKhos1" ThisKey="Id" OtherKey="IdKhoXuat" Type="PhieuXuatKho" />
       <Association Name="KhoHang_TheKho" Member="TheKhos" ThisKey="Id" OtherKey="IdKho" Type="TheKho" />
       <Association Name="KhoHang_TonKho" Member="TonKhos" ThisKey="Id" OtherKey="IdKho" Type="TonKho" />
+      <Association Name="KhuVuc_KhoHang" Member="KhuVuc" ThisKey="IdKhuVuc" OtherKey="Id" Type="KhuVuc" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.KhuVuc" Member="KhuVucs">
@@ -608,6 +705,7 @@
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="KhuVuc_BaiDoXe" Member="BaiDoXes" ThisKey="Id" OtherKey="IdKhuVuc" Type="BaiDoXe" />
       <Association Name="KhuVuc_DanhSachThietBi" Member="DanhSachThietBis" ThisKey="Id" OtherKey="IdKhuVuc" Type="DanhSachThietBi" />
+      <Association Name="KhuVuc_KhoHang" Member="KhoHangs" ThisKey="Id" OtherKey="IdKhuVuc" Type="KhoHang" />
       <Association Name="KhuVuc_KhuVucBien" Member="KhuVucBien" ThisKey="Id" OtherKey="IdKhuVuc" Type="KhuVucBien" Cardinality="One" />
       <Association Name="KhuVuc_KhuVucThu" Member="KhuVucThu" ThisKey="Id" OtherKey="IdKhuVuc" Type="KhuVucThu" Cardinality="One" />
       <Association Name="KhuVuc_LichLamViec" Member="LichLamViecs" ThisKey="Id" OtherKey="IdKhuVuc" Type="LichLamViec" />
@@ -666,6 +764,22 @@
       <Column Name="TrangThai" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
     </Type>
   </Table>
+  <Table Name="dbo.KyLuat" Member="KyLuats">
+    <Type Name="KyLuat">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdNhanVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NgayApDung" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="HinhThuc" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="SoTienTru" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
+      <Column Name="SoNgayDinhChi" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MoTa" Type="System.String" DbType="NVarChar(500) NOT NULL" CanBeNull="false" />
+      <Column Name="IdNguoiQuyetDinh" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NgayHetHieuLuc" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="NhanVien_KyLuat" Member="NhanVien" ThisKey="IdNguoiQuyetDinh" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+      <Association Name="NhanVien_KyLuat1" Member="NhanVien1" ThisKey="IdNhanVien" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.LichBaoTri" Member="LichBaoTris">
     <Type Name="LichBaoTri">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -711,13 +825,18 @@
       <Column Name="IdNhanVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="IdKhuVuc" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="NgayLam" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="CaLam" Type="System.String" DbType="NVarChar(10) NOT NULL" CanBeNull="false" />
-      <Column Name="GioBatDau" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
-      <Column Name="GioKetThuc" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
+      <Column Name="IdCaLamMau" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LoaiNgayLam" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="LoaiNV" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
       <Column Name="TrangThai" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
       <Column Name="GhiChu" Type="System.String" DbType="NVarChar(200)" CanBeNull="true" />
+      <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="LichLamViec_BangChamCong" Member="BangChamCongs" ThisKey="Id" OtherKey="IdLichLamViec" Type="BangChamCong" />
+      <Association Name="CaLamMau_LichLamViec" Member="CaLamMau" ThisKey="IdCaLamMau" OtherKey="Id" Type="CaLamMau" IsForeignKey="true" />
       <Association Name="KhuVuc_LichLamViec" Member="KhuVuc" ThisKey="IdKhuVuc" OtherKey="Id" Type="KhuVuc" IsForeignKey="true" />
-      <Association Name="NhanVien_LichLamViec" Member="NhanVien" ThisKey="IdNhanVien" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+      <Association Name="NhanVien_LichLamViec" Member="NhanVien" ThisKey="CreatedBy" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+      <Association Name="NhanVien_LichLamViec1" Member="NhanVien1" ThisKey="IdNhanVien" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.LichSuDiem" Member="LichSuDiems">
@@ -796,6 +915,20 @@
       <Association Name="TheRFID_LuotVaoRaBaiXe" Member="TheRFID" ThisKey="MaRfid" OtherKey="MaRfid" Type="TheRFID" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.NghiBu" Member="NghiBus">
+    <Type Name="NghiBu">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdNhanVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NgayLamBuGoc" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="SoNgayBuTichLuy" Type="System.Decimal" DbType="Decimal(3,1) NOT NULL" CanBeNull="false" />
+      <Column Name="SoNgayBuDaDung" Type="System.Decimal" DbType="Decimal(3,1) NOT NULL" CanBeNull="false" />
+      <Column Name="SoNgayBuConLai" Type="System.Decimal" DbType="Decimal(4,1)" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="NgayHetHan" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="IdBangChamCong" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="BangChamCong_NghiBu" Member="BangChamCong" ThisKey="IdBangChamCong" OtherKey="Id" Type="BangChamCong" IsForeignKey="true" />
+      <Association Name="NhanVien_NghiBu" Member="NhanVien" ThisKey="IdNhanVien" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.NguaDua" Member="NguaDuas">
     <Type Name="NguaDua">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -843,6 +976,7 @@
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="MaCode" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
       <Column Name="IdVaiTro" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="IdNguoiQuanLy" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="IdKhuVuc" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="HoTen" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
       <Column Name="GioiTinh" Type="System.String" DbType="NVarChar(10)" CanBeNull="true" />
@@ -858,36 +992,56 @@
       <Column Name="TenDangNhap" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
       <Column Name="MatKhau" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="GhiChu" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="LoaiKhoi" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="LoaiHopDong" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="NhomCongViec" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="LuongCoBan" Type="System.Decimal" DbType="Decimal(15,0)" CanBeNull="true" />
+      <Column Name="LuongTheoGio" Type="System.Decimal" DbType="Decimal(10,0)" CanBeNull="true" />
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="UpdatedAt" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="NhanVien_AuditDonHang" Member="AuditDonHangs" ThisKey="Id" OtherKey="NguoiThayDoi" Type="AuditDonHang" />
+      <Association Name="NhanVien_BangChamCong" Member="BangChamCongs" ThisKey="Id" OtherKey="IdNhanVien" Type="BangChamCong" />
+      <Association Name="NhanVien_BangLuong" Member="BangLuongs" ThisKey="Id" OtherKey="CreatedBy" Type="BangLuong" />
+      <Association Name="NhanVien_BangLuong1" Member="BangLuongs1" ThisKey="Id" OtherKey="IdNhanVien" Type="BangLuong" />
       <Association Name="NhanVien_CaTrucCuuHo" Member="CaTrucCuuHos" ThisKey="Id" OtherKey="IdNhanVien" Type="CaTrucCuuHo" />
+      <Association Name="NhanVien_CauHinhHeThong" Member="CauHinhHeThongs" ThisKey="Id" OtherKey="UpdatedBy" Type="CauHinhHeThong" />
       <Association Name="NhanVien_ChoiNghiMat" Member="ChoiNghiMats" ThisKey="Id" OtherKey="CreatedBy" Type="ChoiNghiMat" />
+      <Association Name="NhanVien_ChungChiNhanVien" Member="ChungChiNhanViens" ThisKey="Id" OtherKey="IdNhanVien" Type="ChungChiNhanVien" />
       <Association Name="NhanVien_Combo" Member="Combos" ThisKey="Id" OtherKey="CreatedBy" Type="Combo" />
       <Association Name="NhanVien_DanhGiaDichVu" Member="DanhGiaDichVus" ThisKey="Id" OtherKey="IdNhanVienXuLy" Type="DanhGiaDichVu" />
       <Association Name="NhanVien_DoanKhach" Member="DoanKhaches" ThisKey="Id" OtherKey="CreatedBy" Type="DoanKhach" />
       <Association Name="NhanVien_DonHang" Member="DonHangs" ThisKey="Id" OtherKey="CreatedBy" Type="DonHang" />
       <Association Name="NhanVien_DonViTinh" Member="DonViTinhs" ThisKey="Id" OtherKey="CreatedBy" Type="DonViTinh" />
+      <Association Name="NhanVien_DonXinNghi" Member="DonXinNghis" ThisKey="Id" OtherKey="IdNguoiDuyet" Type="DonXinNghi" />
+      <Association Name="NhanVien_DonXinNghi1" Member="DonXinNghis1" ThisKey="Id" OtherKey="IdNhanVien" Type="DonXinNghi" />
       <Association Name="NhanVien_GiaGuiXe" Member="GiaGuiXes" ThisKey="Id" OtherKey="CreatedBy" Type="GiaGuiXe" />
       <Association Name="NhanVien_GiaoDichVi" Member="GiaoDichVis" ThisKey="Id" OtherKey="CreatedBy" Type="GiaoDichVi" />
       <Association Name="NhanVien_KhachHang" Member="KhachHangs" ThisKey="Id" OtherKey="CreatedBy" Type="KhachHang" />
       <Association Name="NhanVien_KhuVuc" Member="KhuVucs" ThisKey="Id" OtherKey="CreatedBy" Type="KhuVuc" />
       <Association Name="NhanVien_KhuyenMai" Member="KhuyenMais" ThisKey="Id" OtherKey="CreatedBy" Type="KhuyenMai" />
+      <Association Name="NhanVien_KyLuat" Member="KyLuats" ThisKey="Id" OtherKey="IdNguoiQuyetDinh" Type="KyLuat" />
+      <Association Name="NhanVien_KyLuat1" Member="KyLuats1" ThisKey="Id" OtherKey="IdNhanVien" Type="KyLuat" />
       <Association Name="NhanVien_LichBaoTri" Member="LichBaoTris" ThisKey="Id" OtherKey="IdNhanVienThucHien" Type="LichBaoTri" />
       <Association Name="NhanVien_LichChoAn" Member="LichChoAns" ThisKey="Id" OtherKey="NguoiPhuTrach" Type="LichChoAn" />
       <Association Name="NhanVien_LichKiemKho" Member="LichKiemKhos" ThisKey="Id" OtherKey="IdNhanVien" Type="LichKiemKho" />
-      <Association Name="NhanVien_LichLamViec" Member="LichLamViecs" ThisKey="Id" OtherKey="IdNhanVien" Type="LichLamViec" />
+      <Association Name="NhanVien_LichLamViec" Member="LichLamViecs" ThisKey="Id" OtherKey="CreatedBy" Type="LichLamViec" />
+      <Association Name="NhanVien_LichLamViec1" Member="LichLamViecs1" ThisKey="Id" OtherKey="IdNhanVien" Type="LichLamViec" />
       <Association Name="NhanVien_LichSuDiem" Member="LichSuDiems" ThisKey="Id" OtherKey="CreatedBy" Type="LichSuDiem" />
+      <Association Name="NhanVien_NghiBu" Member="NghiBus" ThisKey="Id" OtherKey="IdNhanVien" Type="NghiBu" />
       <Association Name="NhanVien_NhaCungCap" Member="NhaCungCaps" ThisKey="Id" OtherKey="CreatedBy" Type="NhaCungCap" />
+      <Association Name="NhanVien_NhanVien" Member="NhanViens" ThisKey="Id" OtherKey="IdNguoiQuanLy" Type="NhanVien" />
       <Association Name="NhanVien_PhieuChi" Member="PhieuChis" ThisKey="Id" OtherKey="CreatedBy" Type="PhieuChi" />
       <Association Name="NhanVien_PhieuNhapKho" Member="PhieuNhapKhos" ThisKey="Id" OtherKey="CreatedBy" Type="PhieuNhapKho" />
       <Association Name="NhanVien_PhieuThu" Member="PhieuThus" ThisKey="Id" OtherKey="CreatedBy" Type="PhieuThu" />
       <Association Name="NhanVien_PhieuXuatKho" Member="PhieuXuatKhos" ThisKey="Id" OtherKey="CreatedBy" Type="PhieuXuatKho" />
       <Association Name="NhanVien_Phong" Member="Phongs" ThisKey="Id" OtherKey="CreatedBy" Type="Phong" />
       <Association Name="NhanVien_SanPham" Member="SanPhams" ThisKey="Id" OtherKey="CreatedBy" Type="SanPham" />
+      <Association Name="NhanVien_SoNgayPhepNam" Member="SoNgayPhepNams" ThisKey="Id" OtherKey="IdNhanVien" Type="SoNgayPhepNam" />
       <Association Name="NhanVien_SuCo" Member="SuCos" ThisKey="Id" OtherKey="IdNhanVienXuLy" Type="SuCo" />
       <Association Name="NhanVien_SuKien" Member="SuKiens" ThisKey="Id" OtherKey="CreatedBy" Type="SuKien" />
+      <Association Name="NhanVien_TaiNanLaoDong" Member="TaiNanLaoDongs" ThisKey="Id" OtherKey="IdNhanVien" Type="TaiNanLaoDong" />
+      <Association Name="NhanVien_NhanVien" Member="NhanVien1" ThisKey="IdNguoiQuanLy" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
       <Association Name="KhuVuc_NhanVien" Member="KhuVuc" ThisKey="IdKhuVuc" OtherKey="Id" Type="KhuVuc" IsForeignKey="true" />
       <Association Name="VaiTro_NhanVien" Member="VaiTro" ThisKey="IdVaiTro" OtherKey="Id" Type="VaiTro" IsForeignKey="true" />
     </Type>
@@ -907,12 +1061,15 @@
       <Column Name="SoTien" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
       <Column Name="LyDo" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="ThoiGian" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="IdDonHang" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="PhieuChi_BaoTriPhuongTienDua" Member="BaoTriPhuongTienDuas" ThisKey="Id" OtherKey="IdPhieuChi" Type="BaoTriPhuongTienDua" />
       <Association Name="PhieuChi_LichBaoTri" Member="LichBaoTris" ThisKey="Id" OtherKey="IdPhieuChi" Type="LichBaoTri" />
       <Association Name="PhieuChi_PhieuNhapKho" Member="PhieuNhapKhos" ThisKey="Id" OtherKey="IdPhieuChi" Type="PhieuNhapKho" />
+      <Association Name="PhieuChi_ThueDoChiTiet" Member="ThueDoChiTiets" ThisKey="Id" OtherKey="IdPhieuChiHoanCoc" Type="ThueDoChiTiet" />
       <Association Name="NhanVien_PhieuChi" Member="NhanVien" ThisKey="CreatedBy" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+      <Association Name="DonHang_PhieuChi" Member="DonHang" ThisKey="IdDonHang" OtherKey="Id" Type="DonHang" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.PhieuNhapKho" Member="PhieuNhapKhos">
@@ -946,6 +1103,8 @@
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="CreatedBy" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="PhieuThu_DatBan" Member="DatBans" ThisKey="Id" OtherKey="IdPhieuThuCoc" Type="DatBan" />
+      <Association Name="PhieuThu_ThueDoChiTiet" Member="ThueDoChiTiets" ThisKey="Id" OtherKey="IdPhieuThuCoc" Type="ThueDoChiTiet" />
+      <Association Name="PhieuThu_ThueDoChiTiet1" Member="ThueDoChiTiets1" ThisKey="Id" OtherKey="IdPhieuThuPhat" Type="ThueDoChiTiet" />
       <Association Name="NhanVien_PhieuThu" Member="NhanVien" ThisKey="CreatedBy" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
       <Association Name="DonHang_PhieuThu" Member="DonHang" ThisKey="IdDonHang" OtherKey="Id" Type="DonHang" IsForeignKey="true" />
       <Association Name="GiaoDichVi_PhieuThu" Member="GiaoDichVi" ThisKey="IdGiaoDichVi" OtherKey="Id" Type="GiaoDichVi" IsForeignKey="true" />
@@ -1007,7 +1166,6 @@
       <Column Name="IdDonViLon" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="TyLeQuyDoi" Type="System.Decimal" DbType="Decimal(10,2) NOT NULL" CanBeNull="false" />
       <Column Name="GiaBanRieng" Type="System.Decimal" DbType="Decimal(15,0)" CanBeNull="true" />
-      <Column Name="LaDonViCoBan" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Association Name="DonViTinh_QuyDoiDonVi" Member="DonViTinh" ThisKey="IdDonViLon" OtherKey="Id" Type="DonViTinh" IsForeignKey="true" />
       <Association Name="DonViTinh_QuyDoiDonVi1" Member="DonViTinh1" ThisKey="IdDonViNho" OtherKey="Id" Type="DonViTinh" IsForeignKey="true" />
@@ -1079,6 +1237,17 @@
       <Association Name="DanhSachThietBi_SanPham_Ve" Member="DanhSachThietBi" ThisKey="IdThietBi" OtherKey="Id" Type="DanhSachThietBi" IsForeignKey="true" />
     </Type>
   </Table>
+  <Table Name="dbo.SoNgayPhepNam" Member="SoNgayPhepNams">
+    <Type Name="SoNgayPhepNam">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdNhanVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Nam" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SoNgayPhepPhatSinh" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SoNgayDaDung" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SoNgayConLai" Type="System.Int32" DbType="Int" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Association Name="NhanVien_SoNgayPhepNam" Member="NhanVien" ThisKey="IdNhanVien" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+    </Type>
+  </Table>
   <Table Name="dbo.SuCo" Member="SuCos">
     <Type Name="SuCo">
       <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -1089,6 +1258,7 @@
       <Column Name="MucDo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
       <Column Name="ToaDoGps" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
       <Column Name="LoaiSuCo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Association Name="SuCo_TaiNanLaoDong" Member="TaiNanLaoDongs" ThisKey="Id" OtherKey="IdSuCo" Type="TaiNanLaoDong" />
       <Association Name="KhachHang_SuCo" Member="KhachHang" ThisKey="IdKhachHang" OtherKey="Id" Type="KhachHang" IsForeignKey="true" />
       <Association Name="NhanVien_SuCo" Member="NhanVien" ThisKey="IdNhanVienXuLy" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
     </Type>
@@ -1120,6 +1290,25 @@
       <Column Name="NgayTao" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="IsDeleted" Type="System.Boolean" DbType="Bit NOT NULL" CanBeNull="false" />
       <Association Name="KhachHang_TaiKhoanWeb" Member="KhachHang" ThisKey="IdKhachHang" OtherKey="Id" Type="KhachHang" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.TaiNanLaoDong" Member="TaiNanLaoDongs">
+    <Type Name="TaiNanLaoDong">
+      <Column Name="Id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="IdNhanVien" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="NgayTaiNan" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="LoaiTaiNan" Type="System.String" DbType="NVarChar(30) NOT NULL" CanBeNull="false" />
+      <Column Name="MucDo" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="MoTa" Type="System.String" DbType="NVarChar(MAX) NOT NULL" CanBeNull="false" />
+      <Column Name="IdSuCo" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="NgayNghiBatDau" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NgayNghiKetThuc" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="SoNgayNghi" Type="System.Int32" DbType="Int" IsDbGenerated="true" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="TiLeBHXH" Type="System.Decimal" DbType="Decimal(5,2)" CanBeNull="true" />
+      <Column Name="TrangThai" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
+      <Column Name="CreatedAt" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="NhanVien_TaiNanLaoDong" Member="NhanVien" ThisKey="IdNhanVien" OtherKey="Id" Type="NhanVien" IsForeignKey="true" />
+      <Association Name="SuCo_TaiNanLaoDong" Member="SuCo" ThisKey="IdSuCo" OtherKey="Id" Type="SuCo" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.ThatLac" Member="ThatLacs">
@@ -1189,16 +1378,16 @@
       <Column Name="ThoiGianKetThuc" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="SoTienCoc" Type="System.Decimal" DbType="Decimal(15,0) NOT NULL" CanBeNull="false" />
       <Column Name="TrangThaiCoc" Type="System.String" DbType="NVarChar(20) NOT NULL" CanBeNull="false" />
-      <Column Name="IdGiaoDichCoc" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IdGiaoDichHoanCoc" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="IdGiaoDichPhat" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdPhieuThuCoc" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdPhieuChiHoanCoc" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="IdPhieuThuPhat" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Column Name="TienThueDaThu" Type="System.Decimal" DbType="Decimal(18,0) NOT NULL" CanBeNull="false" />
       <Association Name="ThueDoChiTiet_ThueChoi" Member="ThueChois" ThisKey="Id" OtherKey="IdChiTietThue" Type="ThueChoi" />
       <Association Name="ThueDoChiTiet_ThueTu" Member="ThueTus" ThisKey="Id" OtherKey="IdChiTietThue" Type="ThueTu" />
       <Association Name="ChiTietDonHang_ThueDoChiTiet" Member="ChiTietDonHang" ThisKey="IdChiTietDonHang" OtherKey="Id" Type="ChiTietDonHang" IsForeignKey="true" />
-      <Association Name="GiaoDichVi_ThueDoChiTiet" Member="GiaoDichVi" ThisKey="IdGiaoDichCoc" OtherKey="Id" Type="GiaoDichVi" IsForeignKey="true" />
-      <Association Name="GiaoDichVi_ThueDoChiTiet1" Member="GiaoDichVi1" ThisKey="IdGiaoDichHoanCoc" OtherKey="Id" Type="GiaoDichVi" IsForeignKey="true" />
-      <Association Name="GiaoDichVi_ThueDoChiTiet2" Member="GiaoDichVi2" ThisKey="IdGiaoDichPhat" OtherKey="Id" Type="GiaoDichVi" IsForeignKey="true" />
+      <Association Name="PhieuChi_ThueDoChiTiet" Member="PhieuChi" ThisKey="IdPhieuChiHoanCoc" OtherKey="Id" Type="PhieuChi" IsForeignKey="true" />
+      <Association Name="PhieuThu_ThueDoChiTiet" Member="PhieuThu" ThisKey="IdPhieuThuCoc" OtherKey="Id" Type="PhieuThu" IsForeignKey="true" />
+      <Association Name="PhieuThu_ThueDoChiTiet1" Member="PhieuThu1" ThisKey="IdPhieuThuPhat" OtherKey="Id" Type="PhieuThu" IsForeignKey="true" />
       <Association Name="SanPham_ThueDoChiTiet" Member="SanPham" ThisKey="IdSanPham" OtherKey="Id" Type="SanPham" IsForeignKey="true" />
     </Type>
   </Table>

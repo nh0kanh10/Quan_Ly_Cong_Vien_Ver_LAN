@@ -172,7 +172,7 @@ namespace GUI
             return names;
         }
 
-        // === PRIVATE ===
+        //  PRIVATE 
 
         private void Camera_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {

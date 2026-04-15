@@ -15,44 +15,60 @@ namespace GUI
 {
     public partial class frmBanHang : Form, IBaseForm
     {
+        #region Khai báo biến toàn cục
         private List<CartItem> _cart = new List<CartItem>();
         private ET_KhachHang _selectedKH = null;
+
+        // _tongTien: tổng tiền GỐC chưa giảm giá
+        // _soTienThucThu: số tiền SAU KHI đã trừ chiết khấu/điểm (hiển thị trên label lớn)
         private decimal _tongTien = 0;
         private decimal _soTienThucThu = 0;
         private RepositoryItemButtonEdit btnXoa;
         private CameraScanner _cameraScanner;
 
-        // === ĐOÀN: Booking State ===
+        // Lưu thông tin đoàn khách khi quét mã booking "BK-xxx"
+        // Nếu != null nghĩa là đang ở chế độ phục vụ đoàn (giá 0đ, trừ quota)
         private ET_DoanKhach _currentBooking = null;
+        #endregion
 
+        #region Khởi tạo Form
         public frmBanHang()
         {
             InitializeComponent();
-            
+
             this.KeyPreview = true;
             this.KeyDown += FrmBanHang_KeyDown;
 
-            InitIcons();     
-            ApplyStyles();   
+            InitIcons();
+            ApplyStyles();
             InitCboKho();
             ApplyPermissions();
             EnsurePOSScanner();
-            
+
             LoadData();
             RefreshCartDisplay();
-            
+
             txtScanner.Focus();
         }
 
         private void InitCboKho()
         {
-            // Control đã khai báo trong Designer - chỉ bind data ở đây
-            cboKhoXuLy.DataSource = BUS_KhoHang.Instance.LoadDS();
+            var dsKho = BUS_KhoHang.Instance.LoadDS();
+            if (ET.SessionManager.CurrentIdKhuVuc.HasValue)
+            {
+                dsKho = dsKho.Where(x => x.IdKhuVuc == ET.SessionManager.CurrentIdKhuVuc.Value).ToList();
+            }
+            // Nếu khu vực này chưa có kho riêng, fallback về Kho Tổng (IdKhuVuc == null)
+            if (dsKho.Count == 0) dsKho = BUS_KhoHang.Instance.LoadDS().Where(x => x.IdKhuVuc == null).ToList();
+
+            cboKhoXuLy.DataSource = dsKho;
             cboKhoXuLy.DisplayMember = "TenKho";
             cboKhoXuLy.ValueMember = "Id";
+            if (dsKho.Count > 0) cboKhoXuLy.SelectedIndex = 0;
         }
+        #endregion
 
-
+        #region Phím tắt toàn màn hình (F1, F2, F8, F9, F10, F11, Esc)
         private void FrmBanHang_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F9) { btnThanhToanTienMat_Click(null, null); }
@@ -79,7 +95,9 @@ namespace GUI
                 e.Handled = true;
             }
         }
+        #endregion
 
+        #region Lọc sản phẩm theo nhóm (Tab: Tất cả / Vé / F&B / Thuê)
         private void Category_Click(object sender, EventArgs e)
         {
             if (sender is Guna2Button btn)
@@ -89,7 +107,6 @@ namespace GUI
                 else if (btn == btnCatFood) category = AppConstants.LoaiSanPham.AnUong;
                 else if (btn == btnCatRental) category = AppConstants.LoaiSanPham.Thue;
 
-                // Update UI state
                 foreach (Control c in pnlCategories.Controls)
                 {
                     if (c is Guna2Button b)
@@ -108,7 +125,11 @@ namespace GUI
                 txtScanner.Focus();
             }
         }
+        #endregion
 
+        #region Quét mã sản phẩm (máy quét / gõ tay / camera)
+        // Hỗ trợ cú pháp "SL*Mã", ví dụ: "3*VEM001" = thêm 3 cái VEM001
+        // Nếu mã bắt đầu bằng "BK-" → nhận diện đoàn khách → chuyển sang chế độ phục vụ đoàn
         private void txtScanner_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -119,7 +140,7 @@ namespace GUI
                 int qty = 1;
                 string code = rawInput;
 
-                // Support multiplier: 10*VEM001
+                // Tách "SL*Mã" thành số lượng + mã sản phẩm
                 if (rawInput.Contains("*"))
                 {
                     string[] parts = rawInput.Split('*');
@@ -132,13 +153,13 @@ namespace GUI
 
                 if (!string.IsNullOrEmpty(code))
                 {
-                    // === NHÁNH ĐOÀN: quét MaBooking (BK-xxx) -> load quota ăn uống ===
+                    //  NHÁNH ĐOÀN: quét MaBooking (BK-xxx) -> load quota ăn uống 
                     if (code.StartsWith("BK-", StringComparison.OrdinalIgnoreCase))
                     {
                         ApplyBookingToCart(code);
                         txtScanner.Clear();
                     }
-                    // === NHÁNH THƯỜNG: SP/Combo ===
+                    //  NHÁNH thường: SP/Combo 
                     else
                     {
                         var sp = BUS_SanPham.Instance.GetByMaCode(code);
@@ -174,7 +195,9 @@ namespace GUI
                 e.Handled = true;
             }
         }
+        #endregion
 
+        #region Thao tác giỏ hàng (thêm / xóa / sửa số lượng / đổi đơn vị tính)
         private void btnXoaGioHang_Click(object sender, EventArgs e)
         {
             if (_cart.Count > 0 && TDCMessageBox.Show("Xóa toàn bộ giỏ hàng?", "Xác nhận", MessageBoxButtons.YesNo) == DialogResult.Yes)
@@ -185,6 +208,8 @@ namespace GUI
             txtScanner.Focus();
         }
 
+        // Xử lý khi user THAY ĐỔI giá trị ô trên lưới giỏ hàng
+        // 2 trường hợp: (1) Sửa cột SoLuong, (2) Đổi cột ĐVT (đơn vị tính)
         private void gridViewGioHang_CellValueChanged(object sender, DevExpress.XtraGrid.Views.Base.CellValueChangedEventArgs e)
         {
             if (e.Column.FieldName == "SoLuong")
@@ -206,10 +231,17 @@ namespace GUI
                             if (sp != null && IsPhysicalProduct(sp.LoaiSanPham))
                             {
                                 int totalStock = DAL_TonKho.Instance.LoadDS().Where(x => x.IdSanPham == sp.Id).Sum(x => x.SoLuong);
-                                if (newQty > totalStock)
+
+                                // currentInCartOtherLines: tổng SL quy đổi về DVT cơ bản của các dòng KHÁC 
+                                // trong giỏ cũng chứa SP này (tránh đếm trùng dòng đang sửa)
+                                int currentInCartOtherLines = _cart.Where(x => x.IdSanPham == sp.Id && x.IdCombo == 0 && x != item).Sum(x => x.SoLuong * x.TyLeQuyDoi);
+                                int proposedTotalBase = currentInCartOtherLines + (newQty * item.TyLeQuyDoi);
+
+                                if (proposedTotalBase > totalStock)
                                 {
-                                    item.SoLuong = totalStock;
-                                    TDCMessageBox.Show($"Chỉ còn {totalStock} '{sp.Ten}' trong kho!", "Hết Tồn Kho", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    int maxAllowed = (totalStock - currentInCartOtherLines) / item.TyLeQuyDoi;
+                                    item.SoLuong = Math.Max(0, maxAllowed);
+                                    TDCMessageBox.Show($"Chỉ còn tồn {totalStock} '{sp.Ten}' trong kho!\nSau khi trừ đi giỏ hàng, bạn được phép nhập thêm tối đa {maxAllowed} {item.TenDVT}.", "Hết Tồn Kho", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                                 }
                                 else
                                 {
@@ -228,12 +260,14 @@ namespace GUI
                     }
                 }
                 RefreshCartDisplay();
-                // Phóng tầm mắt quay lại ô quét sau khi xong
                 txtScanner.Focus();
             }
             else if (e.Column.FieldName == "TenDVT")
             {
-                // Thu ngân vừa chọn ĐVT mới trong giỏ hàng
+                //  ĐỔI ĐƠN VỊ TÍNH TRÊN LƯỚI GIỎ HÀNG 
+                // VD: Lon → Thùng (1 Thùng = 24 Lon)
+                // Giá tự cập nhật theo bảng giá của ĐVT mới
+                // Nếu đổi xong mà tồn kho không đủ → tự revert về ĐVT cũ
                 string tenDVTMoi = e.Value?.ToString() ?? "";
                 var item = gridViewGioHang.GetRow(e.RowHandle) as CartItem;
                 if (item == null || item.IdSanPham <= 0) return;
@@ -241,13 +275,16 @@ namespace GUI
                 var sp = BUS_SanPham.Instance.GetById(item.IdSanPham);
                 if (sp == null) return;
 
-                // Kiểm tra nếu chọn lại ĐVT gốc
                 var dvtGoc = BUS_DonViTinh.Instance.GetById(sp.IdDonViCoBan);
                 bool laChonVeDVTGoc = (dvtGoc != null && dvtGoc.Ten == tenDVTMoi);
 
+                int oldDvt = item.IdDVTHienTai;
+                string oldTen = item.TenDVT;
+                decimal oldGia = item.DonGia;
+
                 if (laChonVeDVTGoc)
                 {
-                    // Chọn lại DVT gốc → giá gốc
+                    // Chọn lại DVT gốc -> giá gốc
                     item.DonGia = item.DonGiaGoc;
                     item.IdDVTHienTai = sp.IdDonViCoBan;
                     item.TenDVT = tenDVTMoi;
@@ -263,18 +300,34 @@ namespace GUI
 
                     if (quyDoiChon != null)
                     {
-                        // Cập nhật giá theo ĐVT mới
                         decimal giaUnit = BUS_BangGia.Instance.GetPriceByUnit(sp.Id, quyDoiChon.IdDonViLon, DateTime.Now);
                         item.DonGia = giaUnit;
                         item.IdDVTHienTai = quyDoiChon.IdDonViLon;
                         item.TenDVT = tenDVTMoi;
                     }
                 }
+
+                // Kiểm tra lại tồn kho sau khi đổi DVT
+                if (IsPhysicalProduct(sp.LoaiSanPham))
+                {
+                    int totalStock = DAL_TonKho.Instance.LoadDS().Where(x => x.IdSanPham == sp.Id).Sum(x => x.SoLuong);
+                    int currentInCartOtherLines = _cart.Where(x => x.IdSanPham == sp.Id && x.IdCombo == 0 && x != item).Sum(x => x.SoLuong * x.TyLeQuyDoi);
+                    if (currentInCartOtherLines + (item.SoLuong * item.TyLeQuyDoi) > totalStock)
+                    {
+                        TDCMessageBox.Show($"Tồn kho không đủ để đáp ứng {item.SoLuong} {item.TenDVT} (tổng quy đổi là {item.SoLuong * item.TyLeQuyDoi} Base Units)!\nVui lòng sửa lại số lượng trước khi đổi đơn vị lớn.", "Hết Tồn Kho", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        // Revert back
+                        item.IdDVTHienTai = oldDvt;
+                        item.TenDVT = oldTen;
+                        item.DonGia = oldGia;
+                    }
+                }
+
                 RefreshCartDisplay();
             }
         }
 
-        private RepositoryItemComboBox _repDVTCombo;
+        // Cung cấp ComboBox chọn ĐVT cho từng dòng giỏ hàng 
+        // (chỉ SP có quy đổi mới hiện dropdown, SP đơn vị duy nhất thì khóa)
         private void OnCartCustomRowCellEdit(object sender, DevExpress.XtraGrid.Views.Grid.CustomRowCellEditEventArgs e)
         {
             if (e.Column.FieldName != "TenDVT") return;
@@ -284,16 +337,13 @@ namespace GUI
 
             if (item.CoNhieuDVT)
             {
-                // Tạo ComboBox với danh sách các đơn vị
                 var combo = new RepositoryItemComboBox();
                 combo.DropDownRows = 6;
 
-                // Thêm DVT cơ bản đầu tiên
                 var dvtGoc = BUS_DonViTinh.Instance.GetById(
                     BUS_SanPham.Instance.GetById(item.IdSanPham)?.IdDonViCoBan ?? 0);
                 if (dvtGoc != null) combo.Items.Add(dvtGoc.Ten);
 
-                // Thêm các DVT lớn
                 foreach (var qd in item.DsQuyDoi)
                 {
                     var dvtLon = BUS_DonViTinh.Instance.GetById(qd.IdDonViLon);
@@ -304,7 +354,6 @@ namespace GUI
             }
             else
             {
-                // Không có quy đổi → chỉ hiện text, không cho edit
                 var readOnly = new DevExpress.XtraEditors.Repository.RepositoryItemTextEdit();
                 readOnly.ReadOnly = true;
                 e.RepositoryItem = readOnly;
@@ -322,7 +371,9 @@ namespace GUI
                 }
             }
         }
+        #endregion
 
+        #region Nút thanh toán (Tiền mặt F9 / Ví RFID F10 / Chuyển khoản F11)
         private void btnThanhToanTienMat_Click(object sender, EventArgs e)
         {
             ThanhToan(AppConstants.PhuongThucThanhToan.TienMat);
@@ -345,7 +396,9 @@ namespace GUI
 
             ThanhToan(AppConstants.PhuongThucThanhToan.ChuyenKhoan);
         }
+        #endregion
 
+        #region Huỷ đơn hàng (Esc)
         private void btnHuyDon_Click(object sender, EventArgs e)
         {
             if (_cart.Count > 0)
@@ -363,7 +416,9 @@ namespace GUI
             RefreshCartDisplay();
             txtScanner.Focus();
         }
+        #endregion
 
+        #region Phân quyền và giao diện
         public void ApplyPermissions()
         {
             var tk = ET.SessionManager.CurrentUser;
@@ -375,7 +430,6 @@ namespace GUI
                 return;
             }
 
-            // Gating specific POS actions if needed (e.g., MANAGE_POS for refunds/discounts)
             bool canManage = BUS_QuyenHan.Instance.HasPermission(tk.IdVaiTro, "MANAGE_POS");
             btnHuyDon.Enabled = canManage;
             btnXoaGioHang.Enabled = canManage;
@@ -385,13 +439,10 @@ namespace GUI
         {
             ThemeManager.ApplyTheme(this);
 
-            // Ghi đè lại Style cho lblTongTienLarge sau khi ThemeManager reset
             lblTongTienLarge.Font = new Font("Cascadia Code", 32f, FontStyle.Bold);
-            lblTongTienLarge.ForeColor = ThemeManager.PrimaryColor; // Slate-700
+            lblTongTienLarge.ForeColor = ThemeManager.PrimaryColor; 
 
-            // gridGioHang đã được style tự động bởi ApplyTheme
-            // gridSanPham là TileView nên không cần style theo kiểu GridView
-            gridViewGioHang.OptionsBehavior.Editable = true; // Bật riêng cho giỏ hàng
+            gridViewGioHang.OptionsBehavior.Editable = true; 
             gridViewGioHang.VertScrollVisibility = DevExpress.XtraGrid.Views.Base.ScrollVisibility.Always;
         }
 
@@ -406,15 +457,16 @@ namespace GUI
             btnHuyDon.Image = IconHelper.GetBitmap(IconChar.Ban, Color.White, 24);
             btnHuyDon.ImageSize = new System.Drawing.Size(24, 24);
 
-            // Khởi tạo nút xóa cho Grid
             btnXoa = new RepositoryItemButtonEdit();
             btnXoa.TextEditStyle = DevExpress.XtraEditors.Controls.TextEditStyles.HideTextEditor;
             btnXoa.Buttons[0].Kind = DevExpress.XtraEditors.Controls.ButtonPredefines.Glyph;
-            btnXoa.Buttons[0].Image = IconHelper.GetBitmap(IconChar.TrashAlt, ThemeManager.DangerColor, 24); // Grid Editor không phải Guna nên giữ nguyên màu tự cấp
+            btnXoa.Buttons[0].Image = IconHelper.GetBitmap(IconChar.TrashAlt, ThemeManager.DangerColor, 24); 
             btnXoa.Buttons[0].Caption = "Xóa";
             btnXoa.ButtonClick += btnXoa_ButtonClick;
         }
+        #endregion
 
+        #region Load danh sách sản phẩm (lưới bên trái)
         private void tileViewSanPham_CustomColumnDisplayText(object sender, DevExpress.XtraGrid.Views.Base.CustomColumnDisplayTextEventArgs e)
         {
             if (e.Column.FieldName == "DonGia")
@@ -431,16 +483,15 @@ namespace GUI
             LoadSanPham("Tất cả");
         }
 
+        // Giá sản phẩm hiển thị theo bảng giá NGÀY HIỆN TẠI (ngày thường / cuối tuần / lễ)
         public void LoadSanPham(string category = "Tất cả")
         {
             string kw = txtTimKiem.Text.Trim();
             var data = BUS_SanPham.Instance.TimKiem(kw, category == "Tất cả" ? "Tất cả" : category)
                 .Where(sp => !sp.IsDeleted && sp.TrangThai == AppConstants.TrangThaiSanPham.DangBan).ToList();
 
-            // [FIX]: Dynamic Pricing for Catalog
             foreach (var sp in data)
             {
-                // Mặc định lấy giá "GiaBan" theo thời điểm hiện tại
                 sp.DonGia = BUS_BangGia.Instance.GetDynamicPrice(sp.Id, DateTime.Now);
             }
 
@@ -455,7 +506,11 @@ namespace GUI
                 AddToCart(sp);
             }
         }
+        #endregion
 
+        #region Nghiệp vụ thêm sản phẩm / combo vào giỏ hàng
+        // IsPhysicalProduct: SP vật lý = Ăn uống + Lưu niệm (CẦN kiểm tra tồn kho)
+        // Vé, Dịch vụ, Combo KHÔNG kiểm tra tồn kho
         private bool IsPhysicalProduct(string loaiSP)
         {
             return loaiSP == AppConstants.LoaiSanPham.AnUong ||
@@ -466,26 +521,25 @@ namespace GUI
         {
             if (IsPhysicalProduct(sp.LoaiSanPham))
             {
-                var existingItem = _cart.FirstOrDefault(x => x.IdSanPham == sp.Id && x.IdCombo == 0);
-                int currentInCart = existingItem != null ? existingItem.SoLuong : 0;
+                int currentInCart = _cart.Where(x => x.IdSanPham == sp.Id && x.IdCombo == 0).Sum(x => x.SoLuong * x.TyLeQuyDoi);
                 int totalStock = DAL_TonKho.Instance.LoadDS().Where(x => x.IdSanPham == sp.Id).Sum(x => x.SoLuong);
 
+                
                 if (currentInCart + qty > totalStock)
                 {
-                    TDCMessageBox.Show($"Sản phẩm '{sp.Ten}' chỉ còn tồn {totalStock} trên toàn hệ thống!\nBan không thể bán vượt mức này.", "Hết Tồn Kho", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    TDCMessageBox.Show($"Sản phẩm '{sp.Ten}' chỉ còn tồn {totalStock} trên toàn hệ thống!\nBan không thể thêm vượt quá mức này.", "Hết Tồn Kho", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
             }
 
-            // [FIX]: Dynamic Pricing for Cart Selection
             decimal currentPrice = BUS_BangGia.Instance.GetDynamicPrice(sp.Id, DateTime.Now);
 
-            // Load danh sách quy đổi DVT của SP này
+            // Load danh sách quy đổi DVT của SP này (VD: 1 Thùng = 24 Lon)
             var dsQuyDoi = BUS_SanPham.Instance.LayQuyDoiTheoSP(sp.Id);
-            // Tên DVT cơ bản = tên DVT của SP
             var dvtCoBan = BUS_DonViTinh.Instance.GetById(sp.IdDonViCoBan);
             string tenDVTGoc = dvtCoBan?.Ten ?? "ĐVT";
 
+            // Nếu giỏ đã có SP này (cùng DVT cơ bản) → chỉ tăng SL thay vì thêm dòng mới
             var existing = _cart.Find(x => x.IdSanPham == sp.Id && x.IdCombo == 0 && x.IdDVTHienTai == sp.IdDonViCoBan);
             if (existing != null)
             {
@@ -542,9 +596,9 @@ namespace GUI
                 gridViewGioHang.ShowEditor();
             }
         }
+        #endregion
 
-
-
+        #region Cập nhật hiển thị giỏ hàng (lưới + tổng tiền + chiết khấu)
         private void RefreshCartDisplay()
         {
             gridGioHang.DataSource = null;
@@ -558,25 +612,23 @@ namespace GUI
                 if (v.Columns["IdCombo"] != null) v.Columns["IdCombo"].Visible = false;
                 if (v.Columns["IdDichVuDoan"] != null) v.Columns["IdDichVuDoan"].Visible = false;
                 if (v.Columns["LoaiSanPham"] != null) v.Columns["LoaiSanPham"].Visible = false;
-                
-                if (v.Columns["TenSanPham"] != null) 
-                { 
+
+                if (v.Columns["TenSanPham"] != null)
+                {
                     v.Columns["TenSanPham"].Caption = "Tên Sản Phẩm";
                     v.Columns["TenSanPham"].OptionsColumn.AllowEdit = false;
                 }
-                if (v.Columns["SoLuong"] != null) 
-                { 
-                    v.Columns["SoLuong"].Caption = "SL"; 
-                    v.Columns["SoLuong"].Width = 80; // Slightly wider for SpinButtons
+                if (v.Columns["SoLuong"] != null)
+                {
+                    v.Columns["SoLuong"].Caption = "SL";
+                    v.Columns["SoLuong"].Width = 80;
                     v.Columns["SoLuong"].AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                     v.Columns["SoLuong"].AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
-                    
-                    // Add SpinEdit for quick quantity adjustment
                     RepositoryItemSpinEdit spinEdit = new RepositoryItemSpinEdit();
                     spinEdit.IsFloatValue = false;
                     spinEdit.MinValue = 0;
                     spinEdit.MaxValue = 999;
-                    spinEdit.Buttons[0].Visible = true; // Show arrows
+                    spinEdit.Buttons[0].Visible = true; 
                     v.Columns["SoLuong"].ColumnEdit = spinEdit;
                 }
                 if (v.Columns["DonGia"] != null) { v.Columns["DonGia"].Visible = false; }
@@ -596,7 +648,6 @@ namespace GUI
                     v.Columns["ThanhTien"].SummaryItem.DisplayFormat = "TỔNG: {0:N0}";
                 }
 
-                // === CỘT ĐVT: ComboBox nếu có quy đổi, Text nếu không ===
                 if (v.Columns["TenDVT"] != null)
                 {
                     var colDVT = v.Columns["TenDVT"];
@@ -624,36 +675,31 @@ namespace GUI
                     colXoa.Width = 45;
                     colXoa.OptionsColumn.AllowSize = false;
                     colXoa.OptionsColumn.FixedWidth = true;
-                    // Header đỏ nổi bật để phân biệt cột hành động
                     colXoa.AppearanceHeader.ForeColor = Color.FromArgb(220, 38, 38);
                     colXoa.AppearanceHeader.Font = new Font("Segoe UI Semibold", 8.5F, FontStyle.Bold);
                     colXoa.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                 }
 
-                // === Sắp xếp thứ tự cột rõ ràng ===
                 int idx = 0;
                 if (v.Columns["TenSanPham"] != null) v.Columns["TenSanPham"].VisibleIndex = idx++;
-                if (v.Columns["TenDVT"] != null)     v.Columns["TenDVT"].VisibleIndex = idx++;
-                if (v.Columns["SoLuong"] != null)     v.Columns["SoLuong"].VisibleIndex = idx++;
-                if (v.Columns["ThanhTien"] != null)   v.Columns["ThanhTien"].VisibleIndex = idx++;
-                if (v.Columns["colXoa"] != null)      v.Columns["colXoa"].VisibleIndex = idx++;
+                if (v.Columns["TenDVT"] != null) v.Columns["TenDVT"].VisibleIndex = idx++;
+                if (v.Columns["SoLuong"] != null) v.Columns["SoLuong"].VisibleIndex = idx++;
+                if (v.Columns["ThanhTien"] != null) v.Columns["ThanhTien"].VisibleIndex = idx++;
+                if (v.Columns["colXoa"] != null) v.Columns["colXoa"].VisibleIndex = idx++;
             }
             v.OptionsView.ColumnAutoWidth = true;
 
-            // Update Big Label
             _tongTien = _cart.Sum(x => x.ThanhTien);
-            // Tính thực thu (sau chiết khấu cao nhất) 
+            // Tính thực thu (sau chiết khấu cao nhất giữa 3 nguồn: VIP / Khuyến mãi / Điểm)
             _soTienThucThu = TinhThucThu(_tongTien);
             lblTongTienLarge.Text = _soTienThucThu.ToString("N0") + " VNĐ";
             lblCartTitle.Text = string.Format("GIỎ HÀNG ({0})", _cart.Count);
-
-            // === REAL-TIME DISCOUNT PREVIEW ===
             UpdateDiscountPreview();
-
-            // Re-validate tiền khách đưa (Quick Cash logic)
             txtKhachDua_TextChanged(null, null);
         }
+        #endregion
 
+        #region Tìm kiếm khách hàng (nhập mã / SĐT)
         private void BtnTimKH_Click(object sender, EventArgs e)
         {
             string keyword = txtMaKH.Text.Trim();
@@ -694,12 +740,19 @@ namespace GUI
                 TDCMessageBox.Show("Không tìm thấy khách hàng!", "Thông báo");
             }
         }
+        #endregion
 
-
+        #region Xử lý thanh toán chính (so sánh 3 nguồn giảm giá → lưu đơn → phát vé)
+        //  CƠ CHẾ CHIẾT KHẤU 3 NGUỒN (quan trọng!) 
+        // Hệ thống so sánh 3 nguồn giảm giá và chọn cái CÓ LỢI NHẤT cho khách:
+        //   (a) Chiết khấu theo hạng khách: VIP=10%, VVIP=25%, HSSV=5%
+        //   (b) Khuyến mãi đang chạy (event / campaign)
+        //   (c) Điểm tích lũy (quy đổi ra tiền)
+        // KHÔNG CỘNG DỒN — chỉ áp dụng 1 nguồn duy nhất.
+        // Chiết khấu CHỈ áp cho Vé/Dịch vụ, F&B (ăn uống) KHÔNG BAO GIỜ giảm giá.
 
         private void ThanhToan(string phuongThuc)
         {
-            // === NHÁNH ĐOÀN: Zero-Dollar Bill ===
             if (_currentBooking != null)
             {
                 ThanhToanDoan(phuongThuc);
@@ -712,7 +765,6 @@ namespace GUI
                 return;
             }
 
-            // [FIX]: RFID bắt buộc phải có KH
             if (phuongThuc == AppConstants.PhuongThucThanhToan.ViRfid && _selectedKH == null)
             {
                 TDCMessageBox.Show("Thanh toán ví RFID bắt buộc phải quét thẻ khách hàng trước!", "Yêu cầu");
@@ -722,9 +774,10 @@ namespace GUI
 
             decimal tongTienGoc = _tongTien;
 
-            // === MAX-DISCOUNT RULE (No Stacking!) ===
+            // (a) Chiết khấu theo hạng VIP
             decimal pctVip = _selectedKH != null ? GetVipDiscount(_selectedKH.LoaiKhach) : 0m;
 
+            // (b) Khuyến mãi sự kiện đang chạy
             var kmEvent = BUS_KhuyenMai.Instance.GetBestActivePromotion(tongTienGoc);
             decimal pctEvent = 0m;
             if (kmEvent != null)
@@ -735,15 +788,16 @@ namespace GUI
                     pctEvent = tongTienGoc > 0 ? kmEvent.GiaTriGiam / tongTienGoc : 0;
             }
 
+            // Chọn % giảm lớn nhất giữa VIP và Khuyến mãi
             decimal pctApDung = Math.Max(pctVip, pctEvent);
 
-            // [FIX #2] Chiết khấu CHỈ áp dụng cho Vé/DichVu/Combo — KHÔNG giảm F&B
+            // tongTienDuocGiam: chỉ tính trên Vé/Dịch vụ (F&B không được giảm)
             decimal tongTienDuocGiam = _cart
                 .Where(item => !IsPhysicalProduct(item.LoaiSanPham))
                 .Sum(item => item.ThanhTien);
             decimal tienGiamChietKhau = Math.Round(tongTienDuocGiam * pctApDung, 0);
 
-            // === LOYALTY: Tính điểm khả dụng ===
+            // (c) Điểm tích lũy — tính số điểm tối đa có thể dùng
             int diemKhaDung = 0;
             decimal tienGiamDiem = 0;
             bool dungDiem = false;
@@ -754,10 +808,10 @@ namespace GUI
                 tienGiamDiem = BUS_TichDiem.Instance.TinhGiaTriDiem(diemKhaDung);
             }
 
-            // Chọn MAX giữa chiết khấu và điểm (không cộng dồn)
             decimal tienGiam;
             string nguonGiam;
 
+            // Nếu điểm lợi hơn chiết khấu → hỏi khách có muốn dùng điểm không
             if (tienGiamDiem > tienGiamChietKhau && diemKhaDung > 0)
             {
                 string hoi = string.Format(
@@ -794,7 +848,7 @@ namespace GUI
             if (tienGiam > 0)
                 discountInfo = string.Format("\n🎁 Giảm giá ({0}): -{1:N0}đ", nguonGiam, tienGiam);
 
-            // [FIX #6] POS chỉ bán B2C -> luôn tích điểm cá nhân
+            // POS chỉ bán B2C -> luôn tích điểm cá nhân
             int diemSeCong = 0;
             string loyaltyInfo = "";
             if (_selectedKH != null)
@@ -814,7 +868,7 @@ namespace GUI
             int currentUserId = GetCurrentUserId();
             string uniqueSuffix = "-" + Guid.NewGuid().ToString().Substring(0, 4).ToUpper();
 
-            // [FIX #4] POS = B2C only -> IdDoan luôn NULL
+            //  POS = B2C only -> IdDoan luôn NULL
             var donHang = new ET_DonHang
             {
                 MaCode = "DH-" + DateTime.Now.ToString("yyMMddHHmmss") + uniqueSuffix,
@@ -829,8 +883,11 @@ namespace GUI
                 CreatedBy = currentUserId
             };
 
-            // [FIX #3] Rải TienGiamGiaDong xuống từng dòng. F&B = 0, Vé = tỷ lệ phân bổ
-            var chiTiet = _cart.Select(item => {
+            //  RẢI TIỀN GIẢM GIÁ XUỐNG TỪNG DÒNG CHI TIẾT 
+            // Nếu dùng chiết khấu %: F&B = 0đ giảm, Vé/DV = tỷ lệ phân bổ theo %
+            // Nếu dùng điểm: mọi dòng đều được phân bổ theo tỷ trọng tiền
+            var chiTiet = _cart.Select(item =>
+            {
                 bool isVatLy = IsPhysicalProduct(item.LoaiSanPham);
                 decimal giamDong = 0;
                 if (!dungDiem && !isVatLy && pctApDung > 0 && tongTienDuocGiam > 0)
@@ -844,6 +901,15 @@ namespace GUI
                 decimal donGiaThucTe = item.SoLuong > 0
                     ? Math.Max(0, item.DonGia - Math.Round(giamDong / item.SoLuong, 0))
                     : item.DonGia;
+
+                // Lấy tỷ lệ quy đổi ĐVT để lưu vào DB
+                int tyLe = 1;
+                if (item.IdDVTHienTai > 0 && item.DsQuyDoi != null)
+                {
+                    var qd = item.DsQuyDoi.FirstOrDefault(q => q.IdDonViLon == item.IdDVTHienTai);
+                    if (qd != null && qd.TyLeQuyDoi > 1) tyLe = (int)qd.TyLeQuyDoi;
+                }
+
                 return new ET_ChiTietDonHang
                 {
                     IdSanPham = item.IdSanPham > 0 ? item.IdSanPham : (int?)null,
@@ -851,13 +917,14 @@ namespace GUI
                     SoLuong = item.SoLuong,
                     DonGiaGoc = item.DonGia,
                     TienGiamGiaDong = giamDong,
-                    DonGiaThucTe = donGiaThucTe
+                    DonGiaThucTe = donGiaThucTe,
+                    TyLeQuyDoi = tyLe
                 };
             }).ToList();
 
             OperationResult<int> result;
 
-            int idKhoDeduct = (cboKhoXuLy != null && cboKhoXuLy.SelectedValue != null) 
+            int idKhoDeduct = (cboKhoXuLy != null && cboKhoXuLy.SelectedValue != null)
                                 ? Convert.ToInt32(cboKhoXuLy.SelectedValue) : 1;
 
             if (phuongThuc == AppConstants.PhuongThucThanhToan.ViRfid)
@@ -886,7 +953,6 @@ namespace GUI
 
             int idDonHangMoi = result.Data;
 
-            // === LOYALTY POST-PAYMENT ===
             if (_selectedKH != null)
             {
                 // 1. Trừ điểm nếu đã dùng
@@ -904,7 +970,7 @@ namespace GUI
                 }
             }
 
-            // === AUTO-SHOW TICKET CARD NẾU ĐƠN HÀNG CÓ VÉ ===
+            // Nếu đơn có vé → tự mở popup Phát Vé Điện Tử
             var tickets = BUS_VeDienTu.Instance.LayVeTheoDonHang(idDonHangMoi);
             if (tickets.Count > 0)
             {
@@ -915,13 +981,13 @@ namespace GUI
             }
             else
             {
-                // === RECEIPT PREVIEW (không có vé) ===
                 string receipt = "═══════ HOÁ ĐƠN ═══════\n";
                 receipt += string.Format("Mã HĐ: {0}\n", donHang.MaCode);
                 receipt += string.Format("Ngày: {0:dd/MM/yyyy HH:mm}\n\n", DateTime.Now);
                 foreach (var item in _cart)
                 {
-                    receipt += string.Format("{0}  x{1}  {2:N0}đ\n", item.TenSanPham, item.SoLuong, item.ThanhTien);
+                    string tenDvtDisplay = string.IsNullOrEmpty(item.TenDVT) ? "" : item.TenDVT + " ";
+                    receipt += string.Format("{0}  x{1} {2} {3:N0}đ\n", item.TenSanPham, item.SoLuong, tenDvtDisplay, item.ThanhTien);
                 }
                 receipt += "────────────────────\n";
                 receipt += string.Format("Tổng gốc:          {0:N0} đ\n", tongTienGoc);
@@ -944,14 +1010,11 @@ namespace GUI
             RefreshCartDisplay();
             txtScanner.Focus();
         }
+        #endregion
 
-        // ============================================================
-        // ĐOÀN: BOOKING -> ZERO-DOLLAR FLOW
-        // ============================================================
-
-        /// <summary>
-        /// Quét BK-xxx -> Validate booking -> Hiện quota ăn uống -> Thêm vào giỏ giá 0đ
-        /// </summary>
+        #region Phục vụ đoàn khách (quét mã booking BK-xxx → giá 0đ → trừ quota)
+        // Khi quét mã "BK-xxx": hệ thống tìm đoàn, kiểm tra booking hợp lệ, 
+        // load quota ăn uống còn lại, thêm vào giỏ giá 0đ (đã trả theo hợp đồng)
         private void ApplyBookingToCart(string maBooking)
         {
             var doan = BUS_DoanKhach.Instance.GetByBookingCode(maBooking);
@@ -980,12 +1043,10 @@ namespace GUI
                 return;
             }
 
-            // Set booking state + hiện tên đoàn
             _currentBooking = doan;
             lblTenKH.Text = $"🏷️ ĐOÀN: {doan.TenDoan} (CK {doan.ChietKhau}%)";
             lblTenKH.ForeColor = Color.FromArgb(34, 197, 94);
 
-            // Popup chọn suất
             string info = $"ĐOÀN: {doan.TenDoan}\n";
             info += "Suất ăn còn lại:\n";
             foreach (var q in quotaAnUong)
@@ -999,7 +1060,6 @@ namespace GUI
 
             if (TDCMessageBox.Show(info, "SUẤT ĂN ĐOÀN", MessageBoxButtons.YesNo) == DialogResult.Yes)
             {
-                // Thêm từng quota vào giỏ với giá 0đ
                 foreach (var q in quotaAnUong)
                 {
                     string tenDV = !string.IsNullOrEmpty(q.TenDichVu) ? q.TenDichVu
@@ -1020,9 +1080,7 @@ namespace GUI
             }
         }
 
-        /// <summary>
-        /// Thanh toán đoàn: KhauTruQuota -> tạo đơn 0đ -> ghi GhiNoCongTy
-        /// </summary>
+        // Thanh toán riêng cho đoàn: tạo đơn ghi nợ công ty (tổng = 0đ), trừ quota
         private void ThanhToanDoan(string phuongThuc)
         {
             var doanItems = _cart.Where(x => x.IdDichVuDoan > 0).ToList();
@@ -1032,7 +1090,6 @@ namespace GUI
                 return;
             }
 
-            // Xác nhận
             string confirm = $"Xác nhận phục vụ ĐOÀN: {_currentBooking.TenDoan}\n";
             confirm += $"{doanItems.Count} mục — Tổng: 0 VNĐ (theo hợp đồng)\n";
             confirm += "Trừ quota dịch vụ đoàn?";
@@ -1040,7 +1097,6 @@ namespace GUI
             if (TDCMessageBox.Show(confirm, "XÁC NHẬN ĐOÀN", MessageBoxButtons.YesNo) != DialogResult.Yes)
                 return;
 
-            // Khấu trừ quota cho từng dòng
             int errorCount = 0;
             foreach (var item in doanItems)
             {
@@ -1055,7 +1111,7 @@ namespace GUI
                     MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            // Tạo ĐH ghi nợ công ty (0đ)
+            // Tạo ĐH ghi nợ công ty (0đ), mã "DHD..." = Đơn Hàng Đoàn
             int currentUserId = GetCurrentUserId();
             var donHang = new ET_DonHang
             {
@@ -1071,14 +1127,25 @@ namespace GUI
                 CreatedBy = currentUserId
             };
 
-            var chiTiet = doanItems.Select(item => new ET_ChiTietDonHang
+            var chiTiet = doanItems.Select(item =>
             {
-                IdSanPham = item.IdSanPham > 0 ? item.IdSanPham : (int?)null,
-                IdCombo = item.IdCombo > 0 ? item.IdCombo : (int?)null,
-                SoLuong = item.SoLuong,
-                DonGiaGoc = 0,
-                TienGiamGiaDong = 0,
-                DonGiaThucTe = 0
+                int tyLe = 1;
+                if (item.IdDVTHienTai > 0 && item.DsQuyDoi != null)
+                {
+                    var qd = item.DsQuyDoi.FirstOrDefault(q => q.IdDonViLon == item.IdDVTHienTai);
+                    if (qd != null && qd.TyLeQuyDoi > 1) tyLe = (int)qd.TyLeQuyDoi;
+                }
+
+                return new ET_ChiTietDonHang
+                {
+                    IdSanPham = item.IdSanPham > 0 ? item.IdSanPham : (int?)null,
+                    IdCombo = item.IdCombo > 0 ? item.IdCombo : (int?)null,
+                    SoLuong = item.SoLuong,
+                    DonGiaGoc = 0,
+                    TienGiamGiaDong = 0,
+                    DonGiaThucTe = 0,
+                    TyLeQuyDoi = tyLe
+                };
             }).ToList();
 
             var phieuThu = new ET_PhieuThu
@@ -1098,7 +1165,7 @@ namespace GUI
             if (result2.IsSuccess)
             {
                 TDCMessageBox.Show(
-                    $"✅ Phục vụ đoàn thành công!\nĐoàn: {_currentBooking.TenDoan}\nMã HĐ: {donHang.MaCode}\n{doanItems.Count} mục — 0 VNĐ",
+                    $" Phục vụ đoàn thành công!\nĐoàn: {_currentBooking.TenDoan}\nMã HĐ: {donHang.MaCode}\n{doanItems.Count} mục — 0 VNĐ",
                     "HOÀN TẤT", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
@@ -1116,9 +1183,11 @@ namespace GUI
             RefreshCartDisplay();
             txtScanner.Focus();
         }
+        #endregion
 
+        #region Bảng chiết khấu theo hạng khách và tính toán giảm giá
         /// <summary>
-        /// [FIXED] Chiết khấu POS chỉ theo RANK CÁ NHÂN.
+        /// Chiết khấu POS chỉ theo RANK CÁ NHÂN.
         /// Doan/DoanhNghiep = 0% tại POS (đoàn B2B đi form riêng frmXuatVeDoan).
         /// </summary>
         private decimal GetVipDiscount(string loaiKhach)
@@ -1126,15 +1195,16 @@ namespace GUI
             if (string.IsNullOrEmpty(loaiKhach)) return 0m;
             switch (loaiKhach)
             {
-                case AppConstants.LoaiKhachHang.VVIP:            return 0.25m;
-                case AppConstants.LoaiKhachHang.Vip:             return 0.10m;
-                case AppConstants.LoaiKhachHang.HocSinhSinhVien:  return 0.05m;
+                case AppConstants.LoaiKhachHang.VVIP: return 0.25m;
+                case AppConstants.LoaiKhachHang.Vip: return 0.10m;
+                case AppConstants.LoaiKhachHang.HocSinhSinhVien: return 0.05m;
                 default: return 0m; // CaNhan, NoiBo, (legacy Doan/DoanhNghiep) = 0%
             }
         }
 
         /// <summary>
-        /// Cập nhật dòng hiển thị giảm giá real-time trên POS (dưới tổng tiền).
+        /// Cập nhật dòng hiển thị giảm giá trên POS (dưới tổng tiền).
+        /// Hiện "ĐANG CÓ [nguồn] GIẢM X%: -Yđ" hoặc gợi ý "Mua thêm Xđ để kích hoạt KM"
         /// </summary>
         private void UpdateDiscountPreview()
         {
@@ -1155,7 +1225,7 @@ namespace GUI
             }
 
             decimal pctMax = Math.Max(pctVip, pctEvent);
-            // [FIX] Chiết khấu chỉ trên Vé/DichVu, không F&B
+            //  Chiết khấu chỉ trên Vé/DichVu, không F&B
             decimal tongDuocGiam = _cart
                 .Where(item => !IsPhysicalProduct(item.LoaiSanPham))
                 .Sum(item => item.ThanhTien);
@@ -1203,7 +1273,7 @@ namespace GUI
                 lblTongTienTitle.Text = "";
             }
 
-            // [HINT LOGIC] Gợi ý khuyến mãi nếu mua thêm không quá 100M VND (hoặc 100k user asked, let's say 100k)
+            //  Gợi ý khuyến mãi nếu mua thêm không quá 100K VND
             var hint = BUS_KhuyenMai.Instance.GetPromotionHint(_tongTien);
             if (hint != null)
             {
@@ -1225,7 +1295,7 @@ namespace GUI
         }
 
         /// <summary>
-        /// Tính số tiền thực thu (sau chiết khấu cao nhất) để hiển thị real-time.
+        /// Tính số tiền thực thu (sau chiết khấu cao nhất) để hiển thị trên label lớn
         /// </summary>
         private decimal TinhThucThu(decimal tongGoc)
         {
@@ -1254,7 +1324,9 @@ namespace GUI
             }
             return tongGoc - tienGiam;
         }
+        #endregion
 
+        #region Tìm kiếm sản phẩm tức thì (gõ tên lọc ngay)
         private void txtTimKiem_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -1266,11 +1338,11 @@ namespace GUI
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
         {
-            // Sử dụng bộ lọc siêu tốc của DevExpress cho
             tileViewSanPham.ApplyFindFilter(txtTimKiem.Text.Trim());
         }
+        #endregion
 
-
+        #region Xoá dòng giỏ hàng (nút thùng rác trên lưới)
         private void btnXoa_ButtonClick(object sender, DevExpress.XtraEditors.Controls.ButtonPressedEventArgs e)
         {
             if (gridViewGioHang.FocusedRowHandle >= 0)
@@ -1288,17 +1360,15 @@ namespace GUI
         {
             var tk = ET.SessionManager.CurrentUser;
             if (tk != null) return tk.Id;
-            
+
             TDCMessageBox.Show("Phiên làm việc không hợp lệ! Vui lòng khởi động lại ứng dụng để đăng nhập.", "Lỗi bảo mật");
             Application.Restart();
             Environment.Exit(0);
             return -1;
         }
+        #endregion
 
-        // ============================================================
-        // CAMERA SCANNER (Webcam barcode scan cho POS) - GIỜ ĐÃ CHUYỂN SANG DESIGNER
-        // ============================================================
-
+        #region Quét mã bằng Camera (webcam nhận diện barcode / QR)
         private void EnsurePOSScanner()
         {
             if (_cameraScanner == null)
@@ -1336,11 +1406,10 @@ namespace GUI
             _cameraScanner.ScanFromFile();
         }
 
+        // Khi camera nhận diện được mã → tự inject vào logic quét như máy quét vật lý
         private void POS_OnBarcodeDetected(string code)
         {
-            // Inject mã vào txtScanner rồi trigger logic hiện có
             txtScanner.Text = code;
-            // Simulate Enter key — gọi trực tiếp logic scan
             var sp = BUS_SanPham.Instance.GetByMaCode(code);
             if (sp != null)
             {
@@ -1364,16 +1433,34 @@ namespace GUI
                 }
             }
         }
+        #endregion
 
-        // ==========================================
-        // QUICK CASH LOGIC
-        // ==========================================
-        private void btn50K_Click(object sender, EventArgs e) { txtKhachDua.Text = "50000"; }
-        private void btn100K_Click(object sender, EventArgs e) { txtKhachDua.Text = "100000"; }
-        private void btn200K_Click(object sender, EventArgs e) { txtKhachDua.Text = "200000"; }
-        private void btn500K_Click(object sender, EventArgs e) { txtKhachDua.Text = "500000"; }
-        private void btnDuaDu_Click(object sender, EventArgs e) { txtKhachDua.Text = _soTienThucThu.ToString("0"); }
+        #region Nút tiền nhanh (Quick Cash: 50K / 100K / 200K / 500K / Đưa đủ)
+        private void btn50K_Click(object sender, EventArgs e)
+        {
+            txtKhachDua.Text = "50000";
+        }
+        private void btn100K_Click(object sender, EventArgs e)
+        {
+            txtKhachDua.Text = "100000";
+        }
+        private void btn200K_Click(object sender, EventArgs e)
+        {
+            txtKhachDua.Text = "200000";
+        }
+        private void btn500K_Click(object sender, EventArgs e)
+        {
+            txtKhachDua.Text = "500000";
+        }
+        private void btnDuaDu_Click(object sender, EventArgs e)
+        {
+            txtKhachDua.Text = _soTienThucThu.ToString("0");
+        }
+        #endregion
 
+        #region Tính tiền thừa / thiếu khi khách đưa tiền mặt
+        // Tự format số tiền có dấu phẩy (150,000)
+        // Xanh = đủ tiền, Đỏ = còn thiếu, nút F9 chỉ bật khi đủ
         private void txtKhachDua_TextChanged(object sender, EventArgs e)
         {
             string rawInput = txtKhachDua.Text.Replace(",", "").Replace(".", "");
@@ -1382,7 +1469,7 @@ namespace GUI
 
             if (khachDua > 0)
             {
-                // Unhook tạm thời để tránh loop vô hạn
+                // Unhook tạm thời để tránh loop vô hạn khi setText lại
                 txtKhachDua.TextChanged -= txtKhachDua_TextChanged;
                 txtKhachDua.Text = khachDua.ToString("N0");
                 txtKhachDua.SelectionStart = txtKhachDua.Text.Length;
@@ -1410,8 +1497,7 @@ namespace GUI
                 btnThanhToanTienMat.Enabled = false;
                 btnThanhToanTienMat.FillColor = Color.Silver;
             }
-            
-                // Trường hợp bill 0 đồng (chưa chọn món)
+
             if (soCanThu == 0)
             {
                 lblTienThua.Text = "0 đ";
@@ -1437,11 +1523,10 @@ namespace GUI
                 }
             }
         }
+        #endregion
     }
 
-    /// <summary>
-    /// Model giỏ hàng tạm (in-memory, không lưu DB)
-    /// </summary>
+    #region Model giỏ hàng tạm (CartItem — in-memory, không lưu DB)
     public class CartItem
     {
         public int IdSanPham { get; set; }
@@ -1453,7 +1538,7 @@ namespace GUI
         public string LoaiSanPham { get; set; }
         public decimal ThanhTien => DonGia * SoLuong;
 
-        // === ĐVT & Quy đổi ===
+        //  ĐVT & Quy đổi 
         /// <summary>Tên ĐVT hiện tại đang bán (VD: "Lon", "Thùng")</summary>
         public string TenDVT { get; set; }
         /// <summary>Id ĐVT đang chọn. 0 = DVT cơ bản.</summary>
@@ -1464,7 +1549,24 @@ namespace GUI
         public List<ET_QuyDoiDonVi> DsQuyDoi { get; set; }
         /// <summary>Có nhiều hơn 1 ĐVT để chọn không?</summary>
         public bool CoNhieuDVT => DsQuyDoi != null && DsQuyDoi.Count > 0;
+
+        // TyLeQuyDoi: số đơn vị cơ bản trong 1 đơn vị lớn
+        // VD: 1 Thùng = 24 Lon → TyLeQuyDoi = 24
+        // Dùng để quy đổi khi kiểm tra tồn kho
+        public int TyLeQuyDoi
+        {
+            get
+            {
+                if (IdDVTHienTai > 0 && DsQuyDoi != null)
+                {
+                    var qd = DsQuyDoi.FirstOrDefault(q => q.IdDonViLon == IdDVTHienTai);
+                    if (qd != null && qd.TyLeQuyDoi > 1) return (int)qd.TyLeQuyDoi;
+                }
+                return 1;
+            }
+        }
     }
+    #endregion
 }
 
 

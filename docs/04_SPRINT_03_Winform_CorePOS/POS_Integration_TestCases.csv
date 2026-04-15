@@ -1,0 +1,966 @@
+﻿TC ID,Title,Est. (mins),Test Type,Area,Procedure / Steps,Expected Results,Priority,RESULT
+"POS_101","[TICH HOP] Ban SP dang Lon — qua Kho Hang kiem tra tru dung so luong","5","Integration","POS -> Kho","1. Mo phan mem Quan ly Cong vien Dai Nam tu desktop.
+2. Dang nhap bang tai khoan ""thungan01"" / ""123456"".
+3. Nhan menu ""Kho Hang"" tren thanh dieu huong. Chon kho ""Kho trung tam"". Ghi nho so luong ton cua ""Nuoc ngot lon"" (VD: 500 lon).
+4. Quay lai, nhan menu ""Ban hang"".
+5. Double-click vao ""Nuoc ngot lon"", sua SL = 3.
+6. Nhan ""Dua du"", nhan F9 thanh toan tien mat, xac nhan ""Co"".
+7. Sau khi thanh toan xong, nhan menu ""Kho Hang"" lai.
+8. Chon kho ""Kho trung tam"", tim dong ""Nuoc ngot lon"".
+9. Quan sat SL Ton Kho cua ""Nuoc ngot lon"".","1. Phan mem khoi dong thanh cong.
+2. Dang nhap OK.
+3. Kho Hang hien thi, ton = 500 lon (vi du).
+4. Man hinh Ban hang mo.
+5. Gio: ""Nuoc ngot lon"" SL=3, DVT=""Lon"".
+6. Thanh toan thanh cong, hoa don hien thi.
+7. Man hinh Kho Hang mo lai.
+8. Tim thay dong ""Nuoc ngot lon"".
+9. Ton kho = 500 - 3 = 497 lon. Giam dung 3 don vi co ban.","Critical","PENDING"
+"POS_102","[TICH HOP] Ban SP dang Thung — qua Kho Hang kiem tra tru dung quy doi","7","Integration","POS -> Kho","1. Mo phan mem Quan ly Cong vien Dai Nam tu desktop.
+2. Dang nhap bang tai khoan ""thungan01"" / ""123456"".
+3. Nhan menu ""Kho Hang"", chon kho ""Kho trung tam"". Ghi nho ton ""Nuoc ngot lon"" (VD: 497 lon). Biet 1 Thung = 24 lon.
+4. Nhan menu ""Ban hang"".
+5. Double-click ""Nuoc ngot lon"". Doi DVT sang ""Thung"". Sua SL = 2.
+6. Nhan ""Dua du"", nhan F9, xac nhan ""Co"".
+7. Nhan menu ""Kho Hang"", chon kho ""Kho trung tam"".
+8. Tim dong ""Nuoc ngot lon"".
+9. Quan sat SL Ton Kho.","1-2. Dang nhap OK.
+3. Ton = 497 lon.
+4. Man hinh POS mo.
+5. Gio: ""Nuoc ngot lon"", DVT=""Thung"", SL=2.
+6. Thanh toan OK.
+7-8. Mo Kho, tim SP.
+9. Ton kho = 497 - (2 x 24) = 497 - 48 = 449 lon. He thong tru THEO DON VI CO BAN (lon), khong phai tru 2 (so Thung). Day la diem kiem tra quan trong nhat.","Critical","PENDING"
+"POS_103","[TICH HOP] Ban Ve — qua Kho Hang xac nhan KHONG tru ton kho","5","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Nhan menu ""Kho Hang"", ghi nho toan bo so lieu ton kho.
+4. Nhan menu ""Ban hang"".
+5. Loc phan loai ""Ve"". Double-click ""Ve Nguoi lon"", SL=5.
+6. Nhan ""Dua du"", F9, xac nhan ""Co"".
+7. Nhan menu ""Kho Hang"" lai.
+8. So sanh toan bo so lieu ton kho voi buoc 3.","1-2. Dang nhap OK.
+3. Ghi nho ton kho.
+4-5. Gio: ""Ve Nguoi lon"" SL=5.
+6. Thanh toan OK.
+7-8. Ton kho KHONG THAY DOI so voi buoc 3. Vi ve la hang khong vat ly, he thong khong tru kho khi ban ve.","High","PENDING"
+"POS_104","[TICH HOP] Ban SP co KH VIP — qua form KH kiem tra diem tich luy","7","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Nhan menu ""Khach Hang"". Tim KH ""KH001"" (VIP). Ghi nho so diem tich luy hien tai (VD: 50 pts).
+4. Nhan menu ""Ban hang"".
+5. Nhap ma KH ""KH001"", nhan Tim. Nhan hien ten KH VIP.
+6. Double-click ""Ve Nguoi lon"" (200.000d), SL=1.
+7. Nhan ""Dua du"", F9, xac nhan ""Co"". Luu y: hop thoai xac nhan hien dong ""Tich them: +X diem"".
+8. Nhan menu ""Khach Hang"", tim lai ""KH001"".
+9. Quan sat so diem tich luy moi va Don Hang phia duoi.","1-2. OK.
+3. KH001 co diem = 50 pts.
+4-5. POS: KH VIP gan.
+6. Gio: Ve 200.000d.
+7. Thanh toan OK. He so nhan VIP = 2.0 -> Diem = floor(200000/100000) * 2 = 4 diem (sau khi tru chiet khau VIP 10%: thuc thu 180.000 -> floor(180000/100000)*2 = 2 diem).
+8-9. Diem tich luy moi = 50 + diem_vua_tich. Tab ""Diem"" hien dong moi nhat: Loai = ""TichLuy"", SoDiem = +X pts, Ly Do = ""Tich diem DH-..."". Tab ""Giao dich"" hien dong moi: ""Hoa don - DaThanhToan"".","Critical","PENDING"
+"POS_105","[TICH HOP] Ban SP co KH thuong — qua form KH kiem tra diem he so 1.0","7","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Nhan menu ""Khach Hang"". Tim KH hang ""Ca nhan"" (VD: ""KH005""). Ghi nho diem tich luy (VD: 10 pts).
+4. Nhan menu ""Ban hang"".
+5. Tim KH ""KH005"", nhan Tim.
+6. Double-click ""Ve Nguoi lon"" (200.000d) — KH thuong khong co chiet khau VIP.
+7. Nhan ""Dua du"", F9, xac nhan ""Co"".
+8. Nhan menu ""Khach Hang"", tim ""KH005"".
+9. Quan sat so diem.","1-2. OK.
+3. KH005 diem = 10 pts, Loai = ""CaNhan"".
+4-6. POS: KH thuong, khong giam gia VIP. Tong = 200.000d.
+7. Thanh toan OK. He so CaNhan = 1.0 -> Diem = floor(200000/100000)*1 = 2 diem.
+8-9. Diem moi = 10 + 2 = 12 pts. Tab Diem hien dong moi ""TichLuy"" +2 pts.","High","PENDING"
+"POS_106","[TICH HOP] Ban SP khong có KH — KHONG tich diem","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Nhan menu ""Ban hang"".
+4. KHONG tim KH (de ""Khach vang lai"").
+5. Double-click ""Ve Nguoi lon"" (200.000d).
+6. Nhan ""Dua du"", F9, xac nhan.
+7. Quan sat hop thoai xac nhan thanh toan.","1-2. OK.
+3-4. POS: Khach vang lai.
+5. Gio co Don.
+6. Hop thoai xac nhan KHONG hien dong ""Tich them: +X diem"".
+7. Thanh toan OK. Khong thay doi diem cua KH nao. Vi khach vang lai khong co ho so de tich diem.","Medium","PENDING"
+"POS_107","[TICH HOP] Ban tong > 100K voi KH VVIP — diem tich x3","7","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"", tim KH VVIP (VD: ""KH002""). Ghi nho diem (VD: 100 pts).
+4. Menu ""Ban hang"".
+5. Tim KH ""KH002"".
+6. Double-click ""Ve Nguoi lon"" x2 (tong goc 400.000d). VVIP giam 25% tren Ve -> thuc thu = 400.000 - 100.000 = 300.000d.
+7. Nhan ""Dua du"", F9, xac nhan ""Co"".
+8. Menu ""Khach Hang"", tim ""KH002"".
+9. Kiem tra diem.","1-2. OK.
+3. KH002 VVIP, diem = 100 pts.
+4-6. POS: VVIP -25%, tong thuc = 300.000d.
+7. Thanh toan OK. He so VVIP = 3.0 -> Diem = floor(300000/100000)*3 = 9 diem.
+8-9. Diem moi = 100 + 9 = 109 pts.","High","PENDING"
+"POS_108","[TICH HOP] Ban SP don < 100K — KHONG tich diem (duoi nguong)","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"", tim KH ""KH001"" VIP. Ghi nho diem.
+4. Menu ""Ban hang"", tim KH ""KH001"".
+5. Double-click ""Com phan"" (22.500d).
+6. Nhan ""Dua du"", F9, xac nhan.
+7. Menu ""Khach Hang"", kiem tra diem KH001.","1-2. OK.
+3. Ghi nho diem KH001.
+4-5. Gio: Com phan 22.500d.
+6. Thanh toan OK. Thuc thu < 100.000d -> floor(22500/100000) = 0 -> khong tich diem.
+7. Diem KHONG thay doi so voi buoc 3. He thong chi tich diem khi don dat nguong toi thieu 100.000d.","Medium","PENDING"
+"POS_109","[TICH HOP] Ban SP roi qua form KH — kiem tra Tong Chi Tieu tang","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"", tim KH ""KH001"". Ghi nho ""Tong Chi Tieu"" (VD: 5.000.000d).
+4. Menu ""Ban hang"", tim KH ""KH001"".
+5. Ban 1 Ve 200.000d (VIP giam 10% -> thuc thu 180.000d).
+6. Thanh toan thanh cong.
+7. Menu ""Khach Hang"", tim KH001.
+8. Kiem tra ""Tong Chi Tieu"".","1-2. OK.
+3. TongChiTieu = 5.000.000d.
+4-6. Thanh toan 180.000d OK.
+7-8. TongChiTieu moi = 5.000.000 + 180.000 = 5.180.000d. So lieu tang dung bang so tien thuc thu (khong phai tong goc).","High","PENDING"
+"POS_110","[TICH HOP] Ban SP roi qua Tab Giao Dich KH — dong moi xuat hien","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"", tim KH ""KH001"". Ghi nho so dong trong Tab ""Giao dich"" phia duoi.
+4. Menu ""Ban hang"", tim KH ""KH001"".
+5. Ban 1 SP bat ky, thanh toan tien mat.
+6. Menu ""Khach Hang"", tim KH001, mo Tab ""Giao dich"".
+7. Kiem tra dong moi nhat.","1-2. OK.
+3. Ghi nho so dong.
+4-5. Thanh toan OK.
+6-7. Tab ""Giao dich"" co them 1 dong moi nhat: Nhom = ""Giao dich thuong"", Loai = ""Hoa don - DaThanhToan"", So Tien = so tien thuc thu, Ma Code = ""DH-..."". Dong nay nam dau tien (sap xep theo thoi gian giam dan).","Medium","PENDING"
+"POS_111","[TICH HOP] Ban SP bang Vi RFID — qua form KH kiem tra so du vi giam","7","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"", tim KH co vi RFID (VD: ""KH001""). Ghi nho ""So du kha dung"" (VD: 500.000d).
+4. Menu ""Ban hang"", tim KH ""KH001"".
+5. Double-click ""Com phan"" (22.500d).
+6. Nhan F10 (Thanh toan Vi RFID), xac nhan ""Co"".
+7. Menu ""Khach Hang"", tim KH001.
+8. Kiem tra so du vi va Tab ""Giao dich"".","1-2. OK.
+3. So du = 500.000d.
+4-5. Gio: Com phan 22.500d.
+6. Thanh toan bang vi RFID OK.
+7-8. So du vi = 500.000 - 22.500 = 477.500d. Tab Giao dich hien 2 dong moi: 1 dong ""Giao dich vi"" (tru tien) va 1 dong ""Giao dich thuong"" (hoa don). Tong tien tru = 22.500d.","Critical","PENDING"
+"POS_112","[TICH HOP] Ban SP bang Vi RFID — vi khong du tien — bi chan","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"", tim KH co vi RFID so du = 10.000d (VD: ""KH_IT"" — KH test).
+4. Menu ""Ban hang"", tim KH do.
+5. Double-click ""Ve Nguoi lon"" (200.000d).
+6. Nhan F10 (Vi RFID), xac nhan ""Co"".
+7. Quan sat phan hoi.","1-2. OK.
+3. So du vi = 10.000d.
+4-5. Gio: Ve 200.000d.
+6-7. Hop thoai loi: ""Khong du so du"" hoac tuong tu. KHONG tru tien. KHONG tao don hang. Gio hang giu nguyen. So du vi van = 10.000d.","Critical","PENDING"
+"POS_113","[TICH HOP] Ban Thung roi qua The Kho — xem dong xuat dung","7","Integration","POS -> TheKho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"", chon kho ""Kho trung tam"".
+4. Click vao dong ""Nuoc ngot lon"" trong luoi ton kho.
+5. Quan sat panel The Kho ben phai (hoac split panel). Ghi nho dong cuoi cung.
+6. Menu ""Ban hang"".
+7. Ban ""Nuoc ngot lon"" dang Thung SL=1 (1 Thung = 24 lon), thanh toan OK.
+8. Quay lai menu ""Kho Hang"", click lai dong ""Nuoc ngot lon"".
+9. Quan sat The Kho — dong moi nhat.","1-2. OK.
+3-5. The Kho hien cac dong lich su nhap/xuat. Ghi nho dong cuoi.
+6-7. Thanh toan Thung OK.
+8-9. The Kho hien dong moi: Loai = ""Xuat"", So luong Xuat = 24 (da quy doi ve don vi co ban lon, khong phai 1 Thung). Ton Cuoi giam dung 24 don vi. So Chung Tu = ma don hang vua ban.","High","PENDING"
+"POS_114","[TICH HOP] Ban Ve roi qua The Kho — KHONG co dong xuat","5","Integration","POS -> TheKho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"", chon kho.
+4. Click dong bat ky trong luoi, quan sat The Kho.
+5. Ghi nho so dong The Kho.
+6. Menu ""Ban hang"". Ban 1 Ve bat ky, thanh toan OK.
+7. Menu ""Kho Hang"", click lai SP do.
+8. Kiem tra The Kho.","1-2. OK.
+3-5. Ghi nho so dong.
+6. Ban ve OK.
+7-8. The Kho KHONG co dong moi nao. Vi ve la hang phi vat ly, khong anh huong den so kho.","Medium","PENDING"
+"POS_115","[TICH HOP] Ban SP roi qua form Phieu Nhap Xuat — kiem tra phieu xuat tu dong","7","Integration","POS -> PhieuXuat","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" SL=5, thanh toan tien mat OK. Ghi nho ma don hang (hien tren hoa don).
+4. Menu thanh dieu huong, tim muc ""Phieu Nhap/Xuat"" (hoac ""Lich su phieu kho"").
+5. Chuyen sang che do ""Phieu Xuat"" (nhan nut Toggle Mode).
+6. Tim phieu xuat moi nhat.
+7. Click vao phieu do, quan sat chi tiet.","1-2. OK.
+3. Ban 5 lon nuoc OK.
+4-5. Form Phieu Nhap/Xuat hien thi. Chuyen sang Phieu Xuat.
+6-7. Phieu xuat moi nhat hien dau tien (sap xep theo ngay giam dan). Chi tiet phieu xuat gom: IdSanPham = Nuoc ngot lon, SoLuong = 5.
+LUU Y: Neu he thong khong tu dong tao phieu xuat khi ban POS thi day la loi can bao cho dev.","Medium","PENDING"
+"POS_116","[TICH HOP] Ban toan bo ton con lai — kho ve 0 — KH toi mua tiep bi chan","7","Integration","POS -> POS","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Tim SP co ton kho thap (VD: ""Mi/Pho"" ton = 3).
+4. Menu ""Ban hang"". Ban ""Mi/Pho"" SL=3, thanh toan OK.
+5. Tiep tuc o man hinh Ban hang. Double-click ""Mi/Pho"" lan nua.
+6. Quan sat phan hoi.","1-2. OK.
+3. Ton Mi/Pho = 3.
+4. Ban 3 cai, thanh toan OK. Kho ve 0.
+5. Double-click ""Mi/Pho"".
+6. Hop thoai canh bao: ""San pham 'Mi/Pho' chi con ton 0!"". Gio hang KHONG them. He thong chan chinh xac khi ton = 0 sau khi ban.","Critical","PENDING"
+"POS_117","[TICH HOP] Nhap kho roi quay lai POS — ban duoc SP vua nhap","7","Integration","NhapKho -> POS","1. Mo phan mem.
+2. Dang nhap ""admin"" / ""admin"" (tai khoan co quyen nhap kho).
+3. Menu ""Kho Hang"", nhan nut ""Nhap Kho"" (F2).
+4. Form Tao Phieu Nhap mo. Chon kho ""Kho trung tam"".
+5. Them dong: chon SP ""Kem/Da bao"" (SP dang het hang ton = 0). SL = 50, Don gia = 10.000d.
+6. Nhan ""Luu Phieu"". Hop thoai ""Nhap kho thanh cong!"" hien.
+7. Dong form Nhap Kho. Quan sat luoi ton kho — ""Kem/Da bao"" ton = 50.
+8. Menu ""Ban hang"". Double-click ""Kem/Da bao"".
+9. Quan sat gio hang.","1-2. OK.
+3-6. Nhap kho 50 cai Kem thanh cong.
+7. Ton kho = 50.
+8-9. ""Kem/Da bao"" them vao gio hang thanh cong, SL=1. KHONG bi canh bao het hang nua (vi ton = 50 > 0). Truoc do neu ton=0 thi bi chan.","High","PENDING"
+"POS_118","[TICH HOP] Ban SP voi KM su kien — qua form KH kiem tra diem tinh tren thuc thu","7","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"", tim KH VIP ""KH001"". Ghi nho diem.
+4. Menu ""Ban hang"", tim KH ""KH001"".
+5. Ban Ve du dieu kien KM su kien giam 15% (VD: ""He Soi Noi"").
+6. Quan sat dong preview: he thong lay muc giam 15% (cao hon VIP 10%).
+7. Thanh toan OK.
+8. Menu ""Khach Hang"", kiem tra diem KH001.","1-2. OK.
+3. KH001 diem cu = X pts.
+4-5. POS: Ve tong goc Y dong.
+6. Preview hien: giam 15% (KM su kien), thuc thu = Y - 15%*Y.
+7. Thanh toan OK. Diem tinh tren SO TIEN THUC THU (sau giam), khong phai tong goc.
+8. Diem moi = X + floor(thuc_thu/100000)*2. Day la diem quan trong: diem tinh tren tien khach thuc tra.","High","PENDING"
+"POS_119","[TICH HOP] Dung diem KH thanh toan — qua form KH kiem tra diem bi tru","7","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"", tim KH co nhieu diem (VD: ""KH002"" VVIP diem = 109). Ghi nho.
+4. Menu ""Ban hang"", tim KH ""KH002"".
+5. Ban 1 Ve 200.000d. Tick checkbox ""Dung diem"" (neu co).
+6. Quan sat so diem kha dung hien tren man hinh POS. Toi da 50% don hang = 100.000d -> diem dung = 100 pts (1 pt = 1.000d).
+7. Thanh toan OK. Thuc thu = 200.000 - 100.000 = 100.000d.
+8. Menu ""Khach Hang"", tim KH002.
+9. Kiem tra diem.","1-2. OK.
+3. KH002 diem = 109 pts.
+4-6. POS: Dung diem, kha dung = min(109, floor(100000/1000)) = min(109,100) = 100 pts. Tru 100.000d.
+7. Thanh toan OK.
+8-9. Diem moi: Bi tru 100 pts, nhung cong lai diem tich moi tu don nay.
+Tab Diem hien 2 dong: 1 dong ""SuDung"" -100 pts va 1 dong ""TichLuy"" +Y pts. Kiem tra: thu tu dong phai dung.","Critical","PENDING"
+"POS_120","[TICH HOP] Ban nhieu SP cung kho — tong ton kho giam dung cong don","7","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton: ""Nuoc ngot lon"" = A, ""Com phan"" = B.
+4. Menu ""Ban hang"".
+5. Them ""Nuoc ngot lon"" SL=5. Them ""Com phan"" SL=3.
+6. Thanh toan tien mat OK.
+7. Menu ""Kho Hang"".
+8. Kiem tra ton 2 SP.","1-2. OK.
+3. Ghi nho: Nuoc ngot = A, Com = B.
+4-6. Ban 5 nuoc + 3 com, thanh toan OK.
+7-8. Nuoc ngot ton = A - 5. Com phan ton = B - 3. Moi SP giam dung so luong da ban. Khong co SP nao bi tru sai hoac tru thua.","High","PENDING"
+"POS_121","[TICH HOP] Ban SP roi bam Dong Bo kho — so lieu van dung","5","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" SL=2, thanh toan OK.
+4. Menu ""Kho Hang"". Ghi nho ton = X.
+5. Nhan nut ""Dong Bo"" (F5) tren form Kho Hang.
+6. Kiem tra ton sau dong bo.","1-2. OK.
+3. Ban 2 lon OK.
+4. Ton = X.
+5. Hop thoai ""Da dong bo lai Ton Kho voi So The Kho!"" hien.
+6. Ton sau dong bo VAN = X. Khong thay doi. Vi dong bo chi tinh lai tu ledger — neu ban dung thi so lieu khong chenh lech.","Medium","PENDING"
+"POS_122","[TICH HOP] KH Noi Bo (nhan vien) — KHONG tich diem","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"", tim KH loai ""NoiBo"" (nhan vien). Ghi nho diem.
+4. Menu ""Ban hang"", tim KH do.
+5. Ban Ve 200.000d, thanh toan OK.
+6. Quan sat hop thoai xac nhan — dong tich diem.
+7. Menu ""Khach Hang"", kiem tra diem.","1-2. OK.
+3. KH NoiBo diem = Y pts.
+4-6. Thanh toan OK. Hop thoai KHONG hien dong ""Tich them: +X diem"" vi he so NoiBo = 0.0.
+7. Diem van = Y pts, KHONG tang. He thong cam tich diem cho nhan vien.","Medium","PENDING"
+"POS_123","[TICH HOP] Ban don lon voi KH Doan — diem nhan he so 0.5","7","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"", tim KH loai ""Doan"". Ghi nho diem.
+4. Menu ""Ban hang"", tim KH Doan.
+5. Ban Ve 500.000d (vi du 2.5 ve nguoi lon). Thanh toan OK.
+6. Menu ""Khach Hang"", kiem tra diem.","1-2. OK.
+3. KH Doan diem = Z pts.
+4-5. Thanh toan OK. He so Doan = 0.5 -> Diem = floor(500000/100000)*0.5 = floor(5*0.5) = 2 diem (lam tron xuong).
+6. Diem moi = Z + 2.","Low","PENDING"
+"POS_124","[TICH HOP] Ban SP roi qua Tab Diem KH — dong lich su hien day du","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"", tim KH ""KH001"". Ban Ve 200.000d, thanh toan OK.
+4. Menu ""Khach Hang"", tim ""KH001"".
+5. Mo Tab ""Diem"".
+6. Xem dong moi nhat trong luoi lich su diem.","1-2. OK.
+3. Thanh toan OK.
+4-6. Dong moi nhat gom: Thoi Gian = vua xong (<1 phut truoc), Loai = ""TichLuy"", Khoan = ""+X pts"" (mau xanh la, in dam), Truoc GD = so diem truoc, Sau GD = so diem sau, Ly Do = ""Tich diem DH-..."", Nguoi Xu Ly = ten nhan vien dang nhap.","Medium","PENDING"
+"POS_125","[TICH HOP] Ban SP dang Loc (6 chai/Loc) — kho tru dung 6 don vi co ban","7","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Tim SP co nhieu DVT: vd ""Nuoc ngot lon"" (Lon, Loc 6 chai, Thung 24 lon). Ghi nho ton = A lon.
+4. Menu ""Ban hang"".
+5. Double-click ""Nuoc ngot lon"". Doi DVT sang ""Loc"" (1 Loc = 6 lon). Sua SL = 2.
+6. Thanh toan OK.
+7. Menu ""Kho Hang"", kiem tra ton.","1-2. OK.
+3. Ton = A lon.
+4-6. Ban 2 Loc = 2 x 6 = 12 lon. Thanh toan OK.
+7. Ton = A - 12 lon. He thong tru CHINH XAC theo don vi co ban (lon), khong phai tru 2 (so Loc).","Critical","PENDING"
+"POS_126","[TICH HOP] Ban 2 don hang lien tiep — kho tru cong don chinh xac","7","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton ""Nuoc ngot lon"" = A.
+4. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" SL=10, thanh toan OK.
+5. Tiep tuc o POS (gio da reset). Ban ""Nuoc ngot lon"" SL=5, thanh toan OK.
+6. Menu ""Kho Hang"". Kiem tra ton.","1-2. OK.
+3. Ton = A.
+4. Ban 10, OK.
+5. Ban 5, OK.
+6. Ton = A - 10 - 5 = A - 15. He thong tru cong don dung qua 2 don hang.","High","PENDING"
+"POS_127","[TICH HOP] Ban SP kho khac — chi tru kho dang chon trong POS","7","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Kiem tra ton ""Nuoc ngot lon"" o ""Kho trung tam"" = A, o ""Kho su kien"" = B.
+4. Menu ""Ban hang"". Dropdown Kho chon ""Kho su kien"".
+5. Ban ""Nuoc ngot lon"" SL=3, thanh toan OK.
+6. Menu ""Kho Hang"".
+7. Kiem tra ton o ca 2 kho.","1-2. OK.
+3. Kho TT = A, Kho SK = B.
+4-5. Ban tu ""Kho su kien"", 3 lon.
+6-7. Kho su kien: ton = B - 3. Kho trung tam: ton VAN = A (KHONG thay doi). He thong chi tru dung kho da chon trong POS.","High","PENDING"
+"POS_128","[TICH HOP] Ban SP roi kiem kho ngay — chenh lech = 0","7","Integration","POS -> KiemKho","1. Mo phan mem.
+2. Dang nhap ""admin"" / ""admin"".
+3. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" SL=2, thanh toan OK.
+4. Menu ""Kho Hang"", nhan nut ""Kiem Ke"" (F4).
+5. Form Kiem Kho mo. Chon kho ""Kho trung tam"".
+6. Tim dong ""Nuoc ngot lon"".
+7. Quan sat cot ""Ton He Thong"" va ""Ton Thuc Te"" va ""Chenh Lech"".","1-2. OK.
+3. Ban 2 lon OK.
+4-6. Form Kiem Kho hien thi.
+7. Ton He Thong = so da tru sau ban hang. Ton Thuc Te = mac dinh = Ton He Thong. Chenh Lech = 0 (mau xam). He thong dong bo chinh xac giua POS va kho.","Medium","PENDING"
+"POS_129","[TICH HOP] Ban Combo chua Ve + F&B — kho chi tru F&B, khong tru Ve","7","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton SP F&B trong Combo (VD: ""Nuoc suoi 500ml"").
+4. Menu ""Ban hang"".
+5. Quet ma Combo (""CB001"") chua 1 Ve + 1 Nuoc suoi. SL=1. Thanh toan OK.
+6. Menu ""Kho Hang"". Kiem tra ton ""Nuoc suoi 500ml"".","1-2. OK.
+3. Ton Nuoc suoi = X.
+4-5. Ban Combo OK.
+6. Ton Nuoc suoi = X - 1. CHI TRU PHAN F&B TRONG COMBO. Ve trong combo khong anh huong kho. Day la diem kiem tra phan tach logic kho cho Combo.","High","PENDING"
+"POS_130","[TICH HOP] Ban SP roi dang nhap lai — ton kho van dung","5","Integration","POS -> Auth","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" SL=5, thanh toan OK.
+4. Dang xuat (Logout).
+5. Dang nhap lai bang tai khoan ""admin"" / ""admin"".
+6. Menu ""Kho Hang"".
+7. Kiem tra ton ""Nuoc ngot lon"".","1-2. OK.
+3. Ban 5 lon OK.
+4-5. Dang xuat roi dang nhap lai.
+6-7. Ton kho VAN giam dung 5 lon. Du lieu khong bi mat khi dang xuat/dang nhap lai.","Medium","PENDING"
+"POS_131","[TICH HOP] Ban SP roi qua form Kho — indicator 🔄 van hien thi","3","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" (SP co nhieu DVT) SL=1. Thanh toan OK.
+4. Menu ""Kho Hang"", chon ""Kho trung tam"".
+5. Tim dong ""Nuoc ngot lon"" trong luoi.
+6. Quan sat cot DVT.","1-2. OK.
+3. Ban 1 lon OK.
+4-6. Cot DVT cua ""Nuoc ngot lon"" van hien dau hieu 🔄 (icon xoay) ben canh ten don vi. Indicator nay cho biet SP co the doi don vi bang Double-Click. Khong bi mat sau khi ban hang.","Low","PENDING"
+"POS_132","[TICH HOP] Ban don voi KH co the RFID dang khoa — Vi RFID bi chan","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"", tim KH co the RFID dang KHOA. Ghi nho trang thai the = ""Locked"".
+4. Menu ""Ban hang"", tim KH do.
+5. Ban 1 SP bat ky.
+6. Nhan F10 (Thanh toan Vi RFID),
+xac nhan ""Co"".
+7. Quan sat phan hoi.","1-2. OK.
+3. KH co the Locked.
+4-5. Gio co SP.
+6-7. He thong tu choi thanh toan vi RFID. Thong bao: ""The RFID dang bi khoa"" hoac tuong tu. Gio hang giu nguyen. Khach co the chon thanh toan tien mat hoac chuyen khoan thay the.","High","PENDING"
+"POS_133","[TICH HOP] Ban don roi qua Tab Su Co KH — KHONG tao su co","3","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"", tim KH ""KH001"". Ban 1 SP bat ky, thanh toan OK.
+4. Menu ""Khach Hang"", tim ""KH001"".
+5. Mo Tab ""Su Co"".
+6. Kiem tra co dong moi nao xuat hien khong.","1-2. OK.
+3. Thanh toan binh thuong.
+4-6. Tab Su Co KHONG co dong moi. Giao dich binh thuong khong tao su co. Tab Su Co chi hien khi co van de bat thuong (VD: the bi khoa, vi bi am, ...).","Low","PENDING"
+"POS_134","[TICH HOP] Ban don roi huy don — kho KHONG bi tru","7","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton ""Nuoc ngot lon"" = A.
+4. Menu ""Ban hang"".
+5. Double-click ""Nuoc ngot lon"" SL=5.
+6. KHONG thanh toan. Nhan phim Escape, xac nhan ""Co"" de huy don.
+7. Menu ""Kho Hang"". Kiem tra ton.","1-2. OK.
+3. Ton = A.
+4-6. Them SP vao gio rong huy don.
+7. Ton VAN = A. Khong thay doi. Vi chua thanh toan thi kho khong bi tru. He thong CHI tru kho khi thanh toan thanh cong.","High","PENDING"
+"POS_135","[TICH HOP] Ban don roi xoa gio — kho KHONG bi tru","5","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton = A.
+4. Menu ""Ban hang"". Them SP SL=10.
+5. Nhan nut ""Xoa gio hang"", xac nhan ""Co"".
+6. Menu ""Kho Hang"". Kiem tra ton.","1-2. OK.
+3. Ton = A.
+4-5. Them rong xoa gio hang.
+6. Ton VAN = A. Tuong tu test case POS_134 — chi xac nhan rang viec xoa gio khong anh huong kho.","Medium","PENDING"
+"POS_136","[TICH HOP] Ban SP dang Thung SL vuot — POS ep ve max — kho khong am","7","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton ""Nuoc ngot lon"" = 100 lon. 1 Thung = 24 lon -> max Thung = floor(100/24) = 4 Thung.
+4. Menu ""Ban hang"".
+5. Them ""Nuoc ngot lon"", doi DVT sang Thung. Sua SL = 10 (vuot max).
+6. He thong ep SL ve 4 Thung.
+7. Thanh toan OK.
+8. Menu ""Kho Hang"". Kiem tra ton.","1-2. OK.
+3. Ton = 100 lon, max 4 Thung.
+4-6. POS ep SL ve 4 Thung (canh bao).
+7. Thanh toan 4 Thung = 96 lon.
+8. Ton = 100 - 96 = 4 lon. Kho KHONG BI AM (loi cu). He thong da fix dung viec quy doi don vi truoc khi so sanh.","Critical","PENDING"
+"POS_137","[TICH HOP] Ban nhieu don lien tuc — kho giam dan dung","10","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton ""Com phan"" = 20.
+4. Menu ""Ban hang"". Ban ""Com phan"" SL=5. Thanh toan OK.
+5. Ban tiep ""Com phan"" SL=5. Thanh toan OK.
+6. Ban tiep ""Com phan"" SL=5. Thanh toan OK.
+7. Ban tiep ""Com phan"" SL=5. Thanh toan OK.
+8. Ban tiep ""Com phan"" SL=1.
+9. Quan sat phan hoi.
+10. Menu ""Kho Hang"". Kiem tra ton.","1-2. OK.
+3. Ton = 20.
+4-7. Ban 4 don x 5 = 20 cai. Thanh toan OK.
+8. Them SL=1 nhung ton = 0 -> bi chan. Canh bao ""chi con ton 0"".
+9. Gio khong them.
+10. Ton = 0. He thong tru chinh xac qua 4 don hang lien tiep.","Critical","PENDING"
+"POS_138","[TICH HOP] Tab Giao Dich KH — sap xep theo thoi gian giam dan","3","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH ""KH001"". Ban SP, thanh toan OK.
+4. Menu ""Khach Hang"". Tim KH001.
+5. Mo Tab ""Giao dich"".
+6. Kiem tra thu tu cac dong.","1-2. OK.
+3. Thanh toan OK.
+4-6. Tab Giao dich: dong moi nhat (vua mua) nam TREN CUNG. Cac dong cu o duoi. Sap xep theo thoi gian giam dan.","Low","PENDING"
+"POS_139","[TICH HOP] Ban Ve voi KH — qua form Phat Ve kiem tra ve dien tu","7","Integration","POS -> PhatVe","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH ""KH001"". Ban ""Ve Nguoi lon"" SL=2.
+4. Nhan ""Dua du"", F9, xac nhan.
+5. Quan sat cua so Phat Ve tu dong mo.","1-2. OK.
+3. Gio co 2 ve.
+4-5. Thanh toan OK -> Form Phat Ve tu dong mo. Hien thi: 2 ve voi ma QR rieng biet, ten ve = ""Ve Nguoi lon"", so luong = 2, ten KH = KH001. Moi ve co trang thai ""Active"" va ngay phat = hom nay.","High","PENDING"
+"POS_140","[TICH HOP] Ban F&B khong co Ve — form Phat Ve KHONG mo","5","Integration","POS -> PhatVe","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban ""Com phan"" SL=1.
+4. Nhan ""Dua du"", F9, xac nhan.
+5. Quan sat sau thanh toan.","1-2. OK.
+3. Gio: Com phan (F&B).
+4-5. Thanh toan OK. Form Phat Ve KHONG mo. Chi hien hop thoai hoa don dang text voi thong tin don hang. Nhan OK thi gio reset.","Medium","PENDING"
+"POS_141","[TICH HOP] Ban Ve + F&B cung don — form Phat Ve chi hien Ve","7","Integration","POS -> PhatVe","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Them ""Ve Nguoi lon"" SL=1 va ""Com phan"" SL=2.
+4. Thanh toan OK.
+5. Quan sat form Phat Ve.","1-2. OK.
+3. Gio co 1 Ve + 2 Com.
+4-5. Form Phat Ve mo. Chi hien 1 ve dien tu (Ve Nguoi lon). Com phan KHONG hien tren form Phat Ve. Form Phat Ve chi xu ly phan ve.","Medium","PENDING"
+"POS_142","[TICH HOP] Ban SP roi qua Kho — mau canh bao ton thap hien dung","5","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Tim SP co nguong canh bao = 5 va ton = 7.
+4. Menu ""Ban hang"". Ban SP do SL=3. Thanh toan OK.
+5. Menu ""Kho Hang"".
+6. Quan sat dong SP do trong luoi.","1-2. OK.
+3. Ton = 7, nguong CB = 5.
+4. Ban 3, ton con 4 < 5.
+5-6. Cot SL Ton Kho hien mau CAM IN DAM (DarkOrange, Bold) vi ton (4) <= nguong canh bao (5). Truoc do ton = 7 > 5 nen hien binh thuong.","Medium","PENDING"
+"POS_143","[TICH HOP] Ban het SP — Kho hien mau DO Crimson","5","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Tim SP ton = 2.
+4. Menu ""Ban hang"". Ban SP do SL=2. Thanh toan OK.
+5. Menu ""Kho Hang"".
+6. Quan sat dong SP do.","1-2. OK.
+3. Ton = 2.
+4. Ban 2 -> ton = 0.
+5-6. Cot SL hien CHU DO IN DAM (Crimson, Bold) vi ton = 0 (het hang). O dashboard card, so ""Canh bao"" tang them 1 loai.","Medium","PENDING"
+"POS_144","[TICH HOP] Ban SP — Dashboard card Sap Het tang dung","5","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho so ""Sap Het"" tren Dashboard card (VD: 3 Loai).
+4. Menu ""Ban hang"". Ban 1 SP sao cho ton sau ban <= nguong canh bao.
+5. Menu ""Kho Hang"".
+6. Kiem tra card ""Sap Het"".","1-2. OK.
+3. Sap Het = 3 Loai.
+4. Ban SP den nguong canh bao.
+5-6. Sap Het = 4 Loai (tang them 1). Dashboard cap nhat chinh xac theo ton kho thuc te.","Low","PENDING"
+"POS_145","[TICH HOP] Ban SP — Dashboard card Tong Von thay doi","5","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ""Tong Von"" (VD: 25.000.000d).
+4. Menu ""Ban hang"".
+5. Ban ""Nuoc ngot lon"" SL=100 (gia von VD: 5.000d/lon -> giam 500.000d).
+6. Thanh toan OK.
+7. Menu ""Kho Hang"".
+8. Kiem tra ""Tong Von"".","1-2. OK.
+3. Tong Von = 25.000.000d.
+4-6. Ban 100 lon.
+7-8. Tong Von giam = 25.000.000 - (100 x gia_von_don_vi). So lieu Dashboard phan anh gia tri von ton kho giam dung.","Low","PENDING"
+"POS_146","[TICH HOP] Ban SP kho A — chon sai kho B — ton kho B bi sai","7","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Kiem tra ton ""Nuoc ngot lon"" o Kho A = 100, Kho B = 50.
+4. Menu ""Ban hang"". Dropdown Kho chon ""Kho B"".
+5. Ban ""Nuoc ngot lon"" SL=5. Thanh toan OK.
+6. Menu ""Kho Hang"".
+7. Kiem tra Kho A va Kho B.","1-2. OK.
+3. Kho A = 100, Kho B = 50.
+4-5. Ban tu Kho B.
+6-7. Kho A = 100 (KHONG DOI). Kho B = 50 - 5 = 45. He thong tru DUNG kho duoc chon.","High","PENDING"
+"POS_147","[TICH HOP] Tab Diem KH — sau nhieu don — lich su day du va dung thu tu","7","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"", tim KH ""KH001"".
+4. Ban don 1: Ve 200.000d, thanh toan OK.
+5. Ban don 2: Com 50.000d, thanh toan OK.
+6. Ban don 3: Ve 300.000d, thanh toan OK.
+7. Menu ""Khach Hang"", tim KH001. Mo Tab ""Diem"".
+8. Kiem tra cac dong lich su.","1-2. OK.
+3-6. 3 don hang lien tiep.
+7-8. Tab Diem hien it nhat 3 dong moi (hoac 2 — vi don 50K co the khong tich diem). Thu tu: don 3 tren cung, don 2 giua, don 1 cuoi. Moi dong hien dung SoDiem, SoDuTruoc, SoDuSau noi tiep nhau.","Medium","PENDING"
+"POS_148","[TICH HOP] Ban SP voi KH Doanh Nghiep — diem x1.5","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"", tim KH loai ""DoanhNghiep"". Ghi nho diem = D.
+4. Menu ""Ban hang"", tim KH do. Ban Ve 200.000d. Thanh toan OK.
+5. Menu ""Khach Hang"", kiem tra diem.","1-2. OK.
+3. KH DoanhNghiep, diem = D.
+4. Thanh toan OK. He so = 1.5 -> Diem = floor(200000/100000)*1.5 = floor(3) = 3 diem.
+5. Diem moi = D + 3.","Medium","PENDING"
+"POS_149","[TICH HOP] Ban SP qua POS — qua The Kho kiem tra ngay gio dung","5","Integration","POS -> TheKho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" SL=3 luc 10:30 AM. Thanh toan OK.
+4. Menu ""Kho Hang"", chon kho, click ""Nuoc ngot lon"".
+5. Quan sat dong moi nhat trong The Kho.","1-2. OK.
+3. Thanh toan luc 10:30 AM.
+4-5. Dong moi trong The Kho hien: Thoi Gian = 10:30 (sai so < 1 phut), Loai = Xuat, SL Xuat = 3 (mau do in dam), Ton Cuoi = ton truoc - 3. Ngay gio chinh xac, khong bi lech.","Low","PENDING"
+"POS_150","[TICH HOP] Thu tu ma don hang — khong trung lap sau nhieu giao dich","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"", tim KH ""KH001"".
+4. Ban SP, thanh toan OK. Ghi nho ma DH tren hoa don (VD: DH-250412103015-A1B2).
+5. Ban tiep SP, thanh toan OK. Ghi nho ma DH (VD: DH-250412103045-C3D4).
+6. So sanh 2 ma. Menu ""Khach Hang"", tim KH001, Tab Giao dich.
+7. Kiem tra 2 dong moi nhat.","1-2. OK.
+3-5. 2 don hang lien tiep.
+6. 2 ma DH KHAC NHAU (unique — nho co suffix GUID). Khong trung lap.
+7. Tab Giao dich hien 2 dong rieng biet voi ma code khac nhau.","Medium","PENDING"
+"POS_151","[TICH HOP] Ban SP bang Chuyen Khoan — kho van tru dung","5","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton = A.
+4. Menu ""Ban hang"". Ban SP SL=3.
+5. Nhan F11 (Chuyen khoan), xac nhan.
+6. Menu ""Kho Hang"". Kiem tra ton.","1-2. OK.
+3. Ton = A.
+4-5. Thanh toan chuyen khoan OK.
+6. Ton = A - 3. Kho tru dung BAT KE phuong thuc thanh toan. Khong co su khac biet giua tien mat, vi RFID, hay chuyen khoan.","Medium","PENDING"
+"POS_152","[TICH HOP] Ban SP bang Vi RFID — kho van tru dung","5","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton = A.
+4. Menu ""Ban hang"". Tim KH co vi RFID du tien. Ban SP SL=3.
+5. Nhan F10 (Vi RFID), xac nhan.
+6. Menu ""Kho Hang"". Kiem tra ton.","1-2. OK.
+3. Ton = A.
+4-5. Thanh toan vi RFID OK.
+6. Ton = A - 3. Tuong tu tien mat — kho tru dung.","Medium","PENDING"
+"POS_153","[TICH HOP] Ban don co giam gia — Phieu Thu so tien = thuc thu","5","Integration","POS -> Finance","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH VIP (giam 10%). Ban Ve 200.000d. Thuc thu = 180.000d.
+4. Thanh toan tien mat OK. Ghi nho ma DH.
+5. Kiem tra co Phieu Thu duoc tao (neu form Phieu Thu co san).","1-2. OK.
+3-4. Thanh toan OK, thuc thu 180.000d.
+5. Phieu Thu duoc tao voi So Tien = 180.000d (thuc thu), khong phai 200.000d (tong goc). Phuong thuc = ""TienMat"". Ma code = ""PT-..."".","Medium","PENDING"
+"POS_154","[TICH HOP] Ban don — qua form Don Hang kiem tra trang thai = DaThanhToan","7","Integration","POS -> DonHang","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban SP bat ky, thanh toan OK. Ghi nho ma DH.
+4. Menu dieu huong, tim muc ""Don Hang"" (hoac ""Lich su don"").
+5. Tim don hang vua tao theo ma DH.
+6. Kiem tra cac thong tin.","1-2. OK.
+3. Thanh toan OK, ma DH = ""DH-..."".
+4-6. Don hang hien voi: Trang Thai = ""DaThanhToan"", NguonBan = ""POS"", ThoiGian = vua xong. So luong chi tiet = so mat hang trong gio. Tong Tien va Tien Giam Gia dung.","Medium","PENDING"
+"POS_155","[TICH HOP] Ban don co chiet khau KH — Don Hang luu Tien Giam Gia dung","5","Integration","POS -> DonHang","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH VIP (giam 10%). Ban Ve 200.000d.
+4. Thanh toan OK.
+5. Tim don hang moi nhat.
+6. Kiem tra truong ""TienGiamGia"".","1-2. OK.
+3-4. Thanh toan OK. Giam 10% tren Ve = 20.000d.
+5-6. Don hang: TongTien = 200.000d, TienGiamGia = 20.000d. Thuc thu = 180.000d. He thong luu rieng biet tong goc va tien giam — khong ghi de len nhau.","Medium","PENDING"
+"POS_156","[TICH HOP] Ban don co Dung Diem — Don Hang luu Tien Giam Gia = so diem x 1000","7","Integration","POS -> DonHang","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH co 100 diem. Tick ""Dung diem"".
+4. Ban Ve 200.000d. Max dung = 50% x 200.000 = 100.000d -> 100 diem.
+5. Thanh toan OK.
+6. Tim don hang.
+7. Kiem tra TienGiamGia.","1-2. OK.
+3-5. Thanh toan dung 100 diem = 100.000d giam gia.
+6-7. Don hang: TongTien = 200.000, TienGiamGia = 100.000. Thuc thu = 100.000d. Lich su diem ghi -100 pts.","High","PENDING"
+"POS_157","[TICH HOP] Ban don co QuyDoi — Chi Tiet Don Hang luu TyLeQuyDoi","5","Integration","POS -> DonHang","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" doi DVT sang Thung (1 Thung = 24 lon), SL=1.
+4. Thanh toan OK.
+5. Tim don hang. Quan sat chi tiet don hang.","1-2. OK.
+3-4. Ban 1 Thung nuoc.
+5. Chi tiet don hang: SoLuong = 1, TyLeQuyDoi = 24. Day la du lieu quan trong de truy vet lai don hang da ban bao nhieu don vi co ban (1 x 24 = 24 lon).","Medium","PENDING"
+"POS_158","[TICH HOP] Ban 2 KH khac nhau — diem tich rieng biet khong nham","7","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"". Ghi nho diem KH001 = A, KH002 = B.
+4. Menu ""Ban hang"". Tim KH001. Ban Ve 200.000d. Thanh toan OK.
+5. Tiep — tim KH002. Ban Ve 300.000d. Thanh toan OK.
+6. Menu ""Khach Hang"". Kiem tra diem ca 2 KH.","1-2. OK.
+3. KH001 diem = A, KH002 diem = B.
+4. KH001 +X diem.
+5. KH002 +Y diem.
+6. KH001 diem = A + X. KH002 diem = B + Y. Diem tich RIENG BIET, khong bi tron lan giua 2 khach hang.","High","PENDING"
+"POS_159","[TICH HOP] Ban SP — qua form KH kiem tra Phan hang khong tu dong len VIP","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"". Tim KH ""Ca nhan"" co TongChiTieu < 500.000.
+4. Menu ""Ban hang"". Tim KH do. Ban Ve 200.000d. Thanh toan OK.
+5. Menu ""Khach Hang"". Kiem tra Phan Hang cua KH.","1-2. OK.
+3. KH Ca nhan, TongChiTieu thap.
+4. Thanh toan OK. TongChiTieu tang.
+5. Phan hang VAN = ""Ca nhan"". He thong hien tai KHONG tu dong nang hang VIP. Viec len hang can duoc nhan vien cap nhat thu cong hoac co chuong trinh rieng.
+LUU Y: Neu he thong sau nay them tinh nang tu dong nang hang thi test case nay can cap nhat lai.","Medium","PENDING"
+"POS_160","[TICH HOP] Thanh toan tien mat so lon — qua KH kiem tra diem tich nhieu","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"". Tim KH VIP. Ghi nho diem = D.
+4. Menu ""Ban hang"". Tim KH. Ban don 1.000.000d (VD: 5 ve).
+5. Thanh toan OK. VIP giam 10% -> thuc thu 900.000d.
+6. Menu KH, kiem tra diem.","1-2. OK.
+3. Diem = D.
+4-5. Thanh toan OK. Diem = floor(900000/100000)*2 = 18 diem.
+6. Diem moi = D + 18. So diem lon, xac nhan he thong tinh dung cho so tien cao.","Medium","PENDING"
+"POS_161","[TICH HOP] Ban don — qua The Kho — cot Nguoi Tao hien dung ten NV","3","Integration","POS -> TheKho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"" (ten NV: Thu Ngan 01).
+3. Menu ""Ban hang"". Ban SP, thanh toan OK.
+4. Menu ""Kho Hang"", click SP vua ban.
+5. Quan sat The Kho — dong moi nhat, cot ""Nguoi Lap"".","1-2. OK.
+3. Thanh toan OK.
+4-5. Cot ""Nguoi Lap"" hien ten nhan vien da dang nhap (""Thu Ngan 01"" hoac ten tuong ung voi tai khoan ""thungan01""). Khong hien ""Admin"" hoac ten khac.","Low","PENDING"
+"POS_162","[TICH HOP] Ban SP — qua The Kho — khoang ngay loc dung","5","Integration","POS -> TheKho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban SP, thanh toan OK (ngay hom nay).
+4. Menu ""Kho Hang"", click SP.
+5. The Kho mac dinh hien 30 ngay gan nhat.
+6. Doi ""Tu Ngay"" = ngay mai. Nhan ""Tim Kiem"".
+7. Quan sat The Kho.","1-2. OK.
+3. Ban SP hom nay.
+4-5. Dong xuat hien dinh.
+6-7. Dong xuat bien mat vi no thuoc ngay hom nay, nhung bo loc bat dau tu ngay mai. Chuc nang loc ngay hoat dong chinh xac.","Low","PENDING"
+"POS_163","[TICH HOP] Ban don co KH HSSV — diem he so 1.0","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"". Tim KH HSSV. Ghi nho diem = D.
+4. Menu ""Ban hang"", tim KH do. Ban Ve 200.000d.
+5. Giam HSSV 5% -> thuc thu = 190.000d.
+6. Thanh toan OK.
+7. Menu KH, kiem tra diem.","1-2. OK.
+3. KH HSSV diem = D.
+4-6. Thanh toan OK. He so HSSV = 1.0 -> Diem = floor(190000/100000)*1 = 1 diem.
+7. Diem moi = D + 1.","Medium","PENDING"
+"POS_164","[TICH HOP] Ban 2 SP khac kho — tong 2 SP tru dung 2 dong trong kho","5","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton ""Nuoc ngot lon"" = A, ""Nuoc suoi 500ml"" = B.
+4. Menu ""Ban hang"". Them Nuoc ngot SL=2, them Nuoc suoi SL=3. Thanh toan OK.
+5. Menu ""Kho Hang"". Kiem tra ton.","1-2. OK.
+3. A, B la so ton cu.
+4. Ban 2 ngot + 3 suoi.
+5. Nuoc ngot = A-2, Nuoc suoi = B-3. Moi SP tru rieng biet, chinh xac. Khong bi nham sang SP khac.","High","PENDING"
+"POS_165","[TICH HOP] Ban SP — qua KH Tab Diem — cot Truoc GD va Sau GD lien tuc","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH ""KH001"". Ban don 1, thanh toan OK.
+4. Ban don 2, thanh toan OK.
+5. Menu ""Khach Hang"". Tab ""Diem"".
+6. Kiem tra cot Truoc GD va Sau GD cua 2 dong moi nhat.","1-2. OK.
+3-4. 2 don hang lien tiep.
+5-6. Dong 1 (moi nhat): Truoc GD = X, Sau GD = Y. Dong 2 (truoc do): Truoc GD = Z, Sau GD = X. => Sau GD cua dong 2 = Truoc GD cua dong 1. Cac con so LIEN TUC, khong bi nhay hoac thua/thieu.","Medium","PENDING"
+"POS_166","[TICH HOP] Ban SP bang Vi — qua KH Tab Giao dich — nhom Giao dich vi xuat hien","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH co vi RFID. Ban SP. Thanh toan Vi RFID OK.
+4. Menu ""Khach Hang"". Tim KH. Tab ""Giao dich"".
+5. Kiem tra nhom giao dich.","1-2. OK.
+3. Thanh toan vi OK.
+4-5. Tab Giao dich hien 2 kieu: nhom ""Giao dich thuong"" (hoa don) va nhom ""Giao dich vi"" (tru tien vi). Ca 2 deu hien dung thoi gian, dung so tien.","Medium","PENDING"
+"POS_167","[TICH HOP] Ban SP — qua The Kho — cot Ton Dau va Ton Cuoi lien tuc","5","Integration","POS -> TheKho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" SL=5. Thanh toan OK.
+4. Ban tiep ""Nuoc ngot lon"" SL=3. Thanh toan OK.
+5. Menu ""Kho Hang"", click ""Nuoc ngot lon"".
+6. Quan sat The Kho — 2 dong moi nhat.","1-2. OK.
+3-4. 2 don lien tiep.
+5-6. Dong 1 (moi): Ton Dau = K, Xuat = 3, Ton Cuoi = K-3. Dong 2 (truoc do): Ton Dau = M, Xuat = 5, Ton Cuoi = K (= M-5). => Ton Cuoi dong truoc = Ton Dau dong sau. Lien tuc chinh xac.","Medium","PENDING"
+"POS_168","[TICH HOP] Ban SP luc dong thoi 2 may — khong ban vuot kho (Concurrency)","10","Integration","POS -> POS","1. Mo phan mem tren may 1. Dang nhap ""thungan01"".
+2. Mo phan mem tren may 2. Dang nhap ""thungan02"".
+3. Ca 2 may mo man hinh ""Ban hang"".
+4. May 1: Them SP ""Mi/Pho"" (ton = 3), SL=2.
+5. May 2: Them SP ""Mi/Pho"", SL=2.
+6. May 1: Thanh toan OK (ton con 1).
+7. May 2: Thanh toan.
+8. Quan sat phan hoi may 2.","1-2. 2 may dang nhap OK.
+3-5. Ca 2 gio deu co Mi/Pho SL=2.
+6. May 1 thanh toan OK, kho tru 2, con 1.
+7-8. May 2 thanh toan -> he thong kiem tra tai thoi diem thanh toan: ton chi con 1, can 2 -> LOI. Bao ""Khong du ton kho"". Don hang may 2 BI TU CHOI. Day la test concurrency quan trong.
+LUU Y: Neu khong co may 2, co the giap lap bang 2 tab terminal hoac nho dong nghiep.","Critical","PENDING"
+"POS_169","[TICH HOP] Ban don roi qua Don Hang — chi tiet don gom DonGiaGoc va DonGiaThucTe","5","Integration","POS -> DonHang","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH VIP (giam 10%). Ban Ve 200.000d SL=1.
+4. Thanh toan OK.
+5. Tim don hang. Xem chi tiet dong (detail grid).","1-2. OK.
+3-4. Thanh toan voi giam gia VIP.
+5. Chi tiet dong: DonGiaGoc = 200.000, TienGiamGiaDong = 20.000, DonGiaThucTe = 180.000. He thong luu du 3 truong de truy vet dung gia.","Medium","PENDING"
+"POS_170","[TICH HOP] Ban don co Combo — qua Kho kiem tra tru tung SP trong Combo","10","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton cua tung SP trong Combo ""CB001"" (VD: Nuoc suoi = 100, Banh mi = 50).
+4. Menu ""Ban hang"". Quet ma ""CB001"" SL=2. Thanh toan OK.
+5. Menu ""Kho Hang"". Kiem tra ton tung SP.","1-2. OK.
+3. Ghi nho ton tung SP.
+4. Ban 2 Combo.
+5. Nuoc suoi = 100 - 2 = 98. Banh mi = 50 - 2 = 48. TUNG SP TRONG COMBO BI TRU RIENG. Combo khong tru nhu 1 don vi — ma phan tach ra tung thanh phan.","High","PENDING"
+"POS_171","[TICH HOP] Ban SP dung diem — qua The Kho van ghi dong xuat","5","Integration","POS -> TheKho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH co diem. Dung diem thanh toan. Ban SP SL=3.
+4. Thanh toan OK.
+5. Menu ""Kho Hang"", click SP. Xem The Kho.","1-2. OK.
+3-4. Ban voi dung diem.
+5. The Kho VAN ghi dong xuat: Xuat = 3. Viec dung diem chi anh huong tien, KHONG anh huong ton kho. Kho van tru dung so luong.","Medium","PENDING"
+"POS_172","[TICH HOP] Ban SP roi input Kiem kho sai — chenh lech am","7","Integration","POS -> KiemKho","1. Mo phan mem.
+2. Dang nhap admin.
+3. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" SL=5. Thanh toan OK. Ton con 95.
+4. Menu ""Kho Hang"", nhan ""Kiem Ke"" (F4).
+5. Form Kiem Kho: Tim ""Nuoc ngot lon"". Ton HT = 95 (dung).
+6. Go ton thuc te = 90 (thieu 5).
+7. Quan sat dong ""Chenh Lech"" va mau sac.","1-2. OK.
+3. Ton = 95 sau khi ban.
+4-6. Kiem kho: nhap Ton TT = 90.
+7. Chenh Lech = 90 - 95 = -5. Dong hien MAU DO (183,83,83) vi chenh lech am (mat hang). Stats phia tren hien ""Lech giam: 1"". Day la ket qua dung co so voi thuc te.","Medium","PENDING"
+"POS_173","[TICH HOP] Ban SP roi Kiem Kho Hoan tat — ton kho dieu chinh dung","10","Integration","POS -> KiemKho","1. Mo phan mem.
+2. Dang nhap admin.
+3. Menu ""Ban hang"". Ban SP SL=5. Ton con 95.
+4. Menu ""Kho Hang"" > ""Kiem Ke"".
+5. Tim SP, nhap Ton TT = 90. Nhan ""Hoan Tat"".
+6. Xac nhan ""Co"".
+7. Hop thoai ""Kiem ke hoan tat!"" hien.
+8. Kiem tra luoi ton kho.","1-2. OK.
+3. Ton = 95.
+4-6. Kiem ke, nhap 90, hoan tat.
+7-8. Ton kho cua SP bi dieu chinh VE 90 (giam tu 95 xuong 90 do chenh lech thuc te). He thong tu dong tao phieu dieu chinh kho. Day la flow: POS ban dung -> kiem kho phat hien mat hang -> dieu chinh.","High","PENDING"
+"POS_174","[TICH HOP] Ban SP — qua form NCC — khong anh huong thong tin NCC","3","Integration","POS -> NCC","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban SP bat ky. Thanh toan OK.
+4. Menu ""Kho Hang"", nhan nut ""Nha Cung Cap"".
+5. Form NCC hien thi.
+6. Kiem tra danh sach NCC.","1-2. OK.
+3. Thanh toan OK.
+4-6. Danh sach NCC KHONG thay doi sau khi ban hang. Viec ban hang tren POS chi anh huong kho va KH, KHONG tac dong den thong tin NCC.","Low","PENDING"
+"POS_175","[TICH HOP] Ban SP — tim kiem trong Kho Hang — filter van hoat dong","3","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" SL=5. Thanh toan OK.
+4. Menu ""Kho Hang"".
+5. Go ""Nuoc"" vao o Tim kiem.
+6. Quan sat ket qua loc.","1-2. OK.
+3. Ban 5 lon.
+4-6. O tim kiem loc dung: chi hien SP co ten chua ""Nuoc"". Ton kho cua ""Nuoc ngot lon"" da giam 5 don vi. Filter va du lieu ton deu chinh xac.","Low","PENDING"
+"POS_176","[TICH HOP] Ban SP — Kho Double-click DVT — xoay vong van dung","5","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" SL=24. Thanh toan OK.
+4. Menu ""Kho Hang"".
+5. Double-click cot DVT cua dong ""Nuoc ngot lon"".
+6. DVT doi sang ""Thung"".
+7. Quan sat SL va Gia.","1-2. OK.
+3. Ban 24 lon. Ton giam 24.
+4-5. Double-click cot DVT.
+6. DVT = ""Thung 🔄"". SL tu dong chia: VD tu 476 lon -> 19.83 Thung (lam tron 2 chu so). Gia x24.
+7. Double-click lan nua -> quay ve ""Lon 🔄"". SL va Gia quay lai binh thuong. Chuc nang xoay vong khong bi anh huong boi viec ban hang.","Low","PENDING"
+"POS_177","[TICH HOP] Mo POS — chon kho khac — danh sach SP & ton cap nhat theo kho","5","Integration","POS internal","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"".
+4. Dropdown Kho dang chon ""Kho trung tam"".
+5. Ghi nho SP ""Mi/Pho"" con hien tren danh sach (neu ton > 0 o kho TT).
+6. Doi dropdown sang ""Kho su kien"" (gia su SP Mi/Pho ton = 0 o kho SK).
+7. Double-click ""Mi/Pho"".
+8. Quan sat phan hoi.","1-2. OK.
+3-4. Kho TT duoc chon.
+5. Mi/Pho hien.
+6. Doi kho SK.
+7-8. Canh bao ""ton 0"" vi kho su kien khong co Mi/Pho. He thong kiem tra ton THEO KHO DANG CHON, khong phai toan he thong.","High","PENDING"
+"POS_178","[TICH HOP] Ban SP roi mo Blind Mode kiem kho — Ton HT bi an","5","Integration","POS -> KiemKho","1. Mo phan mem.
+2. Dang nhap admin.
+3. Menu ""Ban hang"". Ban SP SL=3. Thanh toan OK.
+4. Menu ""Kho Hang"" > ""Kiem Ke"".
+5. Tick checkbox ""Blind Mode"".
+6. Quan sat grid.","1-2. OK.
+3. Ban 3 SP.
+4-6. Khi bat Blind Mode: cot ""Ton He Thong"" va ""Chenh Lech"" BI AN (Visible = false). Chi con: Ten SP, DVT, ""Ton Thuc Te"" (de nhan vien nhap). Nhan vien dem hang thuc te ma khong bi chi phoi boi so lieu he thong.","Medium","PENDING"
+"POS_179","[TICH HOP] Ban SP — qua Kho — nut F5 Dong Bo — thong bao thanh cong","3","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban SP bat ky. Thanh toan OK.
+4. Menu ""Kho Hang"".
+5. Nhan F5 (Dong Bo).
+6. Quan sat thong bao.","1-2. OK.
+3. Ban SP OK.
+4-6. Thong bao: ""Da dong bo lai Ton Kho hien tai voi So The Kho (Ledger)!"". Ton kho sau dong bo khop voi ledger. Khong co loi.","Low","PENDING"
+"POS_180","[TICH HOP] Ban SP 999 SL — kiem tra max integer khong loi","5","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Tim SP ton kho lon (VD: ""Nuoc suoi 500ml"" ton = 762).
+4. Menu ""Ban hang"". Them Nuoc suoi, go SL = 762. (He thong chap nhan vi = ton kho).
+5. Thanh toan OK.
+6. Menu ""Kho Hang"". Kiem tra.","1-2. OK.
+3. Ton = 762.
+4-5. SL = 762, thanh toan OK.
+6. Ton = 0. Khong bi loi tran so (integer overflow), khong bi am. He thong xu ly so luong lon binh thuong.","Medium","PENDING"
+"POS_181","[TICH HOP] Ban SP — qua The Kho — dong xuat ghi SoChungTu = ma don hang","5","Integration","POS -> TheKho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban SP SL=2. Thanh toan OK. Ghi nho ma DH hien tren hoa don.
+4. Menu ""Kho Hang"", click SP ve ban.
+5. Xem The Kho — dong moi.
+6. Kiem tra cot ""So Chung Tu"".","1-2. OK.
+3. Ma DH = ""DH-..."".
+4-6. The Kho dong moi: cot ""So Chung Tu"" = ma DH. Lien ket truy vet giua don hang POS va kho dung.","Low","PENDING"
+"POS_182","[TICH HOP] Ban SP nhieu DVT — qua Don Hang — chi tiet luu IdDonViXuat va TyLeQuyDoi","5","Integration","POS -> DonHang","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban ""Nuoc ngot lon"" doi Thung SL=1 (1 Thung=24 lon).
+4. Thanh toan OK.
+5. Tim don hang. Xem chi tiet.","1-2. OK.
+3-4. Ban 1 Thung.
+5. Chi tiet: TyLeQuyDoi = 24. Dong bong lich su quy doi de truy vet. Neu sau nay ty le thay doi, don hang cu van giu gia tri 24 tai thoi diem ban.","Medium","PENDING"
+"POS_183","[TICH HOP] Ban SP — Don Hang luu NguonBan = POS","3","Integration","POS -> DonHang","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban SP bat ky. Thanh toan OK.
+4. Tim don hang moi nhat.
+5. Kiem tra truong ""NguonBan"".","1-2. OK.
+3. Thanh toan POS.
+4-5. NguonBan = ""POS"". Phan biet voi don hang tu Web/API.","Low","PENDING"
+"POS_184","[TICH HOP] Ban SP — Don Hang luu CreatedBy = ID nhan vien dang nhap","3","Integration","POS -> DonHang","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"" (ID = X).
+3. Menu ""Ban hang"". Thanh toan OK.
+4. Tim don hang. Kiem tra CreatedBy.","1-2. OK.
+3. Thanh toan OK.
+4. CreatedBy = X (ID cua tai khoan thungan01). Truy vet dung nhan vien tao don.","Low","PENDING"
+"POS_185","[TICH HOP] Ban Combo 2 lan — kho tru cong don tung SP","7","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton tung SP trong Combo.
+4. Menu ""Ban hang"". Quet ""CB001"" SL=1. Thanh toan OK.
+5. Tiep: Quet ""CB001"" SL=1. Thanh toan OK.
+6. Menu ""Kho Hang"". Kiem tra ton.","1-2. OK.
+3. Ghi nho.
+4-5. 2 don moi don 1 Combo.
+6. Tung SP trong Combo giam x2 (2 lan ban). VD: Nuoc suoi giam 2, Banh mi giam 2. Cong don 2 don dung.","High","PENDING"
+"POS_186","[TICH HOP] Ban SP tien mat — KH xem Giao dich — nhom = Giao dich thuong","3","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH. Ban SP. Thanh toan tien mat OK.
+4. Menu ""Khach Hang"". Tim KH. Tab Giao dich.
+5. Kiem tra Nhom GD cua dong moi.","1-2. OK.
+3. Tien mat.
+4-5. Nhom = ""Giao dich thuong"", Loai = ""Hoa don - DaThanhToan"". SO TIEN co dau ""-"" (mau do) vi la  chi ra.","Low","PENDING"
+"POS_187","[TICH HOP] Ban SP Vi RFID — KH xem Giao dich — co 2 dong (thuong + vi)","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH co vi. Ban SP. Thanh toan Vi RFID OK.
+4. Menu ""Khach Hang"". Tim KH. Tab Giao dich.
+5. Kiem tra cac dong moi.","1-2. OK.
+3. Vi RFID.
+4-5. Co 2 dong moi: 1 dong nhom ""Giao dich thuong"" (hoa don) va 1 dong ""Giao dich vi"" (tru vi). So tien 2 dong bang nhau.","Medium","PENDING"
+"POS_188","[TICH HOP] Ban SP — KH xem Tab Giao dich — so tien hien dung format","3","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH. Ban don 222.500d. Thanh toan OK.
+4. Menu ""Khach Hang"". Tab Giao dich.
+5. Quan sat cot ""So Tien"".","1-2. OK.
+3. Thanh toan 222.500d.
+4-5. Cot So Tien hien: ""- 222,500 d"" (mau do, in dam, canh phai). Format so co dau phay ngan cach phan nghin. Khong bi cat, khong bi loi unicode.","Low","PENDING"
+"POS_189","[TICH HOP] Ban SP xong — quay lai POS — gio hang DA RESET sach","3","Integration","POS internal","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Ban SP, thanh toan OK.
+4. Quan sat man hinh POS sau thanh toan.","1-2. OK.
+3. Thanh toan OK.
+4. Gio hang = 0 dong. Tieu de = ""GIO HANG (0)"". Tong tien = 0. Nhan KH = ""Khach vang lai"". O ma KH trong. O tien khach dua trong. Con tro o o quet ma. Tat ca reset sach, san sang don thu 2.","Medium","PENDING"
+"POS_190","[TICH HOP] Ban SP — so du kha dung vi RFID cap nhat real-time","7","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"". Tim KH co vi RFID. Ghi nho ""So du kha dung"" = S.
+4. Menu ""Ban hang"". Tim KH. Ban SP gia 30.000d. Thanh toan Vi RFID OK.
+5. NGAY LAP TUC: Menu ""Khach Hang"". Tim KH.
+6. Kiem tra ""So du kha dung"".","1-2. OK.
+3. So du = S.
+4. Thanh toan Vi RFID OK.
+5-6. So du = S - 30.000. Cap nhat REAL-TIME, khong can doi reload hay F5. Nhan vien mo KH len la thay so du moi ngay.","High","PENDING"
+"POS_191","[TICH HOP] Ban don — Hoa Don Text hien day du thong tin","3","Integration","POS internal","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH VIP. Ban Ve 200.000d + Com 22.500d. Thanh toan tien mat.
+4. Quan sat hop thoai hoa don.","1-2. OK.
+3. Thanh toan OK.
+4. Hoa don text hien: Ma HD (DH-...), Ngay gio, Danh sach SP x SL don gia, Tong goc = 222.500d, Giam (Khach Vip) = -20.000d, THUC THU = 202.500d, Phuong thuc = TienMat, Tich them = +X diem. Day du, khong thieu truong nao.","Medium","PENDING"
+"POS_192","[TICH HOP] Ban don co giam gia — qua Don Hang — TrangThai = DaThanhToan","3","Integration","POS -> DonHang","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH VIP. Ban SP. Thanh toan OK.
+4. Tim don hang moi.
+5. Kiem tra TrangThai.","1-2. OK.
+3-4. Thanh toan voi giam gia.
+5. TrangThai = ""DaThanhToan"". Khong phai ""DangCho"" hay ""BiHuy"". Du co giam gia, trang thai van la thanh toan thanh cong.","Low","PENDING"
+"POS_193","[TICH HOP] Ban SP — logout — login lai user khac — ton kho van dung","5","Integration","POS -> Auth -> Kho","1. Mo phan mem.
+2. Dang nhap ""thungan01"". Ban SP SL=5. Thanh toan OK.
+3. Dang xuat.
+4. Dang nhap ""thungan02"" / ""123456"".
+5. Menu ""Kho Hang"". Kiem tra ton.","1-2. Ban OK tu user 1.
+3-4. Doi sang user 2.
+5. Ton kho VAN giam dung 5 (do user 1 da ban). Du lieu kho la chung, khong phu thuoc vao user dang nhap.","Medium","PENDING"
+"POS_194","[TICH HOP] Ban SP — qua form Kho — hotkey F2/F3/F4/F5 van hoat dong","3","Integration","POS -> Kho","1. Mo phan mem.
+2. Dang nhap admin.
+3. Menu ""Ban hang"". Ban SP. Thanh toan OK.
+4. Menu ""Kho Hang"".
+5. Nhan F2 (Nhap Kho). Form mo khong?
+6. Dong. Nhan F3 (Xuat Kho). Form mo khong?
+7. Dong. Nhan F4 (Kiem Ke). Form mo khong?
+8. Dong. Nhan F5 (Dong Bo). Thong bao hien?","1-2. OK.
+3. Ban OK.
+4-8. Tat ca hotkey hoat dong binh thuong: F2 mo form Nhap Kho, F3 mo form Xuat Kho, F4 mo form Kiem Kho, F5 chay dong bo. Khong bi xung dot phim tat voi POS.","Low","PENDING"
+"POS_195","[TICH HOP] Ban SP F&B don — KH diem < nguong — KHONG tich diem","5","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Khach Hang"". Tim KH thuong. Ghi nho diem = D.
+4. Menu ""Ban hang"". Tim KH. Ban Com phan 22.500d (< 100K nguong tich).
+5. Thanh toan OK.
+6. Menu KH. Kiem tra diem.","1-2. OK.
+3. Diem = D.
+4-5. Don = 22.500d < 100.000d.
+6. Diem VAN = D. Khong tich duoc vi chua dat nguong toi thieu.","Medium","PENDING"
+"POS_196","[TICH HOP] Ban SP — qua KH — cot Ly Do trong Tab Diem ghi dung ma don","3","Integration","POS -> KH","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Ban hang"". Tim KH. Ban Ve 200.000d. Thanh toan OK. Ghi nho ma DH.
+4. Menu ""Khach Hang"". Tab Diem.
+5. Kiem tra cot ""Ly Do"" dong moi nhat.","1-2. OK.
+3. Ma DH = ""DH-250412..."".
+4-5. Cot Ly Do = ""Tich diem DH-250412..."". Khop voi ma don hang POS. Neu KH thac mac diem tu dau -> doi chieu duoc.","Low","PENDING"
+"POS_197","[TICH HOP] Ban SP roi nhap kho — ton kho cong tru dung lich su","10","Integration","POS -> NhapKho -> Kho","1. Mo phan mem.
+2. Dang nhap admin.
+3. Menu ""Kho Hang"". Ton ""Nuoc ngot lon"" = 100.
+4. Menu ""Ban hang"". Ban 10 lon. Thanh toan OK. Ton xuong 90.
+5. Menu ""Kho Hang"" > ""Nhap Kho"". Nhap 50 lon nuoc ngot. Luu phieu.
+6. Menu ""Kho Hang"". Kiem tra ton.
+7. Click SP, xem The Kho.","1-2. OK.
+3. Ton = 100.
+4. Ban 10 -> ton = 90.
+5. Nhap 50 -> ton = 140.
+6. Ton = 140.
+7. The Kho hien 2 dong moi: 1 dong Xuat (10, mau do) va 1 dong Nhap (50, mau xanh). Ton lien tuc: 100 -> 90 -> 140.","High","PENDING"
+"POS_198","[TICH HOP] Ban SP roi xuat kho thu cong — tong tru cong don dung","10","Integration","POS -> XuatKho -> Kho","1. Mo phan mem.
+2. Dang nhap admin.
+3. Menu ""Kho Hang"". Ton ""Nuoc ngot lon"" = 100.
+4. Menu ""Ban hang"". Ban 10 lon. Thanh toan OK.
+5. Menu ""Kho Hang"" > ""Xuat Kho"" (F3). Xuat them 20 lon (ly do: ""Chuyen kho"").
+6. Menu ""Kho Hang"". Kiem tra ton.","1-2. OK.
+3. Ton = 100.
+4. Ban POS -10 -> ton 90.
+5. Xuat thu cong -20 -> ton 70.
+6. Ton = 70. Tong tru = 10 (POS) + 20 (xuat thu cong) = 30. He thong tru cong don giua POS va xuat thu cong.","High","PENDING"
+"POS_199","[TICH HOP] Ban SP roi Xuat Kho vuot ton — bi chan","7","Integration","POS -> XuatKho","1. Mo phan mem.
+2. Dang nhap admin.
+3. Menu ""Kho Hang"". Ton ""Mi/Pho"" = 5.
+4. Menu ""Ban hang"". Ban ""Mi/Pho"" SL=3. Thanh toan OK. Ton con 2.
+5. Menu ""Kho Hang"" > ""Xuat Kho"" (F3).
+6. Them dong: Mi/Pho SL=5 (vuot ton 2).
+7. Nhan ""Luu Phieu"".
+8. Quan sat phan hoi.","1-2. OK.
+3. Ton = 5.
+4. Ban 3 -> ton = 2.
+5-7. Xuat thu cong SL=5, nhung ton chi con 2.
+8. Hop thoai canh bao: ""Khong du ton kho! Ton hien tai: 2"". He thong CHAN xuat vuot ton. SL bi ep ve 2 (hoac tu choi). Kho KHONG bi am.","Critical","PENDING"
+"POS_200","[TICH HOP] Full E2E: Ban SP co KH VIP dung Ve — verify 5 form cung luc","15","E2E","Cross-form","1. Mo phan mem.
+2. Dang nhap ""thungan01"" / ""123456"".
+3. Menu ""Kho Hang"". Ghi nho ton ""Nuoc ngot lon"" = A. Ghi nho ton ""Ve Nguoi lon"" (phi vat ly).
+4. Menu ""Khach Hang"". Tim KH001 VIP. Ghi nho: Diem = D, TongChiTieu = T, So du vi = S.
+5. Menu ""Ban hang"". Tim KH001.
+6. Them ""Ve Nguoi lon"" SL=2 (400.000d goc). Them ""Nuoc ngot lon"" Thung SL=1 (1 Thung = 24 lon).
+7. VIP giam 10% CHI tren Ve: giam = 40.000d. Thuc thu = 400.000 - 40.000 + gia_thung = X dong.
+8. Nhan ""Dua du"", F9, xac nhan ""Co"".
+9. >>> KIEM TRA 1: Form Phat Ve mo tu dong — hien 2 ve dien tu.
+10. Dong form Phat Ve.
+11. >>> KIEM TRA 2: Menu ""Kho Hang"". Nuoc ngot ton = A - 24 (da quy doi Thung). Ve: KHONG thay doi.
+12. >>> KIEM TRA 3: Menu ""Khach Hang"". Tim KH001. Diem = D + Y (Y tinh tren thuc thu, he so 2.0). TongChiTieu = T + X.
+13. >>> KIEM TRA 4: Tab Diem: dong moi ""TichLuy"" +Y pts.
+14. >>> KIEM TRA 5: Tab Giao dich: dong moi ""Hoa don - DaThanhToan"" so tien = X.
+15. So du vi KHONG thay doi (vi thanh toan tien mat, khong dung vi).","1-2. OK.
+3. Ghi nho ton kho.
+4. Ghi nho KH metrics.
+5-8. Thanh toan OK.
+9. Form Phat Ve: 2 ve, ma QR, trang thai Active. ✅
+10. Dong.
+11. Kho: Nuoc ngot = A - 24. Ve khong doi. ✅
+12. KH: Diem tang dung he so VIP. TongChiTieu tang dung thuc thu. ✅
+13. Tab Diem: dong moi. ✅
+14. Tab GD: dong moi. ✅
+15. Vi khong doi. ✅
+DAY LA TEST CASE TONG HOP QUAN TRONG NHAT — kiem tra dong thoi 5 form: POS, Kho, KH, Phat Ve, The Kho.","Critical","PENDING"

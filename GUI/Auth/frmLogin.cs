@@ -50,6 +50,9 @@ namespace GUI
                 if (tk != null)
                 {
                     SessionManager.CurrentUser = tk;
+                    var (idKhuVuc, tenKhuVuc) = BUS_LichLamViec.Instance.GetKhuVucHienTai(tk.Id);
+                    SessionManager.CurrentIdKhuVuc = idKhuVuc;
+                    SessionManager.CurrentTenKhuVuc = !string.IsNullOrEmpty(tenKhuVuc) ? tenKhuVuc : "Trụ Sở Chính";
 
                     try { DevExpress.XtraSplashScreen.SplashScreenManager.ShowDefaultWaitForm("Đăng nhập", "Đang tải hệ thống, vui lòng chờ..."); } catch { }
                     

@@ -13,7 +13,7 @@ namespace GUI
 {
     public partial class frmGuiXe : Form
     {
-        // === State ===
+        //  State 
         private List<ET_LuotVaoRaBaiXe> _dsDangGui = new List<ET_LuotVaoRaBaiXe>();
         private ET_LuotVaoRaBaiXe _selectedLuot = null;
         private string _anhBienSoPath = null;
@@ -29,9 +29,9 @@ namespace GUI
             StartDashboardTimer();
         }
 
-        // ============================
+        // =
         // SETUP
-        // ============================
+        // =
 
         private void SetupButtonIcons()
         {
@@ -65,9 +65,9 @@ namespace GUI
             UpdateGiaDuKien();
         }
 
-        // ============================
+        // =
         // DASHBOARD
-        // ============================
+        // =
 
         private void StartDashboardTimer()
         {
@@ -102,9 +102,9 @@ namespace GUI
             catch { }
         }
 
-        // ============================
+        // =
         // TAB NHẬN XE — Event Handlers
-        // ============================
+        // =
 
         private void btnChonAnh_Click(object sender, EventArgs e)
         {
@@ -174,10 +174,11 @@ namespace GUI
 
             if (result.IsSuccess)
             {
-                // -- MÔ PHỎNG IN VÉ (IN RA MÃ QR) --
+                // -- MÔ PHỎNG IN VÉ (IN RA MÃ QR BẰNG ID PHIẾU GIỮ XE) --
                 try
                 {
-                    var qrBitmap = BarcodeHelper.GenerateQrCode(maRfid);
+                    string finalQrData = string.IsNullOrWhiteSpace(maRfid) || maRfid.StartsWith("QR-") ? "QR-" + result.Data : maRfid;
+                    var qrBitmap = BarcodeHelper.GenerateQrCode(finalQrData);
                     string ticketPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Ticket_" + bienSo + ".png");
                     qrBitmap.Save(ticketPath, System.Drawing.Imaging.ImageFormat.Png);
                     TDCMessageBox.Show("Nhận xe thành công!\nĐã 'in' vé (chứa mã QR) ra Desktop:\n" + ticketPath, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -195,9 +196,9 @@ namespace GUI
             }
         }
 
-        // ============================
+        // =
         // TAB TRẢ XE — Event Handlers
-        // ============================
+        // =
 
         private void txtTimBienSo_TextChanged(object sender, EventArgs e)
         {
@@ -224,9 +225,9 @@ namespace GUI
             }
         }
 
-        // ============================
+        // =
         // MÔ PHỎNG BARIE TRẢ XE (QR & CAMERA)
-        // ============================
+        // =
 
         // Biến lưu biển số được OCR đọc lúc xe chạy ra
         private string _bienSoRaCamera = "";
@@ -277,7 +278,18 @@ namespace GUI
         {
             if (string.IsNullOrWhiteSpace(rfidData)) return;
 
-            var match = _dsDangGui.FirstOrDefault(x => x.MaRfid == rfidData);
+            ET_LuotVaoRaBaiXe match = null;
+            if (rfidData.StartsWith("QR-"))
+            {
+                if (int.TryParse(rfidData.Substring(3), out int parsedId))
+                {
+                    match = _dsDangGui.FirstOrDefault(x => x.Id == parsedId);
+                }
+            }
+            else
+            {
+                match = _dsDangGui.FirstOrDefault(x => x.MaRfid == rfidData);
+            }
             if (match != null)
             {
                 // Chọn xe trên Grid
@@ -350,9 +362,9 @@ namespace GUI
             TraXe(AppConstants.PhuongThucThanhToan.ViRfid);
         }
 
-        // ============================
+        // =
         // HELPER METHODS
-        // ============================
+        // =
 
         private void LoadAnhBienSo(string filePath)
         {

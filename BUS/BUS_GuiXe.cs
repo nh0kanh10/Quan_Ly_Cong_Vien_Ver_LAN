@@ -53,15 +53,15 @@ namespace BUS
         /// Quy trình tiếp nhận phương tiện vào bãi đỗ xe.
         /// Bao gồm lưu trữ biển số, phân loại xe, liên kết thẻ RFID và lưu trữ hình ảnh minh chứng.
         /// </summary>
-        public OperationResult NhanXe(string bienSo, string loaiXe, string maRfid = null, string anhBienSo = null)
+        public OperationResult<int> NhanXe(string bienSo, string loaiXe, string maRfid = null, string anhBienSo = null)
         {
             if (string.IsNullOrWhiteSpace(bienSo))
-                return OperationResult.Failed("Vui lòng nhập biển số xe.");
+                return OperationResult<int>.Failed("Vui lòng nhập biển số xe.");
 
             // Bước 1: Kiểm tra tính hợp lệ - Ngăn chặn cấp phát phiếu lưu trú cho phương tiện đang ở trạng thái gửi trong bãi
             var dangGui = _luotGateway.TimTheoBienSo(bienSo.Trim());
             if (dangGui.Any(x => x.BienSo.Equals(bienSo.Trim(), StringComparison.OrdinalIgnoreCase) && x.TrangThai == AppConstants.TrangThaiGuiXe.DangGui))
-                return OperationResult.Failed(string.Format("Xe mang biển số {0} hiện đang được lưu trữ trong bãi.", bienSo));
+                return OperationResult<int>.Failed(string.Format("Xe mang biển số {0} hiện đang được lưu trữ trong bãi.", bienSo));
 
             try
             {
@@ -70,20 +70,24 @@ namespace BUS
                 {
                     BienSo = bienSo.Trim().ToUpper(),
                     LoaiXe = loaiXe ?? AppConstants.LoaiXe.XeMay,
-                    MaRfid = maRfid,
+                    MaRfid = string.IsNullOrWhiteSpace(maRfid) || maRfid.StartsWith("QR-") ? null : maRfid,
                     AnhBienSo = anhBienSo,
                     ThoiGianVao = DateTime.Now,
                     TrangThai = AppConstants.TrangThaiGuiXe.DangGui
                 };
                 int idLuot = _luotGateway.ThemVaLayId(luot);
                 if (idLuot <= 0)
-                    return OperationResult.Failed("Lỗi hệ thống: Không thể ghi nhận dữ liệu lượt xe vào bãi.");
+                    return OperationResult<int>.Failed("Lỗi hệ thống: Không thể ghi nhận dữ liệu lượt xe vào bãi.");
 
-                return OperationResult.Success(string.Format("Nhận xe thành công! Biển số: {0} | Loại phương tiện: {1}", bienSo.ToUpper(), GetTenLoaiXe(loaiXe)));
+                return new OperationResult<int> { 
+                    IsSuccess = true, 
+                    ErrorMessage = string.Format("Nhận xe thành công! Biển số: {0} | Loại phương tiện: {1}", bienSo.ToUpper(), GetTenLoaiXe(loaiXe)),
+                    Data = idLuot 
+                };
             }
             catch (Exception ex)
             {
-                return OperationResult.Failed("Lỗi ngoại lệ khi nhận xe: " + ex.Message);
+                return OperationResult<int>.Failed("Lỗi ngoại lệ khi nhận xe: " + ex.Message);
             }
         }
         #endregion

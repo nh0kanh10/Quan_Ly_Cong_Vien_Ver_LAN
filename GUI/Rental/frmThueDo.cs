@@ -14,18 +14,22 @@ namespace GUI
 {
     public partial class frmThueDo : Form, IBaseForm
     {
-        // === State ===
+        #region Khai báo biến toàn cục
         private List<RentalCartItem> _cart = new List<RentalCartItem>();
         private ET_KhachHang _selectedKH = null;
         private ET_ViDienTu _selectedVi = null;
         private int _currentIdKhuVuc = -1;
         private List<ET_SanPham> _allRentalProducts = new List<ET_SanPham>();
+
+        // Cache tiền cọc theo SP (load 1 lần thay vì query lại mỗi lúc hiển thị)
         private Dictionary<int, decimal> _tienCocCache = new Dictionary<int, decimal>();
 
-        // Return mode state
+        // State cho tab Nhận trả
         private ET_KhachHang _returnKH = null;
         private List<ET_ThueDoChiTiet> _dangThueList = new List<ET_ThueDoChiTiet>();
+        #endregion
 
+        #region Khởi tạo Form
         public frmThueDo()
         {
             InitializeComponent();
@@ -52,7 +56,9 @@ namespace GUI
 
             txtRfidGiao.Focus();
         }
+        #endregion
 
+        #region Phân quyền và giao diện
         public void ApplyPermissions()
         {
             bool canManage = true; 
@@ -88,7 +94,9 @@ namespace GUI
         {
             LoadSanPhamThue();
         }
+        #endregion
 
+        #region Chọn trạm cho thuê (đổi trạm sẽ xóa giỏ hàng)
         private void LoadTramChoThue()
         {
             try
@@ -118,6 +126,7 @@ namespace GUI
             gridViewDangThue.PopulateColumns();
         }
 
+        // Đổi trạm → xóa giỏ hàng (tránh lẫn SP giữa các trạm)
         private void cboTramChoThue_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboTramChoThue.SelectedItem is ComboItem item)
@@ -127,12 +136,15 @@ namespace GUI
                 ClearCart();
             }
         }
+        #endregion
 
+        #region Load danh sách sản phẩm cho thuê theo trạm
+        // Giá thuê lấy theo bảng giá THỜI ĐIỂM hiện tại (ngày thường / cuối tuần / giờ cao điểm)
+        // Tiền cọc KHÔNG đổi theo ngày — cố định trong bảng giá
         private void LoadSanPhamThue()
         {
             try
             {
-                // Load all rental products for selected KhuVuc
                 var allSP = BUS_SanPham.Instance.LoadDS()
                     .Where(x => x.LoaiSanPham == AppConstants.LoaiSanPham.Thue
                              && x.TrangThai == AppConstants.TrangThaiSanPham.DangBan
@@ -144,14 +156,12 @@ namespace GUI
 
                 _allRentalProducts = allSP;
 
-                // Pre-load TienCoc from BangGia for each product
                 _tienCocCache.Clear();
                 foreach (var sp in allSP)
                 {
                     _tienCocCache[sp.Id] = BUS_BangGia.Instance.GetTienCoc(sp.Id);
                 }
 
-                // Bind to grid with display-friendly columns
                 var displayData = allSP.Select(sp => new
                 {
                     sp.Id,
@@ -165,7 +175,6 @@ namespace GUI
                 gridControlSanPham.DataSource = displayData;
                 gridViewSanPham.PopulateColumns();
 
-                // Style columns
                 if (gridViewSanPham.Columns.Count > 0)
                 {
                     gridViewSanPham.Columns["Id"].Visible = false;
@@ -184,10 +193,6 @@ namespace GUI
             }
         }
 
-        // ============================================================
-        // PRODUCT SEARCH
-        // ============================================================
-
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
         {
             string keyword = txtTimKiem.Text.Trim().ToLower();
@@ -202,7 +207,6 @@ namespace GUI
                 .Select(sp => new
                 {
                     sp.Id, sp.MaCode, Ten = sp.Ten,
-                    // [Senior FIX]: Luôn lấy từ Engine + Cache để đồng bộ
                     TienThue = BUS_BangGia.Instance.GetDynamicPrice(sp.Id, DateTime.Now),
                     TienCoc = _tienCocCache.ContainsKey(sp.Id) ? _tienCocCache[sp.Id] : BUS_BangGia.Instance.GetTienCoc(sp.Id),
                     sp.MoTa
@@ -210,11 +214,9 @@ namespace GUI
 
             gridControlSanPham.DataSource = filtered;
         }
+        #endregion
 
-        // ============================================================
-        // ADD TO CART (Double-click product)
-        // ============================================================
-
+        #region Thêm sản phẩm vào giỏ thuê (nhấp đúp)
         private void gridViewSanPham_DoubleClick(object sender, EventArgs e)
         {
             if (gridViewSanPham.FocusedRowHandle < 0) return;
@@ -223,7 +225,6 @@ namespace GUI
             var sp = _allRentalProducts.FirstOrDefault(x => x.Id == idSP);
             if (sp == null) return;
 
-            // [Senior FIX]: Lấy giá chuẩn thời điểm này
             decimal currentTienThue = BUS_BangGia.Instance.GetDynamicPrice(idSP, DateTime.Now);
             decimal currentTienCoc = BUS_BangGia.Instance.GetTienCoc(idSP);
 
@@ -288,11 +289,11 @@ namespace GUI
             lblTongCoc.Text = $"Tiền cọc: {tongCoc:N0}đ";
             lblTongCong.Text = $"TỔNG: {(tongThue + tongCoc):N0}đ";
         }
+        #endregion
 
-        // ============================================================
-        // RFID SCANNER (Giao Đồ mode)
-        // ============================================================
-
+        #region Quẹt thẻ RFID nhận diện khách hàng (dùng chung cho Giao đồ và Trả đồ)
+        // Chuỗi nhận diện: ThẻRFID → ViĐiệnTử → KháchHàng
+        // Nếu bất kỳ mắt xích nào đứt → báo lỗi cụ thể cho nhân viên biết điểm nào hỏng
         private void txtRfidGiao_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -345,7 +346,6 @@ namespace GUI
                     lblTenKHTra.Text = $"Khách: {kh.HoTen}";
                     lblSoDuViTra.Text = $"Số dư ví: {vi.SoDuKhaDung:N0}đ";
 
-                    // Load items currently being rented by this customer
                     LoadDangThue(kh.Id);
                 }
             }
@@ -354,11 +354,11 @@ namespace GUI
                 TDCMessageBox.Show("Lỗi tìm khách: " + ex.Message);
             }
         }
+        #endregion
 
-        // ============================================================
-        // PAYMENT (Giao Đồ mode)
-        // ============================================================
-
+        #region Thanh toán cho thuê (RFID trừ ví / Tiền mặt thu tay)
+        // Tổng thanh toán = TiềnThuê (KHÔNG hoàn) + TiềnCọc (SẼ hoàn khi trả đủ)
+        // Mã biên lai tự sinh "DT..." → copy vào clipboard → khách giữ để trả đồ
         private void btnThanhToanRfid_Click(object sender, EventArgs e)
         {
             XuLyThanhToanGiaoDo(AppConstants.PhuongThucThanhToan.ViRfid);
@@ -422,7 +422,8 @@ namespace GUI
                 CreatedBy = idNhanVien
             };
 
-            var result = BUS_ThueDo.Instance.RentMultipleItems(dh, _cart.ToList(), phuongThuc, idNhanVien);
+            int idKhoXuLy = ET.SessionManager.CurrentIdKhuVuc ?? 1;
+            var result = BUS_ThueDo.Instance.RentMultipleItems(dh, _cart.ToList(), phuongThuc, idNhanVien, idKhoXuLy);
 
             if (result.IsSuccess)
             {
@@ -481,10 +482,12 @@ namespace GUI
             txtRfidTra.Clear(); 
             txtRfidTra.Focus();
         }
+        #endregion
 
-        // 
-        // TAB 2: NHẬN TRẢ
-        // 
+        #region Tab Nhận trả — Tìm đồ đang thuê (quẹt RFID hoặc quét mã biên lai)
+        // Hai luồng trả đồ:
+        //   (1) Khách RFID: quẹt thẻ → tìm TẤT CẢ đơn thuê chưa hoàn cọc của khách
+        //   (2) Khách vãng lai: quét mã biên lai DT-xxx → tìm theo đơn hàng cụ thể
 
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -508,7 +511,7 @@ namespace GUI
             }
         }
 
-        //  Quét Mã Vạch Biên Lai cho khách vãng lai (không có thẻ RFID)
+        // Quét Mã Vạch Biên Lai cho khách vãng lai (không có thẻ RFID)
         private void txtMaDonHang_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
@@ -522,10 +525,7 @@ namespace GUI
             }
         }
 
-        /// <summary>
-        ///  Tìm đơn hàng bằng MaCode trên biên lai giấy.
-        /// Flow: Quét mã vạch DH-THUE-xxx -> Query DAL_DonHang.LayTheoMaCode -> Lôi ThueDoChiTiet ra.
-        /// </summary>
+        // Tìm đơn hàng bằng MaCode trên biên lai giấy → load chi tiết thuê chưa hoàn cọc
         private void LoadDangThueByMaDonHang(string maCode)
         {
             try
@@ -552,7 +552,7 @@ namespace GUI
                     lblSoDuViTra.ForeColor = ThemeManager.WarningColor;
                 }
 
-                // Targeted query: Lấy CTDH của DonHang này, rồi lấy ThueDoChiTiet theo CTDH
+                // Lấy CTDH → ThueDoChiTiet chưa hoàn cọc
                 var ctdhOfDH = DAL_ChiTietDonHang.Instance.LoadByDonHang(dh.Id);
                 var ctdhIds = ctdhOfDH.Select(x => x.Id).ToList();
                 _dangThueList = ctdhIds.SelectMany(id => DAL_ThueDoChiTiet.Instance.LoadByCTDH(id))
@@ -569,6 +569,7 @@ namespace GUI
             }
         }
 
+        // Tìm TẤT CẢ đồ đang thuê của 1 khách hàng (qua RFID)
         private void LoadDangThue(int idKhachHang)
         {
             try
@@ -578,7 +579,6 @@ namespace GUI
                     .Select(x => x.Id)
                     .ToList();
                 
-                // Targeted batch query: Lấy tất cả CTDH của các DonHang, sau đó truy vấn ThueDoChiTiet ChuaHoan
                 var allCtdh = donHangIds.SelectMany(dhId => DAL.DAL_ChiTietDonHang.Instance.LoadByDonHang(dhId)).ToList();
                 var allCtdhIds = allCtdh.Select(x => x.Id).ToList();
                 _dangThueList = DAL.DAL_ThueDoChiTiet.Instance.LoadChuaHoanByCTDHs(allCtdhIds);
@@ -594,10 +594,8 @@ namespace GUI
             }
         }
 
-        /// <summary>
-        /// Shared: Bind _dangThueList vào gridControlDangThue.
-        /// Extracted từ LoadDangThue + LoadDangThueByMaDonHang để DRY.
-        /// </summary>
+        // Gộp các phiên thuê cùng SP thành 1 dòng (hiện tổng SL đang thuê)
+        // Cột "Khách Trả (SL)" và "Báo Mất (SL)" cho nhân viên nhập
         private void BindDangThueGrid()
         {
             var allSP = BUS_SanPham.Instance.LoadDS();
@@ -663,11 +661,10 @@ namespace GUI
                 gridViewDangThue.OptionsBehavior.Editable = true;
             }
         }
+        #endregion
 
-        // ============================================================
-        // RETURN: Full refund & Fast Action (F12)
-        // ============================================================
-
+        #region Xác nhận trả đồ (F12 trả đủ / nhập tay / báo mất → popup tính phạt)
+        // F12 = "Trả hết" tự điền SL trả = SL đang thuê cho tất cả dòng
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == Keys.F12)
@@ -691,6 +688,10 @@ namespace GUI
             gridControlDangThue.RefreshDataSource();
         }
 
+        // === XỬ LÝ HOÀN CỌC VÀ PHẠT MẤT ĐỒ ===
+        // Trả đủ: hoàn 100% cọc (vào ví nếu RFID, tiền mặt nếu vãng lai)
+        // Báo mất: mở popup nhập tiền phạt → cọc hoàn = tổng cọc - phạt
+        // Nếu nhân viên bỏ trống popup phạt → hủy toàn bộ thao tác (an toàn)
         private void btnXacNhanTra_Click(object sender, EventArgs e)
         {
             if (ET.SessionManager.CurrentUser == null || ET.SessionManager.CurrentUser.Id <= 0)
@@ -714,6 +715,7 @@ namespace GUI
                 return;
             }
 
+            // Kiểm tra: SL trả + SL mất không được vượt quá SL đang thuê
             bool coLoi = false;
             string thongBaoLoi = "";
 
@@ -732,7 +734,9 @@ namespace GUI
                 return;
             }
 
-            // Tính toán trước danh sách phạt đền bù ở tầng UI (Để bung Popup)
+            // === POPUP NHẬP TIỀN PHẠT cho từng SP bị mất ===
+            // Mặc định = tiền cọc của món mất. Nhân viên có thể điều chỉnh cao hơn hoặc thấp hơn.
+            // Nếu hủy popup → hủy toàn bộ thao tác trả (đảm bảo không mất tiền nhầm)
             var phiDenBuTheoSP = new Dictionary<int, decimal>();
             
             foreach (var item in dsXuLy)
@@ -743,6 +747,7 @@ namespace GUI
                     decimal tongTienLoGioMoPhong = 0;
                     decimal tongTienCocCuaBaoMat = 0;
                     
+                    // Tính thời gian thuê thực tế và phí lố giờ cho các món bị mất
                     for (int i = item.TraLanNay; i < item.TraLanNay + item.BaoMat && i < cacRecordCuaSanPham.Count; ++i)
                     {
                         var td = cacRecordCuaSanPham[i];
@@ -773,8 +778,9 @@ namespace GUI
                 }
             }
 
-            // Gửi toàn bộ xuống BUS thực thi Batch
-            var result = BUS_ThueDo.Instance.XacNhanThuHoiDoBatch(_dangThueList, dsXuLy, phiDenBuTheoSP, idNV);
+            // Gửi toàn bộ xuống BUS thực thi Batch (hoàn cọc + tính phạt + cập nhật trạng thái)
+            int idKhoXuLy = ET.SessionManager.CurrentIdKhuVuc ?? 1;
+            var result = BUS_ThueDo.Instance.XacNhanThuHoiDoBatch(_dangThueList, dsXuLy, phiDenBuTheoSP, idNV, idKhoXuLy);
 
             if (!result.IsSuccess)
             {
@@ -799,11 +805,15 @@ namespace GUI
                 BindDangThueGrid();
             }
         }
+        #endregion
+
+        #region Giám sát phiên thuê chưa trả (lọc theo ngày, nhấp đúp để thu hồi)
+        // Hiển thị tất cả phiên thuê chưa hoàn cọc trong khoảng ngày
+        // Nhấp đúp 1 dòng → tự đẩy mã đơn sang panel Nhận Trả để tất toán ngay
         private bool IsFuzzyMatchTienCoc(string input)
         {
             if (string.IsNullOrEmpty(input)) return false;
             string normalized = input.ToLower().Trim().Replace(" ", "");
-            // Match phrases often used by staff: tiencoc, tiencọc, deposit, datcoc
             string[] patterns = { "tiencoc", "tiencọc", "deposit", "datcoc", "tiềncọc" };
             return patterns.Any(p => normalized.Contains(p));
         }
@@ -885,17 +895,15 @@ namespace GUI
                 }
             }
         }
+        #endregion
     }
 
-    // ============================================================
-    // HELPER CLASSES
-    // ============================================================
-
+    #region Lớp phụ trợ (ComboItem cho dropdown trạm)
     public class ComboItem
     {
         public string Text { get; set; }
         public int Value { get; set; }
         public override string ToString() => Text;
     }
+    #endregion
 }
-

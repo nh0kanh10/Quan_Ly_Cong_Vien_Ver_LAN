@@ -7,7 +7,7 @@ namespace DAL
     {
         private static string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "connection.txt");
         
-        private static string defaultConn = @"Data Source=.\SQLEXPRESS;Initial Catalog=QuanLyCongVien;Integrated Security=True";
+        private static string defaultConn = @"Data Source=.\SQLEXPRESS;Initial Catalog=DaiNamResort;Integrated Security=True";
 
         public static string GetConnectionString()
         {

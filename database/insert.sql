@@ -1169,8 +1169,8 @@ BEGIN TRY
 
     IF NOT EXISTS (SELECT 1 FROM DoanKhach WHERE MaSoThue = '0312345678')
     BEGIN
-        INSERT INTO DoanKhach (TenDoan, MaBooking, MaSoThue, NguoiDaiDien, DienThoaiLienHe, ChietKhau, SoLuongKhach, NgayDen, NgayDi, TrangThai, IdCombo)
-        VALUES (N'Đoàn ABC Travel', 'BK-' + FORMAT(GETDATE(), 'yyMMdd') + '-ABCD', '0312345678', N'Nguyễn Văn A', '0901234567', 10, 50, GETDATE(), DATEADD(day, 2, GETDATE()), N'DaDat', 1);
+        INSERT INTO DoanKhach (TenDoan, MaBooking, MaSoThue, NguoiDaiDien, DienThoaiLienHe, ChietKhau, SoLuongKhach, NgayDen, NgayDi, TrangThai)
+        VALUES (N'Đoàn ABC Travel', 'BK-' + FORMAT(GETDATE(), 'yyMMdd') + '-ABCD', '0312345678', N'Nguyễn Văn A', '0901234567', 10, 50, GETDATE(), DATEADD(day, 2, GETDATE()), N'DaDat');
 
         DECLARE @IdDoan1 INT = SCOPE_IDENTITY();
 
@@ -1183,8 +1183,8 @@ BEGIN TRY
 
     IF NOT EXISTS (SELECT 1 FROM DoanKhach WHERE MaSoThue = '0312345679')
     BEGIN
-        INSERT INTO DoanKhach (TenDoan, MaBooking, MaSoThue, NguoiDaiDien, DienThoaiLienHe, ChietKhau, SoLuongKhach, NgayDen, NgayDi, TrangThai, IdCombo)
-        VALUES (N'Đoàn Trường Hoa Sen', 'BK-' + FORMAT(GETDATE(), 'yyMMdd') + '-WXYZ', '0312345679', N'Lê Thị B', '0901234568', 5, 80, GETDATE(), GETDATE(), N'DaDat', 2);
+        INSERT INTO DoanKhach (TenDoan, MaBooking, MaSoThue, NguoiDaiDien, DienThoaiLienHe, ChietKhau, SoLuongKhach, NgayDen, NgayDi, TrangThai)
+        VALUES (N'Đoàn Trường Hoa Sen', 'BK-' + FORMAT(GETDATE(), 'yyMMdd') + '-WXYZ', '0312345679', N'Lê Thị B', '0901234568', 5, 80, GETDATE(), GETDATE(), N'DaDat');
 
         DECLARE @IdDoan2 INT = SCOPE_IDENTITY();
 

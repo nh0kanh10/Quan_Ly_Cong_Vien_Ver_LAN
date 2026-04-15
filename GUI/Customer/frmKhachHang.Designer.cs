@@ -142,7 +142,6 @@ namespace GUI
             // 
             // splitMain.Panel1
             // 
-            this.splitMain.Panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(250)))), ((int)(((byte)(252)))));
             this.splitMain.Panel1.Controls.Add(this.pnlLeftCard);
             this.splitMain.Panel1.Padding = new System.Windows.Forms.Padding(15);
             // 

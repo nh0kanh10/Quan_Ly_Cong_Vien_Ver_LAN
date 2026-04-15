@@ -240,9 +240,9 @@ namespace GUI
             }
         }
 
-        // ============================
+        // =
         // BÀN ĂN
-        // ============================
+        // =
         private int _currentNhaHangId = 0;
 
         private void LoadBanAn(int idNhaHang)

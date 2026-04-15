@@ -1,0 +1,1088 @@
+﻿TC ID,Title,Est. (mins),Test Type,Area,Procedure / Steps,Expected Results,Priority,RESULT
+POS_001,Mở màn hình POS — kiểm tra bố cục tổng thể,3,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Tại màn hình đăng nhập, nhập tài khoản ""thungan01"", mật khẩu ""123456"", nhấn nút ""Đăng nhập"".
+3. Sau khi vào trang chính, nhấn menu ""Bán hàng"" trên thanh điều hướng bên trái.
+4. Quan sát toàn bộ bố cục màn hình hiển thị.","1. Phần mềm khởi động thành công, hiện màn hình đăng nhập với logo và ô nhập liệu.
+2. Đăng nhập thành công, chuyển sang trang chính với thanh menu bên trái.
+3. Màn hình Bán hàng mở ra chiếm toàn bộ vùng nội dung chính.
+4. Bên trái: khu vực danh mục sản phẩm dạng thẻ (Tile) với ô tìm kiếm, các nút phân loại (Tất cả, Vé, Ăn uống, Thuê), ô quét mã vạch. Bên phải: bảng giỏ hàng, tổng tiền lớn, khu vực tra cứu khách hàng, nhãn tên khách (mặc định ""Khách vãng lai""), các nút thanh toán (Tiền mặt, Ví RFID, Chuyển khoản), dropdown chọn Kho, nút Hủy đơn, nút Xóa giỏ hàng.",High,PENDING
+POS_002,Kiểm tra danh mục sản phẩm hiển thị dạng thẻ (Tile),2,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"" trên thanh điều hướng bên trái.
+4. Quan sát khu vực hiển thị sản phẩm phía bên trái màn hình.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Danh sách sản phẩm hiển thị dạng thẻ hình chữ nhật (Tile), mỗi thẻ gồm: Tên sản phẩm và Đơn giá (có hậu tố ""đ""). Chỉ hiển thị sản phẩm đang bán, không hiện sản phẩm đã ngừng bán hoặc đã xóa.",Medium,PENDING
+POS_003,Kiểm tra giỏ hàng trống khi mới mở,2,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"" trên thanh điều hướng bên trái.
+4. Quan sát bảng giỏ hàng phía bên phải.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Bảng giỏ hàng trống, không có dòng dữ liệu. Nhãn tổng tiền lớn hiển thị ""0 VNĐ"". Tiêu đề giỏ hàng hiển thị ""GIỎ HÀNG (0)"".",Medium,PENDING
+POS_004,"Kiểm tra nhãn khách hàng mặc định là ""Khách vãng lai""",1,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"" trên thanh điều hướng bên trái.
+4. Quan sát nhãn tên khách hàng trên khu vực giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Nhãn tên khách hiển thị ""Khách vãng lai"". Ô nhập mã KH trống, chưa có ai.",Low,PENDING
+POS_005,Kiểm tra dropdown Kho xử lý có dữ liệu,2,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"" trên thanh điều hướng bên trái.
+4. Nhấn vào dropdown chọn Kho.
+5. Quan sát danh sách kho hiển thị.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Dropdown mở ra, hiển thị danh sách kho hàng đang hoạt động.
+5. Có ít nhất ""Kho trung tâm"". Mặc định đã chọn kho đầu tiên.",Medium,PENDING
+POS_006,Kiểm tra con trỏ chuột mặc định nằm ở ô quét mã,1,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"" trên thanh điều hướng bên trái.
+4. Quan sát vị trí con trỏ nhập liệu.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Con trỏ nhập liệu tự động nằm trong ô quét mã vạch, sẵn sàng nhận input từ máy quét hoặc bàn phím.",Medium,PENDING
+POS_007,Kiểm tra các nút Quick Cash hiển thị đầy đủ,1,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"" trên thanh điều hướng bên trái.
+4. Quan sát khu vực thanh toán tiền mặt bên phải.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Hiển thị đầy đủ các nút: 50K, 100K, 200K, 500K, và ""Đưa đủ"". Có ô nhập tiền khách đưa và nhãn hiển thị tiền thừa.",Low,PENDING
+POS_008,"Lọc sản phẩm theo phân loại ""Vé""",2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"" trên thanh điều hướng bên trái.
+4. Nhấn nút phân loại ""Vé"" trên thanh danh mục.
+5. Quan sát danh sách sản phẩm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị với đầy đủ sản phẩm.
+4. Nút ""Vé"" nổi bật (đổi màu, chữ trắng), các nút khác trở về bình thường.
+5. Danh sách chỉ hiển thị các sản phẩm loại Vé. Đồ ăn uống, đồ thuê không xuất hiện.",High,PENDING
+POS_009,"Lọc sản phẩm theo phân loại ""Ăn uống""",2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn nút ""Ăn uống"" trên thanh danh mục.
+5. Quan sát danh sách sản phẩm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Nút ""Ăn uống"" nổi bật.
+5. Danh sách chỉ hiển thị các sản phẩm loại Ăn uống. Vé và đồ thuê không xuất hiện.",Medium,PENDING
+POS_010,"Lọc sản phẩm theo phân loại ""Thuê""",2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn nút ""Thuê"" trên thanh danh mục.
+5. Quan sát danh sách sản phẩm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Nút ""Thuê"" nổi bật.
+5. Danh sách chỉ hiển thị sản phẩm loại Thuê.",Medium,PENDING
+POS_011,"Quay về ""Tất cả"" sau khi đã lọc",2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn nút ""Vé"" để lọc chỉ hiện Vé.
+5. Nhấn nút ""Tất cả"".
+6. Quan sát danh sách sản phẩm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Chỉ hiện sản phẩm loại Vé.
+5. Nút ""Tất cả"" nổi bật.
+6. Danh sách hiển thị lại toàn bộ sản phẩm (tất cả loại) đang bán.",Medium,PENDING
+POS_012,Tìm kiếm sản phẩm bằng ô tìm kiếm — tìm thấy,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn phím F1 để chuyển con trỏ vào ô tìm kiếm sản phẩm.
+5. Gõ từ khóa ""Nước"".
+6. Quan sát danh sách sản phẩm lọc ngay khi gõ.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Con trỏ nhập liệu chuyển vào ô tìm kiếm.
+5. Danh sách sản phẩm tự động lọc ngay khi gõ (không cần nhấn Enter).
+6. Chỉ hiển thị các sản phẩm có tên chứa ""Nước"" (VD: ""Nước ngọt lon"", ""Nước suối 500ml""). Các sản phẩm khác biến mất.",High,PENDING
+POS_013,Tìm kiếm sản phẩm không tồn tại,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn phím F1 để chuyển vào ô tìm kiếm.
+5. Gõ ""xyz_khong_ton_tai"".
+6. Quan sát danh sách sản phẩm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Con trỏ vào ô tìm kiếm.
+5. Danh sách sản phẩm trống, không hiện gì.
+6. Hệ thống không báo lỗi, không treo — chỉ hiện danh sách rỗng.",Low,PENDING
+POS_014,Giá sản phẩm trên thẻ Tile phụ thuộc ngày (Bảng giá Dynamic),3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Quan sát giá hiển thị trên thẻ của Vé Người lớn.
+5. So sánh với bảng giá đã cấu hình cho hôm nay (Ngày thường / Cuối tuần / Ngày lễ).","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giá trên thẻ hiển thị đúng giá theo ngày — nếu hôm nay là ngày thường thì giá thường, cuối tuần thì giá cuối tuần, ngày lễ thì giá lễ.
+5. Giá khớp với bảng giá đã cấu hình trong hệ thống.",High,PENDING
+POS_015,Thêm sản phẩm vào giỏ bằng Double-Click trên thẻ,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click (nhấp đúp) vào thẻ sản phẩm ""Cơm phần"" trên danh sách.
+5. Quan sát bảng giỏ hàng bên phải.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Sản phẩm ""Cơm phần"" được thêm vào giỏ hàng.
+5. Giỏ hàng hiển thị 1 dòng: Tên = ""Cơm phần"", SL = 1, Thành Tiền = đơn giá × 1. Tiêu đề thay đổi thành ""GIỎ HÀNG (1)"". Tổng tiền lớn hiển thị đúng giá trị. Con trỏ tự focus vào ô SL.",High,PENDING
+POS_016,"Thêm cùng sản phẩm 2 lần — gộp số lượng, không tạo dòng mới",2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Cơm phần"" lần 1.
+5. Double-click vào ""Cơm phần"" lần 2.
+6. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ hàng có 1 dòng ""Cơm phần"", SL = 1.
+5. Dòng cũ được gộp, SL tăng lên 2 (không tạo thêm dòng mới).
+6. Giỏ vẫn chỉ 1 dòng, SL = 2, Thành Tiền = đơn giá × 2. Tổng tiền cập nhật.",High,PENDING
+POS_017,Thêm 2 sản phẩm khác nhau vào giỏ,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Cơm phần"".
+5. Double-click vào ""Nước ngọt lon"".
+6. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ hàng có 1 dòng ""Cơm phần"", SL = 1.
+5. Giỏ hàng thêm dòng thứ 2: ""Nước ngọt lon"", SL = 1.
+6. Tổng 2 dòng. Tiêu đề = ""GIỎ HÀNG (2)"". Tổng tiền = tổng thành tiền 2 dòng.",Medium,PENDING
+POS_018,Sửa số lượng trong giỏ — tăng bằng mũi tên SpinEdit,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Cơm phần"" để thêm vào giỏ (SL=1).
+5. Trong giỏ, click vào ô SL dòng ""Cơm phần"", nhấn nút mũi tên lên (▲) 4 lần.
+6. Quan sát SL và Thành Tiền.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: ""Cơm phần"" SL=1.
+5. SL tăng từng bước: 2 -> 3 -> 4 -> 5.
+6. SL = 5. Thành Tiền = đơn giá × 5. Tổng tiền phía dưới cập nhật tương ứng.",Medium,PENDING
+POS_019,Sửa số lượng trong giỏ — nhập trực tiếp số,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Cơm phần"" để thêm vào giỏ (SL=1).
+5. Double-click vào ô SL dòng ""Cơm phần"", xóa số cũ, gõ ""10"", nhấn Enter.
+6. Quan sát SL và Thành Tiền.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: ""Cơm phần"" SL=1.
+5. Ô SL cho phép nhập trực tiếp.
+6. SL = 10. Thành Tiền = đơn giá × 10. Tổng tiền cập nhật đúng.",Medium,PENDING
+POS_020,Sửa số lượng = 0 — tự động xóa dòng khỏi giỏ,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Cơm phần"" để thêm vào giỏ (SL=1).
+5. Double-click vào ô SL, xóa số, gõ ""0"", nhấn Enter.
+6. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: 1 dòng ""Cơm phần"" SL=1.
+5. Nhập SL = 0.
+6. Dòng ""Cơm phần"" bị xóa khỏi giỏ hàng. Giỏ trống. Tiêu đề = ""GIỎ HÀNG (0)"". Tổng tiền = ""0 VNĐ"".",Medium,PENDING
+POS_021,Xóa 1 dòng bằng nút thùng rác trên cột Xóa,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Cơm phần"" và ""Nước ngọt lon"" để thêm 2 dòng.
+5. Click vào nút biểu tượng thùng rác (cột Xóa) trên dòng ""Nước ngọt lon"".
+6. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ hàng có 2 dòng.
+5. Dòng ""Nước ngọt lon"" bị xóa.
+6. Giỏ còn 1 dòng ""Cơm phần"". Tiêu đề = ""GIỎ HÀNG (1)"". Tổng tiền chỉ tính dòng còn lại.",Medium,PENDING
+POS_022,Xóa dòng trong giỏ bằng phím Delete,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Cơm phần"" để thêm vào giỏ.
+5. Click chọn dòng ""Cơm phần"" trong giỏ.
+6. Nhấn phím Delete trên bàn phím.
+7. Hộp thoại xác nhận hiện ra, nhấn ""Có"".
+8. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có 1 dòng.
+5. Dòng được chọn (nổi bật).
+6. Hộp thoại ""Xóa mặt hàng này?"" hiện lên với nút Có/Không.
+7. Nhấn ""Có"".
+8. Dòng bị xóa, giỏ hàng trống.",Low,PENDING
+POS_023,Xóa toàn bộ giỏ hàng bằng nút Xóa giỏ hàng,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Thêm 3 sản phẩm bất kỳ vào giỏ (double-click 3 thẻ).
+5. Nhấn nút ""Xóa giỏ hàng"" (có biểu tượng thùng rác phía trên giỏ hàng).
+6. Hộp thoại ""Xóa toàn bộ giỏ hàng?"" hiện ra, nhấn ""Có"".
+7. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ hàng có 3 dòng.
+5. Hộp thoại xác nhận hiển thị.
+6. Nhấn ""Có"".
+7. Toàn bộ giỏ bị xóa sạch. Tiêu đề = ""GIỎ HÀNG (0)"". Tổng tiền = ""0 VNĐ"". Con trỏ quay lại ô quét mã.",Medium,PENDING
+POS_024,Hủy đơn bằng nút Hủy đơn hoặc phím Escape,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Thêm 2 sản phẩm vào giỏ. Nhập mã khách ""KH001"", nhấn nút Tìm.
+5. Nhấn phím Escape.
+6. Hộp thoại ""Hủy đơn hàng hiện tại và làm mới khách hàng?"" hiện ra, nhấn ""Có"".
+7. Quan sát toàn bộ màn hình.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có 2 dòng, nhãn KH hiển thị tên khách.
+5. Hộp thoại xác nhận hiển thị.
+6. Nhấn ""Có"".
+7. Giỏ bị xóa sạch. Nhãn KH quay về ""Khách vãng lai"". Ô mã KH trống. Tổng tiền = 0. Con trỏ về ô quét mã.",High,PENDING
+POS_025,"Giỏ hàng hiển thị đúng các cột: Tên SP, ĐVT, SL, Thành Tiền, Xóa",2,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click 1 sản phẩm bất kỳ để thêm vào giỏ.
+5. Quan sát các cột hiển thị trong bảng giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có 1 dòng.
+5. Bảng giỏ hàng hiển thị các cột: ""Tên Sản Phẩm"" (không sửa được), ""ĐVT"" (có thể chọn nếu SP có nhiều đơn vị), ""SL"" (có nút tăng/giảm mũi tên), ""Thành Tiền"" (không sửa được, có format số), ""Xóa"" (nút biểu tượng). Dòng cuối bảng có dòng Tổng: ""TỔNG: ..."".",Medium,PENDING
+POS_026,Quét mã vạch sản phẩm hợp lệ bằng ô quét mã (Enter),2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Con trỏ đã sẵn ở ô quét mã (hoặc click vào ô đó).
+5. Gõ mã ""SP01"" (mã sản phẩm Cơm phần), nhấn Enter.
+6. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Con trỏ nằm trong ô quét mã.
+5. Hệ thống tìm được sản phẩm có mã ""SP01"".
+6. ""Cơm phần"" xuất hiện trong giỏ hàng với SL=1. Ô quét mã tự động xóa trắng, sẵn sàng quét tiếp.",High,PENDING
+POS_027,Quét mã vạch sản phẩm không tồn tại,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ mã ""ABCXYZ999"" vào ô quét mã, nhấn Enter.
+5. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Hệ thống tìm không thấy sản phẩm hay combo nào có mã này.
+5. Hộp thoại thông báo ""Không tìm thấy SP/Combo: ABCXYZ999"" hiển thị. Giỏ hàng không thay đổi. Ô quét mã tự xóa trắng.",High,PENDING
+POS_028,Quét mã với nhân số lượng (VD: 10*SP01),3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ ""10*SP01"" vào ô quét mã, nhấn Enter.
+5. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Hệ thống hiểu: số lượng = 10, mã = ""SP01"". Tìm thấy sản phẩm ""Cơm phần"".
+5. Giỏ hàng thêm 1 dòng ""Cơm phần"" với SL = 10 (một dòng duy nhất, không phải 10 dòng). Thành tiền = đơn giá × 10. Ô quét mã xóa trắng.",High,PENDING
+POS_029,Quét mã Combo đang hoạt động,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ mã ""CB001"" (Combo đang hoạt động) vào ô quét mã, nhấn Enter.
+5. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Hệ thống tìm thấy Combo đang hoạt động.
+5. Giỏ hàng thêm 1 dòng có tên bắt đầu bằng ""[COMBO]"", SL = 1, giá = giá combo. Ô quét mã xóa trắng.",High,PENDING
+POS_030,Quét mã Combo đang ngừng hoạt động — bị chặn,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ mã ""CB002"" (Combo đang tạm ngừng hoặc bản nháp) vào ô quét mã, nhấn Enter.
+5. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Hệ thống tìm thấy Combo nhưng đang ngừng hoạt động.
+5. Hộp thoại cảnh báo hiển thị nội dung tương tự: ""Combo này đang ở trạng thái ngừng, không được phép xuất bán!"". Giỏ hàng không thay đổi. Ô quét mã xóa trắng.",High,PENDING
+POS_031,Quét mã Combo 2 lần — gộp số lượng,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ ""CB001"" vào ô quét mã, nhấn Enter.
+5. Gõ ""CB001"" lần 2, nhấn Enter.
+6. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có 1 dòng ""[COMBO] ..."" SL=1.
+5. SL tăng lên 2 (gộp chung, không tạo dòng mới).
+6. Vẫn chỉ 1 dòng, SL=2, Thành tiền = giá combo × 2.",Medium,PENDING
+POS_032,Quét mã với ô quét mã rỗng — không xảy ra gì,1,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Để ô quét mã trống, nhấn Enter.
+5. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Nhấn Enter khi ô quét mã trống.
+5. Không có hộp thoại lỗi, giỏ hàng không thay đổi, ô quét mã vẫn sẵn sàng. Hệ thống bỏ qua.",Low,PENDING
+POS_033,SP có quy đổi đơn vị — cột ĐVT hiển thị dropdown khi click,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Nước ngọt lon"" (SP có cấu hình nhiều đơn vị: Lon, Thùng, Lốc).
+5. Trong giỏ, click vào ô cột ĐVT của dòng ""Nước ngọt lon"".
+6. Quan sát ô ĐVT.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. ""Nước ngọt lon"" xuất hiện trong giỏ, ĐVT mặc định = ""Lon"".
+5. Click vào ô ĐVT -> hiện danh sách xổ xuống gồm: ""Lon"", ""Thùng"", ""Lốc"" (tùy cấu hình).
+6. Cho phép chọn đơn vị khác.",High,PENDING
+POS_034,SP không có quy đổi đơn vị — ô ĐVT chỉ đọc,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Cơm phần"" (SP chỉ có 1 đơn vị ""Suất"").
+5. Trong giỏ, click vào ô ĐVT dòng ""Cơm phần"".
+6. Quan sát ô ĐVT.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. ""Cơm phần"" trong giỏ, ĐVT = ""Suất"".
+5. Click vào ô ĐVT.
+6. Ô ĐVT ở chế độ chỉ đọc, không xổ dropdown, không cho sửa.",Medium,PENDING
+POS_035,Đổi ĐVT từ Lon sang Thùng — giá tự quy đổi,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Nước ngọt lon"".
+5. Trong giỏ, click vào ô ĐVT, chọn ""Thùng"" từ danh sách xổ xuống.
+6. Quan sát ĐVT, giá, và tổng tiền.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: ""Nước ngọt lon"", ĐVT=""Lon"", SL=1, giá = giá lẻ 1 lon.
+5. Chọn ""Thùng"" thành công.
+6. ĐVT hiện ""Thùng"". Giá tự thay đổi sang giá theo Thùng (cao hơn giá lẻ). Thành Tiền cập nhật. SL vẫn = 1 (nhưng giờ là 1 Thùng). Tổng tiền phía dưới cập nhật.",High,PENDING
+POS_036,Đổi ĐVT lại về đơn vị gốc — giá quay về ban đầu,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Nước ngọt lon"".
+5. Đổi ĐVT sang ""Thùng"" (giá tăng lên).
+6. Đổi ĐVT lại về ""Lon"" bằng cách chọn lại ""Lon"" trong dropdown.
+7. Quan sát giá và tổng tiền.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: ""Nước ngọt lon"", ĐVT=""Lon"".
+5. ĐVT = ""Thùng"", giá = giá thùng (cao).
+6. Chọn lại ""Lon"".
+7. ĐVT = ""Lon"", giá quay về đúng giá lẻ ban đầu. Thành Tiền = giá lẻ × SL. Tổng tiền cập nhật.",Medium,PENDING
+POS_037,Thêm SP hết hàng (tồn kho = 0) vào giỏ — bị chặn,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Kem/Đá bào"" (sản phẩm đã hết hàng, tồn kho = 0).
+5. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Hệ thống kiểm tra kho và thấy sản phẩm này đã hết hàng.
+5. Hộp thoại cảnh báo: ""Sản phẩm 'Kem/Đá bào' chỉ còn tồn 0 trên toàn hệ thống!"" hiển thị. Giỏ hàng KHÔNG thêm sản phẩm.",Critical,PENDING
+POS_038,"Thêm SP còn 1 cái, thêm lần 2 — bị chặn",3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Mì/Phở"" (tồn kho = 1) lần 1.
+5. Double-click vào ""Mì/Phở"" lần 2.
+6. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Lần 1: thêm thành công, giỏ có ""Mì/Phở"" SL=1.
+5. Lần 2: hệ thống kiểm tra giỏ đã có 1, thêm 1 nữa = 2, vượt tồn kho (1).
+6. Hộp thoại cảnh báo ""chỉ còn tồn 1"". SL vẫn giữ = 1, không tăng lên 2.",Critical,PENDING
+POS_039,Sửa SL trong giỏ vượt tồn kho — ép về số tối đa,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Nước suối 500ml"" (tồn kho 762 cái).
+5. Double-click vào ô SL, gõ ""999"", nhấn Enter.
+6. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: ""Nước suối 500ml"" SL=1.
+5. Nhập 999 vượt tồn kho 762.
+6. Hộp thoại cảnh báo hiển thị. SL tự động bị giảm xuống 762 (số tối đa trong kho). Thành Tiền cập nhật theo SL mới.",Critical,PENDING
+POS_040,Thêm Vé vào giỏ — KHÔNG kiểm tra tồn kho (vì Vé không phải hàng vật lý),2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Lọc phân loại ""Vé"".
+5. Double-click ""Vé Người lớn"" 5 lần.
+6. Sửa SL = 999.
+7. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Chỉ hiện Vé.
+5. ""Vé Người lớn"" SL = 5 (gộp).
+6. SL = 999 được chấp nhận.
+7. Không có cảnh báo tồn kho — vì vé là hàng không vật lý, bán được không giới hạn.",High,PENDING
+POS_041,[BUG ĐÃ FIX] Đổi ĐVT sang Thùng rồi sửa SL vượt tồn — bị chặn đúng tỷ lệ,5,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Nước ngọt lon"" (tồn kho 500 lon, 1 Thùng = 24 lon).
+5. Trong giỏ, đổi ĐVT sang ""Thùng"".
+6. Sửa SL = 22 (22 Thùng = 22 × 24 = 528 lon, vượt 500 tồn).
+7. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. ""Nước ngọt lon"" trong giỏ, ĐVT = ""Lon"", SL=1.
+5. ĐVT = ""Thùng"", giá cập nhật.
+6. Nhập SL = 22 -> hệ thống tính: 22 Thùng × 24 lon = 528 lon, vượt 500 tồn kho.
+7. Hộp thoại cảnh báo hiển thị. SL tự ép về tối đa 20 Thùng (500 ÷ 24 = 20.8, làm tròn xuống = 20). Thành tiền = giá Thùng × 20.
+LƯU Ý: Trước đây hệ thống so sánh sai (22 < 500) nên cho bán 22 Thùng, dẫn đến kho bị âm.",Critical,PENDING
+POS_042,[BUG ĐÃ FIX] Đổi ĐVT từ Lon sang Thùng khi SL lớn — bị chặn và hoàn lại,5,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Nước ngọt lon"" (tồn kho 500 lon).
+5. Sửa SL = 100 (100 lon < 500, hợp lệ).
+6. Đổi ĐVT sang ""Thùng"" (1 Thùng = 24 lon). Lúc này 100 Thùng = 2400 lon > 500 tồn.
+7. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: ""Nước ngọt lon"" ĐVT=""Lon"" SL=1.
+5. SL = 100, hợp lệ (100 < 500).
+6. Đổi sang ""Thùng"" -> hệ thống tính: 100 × 24 = 2400 > 500 tồn.
+7. Hộp thoại cảnh báo: ""Tồn kho không đủ để đáp ứng 100 Thùng (tổng = 2400)!"" hiển thị. ĐVT tự động quay về ""Lon"". Giá trở lại giá lẻ. SL vẫn = 100. Hệ thống CẤM đổi đơn vị khi sẽ gây vượt kho.",Critical,PENDING
+POS_043,Quét mã SP hết hàng qua ô quét mã — bị chặn,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ mã ""SP04"" (SP hết hàng tồn kho = 0) vào ô quét mã, nhấn Enter.
+5. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Hệ thống tìm ra SP nhưng tồn kho = 0.
+5. Hộp thoại: ""Sản phẩm 'Kem/Đá bào' chỉ còn tồn 0 trên toàn hệ thống!"" hiển thị. Giỏ không thay đổi. Ô quét mã xóa trắng.",Critical,PENDING
+POS_044,Quét mã với SL nhân vượt tồn (VD: 5*SP02 khi tồn = 1) — bị chặn,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ ""5*SP02"" vào ô quét mã (SP02 tồn kho = 1), nhấn Enter.
+5. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Hệ thống hiểu: SL = 5, mã = ""SP02"". Kiểm tra: trong giỏ chưa có + thêm 5 = 5, vượt tồn (1).
+5. Hộp thoại ""chỉ còn tồn 1"". Giỏ hàng KHÔNG thêm. Ô quét mã xóa trắng.",Critical,PENDING
+POS_045,Nhiều dòng cùng SP với ĐVT khác — tổng kiểm tra chéo,5,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click ""Nước ngọt lon"" (tồn kho 500 lon). Sửa SL = 400.
+5. Quét lại ""SP03"" -> thêm dòng mới Lon SL=1. Tổng giỏ = 400+1 = 401 < 500 -> OK.
+6. Đổi ĐVT dòng mới sang ""Thùng"" (24 lon/thùng). Tổng = 400 + 24 = 424 < 500 -> OK.
+7. Sửa SL dòng Thùng = 5. Tổng = 400 + 5×24 = 520 > 500.
+8. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Dòng 1: Nước ngọt lon, Lon, SL=400 (hợp lệ).
+5. Dòng 2 thêm: Lon, SL=1. Tổng = 401, OK.
+6. Dòng 2 đổi sang Thùng. Tổng = 400 + 24 = 424, OK.
+7. Sửa SL dòng Thùng = 5 -> Tổng = 400 + 120 = 520 > 500.
+8. Cảnh báo hiển thị. SL dòng Thùng ép về 4 (= (500-400)÷24 = 4.16, làm tròn xuống 4). Tổng final = 400 + 96 = 496 ≤ 500.",Critical,PENDING
+POS_046,Tìm khách hàng bằng mã thành viên — thành công,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn phím F2 để chuyển con trỏ vào ô mã KH.
+5. Gõ ""KH001"", nhấn nút ""Tìm"" bên cạnh.
+6. Quan sát nhãn tên khách hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Con trỏ chuyển vào ô mã KH.
+5. Hệ thống tìm thấy khách hàng.
+6. Nhãn tên KH hiển thị: ""Nguyễn Văn A [VIP -10%]"" (tên + hạng + phần trăm chiết khấu). Nếu KH có điểm tích lũy, hiển thị thêm số điểm và giá trị quy đổi.",High,PENDING
+POS_047,Tìm khách hàng bằng số điện thoại — thành công,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn F2.
+5. Gõ SĐT khách hàng (VD: ""0901234567""), nhấn nút ""Tìm"".
+6. Quan sát nhãn tên khách.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Con trỏ vào ô mã KH.
+5. Hệ thống tìm KH theo SĐT.
+6. Nhãn hiển thị tên khách hàng tương ứng kèm thông tin chiết khấu (nếu có).",Medium,PENDING
+POS_048,Tìm khách hàng không tồn tại — báo không tìm thấy,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn F2.
+5. Gõ ""KHXYZ_KHONG_TON_TAI"", nhấn nút Tìm.
+6. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Con trỏ vào ô mã KH.
+5. Hệ thống tìm không ra.
+6. Nhãn tên KH = ""Không tìm thấy KH"". Hộp thoại ""Không tìm thấy khách hàng!"" hiển thị.",Medium,PENDING
+POS_049,Xóa mã KH rồi nhấn Tìm — reset về Khách vãng lai,1,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Tìm KH ""KH001"" thành công (nhãn hiện tên).
+5. Xóa trắng ô mã KH.
+6. Nhấn nút ""Tìm"".
+7. Quan sát nhãn tên KH.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Nhãn hiện tên KH.
+5. Ô mã KH trống.
+6. Nhấn Tìm.
+7. Nhãn quay về ""Khách vãng lai"". Không còn gắn khách hàng nào.",Low,PENDING
+POS_050,Hiển thị chiết khấu VVIP (-25%) trên nhãn KH,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ mã KH hạng VVIP (VD: ""KH002""), nhấn Tìm.
+5. Quan sát nhãn tên KH.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Tìm thấy KH hạng VVIP.
+5. Nhãn hiển thị: ""Trần Thị B [VVIP -25%]"". Phần trăm 25% đúng theo quy định (VVIP = 25%).",Medium,PENDING
+POS_051,Hiển thị chiết khấu HSSV (-5%) trên nhãn KH,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ mã KH hạng Học sinh - Sinh viên (VD: ""KH003""), nhấn Tìm.
+5. Quan sát nhãn tên KH.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Tìm thấy KH hạng HSSV.
+5. Nhãn hiển thị: ""Lê Văn C [HocSinhSinhVien -5%]"". Phần trăm 5% đúng quy định.",Medium,PENDING
+POS_052,KH thường (Cá nhân) — không hiện chiết khấu VIP,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ mã KH hạng ""Cá nhân"" (thường), nhấn Tìm.
+5. Quan sát nhãn tên KH.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Tìm thấy KH thường.
+5. Nhãn chỉ hiển thị tên, KHÔNG có phần ""-X%"" vì khách thường không có chiết khấu VIP.",Low,PENDING
+POS_053,Preview chiết khấu VIP hiện real-time khi thêm hàng vào giỏ,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Tìm KH ""KH001"" (hạng VIP -10%).
+5. Double-click vào ""Vé Người lớn"" (giả sử giá 200.000đ).
+6. Quan sát dòng thông tin chiết khấu ngay phía trên (hoặc dưới) tổng tiền lớn.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. KH VIP gắn xong.
+5. Vé thêm vào giỏ. Tổng = 200.000đ.
+6. Dòng preview chiết khấu hiện: ""ĐANG CÓ [Khách VIP] GIẢM 10%: -20,000đ -> TT: 180,000đ"" (màu xanh lá). Giảm chỉ tính trên Vé (không tính F&B).",High,PENDING
+POS_054,"Chiết khấu CHỈ áp dụng cho Vé, KHÔNG giảm đồ ăn uống",5,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Tìm KH ""KH002"" (VVIP -25%).
+5. Double-click ""Vé Người lớn"" (giả sử 200.000đ).
+6. Double-click ""Cơm phần"" (giả sử 22.500đ).
+7. Quan sát dòng preview chiết khấu và tổng tiền thực thu.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. KH VVIP 25% gắn.
+5. Giỏ: Vé 200.000đ.
+6. Giỏ +: Cơm phần 22.500đ. Tổng gốc = 222.500đ.
+7. Preview hiện: giảm 25% CHỈ trên Vé (200.000đ) = 50.000đ. Cơm phần (đồ ăn) KHÔNG bị giảm. Thực thu = 222.500 - 50.000 = 172.500đ. Tổng tiền lớn hiện 172.500 VNĐ.",High,PENDING
+POS_055,"Khi KM sự kiện lớn hơn VIP — lấy mức cao nhất, không cộng dồn",5,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Tìm KH VIP (giảm 10%).
+5. Double-click ""Vé Người lớn"" đủ để tổng vượt ngưỡng tối thiểu của KM sự kiện ""Hè Sôi Nổi - Giảm 15%"".
+6. Quan sát dòng preview chiết khấu.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. VIP 10% gắn.
+5. Tổng đủ kích hoạt KM 15%.
+6. Preview hiện tên KM sự kiện: ""ĐANG CÓ [Hè Sôi Nổi] GIẢM 15%: -Xđ -> TT: Yđ"". Hệ thống chọn mức cao nhất giữa VIP (10%) và Sự kiện (15%) = 15%. KHÔNG cộng dồn (10+15=25%).",High,PENDING
+POS_056,Gợi ý khuyến mãi khi mua thêm ít tiền nữa sẽ đạt ngưỡng,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Thêm SP sao cho tổng = 450.000đ (VD: bằng cách thêm Vé + F&B). Giả sử KM cần ≥ 500.000đ.
+5. Quan sát dòng preview chiết khấu.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Tổng = 450.000đ, thiếu 50.000đ để đạt ngưỡng KM.
+5. Dòng gợi ý hiện (màu vàng/cam): ""Gợi ý: Mua thêm 50,000đ để kích hoạt [Tên KM]"". Chỉ hiện khi thiếu ≤ 100.000đ.",Medium,PENDING
+POS_057,Không hiện gợi ý KM khi còn thiếu quá nhiều (> 100K),2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Thêm SP sao cho tổng = 100.000đ (thiếu 400.000đ so với KM ngưỡng 500K).
+5. Quan sát dòng preview.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Tổng = 100.000đ, thiếu 400.000đ > 100.000đ.
+5. KHÔNG hiện gợi ý KM. Dòng preview trống hoặc chỉ hiện CK VIP (nếu có).",Low,PENDING
+POS_058,Nhấn nút Quick Cash 100K — tính tiền thừa đúng,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Cơm phần"" (giá 22.500đ).
+5. Nhấn nút ""100K"".
+6. Quan sát ô tiền khách đưa và nhãn tiền thừa.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: ""Cơm phần"" 22.500đ.
+5. Ô tiền khách đưa tự động điền ""100,000"".
+6. Nhãn tiền thừa hiển thị ""77,500 đ"" (= 100.000 - 22.500) với màu xanh lá. Nút Thanh toán tiền mặt chuyển sang bấm được (enabled) + đổi màu xanh.",Medium,PENDING
+POS_059,"Nhấn nút ""Đưa đủ"" — điền chính xác bằng số tiền cần thu",2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click ""Cơm phần"" (22.500đ).
+5. Nhấn nút ""Đưa đủ"".
+6. Quan sát ô tiền khách đưa và tiền thừa.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: 22.500đ.
+5. Ô tiền khách đưa = ""22,500"".
+6. Tiền thừa = ""0 đ"". Nút Thanh toán tiền mặt bấm được.",Medium,PENDING
+POS_060,Tiền khách đưa < Tổng — nút Thanh toán tiền mặt bị khóa,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Vé Người lớn"" (giả sử 200.000đ).
+5. Gõ ""50000"" vào ô tiền khách đưa.
+6. Quan sát nút thanh toán tiền mặt và nhãn tiền thừa.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: Vé 200.000đ.
+5. Tiền khách đưa = 50.000.
+6. Nhãn tiền thừa hiển thị: ""CÒN THIẾU: 150,000 đ"" (màu đỏ). Nút Thanh toán tiền mặt bị khóa (xám, không bấm được).",High,PENDING
+POS_061,Nhấn Enter ở ô tiền khách đưa khi đủ tiền — chạy thanh toán,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click SP bất kỳ vào giỏ.
+5. Nhấn F8 để chuyển con trỏ vào ô tiền khách đưa.
+6. Gõ số tiền đủ hoặc dư, nhấn Enter.
+7. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Có 1 dòng trong giỏ.
+5. Con trỏ vào ô tiền.
+6. Tiền đưa ≥ tổng -> nút thanh toán tiền mặt đã bấm được.
+7. Nhấn Enter -> tự động kích hoạt thanh toán tiền mặt, hộp thoại xác nhận hiện ra.",Medium,PENDING
+POS_062,Nhấn Enter ở ô tiền khách đưa khi thiếu tiền — cảnh báo,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click SP bất kỳ (giá > 50K).
+5. Nhấn F8, gõ ""10000"" (thiếu tiền), nhấn Enter.
+6. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Có dòng trong giỏ.
+5. Tiền đưa 10.000 < tổng.
+6. Hộp thoại cảnh báo ""Khách chưa đưa đủ tiền!"" hiển thị. Không thực hiện thanh toán.",Medium,PENDING
+POS_063,Thanh toán tiền mặt thành công — giỏ reset (Happy Path),5,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Cơm phần"".
+5. Nhấn nút ""Đưa đủ"" để điền tiền.
+6. Nhấn phím F9 (hoặc click nút Thanh toán Tiền mặt).
+7. Hộp thoại ""XÁC NHẬN THANH TOÁN"" hiện ra, nhấn ""Có"".
+8. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: ""Cơm phần"" SL=1.
+5. Ô tiền điền đủ.
+6. Hộp thoại xác nhận hiển thị: Tổng đơn, Phương thức: Tiền mặt, Số mặt hàng.
+7. Nhấn ""Có"".
+8. Thanh toán thành công. Hiện hộp thoại hóa đơn (mã HĐ, ngày giờ, danh sách SP, tổng tiền). Sau đó: giỏ hàng xóa sạch, nhãn KH về ""Khách vãng lai"", ô mã KH trống, tổng tiền = 0. Con trỏ quay về ô quét mã.",Critical,PENDING
+POS_064,Thanh toán khi giỏ hàng trống — bị chặn,1,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Không thêm gì vào giỏ (giỏ trống).
+5. Nhấn F9 (Thanh toán tiền mặt).
+6. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ trống (0 dòng).
+5. Nhấn F9.
+6. Hộp thoại: ""Giỏ hàng trống!"" hiển thị. Không có hộp thoại xác nhận thanh toán.",High,PENDING
+POS_065,Thanh toán Ví RFID mà chưa quét thẻ KH — bị chặn,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào SP bất kỳ.
+5. KHÔNG tìm khách hàng (nhãn vẫn là ""Khách vãng lai"").
+6. Nhấn F10 (Thanh toán Ví RFID).
+7. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có SP.
+5. Chưa gắn khách hàng.
+6. Nhấn F10.
+7. Hộp thoại: ""Thanh toán ví RFID bắt buộc phải quét thẻ khách hàng trước!"" hiển thị. Con trỏ tự động chuyển vào ô mã KH. Không thực hiện thanh toán.",Critical,PENDING
+POS_066,Thanh toán Ví RFID sau khi quét KH — thành công,3,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Tìm KH ""KH001"" (có thẻ RFID, ví còn đủ tiền).
+5. Double-click ""Cơm phần"" vào giỏ.
+6. Nhấn F10 (Thanh toán Ví RFID).
+7. Hộp thoại xác nhận hiện, nhấn ""Có"".
+8. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. KH gắn xong, nhãn hiện tên.
+5. Giỏ có SP.
+6. Hộp thoại xác nhận: phương thức = Ví RFID.
+7. Nhấn ""Có"".
+8. Thanh toán thành công. Ví RFID bị trừ tiền thanh toán. Hóa đơn hiển thị. Giỏ reset, nhãn KH về Khách vãng lai, ô tiền và tiền thừa tự xóa.",High,PENDING
+POS_067,Thanh toán Chuyển khoản — không bắt buộc quét KH,3,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click ""Vé Người lớn"" vào giỏ.
+5. KHÔNG tìm KH (để ""Khách vãng lai"").
+6. Nhấn F11 (Chuyển khoản).
+7. Hộp thoại xác nhận hiện, nhấn ""Có"".
+8. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có Vé.
+5. Khách vãng lai — không bắt buộc.
+6. Hộp thoại xác nhận: phương thức = Chuyển khoản. Không yêu cầu quét KH (khác với Ví RFID).
+7. Nhấn ""Có"".
+8. Tạo hóa đơn thành công. Giỏ reset, nhãn KH về Khách vãng lai.",Medium,PENDING
+POS_068,Phím F1 — Focus vào ô tìm kiếm sản phẩm,1,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn phím F1.
+5. Quan sát con trỏ.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Nhấn F1.
+5. Con trỏ nhập liệu chuyển vào ô tìm kiếm sản phẩm.",Medium,PENDING
+POS_069,Phím F2 — Focus vào ô mã khách hàng,1,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn phím F2.
+5. Quan sát con trỏ.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Nhấn F2.
+5. Con trỏ chuyển vào ô mã khách hàng.",Medium,PENDING
+POS_070,Phím F8 — Focus vào ô tiền khách đưa,1,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn phím F8.
+5. Quan sát con trỏ.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Nhấn F8.
+5. Con trỏ chuyển vào ô tiền khách đưa.",Medium,PENDING
+POS_071,Phím Escape — Hủy đơn (giống nút Hủy đơn),2,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click 1 SP vào giỏ.
+5. Nhấn phím Escape.
+6. Hộp thoại xác nhận hiện ra, nhấn ""Có"".
+7. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có 1 dòng.
+5. Hộp thoại ""Hủy đơn hàng hiện tại và làm mới khách hàng?"" hiện ra.
+6. Nhấn ""Có"".
+7. Giỏ bị xóa sạch, nhãn KH về ""Khách vãng lai"", tổng tiền = 0.",Medium,PENDING
+POS_072,Phím Escape khi giỏ trống — không hiện hộp thoại,1,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Không thêm gì, giỏ trống.
+5. Nhấn phím Escape.
+6. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ trống.
+5. Nhấn Escape.
+6. KHÔNG hiện hộp thoại xác nhận (vì giỏ trống, không có gì để hủy). Màn hình giữ nguyên.",Low,PENDING
+POS_073,Thanh toán Vé — tự động mở màn hình phát vé điện tử,5,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click vào ""Vé Người lớn"".
+5. Nhấn ""Đưa đủ"", sau đó nhấn F9.
+6. Xác nhận thanh toán nhấn ""Có"".
+7. Quan sát sau khi thanh toán thành công.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có ""Vé Người lớn"".
+5. Tiền điền đủ.
+6. Thanh toán thành công.
+7. Vì đơn hàng có Vé -> hệ thống tự động mở cửa sổ phát vé điện tử (hiển thị thông tin vé: mã QR, tên vé, ngày, trạng thái). Sau khi đóng cửa sổ vé -> giỏ reset bình thường.",High,PENDING
+POS_074,Thanh toán chỉ có F&B — hiện hóa đơn text (không hiện phát vé),5,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click ""Cơm phần"" (F&B, không phải Vé).
+5. Nhấn ""Đưa đủ"", nhấn F9, xác nhận ""Có"".
+6. Quan sát sau thanh toán.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có ""Cơm phần"" (F&B).
+5. Thanh toán thành công.
+6. Vì đơn KHÔNG có Vé -> hiện hộp thoại hóa đơn dạng text (mã HĐ, ngày giờ, tên SP × SL, tổng gốc, giảm giá nếu có, thực thu, phương thức TT). KHÔNG mở cửa sổ phát vé. Sau khi nhấn OK -> giỏ reset.",Medium,PENDING
+POS_075,Thanh toán với KH VIP — tích điểm sau thanh toán,5,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Tìm KH ""KH001"" (VIP, có điểm tích lũy).
+5. Double-click ""Vé Người lớn"".
+6. Nhấn ""Đưa đủ"", nhấn F9, xác nhận ""Có"".
+7. Quan sát nội dung hộp thoại xác nhận TRƯỚC khi nhấn Có.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. KH VIP gắn.
+5. Giỏ có Vé.
+6. Hộp thoại xác nhận hiển thị.
+7. Nội dung hộp thoại phải có dòng ""Tích thêm: +X điểm"" (X > 0) cho biết KH sẽ được cộng bao nhiêu điểm tích lũy sau giao dịch này.",High,PENDING
+POS_076,KH có điểm tích lũy — hệ thống hỏi dùng điểm khi điểm lợi hơn CK,5,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Tìm KH có nhiều điểm tích lũy (giá trị quy đổi > chiết khấu VIP).
+5. Thêm SP vào giỏ.
+6. Nhấn F9 thanh toán.
+7. Quan sát các hộp thoại tuần tự.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. KH gắn, nhãn hiện tên + điểm.
+5. Giỏ có SP.
+6. Nhấn F9.
+7. Trước hộp thoại xác nhận thanh toán cuối, hiện thêm hộp thoại: ""Bạn có X điểm (=Y đ). Dùng Z điểm giảm W đ? (Lợi hơn chiết khấu V đ)"" với 2 nút Có/Không. Nếu nhấn ""Có"" -> dùng điểm. Nếu ""Không"" -> dùng CK VIP/KM.",High,PENDING
+POS_077,KH chọn KHÔNG dùng điểm — vẫn áp chiết khấu VIP,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Tìm KH VIP có điểm.
+5. Thêm Vé vào giỏ. Nhấn F9.
+6. Hộp thoại hỏi dùng điểm hiện ra, nhấn ""Không"".
+7. Xem hộp thoại xác nhận thanh toán.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. KH VIP gắn.
+5. Giỏ có Vé. Nhấn F9.
+6. Chọn ""Không"" dùng điểm.
+7. Hộp thoại xác nhận thanh toán xuất hiện, áp chiết khấu VIP (10%) thay vì dùng điểm. Hiện đúng số tiền giảm theo CK VIP.",Medium,PENDING
+POS_078,Quét mã Booking Đoàn (BK-xxx) — hiện thông tin quota,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ ""BK-TEST01"" (mã booking đoàn) vào ô quét mã, nhấn Enter.
+5. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Hệ thống nhận diện đây là mã Booking (bắt đầu bằng ""BK-""), không phải mã SP.
+5. Hộp thoại hiển thị thông tin đoàn: Tên đoàn, danh sách suất ăn/dịch vụ còn lại (VD: ""Suất ăn trưa: còn 20/30""), hỏi ""Thêm 1 suất vào giỏ?"" (Có/Không).",High,PENDING
+POS_079,Quét mã Booking — nhấn Có — thêm suất vào giỏ giá 0đ,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ ""BK-TEST01"" vào ô quét mã, nhấn Enter.
+5. Hộp thoại quota hiện ra, nhấn ""Có"".
+6. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Nhận diện mã Booking.
+5. Nhấn ""Có"".
+6. Giỏ hàng thêm các dòng có tên bắt đầu bằng ""[ĐOÀN]"", giá = 0đ. Nhãn KH đổi thành ""🏷️ ĐOÀN: Tên đoàn (CK X%)"" (chữ xanh lá). Tổng tiền = 0.",High,PENDING
+POS_080,Quét mã Booking không tồn tại — báo lỗi,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ ""BK-KHONG_CO"" vào ô quét mã, nhấn Enter.
+5. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Hệ thống nhận diện là mã Booking nhưng không tìm thấy đoàn.
+5. Hộp thoại: ""Không tìm thấy đoàn: BK-KHONG_CO"" hiển thị. Giỏ hàng không thay đổi.",Medium,PENDING
+POS_081,Quét mã Booking đã hết quota ăn uống — báo hết,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ mã booking của đoàn đã sử dụng hết quota ăn uống, nhấn Enter.
+5. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Hệ thống tìm thấy đoàn nhưng quota = 0.
+5. Hộp thoại: ""Đoàn 'Tên đoàn' không có suất ăn hoặc đã dùng hết!"" hiển thị. Giỏ hàng không thay đổi.",High,PENDING
+POS_082,"Thanh toán đơn Đoàn — trừ quota, tạo đơn 0đ",5,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Gõ ""BK-TEST01"" vào ô quét mã, nhấn Enter.
+5. Nhấn ""Có"" để thêm suất vào giỏ.
+6. Nhấn F9 (hoặc bất kỳ nút thanh toán nào).
+7. Hộp thoại xác nhận ""XÁC NHẬN ĐOÀN"" hiện, nhấn ""Có"".
+8. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Bán hàng hiển thị.
+4. Nhận diện Booking.
+5. Giỏ có các dòng ""[ĐOÀN]"" 0đ.
+6. Nhấn thanh toán.
+7. Hộp thoại xác nhận đoàn: ""Xác nhận phục vụ ĐOÀN: ... X mục — Tổng: 0 VNĐ (theo hợp đồng)"". Nhấn ""Có"".
+8. Thành công. Thông báo ""Phục vụ đoàn thành công!"" với mã HĐ. Giỏ reset, nhãn KH về ""Khách vãng lai"" (chữ trắng bình thường).",High,PENDING
+POS_083,Tài khoản không có quyền xem POS — màn hình bị khóa toàn bộ,3,Permission,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thukho01"" / ""123456"" (tài khoản kho, không có quyền POS).
+3. Cố gắng mở menu ""Bán hàng"".
+4. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Nếu menu ""Bán hàng"" hiển thị -> mở ra.
+4. Toàn bộ màn hình POS bị khóa (Enabled = false). Không thể thao tác gì: không quét mã, không thêm SP, không thanh toán. Hoặc menu ""Bán hàng"" không hiện lên cho tài khoản này.",High,PENDING
+POS_084,Tài khoản có VIEW_POS nhưng không có MANAGE_POS — nút Hủy đơn và Xóa giỏ bị khóa,3,Permission,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""nhanvien01"" / ""123456"" (có quyền xem POS, không có quyền quản lý POS).
+3. Nhấn menu ""Bán hàng"".
+4. Quan sát trạng thái nút ""Hủy đơn"" và ""Xóa giỏ hàng"".","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị, có thể quét mã và thêm SP.
+4. Nút ""Hủy đơn"" bị khóa (xám, không bấm được). Nút ""Xóa giỏ hàng"" cũng bị khóa. Nhân viên vẫn có thể thanh toán bình thường nhưng không được hủy/xóa giỏ.",Medium,PENDING
+POS_085,Thanh toán ghi nhận đúng tên Thu ngân đang đăng nhập,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Thêm 1 SP vào giỏ, thanh toán tiền mặt thành công (F9 -> Đưa đủ -> Xác nhận).
+5. Mở lịch sử bán hàng (nếu có) và tìm đơn hàng vừa tạo.
+6. Kiểm tra người lập.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Thanh toán thành công.
+5. Đơn hàng vừa tạo hiển thị trong lịch sử.
+6. Người lập / Thu ngân = ""thungan01"" (hoặc tên nhân viên tương ứng). Đảm bảo hệ thống ghi nhận đúng tài khoản đang đăng nhập.",Medium,PENDING
+POS_086,"Mã hóa đơn sinh tự động, duy nhất cho mỗi đơn",3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Thanh toán đơn hàng thứ 1 (thêm SP, F9, Đưa đủ, Có). Ghi nhận mã HĐ trên hóa đơn (VD: ""DH-260412024501-A1B2"").
+5. Thanh toán đơn hàng thứ 2. Ghi nhận mã HĐ.
+6. So sánh 2 mã.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Đơn 1 thành công, mã HĐ hiển thị trên hóa đơn.
+5. Đơn 2 thành công, mã HĐ hiển thị.
+6. Hai mã HĐ KHÁC NHAU (được sinh tự động, có dấu thời gian và mã ngẫu nhiên đính kèm). Đảm bảo tính duy nhất.",Medium,PENDING
+POS_087,Ô tiền khách đưa tự format số có dấu phân cách hàng nghìn,2,UI,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn F8 để focus ô tiền khách đưa.
+5. Gõ ""500000"".
+6. Quan sát giá trị hiển thị trong ô.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Con trỏ vào ô tiền.
+5. Gõ 500000.
+6. Ô tự động format thành ""500,000"" (có dấu phân cách nghìn). Con trỏ đặt ở cuối.",Low,PENDING
+POS_088,Thanh toán với KH VVIP + KM sự kiện + Có điểm — popup xác nhận hiện đủ thông tin,5,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Tìm KH VVIP có điểm tích lũy.
+5. Thêm Vé + Cơm phần vào giỏ (đủ ngưỡng KM sự kiện).
+6. Nhấn F9.
+7. Nếu hỏi dùng điểm -> chọn ""Không"".
+8. Quan sát hộp thoại xác nhận cuối.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. KH VVIP gắn.
+5. Giỏ có Vé + F&B, tổng đủ ngưỡng KM.
+6. Nhấn F9.
+7. Chọn không dùng điểm.
+8. Hộp thoại xác nhận ghi đầy đủ: Tổng đơn, dòng giảm giá (nguồn: KM sự kiện hoặc VIP — cái nào lớn hơn), Thanh toán thực tế, Phương thức, Số mặt hàng, Tích thêm bao nhiêu điểm. Chiết khấu CHỈ tính trên Vé, không tính trên Cơm phần.",High,PENDING
+POS_089,Hóa đơn hiển thị tên ĐVT đã chọn (VD: Thùng),3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Thêm ""Nước ngọt lon"" vào giỏ, đổi ĐVT sang ""Thùng"".
+5. Nhấn ""Đưa đủ"", F9, xác nhận.
+6. Quan sát nội dung hóa đơn.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: ""Nước ngọt lon"" ĐVT=""Thùng"" SL=1.
+5. Thanh toán thành công.
+6. Hóa đơn hiển thị: ""Nước ngọt lon x1 Thùng ..."" — tên ĐVT được in rõ ràng trên hóa đơn để nhân viên giao hàng biết giao đúng.",Medium,PENDING
+POS_090,Thanh toán SP F&B — kho tự động trừ tồn,5,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Ghi lại tồn kho ""Cơm phần"" hiện tại (có thể mở màn hình Kho hàng kiểm tra trước VD: 420).
+5. Quay lại POS, thêm ""Cơm phần"" SL = 5.
+6. Thanh toán thành công (Đưa đủ -> F9 -> Có).
+7. Mở lại màn hình Kho hàng, kiểm tra tồn kho ""Cơm phần"".","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Tồn kho trước = 420 (VD).
+5. Giỏ: ""Cơm phần"" SL=5.
+6. Thanh toán thành công.
+7. Tồn kho sau = 415 (= 420 - 5). Hệ thống đã tự động trừ kho sau khi bán.",Critical,PENDING
+POS_091,Thanh toán SP với ĐVT Thùng — kho trừ đúng số lượng quy đổi,5,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Ghi lại tồn kho ""Nước ngọt lon"" (VD: 500 lon).
+5. Quay lại POS, thêm ""Nước ngọt lon"", đổi ĐVT sang ""Thùng"" (1 Thùng = 24 lon), SL = 2.
+6. Thanh toán thành công.
+7. Mở Kho hàng kiểm tra tồn kho ""Nước ngọt lon"".","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Tồn trước = 500 lon.
+5. Giỏ: ""Nước ngọt lon"" ĐVT=""Thùng"" SL=2.
+6. Thanh toán thành công.
+7. Tồn kho sau = 452 lon (= 500 - 2×24 = 500 - 48 = 452). Kho trừ đúng 48 lon (2 Thùng × 24 lon/Thùng), KHÔNG trừ 2 lon.",Critical,PENDING
+POS_092,Thanh toán Vé — kho KHÔNG bị trừ (Vé không phải hàng vật lý),3,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Double-click ""Vé Người lớn"" SL = 3.
+5. Thanh toán thành công.
+6. Mở Kho hàng, tìm xem có ""Vé Người lớn"" trong bảng tồn kho không.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ: Vé SL=3.
+5. Thanh toán OK.
+6. Vé KHÔNG xuất hiện trong bảng tồn kho (vì không phải hàng vật lý, không cần trừ kho). Kho chỉ quản lý đồ ăn uống và đồ lưu niệm.",Medium,PENDING
+POS_093,Chọn Kho khác từ dropdown — kho trừ đúng kho được chọn,5,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Đổi dropdown Kho sang ""Kho canteen"" (nếu có).
+5. Ghi lại tồn kho ""Cơm phần"" tại ""Kho canteen"".
+6. Thêm ""Cơm phần"" SL=2, thanh toán thành công.
+7. Kiểm tra tồn kho ""Cơm phần"" tại ""Kho canteen"" và ""Kho trung tâm"".","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Dropdown chuyển sang ""Kho canteen"".
+5. Ghi nhận tồn kho.
+6. Thanh toán OK.
+7. Tồn kho ""Kho canteen"" giảm 2. Tồn kho ""Kho trung tâm"" KHÔNG thay đổi. Hệ thống trừ đúng kho được chọn.",Medium,PENDING
+POS_094,Camera quét mã vạch — bật/tắt/quét,3,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn nút ""Cam"" (bật camera).
+5. Đưa mã vạch trước camera (hoặc dùng ảnh có mã vạch).
+6. Quan sát phản hồi.
+7. Nhấn nút ""Tắt"" để tắt camera.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Camera bật, ô xem trước camera hiện hình, nút đổi thành ""Tắt"" (màu đỏ).
+5. Camera đọc được mã vạch -> sản phẩm tương ứng tự động thêm vào giỏ + tiếng beep.
+6. Ô quét mã tự xóa.
+7. Camera tắt, ô hình ẩn, nút đổi lại ""Cam"".",Medium,PENDING
+POS_095,Quét file ảnh có mã vạch,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Nhấn nút ""Quét file"".
+5. Chọn 1 file ảnh có chứa mã vạch SP hợp lệ.
+6. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Hộp thoại chọn file mở ra.
+5. Chọn ảnh có mã vạch.
+6. Nếu đọc được mã -> SP tương ứng thêm vào giỏ. Nếu không đọc được -> thông báo lỗi.",Low,PENDING
+POS_096,Thanh toán xong — ô tiền khách đưa và tiền thừa tự reset,2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Thêm SP, nhấn ""200K"", thanh toán F9 thành công.
+5. Quan sát ô tiền khách đưa và nhãn tiền thừa SAU khi thanh toán xong.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Thanh toán thành công, hóa đơn hiển thị.
+5. Sau khi đóng hóa đơn: ô tiền khách đưa trống (hoặc = 0). Nhãn tiền thừa hiện ""0 đ"". Nút TT tiền mặt về trạng thái khóa (xám). Sẵn sàng cho đơn mới.",Low,PENDING
+POS_097,2 Thu ngân bán cùng SP cùng lúc — kho trừ đúng tổng,5,E2E,POS,"1. Trên máy 1: Mở phần mềm, đăng nhập ""thungan01"".
+2. Trên máy 2: Mở phần mềm, đăng nhập ""thungan02"" (nếu có).
+3. Cả 2 cùng mở POS, cùng thêm ""Cơm phần"" SL=3.
+4. Máy 1 thanh toán trước.
+5. Máy 2 thanh toán sau.
+6. Kiểm tra kho.","1. Phần mềm mở 2 cửa sổ trên 2 máy.
+2. Đăng nhập 2 TK khác.
+3. Cả 2 giỏ đều có ""Cơm phần"" SL=3.
+4. Máy 1 thanh toán OK, kho trừ 3.
+5. Máy 2 thanh toán OK, kho trừ thêm 3.
+6. Tổng kho giảm 6 (= 3+3). Nếu kho chỉ còn 5 thì máy 2 phải bị chặn (tùy lúc kiểm tra realtime).",Medium,PENDING
+POS_098,"Hủy xác nhận thanh toán (nhấn ""Không"") — giỏ giữ nguyên",2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Thêm 2 SP vào giỏ.
+5. Nhấn F9 (TT tiền mặt).
+6. Hộp thoại xác nhận hiện ra, nhấn ""Không"".
+7. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có 2 dòng.
+5. Nhấn F9.
+6. Hộp thoại ""XÁC NHẬN THANH TOÁN"" hiện ra.
+7. Nhấn ""Không"" -> HỦY thanh toán. Giỏ hàng GIỮ NGUYÊN 2 dòng, tổng tiền không đổi. Hệ thống quay lại trạng thái trước khi nhấn F9.",Medium,PENDING
+POS_099,"Hủy xác nhận xóa giỏ (nhấn ""Không"") — giỏ giữ nguyên",2,Logic,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Thêm 3 SP vào giỏ.
+5. Nhấn nút ""Xóa giỏ hàng"".
+6. Hộp thoại ""Xóa toàn bộ giỏ hàng?"" hiện, nhấn ""Không"".
+7. Quan sát giỏ hàng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có 3 dòng.
+5. Nhấn nút xóa giỏ.
+6. Hộp thoại hiện ra.
+7. Nhấn ""Không"" -> giỏ GIỮ NGUYÊN 3 dòng. Không mất dữ liệu.",Low,PENDING
+POS_100,Giỏ chỉ có Combo — thanh toán thành công,3,E2E,POS,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thungan01"" / ""123456"".
+3. Nhấn menu ""Bán hàng"".
+4. Quét mã ""CB001"" (Combo đang hoạt động) vào ô quét mã, Enter.
+5. Nhấn ""Đưa đủ"".
+6. Nhấn F9. Xác nhận ""Có"".
+7. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Bán hàng hiển thị.
+4. Giỏ có 1 dòng ""[COMBO] ..."" SL=1.
+5. Tiền đưa điền đủ.
+6. Hộp thoại xác nhận. Nhấn ""Có"".
+7. Thanh toán thành công. Hóa đơn hiển thị đúng tên Combo, giá, tổng. Giỏ reset.",Medium,PENDING

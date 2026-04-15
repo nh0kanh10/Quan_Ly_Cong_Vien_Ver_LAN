@@ -35,8 +35,7 @@ namespace GUI
 
         public void ApplyPermissions()
         {
-            // Only Boss/Admin can manage permissions. 
-            // Mock logic: check current user role.
+
         }
 
         public void ApplyStyles()
@@ -57,17 +56,14 @@ namespace GUI
 
         private void TreeQuyen_AfterCheckNode(object sender, NodeEventArgs e)
         {
-            // Standard DevExpress recursive checking is handled by AllowRecursiveNodeChecking = true
         }
 
         private void LoadInitialData()
         {
-            // Load Roles
             lbVaiTro.DataSource = BUS_VaiTro.Instance.LoadDS();
             lbVaiTro.DisplayMember = "TenVaiTro";
             lbVaiTro.ValueMember = "Id";
 
-            // Load Tree
             BuildPermissionTree();
         }
 
@@ -76,10 +72,8 @@ namespace GUI
             var allQuyen = BUS_QuyenHan.Instance.LoadDS();
             var nodes = new List<PermissionNode>();
 
-            // Root Node
             nodes.Add(new PermissionNode { Id = -1, ParentId = -2, DisplayName = "Tất cả quyền hệ thống", MaQuyen = "ROOT", IsModule = true });
 
-            // Group by Module (Parsing MaQuyen: VIEW_STAFF -> STAFF)
             var modules = allQuyen.Select(q => GetModuleName(q.MaQuyen)).Distinct();
             int moduleId = 1000;
             
@@ -184,7 +178,6 @@ namespace GUI
             foreach (TreeListNode node in treeQuyen.GetNodeList())
             {
                 var data = treeQuyen.GetRow(node.Id) as PermissionNode;
-                // Only save leaves (actual permissions), not modules/root
                 if (node.Checked && data != null && !data.IsModule)
                 {
                     selectedIds.Add(data.Id);

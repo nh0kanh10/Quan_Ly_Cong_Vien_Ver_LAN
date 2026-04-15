@@ -109,7 +109,7 @@ namespace DAL
                 db.GetTable<LuotVaoRaBaiXe>().InsertOnSubmit(obj);
                 db.SubmitChanges();
                 return obj.Id;
-            } catch { return -1; }
+            } catch (Exception ex) { throw new Exception("Lỗi DAL_LuotVaoRaBaiXe: " + ex.Message, ex); }
         }
 
         public bool Them(ET_LuotVaoRaBaiXe et)

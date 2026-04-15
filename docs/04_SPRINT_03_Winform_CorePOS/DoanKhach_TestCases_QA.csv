@@ -1,0 +1,754 @@
+﻿TC ID,Title,Est. (mins),Test Type,Area,Procedure / Steps,Expected Results,Priority,RESULT
+BK_001,Mở màn hình Đoàn khách — kiểm tra bố cục tổng thể,3,Giao diện,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Tại màn hình đăng nhập, nhập tài khoản ""letan01"", mật khẩu ""123456"", nhấn ""Đăng nhập"".
+3. Nhấn menu Đoàn khách trên thanh điều hướng.
+4. Quan sát bố cục màn hình.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Đoàn khách mở ra.
+4. Bố cục gồm: Ô tìm kiếm booking (nhập mã BK-xxx hoặc SĐT), nút Tìm. Panel thông tin đoàn (Tên đoàn, Người đại diện, SĐT, Số lượng, Chiết khấu, Ngày đến, Gói combo). Nhãn trạng thái (hợp lệ/không hợp lệ). Nút ""Xuất Vé"" (mặc định khóa). Vùng hiển thị kết quả xác nhận.",High,PENDING
+BK_002,Kiểm tra ô tìm kiếm tự động focus khi mở form,1,Giao diện,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Quan sát vị trí con trỏ.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Con trỏ nhập liệu tự động nằm trong ô tìm kiếm booking, sẵn sàng nhận mã hoặc SĐT.",Medium,PENDING
+BK_003,Nút Xuất Vé mặc định bị khóa khi chưa tìm booking,1,Giao diện,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Quan sát nút Xuất Vé.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Nút ""Xuất Vé"" bị khóa (bị vô hiệu hóa, màu xám), không bấm được.",Medium,PENDING
+BK_004,Panel thông tin đoàn trống khi mới mở,1,Giao diện,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Quan sát panel thông tin đoàn.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Panel thông tin trống, không hiển thị tên đoàn hay thông tin gì.",Low,PENDING
+BK_005,Tìm đoàn bằng mã booking hợp lệ — hiện đúng thông tin,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ mã ""BK-20260401-001"" vào ô tìm kiếm.
+5. Nhấn nút ""Tìm"" hoặc Enter.
+6. Quan sát panel thông tin.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Gõ mã booking.
+5. Hệ thống tìm thấy.
+6. Panel hiện đầy đủ: Tên đoàn (""Công ty XYZ""), Người đại diện (""Nguyễn Văn A""), SĐT (""0901234567""), Số lượng (50 người), Chiết khấu (20%), Ngày đến dự kiến.",Critical,PENDING
+BK_006,Tìm đoàn bằng SĐT trưởng đoàn — thành công,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ SĐT ""0901234567"" vào ô tìm kiếm.
+5. Nhấn nút Tìm.
+6. Quan sát panel thông tin.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Gõ SĐT.
+5. Tìm thấy booking gắn với SĐT này.
+6. Panel hiện thông tin đoàn tương ứng.",High,PENDING
+BK_007,Tìm mã booking không tồn tại — hiện thông báo lỗi,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ ""BK-KHONGTONTAI"" vào ô tìm kiếm.
+5. Nhấn Tìm.
+6. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Gõ mã không tồn tại.
+5. Hệ thống tìm không ra.
+6. Hệ thống hiển thị màn hình Không tìm thấy. Nút Xuất Vé vẫn khóa.",High,PENDING
+BK_008,Tìm SĐT không tồn tại — hiện thông báo lỗi,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ ""0999999999"" (SĐT không có trong hệ thống).
+5. Nhấn Tìm.
+6. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Gõ SĐT không tồn tại.
+5. Tìm không ra.
+6. Thông báo ""Không tìm thấy"". Nút Xuất Vé khóa.",High,PENDING
+BK_009,Ô tìm kiếm trống — nhấn Tìm — không xảy ra gì,1,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Để ô tìm kiếm trống.
+5. Nhấn Tìm.
+6. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Ô tìm trống.
+5. Nhấn Tìm.
+6. Hệ thống hiển thị cảnh báo yêu cầu nhập mã booking hoặc SĐT. Nút Xuất Vé vẫn khóa.",Low,PENDING
+BK_010,Booking hợp lệ (chưa xác nhận + đúng ngày) — nhãn trạng thái xanh + nút Xuất Vé mở,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ mã booking hợp lệ (chưa xác nhận, chưa hủy, đúng ngày hôm nay).
+5. Nhấn Tìm.
+6. Quan sát nhãn trạng thái và nút Xuất Vé.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking đủ điều kiện hợp lệ.
+5. Tìm thấy.
+6. Nhãn trạng thái hiện  ""Sẵn sàng xác nhận"" (màu xanh lá). Nút ""Xuất Vé"" mở khóa (nhấn được bình thường), đổi màu nổi bật.",Critical,PENDING
+BK_011,Booking đã xác nhận trước đó — nhãn trạng thái đỏ + nút khóa,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ mã booking đã được xác nhận lần trước (trạng thái ""DaXuatVe"").
+5. Nhấn Tìm.
+6. Quan sát nhãn trạng thái và nút Xuất Vé.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking đã xác nhận.
+5. Tìm thấy.
+6. Nhãn trạng thái:  ""Đoàn này Đã được xác nhận trước đó"" (chữ đỏ). Nút Xuất Vé bị khóa.",Critical,PENDING
+BK_012,Booking đã bị hủy — nhãn đỏ + nút khóa,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ mã booking đã bị hủy (trạng thái ""DaHuy"").
+5. Nhấn Tìm.
+6. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking đã hủy.
+5. Tìm thấy.
+6. Nhãn:  ""Booking đã bị Hủy"" (chữ đỏ). Nút Xuất Vé khóa.",Critical,PENDING
+BK_013,Booking chưa đến ngày hẹn — nhãn đỏ + hiện ngày hẹn,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ mã booking có ngày hẹn trong tương lai (VD: ngày hẹn 15/04, hôm nay 10/04).
+5. Nhấn Tìm.
+6. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking chưa đến ngày.
+5. Tìm thấy.
+6. Nhãn:  ""Chưa đến ngày. Ngày hẹn: 15/04/2026"" (chữ đỏ). Nút Xuất Vé khóa.",Critical,PENDING
+BK_014,Booking đã hết hạn — nhãn đỏ + nút khóa,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ mã booking có ngày hẹn đã qua (VD: ngày hẹn 01/03, hôm nay 10/04).
+5. Nhấn Tìm.
+6. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking quá hạn.
+5. Tìm thấy.
+6. Nhãn:  lý do hết hạn (chữ đỏ). Nút Xuất Vé khóa.",High,PENDING
+BK_015,Nhấn Xuất Vé — hiện popup xác nhận,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking hợp lệ (nút Xuất Vé đã mở).
+5. Nhấn nút ""Xuất Vé"".
+6. Quan sát popup.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking hợp lệ, nút Xuất Vé nhấn được bình thường.
+5. Nhấn Xuất Vé.
+6. Popup xác nhận hiện: ""Xác nhận đoàn 'Công ty XYZ' (50 người) đã đến?"" với nút Có/Không.",Critical,PENDING
+BK_016,Xác nhận Xuất Vé — nhấn Có — thành công,5,Quy trình mạch lạc,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking hợp lệ.
+5. Nhấn Xuất Vé.
+6. Popup xác nhận hiện ra, nhấn ""Có"".
+7. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking hợp lệ.
+5. Popup hiện.
+6. Nhấn Có.
+7. Thông báo "" Thành công!"" hiển thị. Booking chuyển trạng thái ""DaXuatVe"". Form tự reset: ô tìm kiếm trống, panel thông tin trống, nút Xuất Vé khóa lại. Sẵn sàng nhận đoàn tiếp.",Critical,PENDING
+BK_017,Xác nhận Xuất Vé — nhấn Không — hủy bỏ,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking hợp lệ.
+5. Nhấn Xuất Vé.
+6. Popup hiện ra, nhấn ""Không"".
+7. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking hợp lệ.
+5. Popup.
+6. Nhấn Không.
+7. Không xác nhận. Booking vẫn giữ trạng thái cũ (chưa xác nhận). Panel vẫn hiện thông tin đoàn. Nút Xuất Vé vẫn nhấn được bình thường.",Medium,PENDING
+BK_018,Xác nhận xong — tìm lại cùng booking — hiện Đã xác nhận,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking hợp lệ, nhấn Xuất Vé, nhấn Có (thành công).
+5. Form đã reset.
+6. Gõ lại cùng mã booking, nhấn Tìm.
+7. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Xác nhận thành công.
+5. Form reset.
+6. Tìm lại cùng mã.
+7. Panel hiện thông tin đoàn. Nhãn:  ""Đoàn này Đã được xác nhận trước đó"" (chữ đỏ). Nút Xuất Vé khóa. Không cho xác nhận lần 2.",Critical,PENDING
+BK_019,Tìm đoàn liên tiếp 2 lần khác nhau — panel cập nhật đúng,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ ""BK-001"", nhấn Tìm → panel hiện đoàn A.
+5. Gõ ""BK-002"", nhấn Tìm → panel hiện đoàn B.
+6. Quan sát panel.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Panel hiện đoàn A.
+5. Panel Cập nhật thông tin đoàn B (không giữ đoàn A).
+6. Tên, SĐT, số lượng, chiết khấu — tất cả là của đoàn B.",Medium,PENDING
+BK_020,Tìm đoàn rồi tìm mã không tồn tại — panel bị xóa,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking hợp lệ → panel hiện thông tin.
+5. Gõ mã không tồn tại, nhấn Tìm.
+6. Quan sát panel.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Panel có thông tin.
+5. Tìm không ra.
+6. Panel bị xóa/ẩn thông tin cũ. Nhãn trạng thái hiện ""Không tìm thấy"". Nút Xuất Vé khóa.",Medium,PENDING
+BK_021,Tìm booking bằng mã vượt quá 200 ký tự cho phép,2,Chức năng,Đoàn khách,"1. Khởi động phần mềm.
+2. Đăng nhập hệ thống.
+3. Nhấn menu Đoàn khách.
+4. Nhập chuỗi ký tự độ dài vượt mức 200 ký tự.
+5. Nhấn tìm kiếm.","1. Phần mềm khởi động bình thường.
+2. Đăng nhập thành công.
+3. Chuyển hướng sang màn hình Đoàn khách.
+4. Nhập dãy ký tự dài.
+5. Hệ thống hiển thị cảnh báo độ dài văn bản không được vượt quá 200 ký tự.",Medium,PENDING
+BK_022,Tìm booking bằng SĐT nhập thiếu số (Ít hơn 10 chữ số),3,Chức năng,Đoàn khách,"1. Khởi động phần mềm.
+2. Đăng nhập hệ thống.
+3. Nhấn menu Đoàn khách.
+4. Nhập số điện thoại 090123 (6 chữ số).
+5. Nhấn tìm kiếm.","1. Phần mềm khởi động bình thường.
+2. Đăng nhập thành công.
+3. Chuyển hướng sang màn hình Đoàn khách.
+4. Nhập thông tin số liên lạc.
+5. Hệ thống hiển thị cảnh báo lỗi định dạng số điện thoại vì không đủ 10 chữ số.",High,PENDING
+BK_023,Panel hiện đúng chiết khấu (%) của đoàn,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking đoàn có chiết khấu 20%.
+5. Quan sát panel.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Tìm thấy.
+5. Panel hiện ""Chiết khấu: 20%"".",Medium,PENDING
+BK_024,Panel hiện đúng số lượng khách trong đoàn,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking đoàn 50 người.
+5. Quan sát panel.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Tìm thấy.
+5. Panel hiện ""Số lượng: 50 người"".",Medium,PENDING
+BK_025,Panel hiện gói Combo đoàn (nếu có),2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking đoàn có gói Combo (VD: Vé + Ăn trưa + Tủ đồ).
+5. Quan sát panel.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Tìm thấy.
+5. Panel hiện danh sách Combo/Gói dịch vụ đoàn đã đặt trước.",Medium,PENDING
+BK_026,Panel hiện ngày đến dự kiến đúng format,2,Giao diện,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking hợp lệ.
+5. Quan sát trường ""Ngày đến dự kiến"".","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Tìm thấy.
+5. Ngày đến hiện đúng format dd/MM/yyyy (VD: 12/04/2026).",Low,PENDING
+BK_027,Kiểm tra 4 lớp validation — lớp 1: đã xác nhận,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking đã xác nhận (trạng thái ""DaXuatVe"").
+5. Quan sát nhãn trạng thái.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking đã xác nhận.
+5. Nhãn:  ""Đoàn này Đã được xác nhận trước đó"". Nút Xuất Vé khóa.",Critical,PENDING
+BK_028,Kiểm tra 4 lớp validation — lớp 2: đã hủy,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking đã hủy.
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking hủy.
+5. Nhãn:  ""Booking đã bị Hủy"". Nút khóa.",Critical,PENDING
+BK_029,Kiểm tra 4 lớp validation — lớp 3: quá hạn,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking hết hạn (ngày hẹn đã qua).
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking quá hạn.
+5. Nhãn:  lý do quá hạn. Nút khóa.",Critical,PENDING
+BK_030,Kiểm tra 4 lớp validation — lớp 4: chưa đến ngày,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking ngày hẹn tương lai (sau hôm nay).
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking chưa đến ngày.
+5. Nhãn:  ""Chưa đến ngày. Ngày hẹn: ..."". Nút khóa.",Critical,PENDING
+BK_031,Xác nhận xong — form tự reset ô tìm kiếm,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking hợp lệ, bấm Xuất Vé, bấm Có.
+5. Quan sát ô tìm kiếm sau khi xác nhận.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Xác nhận thành công.
+5. Ô tìm kiếm trống, con trỏ nằm trong ô, sẵn sàng nhập mã đoàn kế tiếp.",Medium,PENDING
+BK_032,Xác nhận xong — form tự reset panel thông tin,2,Chức năng,Đoàn khách,"1. Tiếp tục từ BK_031.
+2. Quan sát panel thông tin.","1. Xác nhận xong.
+2. Panel thông tin trống (không còn hiện đoàn cũ). Nút Xuất Vé khóa lại.",Medium,PENDING
+BK_033,Tìm booking viết hoa khác (vd: bk-001 vs BK-001) — vẫn nhận,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ ""bk-20260401-001"" (chữ thường), nhấn Tìm.
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Gõ chữ thường.
+5. Hệ thống tìm thấy booking tương ứng (không phân biệt hoa thường).",Medium,PENDING
+BK_034,Tìm SĐT có khoảng trắng đầu/cuối — vẫn tìm được,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ "" 0901234567 "" (có khoảng trắng đầu cuối), nhấn Tìm.
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Gõ SĐT có khoảng trắng.
+5. Hệ thống tự cắt khoảng trắng (trim) và tìm thấy đoàn.",Low,PENDING
+BK_035,Tìm booking có chiết khấu = 0% — vẫn hiển thị,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking không có chiết khấu (0%).
+5. Quan sát panel.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. CK = 0%.
+5. Panel vẫn hiện đúng: ""Chiết khấu: 0%"". Không bị lỗi, không ẩn trường.",Low,PENDING
+BK_036,Tìm booking đoàn chỉ có 1 người — vẫn hoạt động,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking đoàn có 1 người.
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Đoàn 1 người.
+5. Panel hiện đúng: ""Số lượng: 1 người"". Popup xác nhận: ""... (1 người) đã đến?"". Nút Xuất Vé nhấn được bình thường (nếu hợp lệ).",Low,PENDING
+BK_037,Tìm booking đoàn lớn (500 người) — không lỗi,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking đoàn lớn (500 người).
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Đoàn 500 người.
+5. Panel hiện đúng: ""Số lượng: 500 người"". Không lỗi tràn dữ liệu. Popup xác nhận vẫn đúng.",Low,PENDING
+BK_038,Không có quyền — màn hình bị khóa,2,Kết quả,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thukho01"" / ""123456"" (không có quyền Đoàn khách).
+3. Nhấn menu ""Đoàn khách"".
+4. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Bộ công cụ bị khóa vô hiệu hóa.
+4. Không thể tìm hoặc xác nhận booking.",High,PENDING
+BK_039,Tìm SĐT gắn nhiều booking — hiện booking đúng,3,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ SĐT có liên kết với 2 booking khác nhau.
+5. Nhấn Tìm.
+6. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. SĐT gắn nhiều booking.
+5. Tìm.
+6. Hệ thống hiển thị booking ưu tiên chưa xác nhận trong ngày hôm nay.",Medium,PENDING
+BK_040,Chuỗi dài > 200 ký tự trong ô tìm — không văng ứng dụng,2,Chức năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ chuỗi dài > 200 ký tự ngẫu nhiên, nhấn Tìm.
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Chuỗi dài.
+5. Giao diện hiển thị không tìm thấy.",Low,PENDING
+BK_041,Tìm nhanh liên tiếp 10 booking — hiệu năng ổn,5,Hiệu năng,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm 10 booking liên tiếp (gõ mã, Tìm, gõ mã khác, Tìm...).
+5. Quan sát tốc độ.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Tìm 10 booking.
+5. Mỗi lần tìm phản hồi trong vòng 1 giây. Không chậm dần. Không treo.",Medium,PENDING
+BK_042,Nhấn Enter trong ô tìm kiếm — tương đương nhấn nút Tìm,2,Giao diện,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Gõ mã booking hợp lệ vào ô tìm.
+5. Nhấn Enter (không nhấn nút Tìm).
+6. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Gõ mã.
+5. Nhấn Enter.
+6. Hệ thống tìm kiếm (tương đương nhấn nút Tìm). Panel hiện thông tin đoàn.",Medium,PENDING
+BK_043,Xác nhận booking — kiểm tra cơ sở dữ liệu đã cập nhật trạng thái,5,Quy trình mạch lạc,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""letan01"" / ""123456"".
+3. Nhấn menu ""Đoàn khách"".
+4. Tìm booking hợp lệ. Ghi nhận mã.
+5. Nhấn Xuất Vé, nhấn Có.
+6. Kiểm tra trong cơ sở dữ liệu  trạng thái booking.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Đoàn khách hiển thị.
+4. Booking hợp lệ.
+5. Xác nhận thành công.
+6. Trong cơ sở dữ liệu, booking đã chuyển sang ""DaXuatVe"" (hoặc trạng thái tương đương). Thời gian xác nhận được ghi nhận.",High,PENDING
+BK_044,Mất kết nối mạng trong khi xác nhận — hiện lỗi an toàn,3,Chức năng,Đoàn khách,"1. Mở phần mềm (đã đăng nhập).
+2. Nhấn menu ""Đoàn khách"". Tìm booking hợp lệ.
+3. Ngắt mạng (rút cable/tắt WiFi).
+4. Nhấn Xuất Vé, nhấn Có.
+5. Quan sát.","1. Đã đăng nhập.
+2. Booking hợp lệ.
+3. Mạng ngắt.
+4. Nhấn xác nhận.
+5. Hiện lỗi kết nối: ""Không thể kết nối đến máy chủ"". Booking Không chuyển trạng thái (giao dịch hủy thao tác mạng). Có thể thử lại sau khi nối mạng.",Medium,PENDING
+BK_045,Đóng form và mở lại — form reset hoàn toàn,2,Giao diện,Đoàn khách,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập.
+3. Mở form Đoàn khách. Tìm 1 booking (panel hiện thông tin).
+4. Đóng form (nhấn X hoặc chuyển menu).
+5. Mở lại form Đoàn khách.
+6. Quan sát.","1. Đăng nhập thành công.
+2. Form mở.
+3. Panel có thông tin.
+4. Đóng.
+5. Mở lại.
+6. Form reset: ô tìm trống, panel trống, nút Xuất Vé khóa.",Medium,PENDING
+BK_046,Popup xác nhận hiện đúng tên đoàn và số người,3,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking hợp lệ: Đoàn ""Trường THPT ABC"" (120 người).
+3. Nhấn Xuất Vé.
+4. Đọc nội dung popup.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Popup.
+4. Popup hiện: ""Xác nhận đoàn ""Trường THPT ABC"" (120 người) đã đến?"". Tên và số người khớp chính xác.",High,PENDING
+BK_047,Popup xác nhận hiện cảnh báo mã booking không thể dùng lại,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking hợp lệ, nhấn Xuất Vé.
+3. Đọc kỹ nội dung popup.","1. Đăng nhập thành công.
+2. Popup hiện.
+3. Popup có dòng cảnh báo: ""Sau khi xác nhận, mã booking sẽ không thể dùng lại."" Giúp nhân viên biết đây là hành động không thể hoàn tác.",Medium,PENDING
+BK_048,Xác nhận thành công — popup kết quả hiện chiết khấu,3,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking hợp lệ (CK 15%).
+3. Xuất Vé → Nhấn Có.
+4. Đọc popup kết quả.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Xác nhận thành công.
+4. Popup: "" Thành công! Đoàn: [tên] Số người: [X] Chiết khấu: 15.0%"". Hiện đúng chiết khấu.",Medium,PENDING
+BK_049,Nhãn validation — chữ xanh đúng màu khi hợp lệ,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking hợp lệ.
+3. Quan sát màu nhãn validation.","1. Đăng nhập thành công.
+2. Booking hợp lệ.
+3. Nhãn validation: chữ xanh lá (~RGB 16,185,129). Nội dung: "" Booking hợp lệ — sẵn sàng xác nhận đoàn đã đến."".",Low,PENDING
+BK_050,Nhãn validation — chữ đỏ đúng màu khi không hợp lệ,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking đã xác nhận.
+3. Quan sát màu nhãn validation.","1. Đăng nhập thành công.
+2. Booking đã xác nhận.
+3. Nhãn validation: chữ đỏ (~RGB 239,68,68). Bắt đầu bằng """".",Low,PENDING
+BK_051,Nhãn trạng thái (lblTrangThai) chuyển xanh khi hợp lệ,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking hợp lệ.
+3. Quan sát nhãn trạng thái.","1. Đăng nhập thành công.
+2. Booking hợp lệ.
+3. Nhãn trạng thái (hiện giá trị TrangThai) chữ xanh.",Low,PENDING
+BK_052,Nhãn trạng thái chuyển đỏ khi không hợp lệ,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking đã hủy.
+3. Quan sát nhãn trạng thái.","1. Đăng nhập thành công.
+2. Booking hủy.
+3. Nhãn trạng thái: chữ đỏ.",Low,PENDING
+BK_053,Booking không có Người đại diện — hiện Chưa có,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking mà NguoiDaiDien = null.
+3. Quan sát panel.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Trường Người đại diện hiện ""(Chưa có)"" thay vì trống hoặc lỗi null.",Medium,PENDING
+BK_054,Booking không có SĐT — hiện Chưa có,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking mà DienThoaiLienHe = null.
+3. Quan sát panel.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Trường SĐT tự động chuyển thành Chưa có.",Medium,PENDING
+BK_055,Booking không có Ngày đến — hiện Chưa xác định,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking mà NgayDen = null.
+3. Quan sát panel.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Trường Ngày đến tự động chuyển thành Chưa xác định.",Medium,PENDING
+BK_056,Booking không có Combo — hiện Chưa chọn gói,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking mà TenCombo = null .
+3. Quan sát trường Combo.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Trường Combo hiển thị chữ Chưa chọn gói.",Medium,PENDING
+BK_057,Booking có Combo — hiện emoji  + tên combo,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking có Combo ""Gói Gia Đình VIP"".
+3. Quan sát trường Combo.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Trường Combo hiện: "" Gói Gia Đình VIP"" (có emoji quà).",Low,PENDING
+BK_058,Chiết khấu hiện format N1 (1 số thập phân),2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking có CK = 15.5%.
+3. Quan sát trường CK.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Trường CK hiện ""15.5%"" (1 số thập phân nhờ format N1). Không hiện ""15.50%"" hay ""16%"".",Low,PENDING
+BK_059,"Số lượng hiện hậu tố """"người""""",1,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking 50 người.
+3. Quan sát trường Số lượng.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Trường hiện ""50 người"" (có hậu tố ""người"").",Low,PENDING
+BK_060,Trạng thái hiện N/A khi TrangThai = null,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking mà TrangThai = null (nếu có data lỗi).
+3. Quan sát trường Trạng thái.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Trường Trạng thái hiện ""N/A"". Nhãn validation: "" Trạng thái không hợp lệ: null"".",Low,PENDING
+BK_061,ThemeManager áp dụng đúng cho form,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Quan sát tổng thể giao diện.","1. Đăng nhập thành công.
+2. Form được áp dụng Theme (dark/light) từ ThemeManager. Font, màu nền, viền thống nhất với các form khác.",Low,PENDING
+BK_062,Panel booking ẩn khi mới mở (pnlBookingInfo.Visible = false),1,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Quan sát panel thông tin booking.","1. Đăng nhập thành công.
+2. Panel thông tin booking ẩn hoàn toàn (không chiếm chỗ trên giao diện).",Low,PENDING
+BK_063,Panel booking hiện ra khi tìm thấy đoàn,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking hợp lệ.
+3. Quan sát panel.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Panel booking xuất hiện (Visible = true), hiện tất cả thông tin.",Medium,PENDING
+BK_064,Panel booking ẩn lại khi tìm mã không tồn tại,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking hợp lệ → panel hiện.
+3. Tìm mã không tồn tại.
+4. Quan sát panel.","1. Đăng nhập thành công.
+2. Panel hiện.
+3. Không tìm thấy.
+4. Panel ẩn lại (Visible = false).",Medium,PENDING
+BK_065,Xác nhận thất bại từ hệ thống ngầm — hiện thông báo lỗi,3,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking hợp lệ, nhấn Xuất Vé, nhấn Có.
+3. Giả lập hệ thống ngầm trả IsSuccess = false (VD: cơ sở dữ liệu lock).
+4. Quan sát.","1. Đăng nhập thành công.
+2. Xác nhận.
+3. hệ thống ngầm trả lỗi.
+4. Hộp thoại: ""Lỗi: [ErrorMessage]"" icon lỗi đỏ. Booking Không chuyển trạng thái. Form Không reset.",Medium,PENDING
+BK_066,Nút Xuất Vé — khi _doanTimThay = null thì nhấn không có gì,1,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Không tìm booking (chưa có _doanTimThay).
+3. Bằng cách nào đó bấm nút Xuất Vé (nếu nó nhấn được bình thường).
+4. Quan sát.","1. Đăng nhập thành công.
+2. Chưa tìm.
+3. Nút bị vô hiệu hóa → không bấm được. Nếu bấm được → không văng ứng dụng (return ngay vì null).",Low,PENDING
+BK_067,Xác nhận 3 đoàn liên tiếp — tất cả thành công,10,Quy trình mạch lạc,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm BK-001 hợp lệ → Xuất Vé → Có → thành công → form reset.
+3. Tìm BK-002 hợp lệ → Xuất Vé → Có → thành công → form reset.
+4. Tìm BK-003 hợp lệ → Xuất Vé → Có → thành công.
+5. Kiểm tra cơ sở dữ liệu.","1. Đăng nhập thành công.
+2. BK-001: thành công. Reset.
+3. BK-002: thành công. Reset.
+4. BK-003: thành công.
+5. Trong cơ sở dữ liệu: cả 3 booking đều chuyển ""DaXuatVe"". Không lỗi, không chậm.",High,PENDING
+BK_068,Xác nhận đoàn → tìm lại → xác nhận lại → bị chặn (double submit),3,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm BK-001, Xuất Vé, Có (thành công, form reset).
+3. Gõ lại BK-001, Tìm.
+4. Quan sát nút Xuất Vé.","1. Đăng nhập thành công.
+2. Xác nhận thành công lần 1.
+3. Tìm lại.
+4. Nhãn: "" Đoàn này Đã được xác nhận trước đó"". Nút Xuất Vé khóa. Không thể xác nhận lần 2.",Critical,PENDING
+BK_069,Tìm booking bằng mã có dấu cách giữa — vẫn tìm được,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Gõ "" BK-20260401-001 "" (có khoảng trắng đầu cuối), nhấn Tìm.
+3. Quan sát.","1. Đăng nhập thành công.
+2. Gõ mã có khoảng trắng.
+3. Hệ thống tự trim rồi tìm. Tìm thấy booking.",Low,PENDING
+BK_070,Nhấn nút Tìm liên tiếp 5 lần cùng mã — không duplicate,3,Hiệu năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Gõ mã booking hợp lệ.
+3. Nhấn nút Tìm 5 lần liên tiếp rất nhanh.
+4. Quan sát panel.","1. Đăng nhập thành công.
+2. Gõ mã.
+3. Nhấn 5 lần.
+4. Panel hiện đúng 1 đoàn (không duplicate, không văng ứng dụng, không hiện 5 popup).",Medium,PENDING
+BK_071,Booking trạng thái lạ (không phải 4 trạng thái expected) — hiện cơ chế dự phòng,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking có Trạng thái không xác định.
+3. Quan sát nhãn validation.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Nhãn validation: "" Trạng thái không hợp lệ"". Nút Xuất Vé khóa. Fallback xử lý mọi trạng thái lạ.",Medium,PENDING
+BK_072,Booking có NgayDen = hôm nay — hợp lệ,3,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking có NgayDen = DateTime.Today (hôm nay), chưa xác nhận, chưa hủy.
+3. Quan sát.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Nhãn: "" Booking hợp lệ"". Nút Xuất Vé nhấn được bình thường. NgayDen = hôm nay → hợp lệ.",High,PENDING
+BK_073,Booking có NgayDen = hôm qua — hết hạn,3,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking có NgayDen = ngày hôm qua.
+3. Quan sát.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Hệ thống hiển thị nhãn báo Booking đã hết hạn. Nút khóa.",High,PENDING
+BK_074,Booking có NgayDen = ngày mai — chưa đến ngày,3,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking có NgayDen = ngày mai.
+3. Quan sát.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Nhãn: "" Chưa đến ngày. Ngày hẹn: [ngày mai]"". Nút khóa.",High,PENDING
+BK_075,Enter trong ô tìm — SuppressKeyPress hoạt động (không tạo dòng mới),2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Gõ mã booking, nhấn Enter.
+3. Quan sát ô tìm.","1. Đăng nhập thành công.
+2. Gõ mã, nhấn Enter.
+3. Hệ thống tìm kiếm. Ô tìm Không xuống dòng, Không có ký tự xuống dòng. SuppressKeyPress hoạt động đúng.",Low,PENDING
+BK_076,Tìm đoàn bằng SĐT bắt đầu bằng +84 — hệ thống xử lý,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Gõ ""+84901234567"", nhấn Tìm.
+3. Quan sát.","1. Đăng nhập thành công.
+2. Gõ SĐT quốc tế.
+3. Tìm thấy đoàn tương ứng (nếu SĐT khớp) . Không văng ứng dụng.",Low,PENDING
+BK_077,Tìm đoàn bằng SĐT có dấu gạch ngang — xử lý ok,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Gõ ""090-123-4567"", nhấn Tìm.
+3. Quan sát.","1. Đăng nhập thành công.
+2. Gõ SĐT có gạch ngang.
+3. Tìm thấy . Hệ thống xử lý bình thường, không văng ứng dụng.",Low,PENDING
+BK_078,Booking chưa xác nhận + đúng ngày + TrangThai MoiTao — hợp lệ,3,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking TrangThai = ""MoiTao"", NgayDen = hôm nay.
+3. Quan sát.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Nhãn xanh: "" Booking hợp lệ"". Nút Xuất Vé nhấn được bình thường. (MoiTao + đúng ngày = hợp lệ).",High,PENDING
+BK_079,Booking IsBookingValid = false nhưng trạng thái lạ — hiện reason cơ chế dự phòng,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking có IsBookingValid = false + TrangThai không phải DaXuatVe/DaHuy/HetHan và NgayDen <= hôm nay.
+3. Quan sát nhãn.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Nhãn: "" Trạng thái không hợp lệ"". Fallback xử lý case else.",Medium,PENDING
+BK_080,Xác nhận khi hệ thống ngầm trả ErrorMessage dài — popup hiện đầy đủ,3,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking hợp lệ, Xuất Vé, Có.
+3. hệ thống ngầm trả lỗi dài (VD: ""Không thể cập nhật vì lỗi kết nối database timeout sau 30 giây..."").
+4. Quan sát popup.","1. Đăng nhập thành công.
+2. Xác nhận.
+3. hệ thống ngầm lỗi.
+4. Popup hiện đầy đủ ErrorMessage. Không bị cắt, không văng ứng dụng.",Low,PENDING
+BK_081,Đoàn chiết khấu 100% — hiện đúng,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking CK = 100%.
+3. Quan sát panel.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Panel hiện: ""Chiết khấu: 100.0%"". Không lỗi.",Low,PENDING
+BK_082,Đoàn chiết khấu thập phân 12.5% — hiện đúng format,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking CK = 12.5%.
+3. Quan sát trường CK.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. CK hiện: ""12.5%"" (format N1).",Low,PENDING
+BK_083,Tìm đoàn — nút Tìm click event hoạt động,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Gõ mã booking.
+3. Nhấn nút Tìm bằng chuột (không dùng Enter).
+4. Quan sát.","1. Đăng nhập thành công.
+2. Gõ mã.
+3. Nhấn nút Tìm.
+4. Hệ thống tìm kiếm và hiện kết quả tương tự như nhấn Enter.",Medium,PENDING
+BK_084,Tìm đoàn — nút Tìm + Enter cho cùng kết quả,3,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Gõ ""BK-001"", nhấn Enter → ghi nhận panel.
+3. Xóa ô, gõ lại ""BK-001"", nhấn nút Tìm → ghi nhận panel.
+4. So sánh.","1. Đăng nhập thành công.
+2. Panel hiện đoàn A.
+3. Panel hiện đoàn A.
+4. Cả hai cách cho cùng kết quả (cùng gọi hàm TimDoan()).",Low,PENDING
+BK_085,Xác nhận thành công — biến _doanTimThay reset null,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm + Xuất Vé + Có (thành công).
+3. Quan sát trạng thái nội bộ: nút Xuất Vé phải bị vô hiệu hóa lại.","1. Đăng nhập thành công.
+2. Xác nhận thành công.
+3. _doanTimThay = null → nút Xuất Vé bị vô hiệu hóa → nhấn vào sẽ không có gì (vì null check đầu hàm).",Medium,PENDING
+BK_086,Xác nhận thành công — ô tìm kiếm tự focus lại,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm + Xuất Vé + Có (thành công).
+3. Quan sát con trỏ.","1. Đăng nhập thành công.
+2. Xác nhận thành công.
+3. Con trỏ tự focus vào ô tìm kiếm (txtBookingCode.Focus()). Sẵn sàng nhập đoàn kế.",Medium,PENDING
+BK_087,Xác nhận thành công — ô tìm kiếm rỗng,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm + Xuất Vé + Có (thành công).
+3. Quan sát nội dung ô tìm.","1. Đăng nhập thành công.
+2. Xác nhận thành công.
+3. Ô tìm kiếm text = """" (rỗng). Không còn mã cũ.",Medium,PENDING
+BK_088,Panel booking ẩn sau xác nhận thành công,2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm + Xuất Vé + Có (thành công).
+3. Quan sát panel.","1. Đăng nhập thành công.
+2. Xác nhận thành công.
+3. Panel booking ẩn (pnlBookingInfo.Visible = false). Giao diện sạch.",Medium,PENDING
+BK_089,Tìm booking bằng SĐT 8 chữ số (không hợp lệ VN) — xử lý bình thường,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Gõ ""12345678"" (8 số), nhấn Tìm.
+3. Quan sát.","1. Đăng nhập thành công.
+2. Gõ SĐT ngắn.
+3. ""Không tìm thấy"" (hoặc tìm thấy nếu cơ sở dữ liệu có). Hệ thống không lỗi định dạng SĐT — chỉ tìm kiếm.",Low,PENDING
+BK_090,Tìm booking bằng chữ cái thuần — hệ thống xử lý,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Gõ ""abcdef"", nhấn Tìm.
+3. Quan sát.","1. Đăng nhập thành công.
+2. Gõ chữ cái.
+3. Hệ thống tìm theo MaBooking hoặc SĐT. ""Không tìm thấy"" (vì không khớp). Không văng ứng dụng.",Low,PENDING
+BK_091,Nhiều nhân viên cùng tìm 1 booking trên 2 máy — xác nhận máy đầu tiên,5,Quy trình mạch lạc,Đoàn khách,"1. Máy A: đăng nhập ""letan01"", tìm BK-001 hợp lệ.
+2. Máy B: đăng nhập ""letan02"", tìm BK-001 hợp lệ.
+3. Máy A: Xuất Vé, Có → thành công.
+4. Máy B: Xuất Vé, Có.
+5. Quan sát máy B.","1. Máy A hiện đoàn.
+2. Máy B hiện đoàn.
+3. Máy A xác nhận OK.
+4. Máy B nhấn Có.
+5. Máy B: lỗi ""Đoàn đã được xác nhận trước đó"" (cơ sở dữ liệu đã đổi trạng thái bởi máy A). Không xác nhận trùng lặp.",High,PENDING
+BK_092,Tìm booking sau khi đổi đèn đêm/ngày trên hệ thống — vẫn hoạt động,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Đổi giao diện (nếu có toggle dark/light).
+3. Tìm booking hợp lệ.
+4. Quan sát.","1. Đăng nhập thành công.
+2. Giao diện đổi.
+3. Tìm thấy.
+4. Panel hiện đúng. ThemeManager áp dụng đúng. Không lỗi Giao diện.",Low,PENDING
+BK_093,Tìm mã booking có ký tự Unicode tiếng Việt — không văng ứng dụng,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Gõ ""BK-ĐOÀN-001"", nhấn Tìm.
+3. Quan sát.","1. Đăng nhập thành công.
+2. Gõ mã có dấu.
+3. ""Không tìm thấy"" hoặc tìm thấy nếu cơ sở dữ liệu có. Không văng ứng dụng.",Low,PENDING
+BK_094,"Tìm booking — hộp thoại """"Không tìm thấy"""" có hint mã nhập",2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Gõ ""BK-AABBCC"", nhấn Tìm.
+3. Quan sát nội dung hộp thoại.","1. Đăng nhập thành công.
+2. Gõ mã lạ.
+3. Hộp thoại: ""Không tìm thấy đoàn nào khớp với: BK-AABBCC"". Hiện lại keyword đã nhập để nhân viên kiểm tra.",Medium,PENDING
+BK_095,"Tìm booking — hộp thoại """"Thiếu thông tin"""" khi ô trống",2,Giao diện,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Để trống ô tìm, nhấn Tìm.
+3. Quan sát popup.","1. Đăng nhập thành công.
+2. Ô trống.
+3. Popup: ""Vui lòng nhập Mã Booking hoặc SĐT trưởng đoàn."" Tiêu đề: ""Thiếu thông tin"".",Medium,PENDING
+BK_096,Kiểm tra phiên đăng nhập — nếu nhân viên đăng xuất giữa chừng,3,Kết quả,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking hợp lệ.
+3. Giả lập hết hạn phiên đăng nhập (đăng xuất từ form khác).
+4. Nhấn Xuất Vé, Có.
+5. Quan sát.","1. Đăng nhập thành công.
+2. Tìm thấy.
+3. Session hết.
+4. Xác nhận.
+5. Hệ thống tự động điều hướng người dùng quay lại màn hình đăng nhập.",Medium,PENDING
+BK_097,Hiệu năng — tìm 50 booking liên tiếp trong 1 phiên,10,Hiệu năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm 50 booking liên tiếp (mix tồn tại và không).
+3. Quan sát tốc độ.","1. Đăng nhập thành công.
+2. Tìm 50 lần.
+3. Mỗi lần < 1 giây. Không chậm dần. Không chiếm dụng bộ nhớ.",Medium,PENDING
+BK_098,Xác nhận đoàn — cơ sở dữ liệu ghi nhận thời gian chính xác,5,Quy trình mạch lạc,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Ghi nhận giờ hiện tại (VD: 10:30).
+3. Tìm + Xuất Vé + Có.
+4. Kiểm tra cơ sở dữ liệu: cột UpdatedAt .","1. Đăng nhập thành công.
+2. Giờ = 10:30.
+3. Xác nhận.
+4. cơ sở dữ liệu: thời gian cập nhật ~ 10:30 (sai lệch ≤ 1 phút).",Medium,PENDING
+BK_099,Xác nhận đoàn — nhấn Close popup (X) thay vì Có/Không — không xảy ra gì,2,Chức năng,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"". Mở Đoàn khách.
+2. Tìm booking hợp lệ, nhấn Xuất Vé.
+3. Popup hiện, nhấn nút X (đóng popup) thay vì Có/Không.
+4. Quan sát.","1. Đăng nhập thành công.
+2. Popup hiện.
+3. Nhấn X.
+4. Popup đóng. Booking Không bị xác nhận (Người dùng không đồng ý). Panel vẫn giữ thông tin. Nút Xuất Vé vẫn nhấn được bình thường.",Medium,PENDING
+BK_100,Quy trình mạch lạc toàn bộ luồng — từ mở form đến xác nhận xong đến tìm lại,10,Quy trình mạch lạc,Đoàn khách,"1. Đăng nhập ""letan01"" / ""123456"".
+2. Mở Đoàn khách → form reset, panel ẩn, nút khóa.
+3. Gõ mã booking hợp lệ, nhấn Enter.
+4. Panel hiện thông tin, nhãn xanh, nút Xuất Vé nhấn được bình thường.
+5. Nhấn Xuất Vé → popup xác nhận.
+6. Nhấn Có → popup thành công. Form reset.
+7. Gõ lại cùng mã, nhấn Tìm.
+8. Panel hiện, nhãn đỏ ""Đã xác nhận"", nút khóa.","1. Đăng nhập thành công.
+2. Form clean.
+3. Tìm thấy.
+4. Validation OK.
+5. Popup hỏi.
+6. Thành công, reset.
+7. Tìm lại.
+8. Hệ thống chặn việc xác nhận lần 2. Chu trình kết thúc và thành công.",Critical,PENDING

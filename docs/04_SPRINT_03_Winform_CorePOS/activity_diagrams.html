@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Activity Diagrams — Sprint 3</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Inter',sans-serif;background:#1a1b2e;color:#e0e0e8;min-height:100vh}
+  header{background:#22243a;border-bottom:1px solid #333;padding:14px 24px;text-align:center}
+  header h1{font-size:16px;font-weight:700;color:#a5b4fc}
+  header p{font-size:11px;color:#888;margin-top:2px}
+  nav{display:flex;gap:4px;padding:10px 24px;background:#1e2030;border-bottom:1px solid #333;overflow-x:auto}
+  nav button{padding:7px 16px;border-radius:6px;font-size:12px;font-weight:500;background:transparent;border:1px solid #333;color:#888;cursor:pointer;white-space:nowrap;font-family:inherit;transition:.2s}
+  nav button:hover{border-color:#666;color:#ccc}
+  nav button.active{background:rgba(165,180,252,.1);border-color:#6366f1;color:#a5b4fc}
+  .sub-nav{display:flex;gap:4px;padding:8px 24px;background:#1a1b2e;border-bottom:1px solid #2a2d3e}
+  .sub-nav button{padding:5px 12px;border-radius:5px;font-size:11px;font-weight:500;background:#22243a;border:1px solid #333;color:#888;cursor:pointer;font-family:inherit;transition:.2s}
+  .sub-nav button:hover{color:#ccc}
+  .sub-nav button.active{background:#2d3050;border-color:#6366f1;color:#a5b4fc}
+  main{display:flex;justify-content:center;padding:24px 16px 60px}
+  .svg-wrap{background:#fefcf0;border-radius:8px;box-shadow:0 4px 24px rgba(0,0,0,.4);overflow-x:auto;display:inline-block}
+  .svg-wrap svg{display:block}
+  .legend-wrap{max-width:720px;margin:16px auto 0;display:flex;flex-wrap:wrap;gap:16px;padding:12px 20px;background:#22243a;border-radius:8px;border:1px solid #333}
+  .legend-wrap .li{display:flex;align-items:center;gap:6px;font-size:10px;color:#999}
+  .legend-wrap .li svg{flex-shrink:0}
+</style>
+</head>
+<body>
+<header>
+  <h1>Activity Diagrams — Sprint 3</h1>
+  <p>Hệ thống Quản lý Công viên Giải trí · UML Activity Diagram (Swimlane)</p>
+</header>
+<nav id="moduleNav"></nav>
+<div class="sub-nav" id="subNav"></div>
+<main><div class="svg-wrap" id="svgWrap"></div></main>
+<div class="legend-wrap">
+  <div class="li"><svg width="18" height="18"><circle cx="9" cy="9" r="7" fill="#333"/></svg> Initial Node</div>
+  <div class="li"><svg width="18" height="18"><circle cx="9" cy="9" r="7" fill="none" stroke="#333" stroke-width="2"/><circle cx="9" cy="9" r="4" fill="#333"/></svg> Activity Final</div>
+  <div class="li"><svg width="24" height="18"><rect x="1" y="2" width="22" height="14" rx="4" fill="#fff" stroke="#333" stroke-width="1.2"/></svg> Action</div>
+  <div class="li"><svg width="20" height="18"><polygon points="10,1 19,9 10,17 1,9" fill="#fff" stroke="#333" stroke-width="1.2"/></svg> Decision</div>
+  <div class="li"><svg width="24" height="10"><rect x="1" y="2" width="22" height="5" rx="1" fill="#333"/></svg> Fork / Join</div>
+  <div class="li"><svg width="30" height="12"><line x1="0" y1="6" x2="24" y2="6" stroke="#555" stroke-width="1.3"/><polygon points="24,3 30,6 24,9" fill="#555"/></svg> Transition</div>
+  <div class="li"><svg width="24" height="12"><text x="0" y="10" font-size="9" fill="#666" font-style="italic">[guard]</text></svg> Guard Expression</div>
+</div>
+
+<script>
+const C = {
+  PAD: 55, LANE_W: 290, ROW_H: 74, HDR_H: 36,
+  ACT_W: 192, ACT_H: 44, ACT_R: 8,
+  DIA_HW: 48, DIA_HH: 28,
+  START_R: 11, END_OR: 13, END_IR: 7,
+  BAR_W: 100, BAR_H: 5,
+  LOOP_GAP: 10, SKIP_GAP: 10,
+  FONT: 11, DFONT: 10, GFONT: 9.5,
+};
+const SVG_W = C.PAD * 2 + C.LANE_W * 2;
+function lx(lane) { return lane === .5 ? C.PAD + C.LANE_W : C.PAD + lane * C.LANE_W + C.LANE_W / 2; }
+function ly(row) { return C.HDR_H + C.PAD + row * C.ROW_H; }
+function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function port(n, side) {
+  const x = lx(n.lane), y = ly(n.row);
+  if (n.type==='start'){const r=C.START_R;return side==='bottom'?{x,y:y+r}:side==='top'?{x,y:y-r}:side==='left'?{x:x-r,y}:{x:x+r,y};}
+  if (n.type==='end'){const r=C.END_OR;return side==='bottom'?{x,y:y+r}:side==='top'?{x,y:y-r}:side==='left'?{x:x-r,y}:{x:x+r,y};}
+  if (n.type==='decision'){return side==='top'?{x,y:y-C.DIA_HH}:side==='bottom'?{x,y:y+C.DIA_HH}:side==='left'?{x:x-C.DIA_HW,y}:{x:x+C.DIA_HW,y};}
+  if (n.type==='fork'||n.type==='join'){const bw=n.barW||C.BAR_W;return side==='top'?{x,y:y-C.BAR_H/2}:side==='bottom'?{x,y:y+C.BAR_H/2}:side==='left'?{x:x-bw/2,y}:{x:x+bw/2,y};}
+  const hw=C.ACT_W/2,hh=C.ACT_H/2;
+  return side==='top'?{x,y:y-hh}:side==='bottom'?{x,y:y+hh}:side==='left'?{x:x-hw,y}:{x:x+hw,y};
+}
+
+function routeEdge(fn, tn, e) {
+  let fp = e.fp, tp = e.tp || 'top';
+  if (!fp) {
+    if (tn.row < fn.row) fp = 'left';
+    else if (fn.row === tn.row) fp = fn.lane < tn.lane ? 'right' : 'left';
+    else fp = 'bottom';
+  }
+  if (tn.row < fn.row && !e.tp) tp = 'left';
+
+  // Fork/Join: straight vertical through bar
+  if ((fn.type==='fork'||fn.type==='join') && !e.skipR && tn.row > fn.row) {
+    const barY = ly(fn.row)+C.BAR_H/2, ep = port(tn,'top');
+    return {path:`M${ep.x},${barY}L${ep.x},${ep.y}`,gx:ep.x+8,gy:(barY+ep.y)/2,ga:'start'};
+  }
+  if ((tn.type==='fork'||tn.type==='join') && !e.skipR && fn.row < tn.row) {
+    const sp = port(fn, fp==='bottom'?'bottom':fp), barY = ly(tn.row)-C.BAR_H/2;
+    return {path:`M${sp.x},${sp.y}L${sp.x},${barY}`,gx:sp.x+8,gy:sp.y+14,ga:'start'};
+  }
+
+  const s = port(fn,fp), t = port(tn,tp);
+  let path,gx,gy,ga='middle';
+
+  if (tn.row < fn.row || e.loop) {
+    const off=e._lo||0, mx=C.PAD-6-off*C.LOOP_GAP, et=port(tn,tp==='top'?'left':tp);
+    path=`M${s.x},${s.y}L${mx},${s.y}L${mx},${et.y}L${et.x},${et.y}`;
+    gx=mx-3;gy=(s.y+et.y)/2;ga='end';
+  } else if (e.skipR) {
+    const off=e._ro||0, rx=C.PAD+C.LANE_W*2+6+off*C.SKIP_GAP, et=port(tn,'right');
+    path=`M${s.x},${s.y}L${rx},${s.y}L${rx},${et.y}L${et.x},${et.y}`;
+    gx=s.x+14;gy=s.y-6;ga='start';
+  } else if (fp==='bottom' && fn.lane===tn.lane) {
+    path=`M${s.x},${s.y}L${t.x},${t.y}`;
+    gx=s.x+8;gy=s.y+14;ga='start';
+  } else if (fp==='bottom' && fn.lane!==tn.lane) {
+    const my=(s.y+t.y)/2;
+    path=`M${s.x},${s.y}L${s.x},${my}L${t.x},${my}L${t.x},${t.y}`;
+    gx=(s.x+t.x)/2;gy=my-5;
+  } else if ((fp==='left'||fp==='right') && tn.row > fn.row) {
+    path=`M${s.x},${s.y}L${t.x},${s.y}L${t.x},${t.y}`;
+    gx=fp==='left'?s.x-5:s.x+5;gy=s.y-6;ga=fp==='left'?'end':'start';
+  } else if (fn.row===tn.row) {
+    path=`M${s.x},${s.y}L${t.x},${t.y}`;
+    gx=(s.x+t.x)/2;gy=s.y-8;
+  } else {
+    path=`M${s.x},${s.y}L${t.x},${t.y}`;
+    gx=(s.x+t.x)/2;gy=(s.y+t.y)/2-6;
+  }
+  return {path,gx,gy,ga};
+}
+
+function drawNode(n) {
+  const x=lx(n.lane),y=ly(n.row); let s='';
+  switch(n.type){
+    case 'start': s+=`<circle cx="${x}" cy="${y}" r="${C.START_R}" fill="#333"/>`; break;
+    case 'end': s+=`<circle cx="${x}" cy="${y}" r="${C.END_OR}" fill="none" stroke="#333" stroke-width="2.5"/><circle cx="${x}" cy="${y}" r="${C.END_IR}" fill="#333"/>`; break;
+    case 'activity': {
+      const hw=C.ACT_W/2,hh=C.ACT_H/2;
+      s+=`<rect x="${x-hw}" y="${y-hh}" width="${C.ACT_W}" height="${C.ACT_H}" rx="${C.ACT_R}" fill="#fff" stroke="#333" stroke-width="1.4"/>`;
+      s+=mtext(x,y,n.text,C.FONT); break;
+    }
+    case 'decision': {
+      s+=`<polygon points="${x},${y-C.DIA_HH} ${x+C.DIA_HW},${y} ${x},${y+C.DIA_HH} ${x-C.DIA_HW},${y}" fill="#fff" stroke="#333" stroke-width="1.4"/>`;
+      if(n.text) s+=mtext(x,y,n.text,C.DFONT); break;
+    }
+    case 'fork': case 'join': {
+      const bw=n.barW||C.BAR_W;
+      s+=`<rect x="${x-bw/2}" y="${y-C.BAR_H/2}" width="${bw}" height="${C.BAR_H}" fill="#333" rx="1"/>`; break;
+    }
+  }
+  return s;
+}
+
+function mtext(x,y,text,fs) {
+  if(!text) return '';
+  const lines=text.split('\n'),lh=fs*1.35,th=(lines.length-1)*lh;
+  return lines.map((line,i)=>
+    `<text x="${x}" y="${y-th/2+i*lh}" text-anchor="middle" dominant-baseline="central" font-size="${fs}" fill="#333" font-family="Inter,sans-serif">${esc(line)}</text>`
+  ).join('');
+}
+
+function renderDiagram(d) {
+  const maxR=Math.max(...d.nodes.map(n=>n.row));
+  const svgH=C.HDR_H+C.PAD+(maxR+1)*C.ROW_H+C.PAD;
+  const nm={}; d.nodes.forEach(n=>nm[n.id]=n);
+  let lo=0,ro=0;
+  d.edges.forEach(e=>{
+    const f=nm[e.from],t=nm[e.to];
+    if(t.row<f.row||e.loop) e._lo=lo++;
+    if(e.skipR) e._ro=ro++;
+  });
+  let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${SVG_W}" height="${svgH}" style="font-family:Inter,sans-serif">`;
+  svg+=`<defs><marker id="ah" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0,0.5 7,3 0,5.5" fill="#444"/></marker></defs>`;
+  svg+=`<rect width="${SVG_W}" height="${svgH}" fill="#fefcf0"/>`;
+  const laneH=svgH-C.HDR_H;
+  for(let i=0;i<2;i++){
+    const lx0=C.PAD+i*C.LANE_W;
+    svg+=`<rect x="${lx0}" y="${C.HDR_H}" width="${C.LANE_W}" height="${laneH}" fill="none" stroke="#999" stroke-width="1.5" stroke-dasharray="8,5"/>`;
+    svg+=`<rect x="${lx0}" y="${C.HDR_H}" width="${C.LANE_W}" height="28" fill="#f0ead6" stroke="#999" stroke-width="1.5"/>`;
+    svg+=`<text x="${lx0+C.LANE_W/2}" y="${C.HDR_H+15}" text-anchor="middle" dominant-baseline="central" font-size="11.5" font-weight="600" fill="#333">${esc(d.lanes[i])}</text>`;
+  }
+  svg+=`<text x="${SVG_W/2}" y="${C.HDR_H/2+1}" text-anchor="middle" dominant-baseline="central" font-size="12" font-weight="700" fill="#444">${esc(d.title)}</text>`;
+  svg+='<g>';
+  d.edges.forEach(e=>{
+    const f=nm[e.from],t=nm[e.to];
+    const r=routeEdge(f,t,e);
+    svg+=`<path d="${r.path}" fill="none" stroke="#555" stroke-width="1.3" marker-end="url(#ah)"/>`;
+    if(e.guard) svg+=`<text x="${r.gx}" y="${r.gy}" text-anchor="${r.ga}" font-size="${C.GFONT}" fill="#555" font-style="italic" font-family="Inter,sans-serif">[${esc(e.guard)}]</text>`;
+  });
+  svg+='</g><g>';
+  d.nodes.forEach(n=>{svg+=drawNode(n);});
+  svg+='</g></svg>';
+  document.getElementById('svgWrap').innerHTML=svg;
+}
+
+// =====================================================
+// DỮ LIỆU BIỂU ĐỒ
+// =====================================================
+const DIAGRAMS = {
+pos: {
+  tabs: [
+    {id:'pos_main',label:'Luồng chính (Bán hàng)'},
+    {id:'pos_rfid',label:'Khách RFID + Tích điểm'},
+    {id:'pos_ticket',label:'Phát Vé Điện Tử'},
+  ],
+  diagrams: {
+    pos_main: {
+      title: 'I. Bán Hàng Tại Quầy — Luồng chính',
+      lanes: ['Nhân viên Thu ngân', 'Hệ thống'],
+      nodes: [
+        {id:'s',type:'start',lane:0,row:0},
+        {id:'a1',type:'activity',lane:0,row:1,text:'Mở màn hình POS'},
+        {id:'a2',type:'activity',lane:1,row:2,text:'Tải DS sản phẩm (giá ngày)\nHiển thị giỏ hàng trống'},
+        {id:'a3',type:'activity',lane:0,row:3,text:'Quét mã / Chọn SP\n(hỗ trợ SL*Mã)'},
+        {id:'d1',type:'decision',lane:1,row:4,text:'Tìm thấy\nSP?'},
+        {id:'d2',type:'decision',lane:1,row:5,text:'Đủ tồn\nkho?'},
+        {id:'a5',type:'activity',lane:1,row:6,text:'Thêm vào giỏ hàng\nCập nhật tổng tiền'},
+        {id:'a6',type:'activity',lane:0,row:7,text:'Chỉnh SL / Đổi ĐVT'},
+        {id:'d3',type:'decision',lane:0,row:8,text:'Tiếp tục\nquét?'},
+        {id:'a7',type:'activity',lane:0,row:9,text:'Nhập tiền khách đưa\nChọn PTTT (F9/F10/F11)'},
+        {id:'a8',type:'activity',lane:1,row:10,text:'Tính CK / KM / Điểm\nHiện hộp thoại xác nhận'},
+        {id:'d4',type:'decision',lane:0,row:11,text:'Xác nhận\nthanh toán?'},
+        {id:'f1',type:'fork',lane:.5,row:12,barW:290},
+        {id:'a9a',type:'activity',lane:0,row:13,text:'Nhận biên lai thanh toán'},
+        {id:'a9b',type:'activity',lane:1,row:13,text:'Lưu đơn hàng\nPhiếu thu + Trừ kho'},
+        {id:'j1',type:'join',lane:.5,row:14,barW:290},
+        {id:'d5',type:'decision',lane:1,row:15,text:'Đơn có\nvé?'},
+        {id:'a10',type:'activity',lane:1,row:16,text:'Mở popup\nPhát Vé Điện Tử'},
+        {id:'a11',type:'activity',lane:0,row:16,text:'Hiện hóa đơn text'},
+        {id:'a12',type:'activity',lane:1,row:17,text:'Xóa giỏ hàng\nSẵn sàng đơn mới'},
+        {id:'e',type:'end',lane:.5,row:18},
+      ],
+      edges: [
+        {from:'s',to:'a1'},
+        {from:'a1',to:'a2'},
+        {from:'a2',to:'a3'},
+        {from:'a3',to:'d1'},
+        {from:'d1',to:'a3',guard:'Không',fp:'left'},
+        {from:'d1',to:'d2',guard:'Có'},
+        {from:'d2',to:'a3',guard:'Không',fp:'left'},
+        {from:'d2',to:'a5',guard:'Có'},
+        {from:'a5',to:'a6'},
+        {from:'a6',to:'d3'},
+        {from:'d3',to:'a3',guard:'Có',fp:'left'},
+        {from:'d3',to:'a7',guard:'Không'},
+        {from:'a7',to:'a8'},
+        {from:'a8',to:'d4'},
+        {from:'d4',to:'a6',guard:'Không',fp:'left'},
+        {from:'d4',to:'f1',guard:'Có'},
+        {from:'f1',to:'a9a'},
+        {from:'f1',to:'a9b'},
+        {from:'a9a',to:'j1'},
+        {from:'a9b',to:'j1'},
+        {from:'j1',to:'d5'},
+        {from:'d5',to:'a10',guard:'Có'},
+        {from:'d5',to:'a11',guard:'Không',fp:'left'},
+        {from:'a10',to:'a12'},
+        {from:'a11',to:'a12'},
+        {from:'a12',to:'e'},
+      ],
+    },
+    pos_rfid: {
+      title: 'I. Bán Hàng — Khách thành viên RFID + Chiết khấu + Tích điểm',
+      lanes: ['Nhân viên Thu ngân', 'Hệ thống'],
+      nodes: [
+        {id:'s',type:'start',lane:0,row:0},
+        {id:'a1',type:'activity',lane:0,row:1,text:'Nhập mã KH / SĐT\n(hoặc F2)'},
+        {id:'d1',type:'decision',lane:1,row:2,text:'Tìm thấy\nKH?'},
+        {id:'a2',type:'activity',lane:1,row:3,text:'Hiện tên, hạng KH\nCK%, điểm tích lũy'},
+        {id:'a3',type:'activity',lane:0,row:4,text:'Quét SP vào giỏ hàng'},
+        {id:'a4',type:'activity',lane:1,row:5,text:'Cập nhật CK real-time\n"ĐANG CÓ [nguồn] GIẢM X%"'},
+        {id:'a5',type:'activity',lane:0,row:6,text:'Nhấn F10\n(Thanh toán RFID)'},
+        {id:'a6',type:'activity',lane:1,row:7,text:'So sánh 3 nguồn giảm giá\nĐề xuất nguồn tốt nhất'},
+        {id:'a7',type:'activity',lane:0,row:8,text:'Chọn: Dùng điểm\nhoặc Dùng chiết khấu'},
+        {id:'a8',type:'activity',lane:1,row:9,text:'Trừ ví RFID\nCộng điểm tích lũy mới'},
+        {id:'d3',type:'decision',lane:1,row:10,text:'Đơn có\nvé?'},
+        {id:'a9',type:'activity',lane:1,row:11,text:'Mở Phát Vé\n(ẩn nút In, chỉ Lưu QR)'},
+        {id:'a10',type:'activity',lane:0,row:11,text:'Hoàn tất'},
+        {id:'e',type:'end',lane:.5,row:12},
+      ],
+      edges: [
+        {from:'s',to:'a1'},
+        {from:'a1',to:'d1'},
+        {from:'d1',to:'a1',guard:'Không',fp:'left'},
+        {from:'d1',to:'a2',guard:'Có'},
+        {from:'a2',to:'a3'},
+        {from:'a3',to:'a4'},
+        {from:'a4',to:'a5'},
+        {from:'a5',to:'a6'},
+        {from:'a6',to:'a7'},
+        {from:'a7',to:'a8'},
+        {from:'a8',to:'d3'},
+        {from:'d3',to:'a9',guard:'Có'},
+        {from:'d3',to:'a10',guard:'Không',fp:'left'},
+        {from:'a9',to:'e'},
+        {from:'a10',to:'e'},
+      ],
+    },
+    pos_ticket: {
+      title: 'I.9. Phát Vé Điện Tử — Popup tự mở sau thanh toán',
+      lanes: ['Nhân viên Thu ngân', 'Hệ thống'],
+      nodes: [
+        {id:'s',type:'start',lane:1,row:0},
+        {id:'a1',type:'activity',lane:1,row:1,text:'Mở popup "PHÁT VÉ"\nHiện thẻ card cho từng vé'},
+        {id:'d1',type:'decision',lane:1,row:2,text:'PTTT?'},
+        {id:'a2',type:'activity',lane:1,row:3,text:'Hiện nút: In tất cả\nIn lại | Lưu QR | Xong'},
+        {id:'a3',type:'activity',lane:0,row:3,text:'Ẩn nút In\nChỉ Lưu QR | Xong'},
+        {id:'a4',type:'activity',lane:0,row:4,text:'[Tùy chọn]\nNhấn "In tất cả"'},
+        {id:'a5',type:'activity',lane:1,row:5,text:'Print Preview mã CODE_128\n2 vé/hàng, thẻ xanh (đã in)'},
+        {id:'a6',type:'activity',lane:0,row:6,text:'[Tùy chọn]\nNhấn "Lưu QR"'},
+        {id:'a7',type:'activity',lane:1,row:7,text:'Lưu QR PNG 400x400\nvào Desktop, mở thư mục'},
+        {id:'a8',type:'activity',lane:0,row:8,text:'Nhấn "Xong"'},
+        {id:'a9',type:'activity',lane:1,row:9,text:'Đóng popup\nQuay lại POS'},
+        {id:'e',type:'end',lane:.5,row:10},
+      ],
+      edges: [
+        {from:'s',to:'a1'},
+        {from:'a1',to:'d1'},
+        {from:'d1',to:'a2',guard:'Mặt/CK'},
+        {from:'d1',to:'a3',guard:'RFID',fp:'left'},
+        {from:'a2',to:'a4'},
+        {from:'a3',to:'a4'},
+        {from:'a4',to:'a5'},
+        {from:'a5',to:'a6'},
+        {from:'a6',to:'a7'},
+        {from:'a7',to:'a8'},
+        {from:'a8',to:'a9'},
+        {from:'a9',to:'e'},
+      ],
+    },
+  }
+},
+
+gate: {
+  tabs: [{id:'gate_main',label:'Luồng quét vé chính'}],
+  diagrams: {
+    gate_main: {
+      title: 'II. Kiểm Soát Vé Tại Cổng — Luồng quét vé',
+      lanes: ['Nhân viên Gác cổng', 'Hệ thống'],
+      nodes: [
+        {id:'s',type:'start',lane:0,row:0},
+        {id:'a1',type:'activity',lane:0,row:1,text:'Mở Kiểm Soát Vé'},
+        {id:'a2',type:'activity',lane:1,row:2,text:'Hiển thị "SẴN SÀNG"\nLoad DS khu vực'},
+        {id:'a3',type:'activity',lane:0,row:3,text:'Chọn Khu vực\n+ Trò chơi'},
+        {id:'a4',type:'activity',lane:0,row:4,text:'Quét mã vé\n(máy quét/camera/gõ tay)'},
+        {id:'d1',type:'decision',lane:1,row:5,text:'Tìm thấy\nvé?'},
+        {id:'d2',type:'decision',lane:1,row:6,text:'Đúng\nkhu vực?'},
+        {id:'d3',type:'decision',lane:1,row:7,text:'Còn\nlượt?'},
+        {id:'a5',type:'activity',lane:1,row:8,text:'MỜI VÀO\nTrừ 1 lượt'},
+        {id:'j1',type:'join',lane:1,row:9},
+        {id:'a6',type:'activity',lane:1,row:10,text:'Hiện kết quả + Chớp viền\nGhi lịch sử + Bộ đếm'},
+        {id:'a7',type:'activity',lane:1,row:11,text:'Chờ 3s → "SẴN SÀNG"'},
+        {id:'e',type:'end',lane:.5,row:12},
+      ],
+      edges: [
+        {from:'s',to:'a1'},
+        {from:'a1',to:'a2'},
+        {from:'a2',to:'a3'},
+        {from:'a3',to:'a4'},
+        {from:'a4',to:'d1'},
+        {from:'d1',to:'d2',guard:'Có'},
+        {from:'d1',to:'j1',guard:'Không: XÁM',fp:'right',skipR:true},
+        {from:'d2',to:'d3',guard:'Có'},
+        {from:'d2',to:'j1',guard:'Không: ĐỎ',fp:'right',skipR:true},
+        {from:'d3',to:'a5',guard:'Có'},
+        {from:'d3',to:'j1',guard:'Không: ĐỎ',fp:'right',skipR:true},
+        {from:'a5',to:'j1'},
+        {from:'j1',to:'a6'},
+        {from:'a6',to:'a7'},
+        {from:'a7',to:'e'},
+      ],
+    },
+  }
+},
+
+booking: {
+  tabs: [{id:'bk_main',label:'Luồng xác nhận đoàn'}],
+  diagrams: {
+    bk_main: {
+      title: 'III. Xác Nhận Đoàn Khách — Check-in',
+      lanes: ['Nhân viên Lễ tân', 'Hệ thống'],
+      nodes: [
+        {id:'s',type:'start',lane:0,row:0},
+        {id:'a1',type:'activity',lane:0,row:1,text:'Mở Xác Nhận Đoàn Khách'},
+        {id:'a2',type:'activity',lane:1,row:2,text:'Hiển thị ô tìm kiếm\nPanel thông tin: ẩn'},
+        {id:'a3',type:'activity',lane:0,row:3,text:'Nhập mã booking\nhoặc SĐT trưởng đoàn'},
+        {id:'d1',type:'decision',lane:1,row:4,text:'Tìm thấy\nđoàn?'},
+        {id:'a4',type:'activity',lane:1,row:5,text:'Hiện thông tin đoàn\n(Tên, SĐT, SL, CK%, Combo)'},
+        {id:'d2',type:'decision',lane:1,row:6,text:'Booking\nhợp lệ?'},
+        {id:'a5',type:'activity',lane:1,row:7,text:'Nhãn XANH\nNút "Xuất vé" BẬT'},
+        {id:'a6',type:'activity',lane:0,row:8,text:'Nhấn "Xuất vé"'},
+        {id:'a7',type:'activity',lane:1,row:9,text:'Hộp thoại xác nhận\n"Đoàn [tên] đã đến?"'},
+        {id:'d3',type:'decision',lane:0,row:10,text:'Xác nhận?'},
+        {id:'a8',type:'activity',lane:1,row:11,text:'Cập nhật → "Đã xuất vé"\nThông báo thành công'},
+        {id:'a9',type:'activity',lane:1,row:12,text:'Xóa ô tìm, ẩn panel\nSẵn sàng đoàn kế tiếp'},
+        {id:'e',type:'end',lane:.5,row:13},
+      ],
+      edges: [
+        {from:'s',to:'a1'},
+        {from:'a1',to:'a2'},
+        {from:'a2',to:'a3'},
+        {from:'a3',to:'d1'},
+        {from:'d1',to:'a3',guard:'Không',fp:'left'},
+        {from:'d1',to:'a4',guard:'Có'},
+        {from:'a4',to:'d2'},
+        {from:'d2',to:'a3',guard:'Không (lỗi TT)',fp:'left'},
+        {from:'d2',to:'a5',guard:'Có'},
+        {from:'a5',to:'a6'},
+        {from:'a6',to:'a7'},
+        {from:'a7',to:'d3'},
+        {from:'d3',to:'a6',guard:'Không',fp:'left'},
+        {from:'d3',to:'a8',guard:'Có'},
+        {from:'a8',to:'a9'},
+        {from:'a9',to:'e'},
+      ],
+    },
+  }
+},
+
+rental: {
+  tabs: [
+    {id:'rent_out',label:'Tab Cho Thuê'},
+    {id:'rent_return',label:'Tab Nhận Trả'},
+    {id:'rent_monitor',label:'Tab Giám Sát'},
+  ],
+  diagrams: {
+    rent_out: {
+      title: 'IV. Cho Thuê Đồ — Tab Cho Thuê',
+      lanes: ['Nhân viên Trạm thuê', 'Hệ thống'],
+      nodes: [
+        {id:'s',type:'start',lane:0,row:0},
+        {id:'a1',type:'activity',lane:0,row:1,text:'Mở tab "Cho thuê"\nChọn trạm cho thuê'},
+        {id:'a2',type:'activity',lane:1,row:2,text:'Hiện DS SP thuộc trạm\n(Mã, Tên, Giá thuê, Cọc)'},
+        {id:'a3',type:'activity',lane:0,row:3,text:'Nhấp đúp SP\n→ thêm giỏ thuê'},
+        {id:'a4',type:'activity',lane:1,row:4,text:'Thêm giỏ, cập nhật\nTổng thuê + Tổng cọc'},
+        {id:'d1',type:'decision',lane:0,row:5,text:'Thêm SP\nkhác?'},
+        {id:'a5',type:'activity',lane:0,row:6,text:'Nhấn Thanh toán\n(Tiền mặt hoặc RFID)'},
+        {id:'a6',type:'activity',lane:1,row:7,text:'Hiện xác nhận: Thuê [X]đ\nCọc [Y]đ, Tổng [Z]đ'},
+        {id:'d2',type:'decision',lane:0,row:8,text:'Xác nhận\nthanh toán?'},
+        {id:'a7',type:'activity',lane:1,row:9,text:'Tạo đơn + Sinh biên lai\n"DT..." → Copy clipboard'},
+        {id:'a8',type:'activity',lane:1,row:10,text:'Thuê thành công!\nXóa giỏ + xóa khách'},
+        {id:'e',type:'end',lane:.5,row:11},
+      ],
+      edges: [
+        {from:'s',to:'a1'},
+        {from:'a1',to:'a2'},
+        {from:'a2',to:'a3'},
+        {from:'a3',to:'a4'},
+        {from:'a4',to:'d1'},
+        {from:'d1',to:'a3',guard:'Có',fp:'left'},
+        {from:'d1',to:'a5',guard:'Không'},
+        {from:'a5',to:'a6'},
+        {from:'a6',to:'d2'},
+        {from:'d2',to:'a5',guard:'Không',fp:'left'},
+        {from:'d2',to:'a7',guard:'Có'},
+        {from:'a7',to:'a8'},
+        {from:'a8',to:'e'},
+      ],
+    },
+    rent_return: {
+      title: 'IV. Cho Thuê Đồ — Tab Nhận Trả + Hoàn Cọc',
+      lanes: ['Nhân viên Trạm thuê', 'Hệ thống'],
+      nodes: [
+        {id:'s',type:'start',lane:0,row:0},
+        {id:'a1',type:'activity',lane:0,row:1,text:'Mở tab "Nhận trả"\nQuẹt RFID / Nhập mã biên lai'},
+        {id:'a2',type:'activity',lane:1,row:2,text:'Tìm DS đồ đang thuê\n(Tên, SL, ô Trả, ô Mất)'},
+        {id:'d1',type:'decision',lane:1,row:3,text:'Có đồ\nthuê?'},
+        {id:'a3',type:'activity',lane:0,row:4,text:'Nhập SL trả / báo mất\n(F12 = Trả đủ tất cả)'},
+        {id:'a4',type:'activity',lane:0,row:5,text:'Nhấn "Xác nhận trả"'},
+        {id:'d2',type:'decision',lane:1,row:6,text:'SL hợp\nlệ?'},
+        {id:'d3',type:'decision',lane:1,row:7,text:'Có mất\nđồ?'},
+        {id:'a5',type:'activity',lane:0,row:8,text:'Nhập tiền phạt\n(mặc định = cọc)'},
+        {id:'a6',type:'activity',lane:1,row:9,text:'Tính cọc hoàn\n= Tổng cọc − Phạt'},
+        {id:'d4',type:'decision',lane:1,row:10,text:'Phương\nthức?'},
+        {id:'a8',type:'activity',lane:1,row:11,text:'Hoàn vào ví\nđiện tử (RFID)'},
+        {id:'a9',type:'activity',lane:0,row:11,text:'Hoàn tiền mặt\n(NV tự trả tay)'},
+        {id:'a10',type:'activity',lane:1,row:12,text:'Trả đồ thành công\nCọc đã hoàn!'},
+        {id:'e',type:'end',lane:.5,row:13},
+      ],
+      edges: [
+        {from:'s',to:'a1'},
+        {from:'a1',to:'a2'},
+        {from:'a2',to:'d1'},
+        {from:'d1',to:'a1',guard:'Không',fp:'left'},
+        {from:'d1',to:'a3',guard:'Có',fp:'left'},
+        {from:'a3',to:'a4'},
+        {from:'a4',to:'d2'},
+        {from:'d2',to:'a3',guard:'Không (vượt SL)',fp:'left'},
+        {from:'d2',to:'d3',guard:'Có'},
+        {from:'d3',to:'a5',guard:'Có (mất)',fp:'left'},
+        {from:'d3',to:'d4',guard:'Không (hoàn 100%)',fp:'right',skipR:true},
+        {from:'a5',to:'a6'},
+        {from:'a6',to:'d4'},
+        {from:'d4',to:'a8',guard:'RFID'},
+        {from:'d4',to:'a9',guard:'Vãng lai',fp:'left'},
+        {from:'a8',to:'a10'},
+        {from:'a9',to:'a10'},
+        {from:'a10',to:'e'},
+      ],
+    },
+    rent_monitor: {
+      title: 'IV. Cho Thuê Đồ — Tab Giám Sát',
+      lanes: ['Nhân viên Trạm thuê', 'Hệ thống'],
+      nodes: [
+        {id:'s',type:'start',lane:0,row:0},
+        {id:'a1',type:'activity',lane:0,row:1,text:'Mở tab "Giám sát"\nChọn khoảng ngày'},
+        {id:'a2',type:'activity',lane:0,row:2,text:'Nhấn "Xem chưa trả"'},
+        {id:'a3',type:'activity',lane:1,row:3,text:'Load DS phiên thuê\nchưa hoàn cọc'},
+        {id:'d1',type:'decision',lane:1,row:4,text:'Có phiên\nchưa trả?'},
+        {id:'a4',type:'activity',lane:1,row:5,text:'Hiện DS: Mã, Tên SP,\nSL, Thời gian lấy'},
+        {id:'a5',type:'activity',lane:0,row:5,text:'"Đã thu hồi sạch!"'},
+        {id:'a6',type:'activity',lane:0,row:6,text:'Nhấp đúp 1 dòng'},
+        {id:'a7',type:'activity',lane:1,row:7,text:'Tự chuyển tab "Nhận trả"\nvà tải đơn đó lên'},
+        {id:'e',type:'end',lane:.5,row:8},
+      ],
+      edges: [
+        {from:'s',to:'a1'},
+        {from:'a1',to:'a2'},
+        {from:'a2',to:'a3'},
+        {from:'a3',to:'d1'},
+        {from:'d1',to:'a4',guard:'Có'},
+        {from:'d1',to:'a5',guard:'Không',fp:'left'},
+        {from:'a5',to:'e',tp:'top'},
+        {from:'a4',to:'a6'},
+        {from:'a6',to:'a7'},
+        {from:'a7',to:'e'},
+      ],
+    },
+  }
+},
+};
+
+// =====================================================
+// TAB LOGIC
+// =====================================================
+let curMod='pos',curSub='';
+function initTabs(){
+  const modules=[
+    {id:'pos',label:'I. Bán Hàng POS'},
+    {id:'gate',label:'II. Kiểm Soát Vé'},
+    {id:'booking',label:'III. Xác Nhận Đoàn'},
+    {id:'rental',label:'IV. Cho Thuê Đồ'},
+  ];
+  const nav=document.getElementById('moduleNav');
+  nav.innerHTML=modules.map(m=>`<button data-mod="${m.id}" class="${m.id===curMod?'active':''}">${m.label}</button>`).join('');
+  nav.querySelectorAll('button').forEach(btn=>{
+    btn.onclick=()=>{nav.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');curMod=btn.dataset.mod;renderSubTabs();};
+  });
+  renderSubTabs();
+}
+function renderSubTabs(){
+  const mod=DIAGRAMS[curMod], sn=document.getElementById('subNav');
+  sn.innerHTML=mod.tabs.map((t,i)=>`<button data-sub="${t.id}" class="${i===0?'active':''}">${t.label}</button>`).join('');
+  curSub=mod.tabs[0].id;
+  renderDiagram(mod.diagrams[curSub]);
+  sn.querySelectorAll('button').forEach(btn=>{
+    btn.onclick=()=>{sn.querySelectorAll('button').forEach(b=>b.classList.remove('active'));btn.classList.add('active');curSub=btn.dataset.sub;renderDiagram(DIAGRAMS[curMod].diagrams[curSub]);};
+  });
+}
+document.addEventListener('DOMContentLoaded',initTabs);
+</script>
+</body>
+</html>

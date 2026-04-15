@@ -1,0 +1,920 @@
+﻿TC ID,Title,Est. (mins),Test Type,Area,Procedure / Steps,Expected Results,Priority,RESULT
+RT_001,Mở màn hình Thuê đồ — kiểm tra bố cục tổng thể,3,UI,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Tại màn hình đăng nhập, nhập tài khoản ""thuedonv01"", mật khẩu ""123456"", nhấn ""Đăng nhập"".
+3. Nhấn menu ""Thuê đồ"" trên thanh điều hướng.
+4. Quan sát bố cục tổng thể.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Thuê đồ mở ra.
+4. Bố cục gồm: (A) Tab ""Cho Thuê"" — dropdown chọn Trạm, danh sách sản phẩm cho thuê, giỏ thuê, tổng tiền (thuê + cọc), khu vực quẹt RFID, nút thanh toán. (B) Tab ""Nhận Trả"" — ô quẹt RFID hoặc quét mã biên lai, bảng đồ đang mượn, nút Xác nhận trả. (C) Tab ""Giám sát"" — danh sách phiên thuê chưa hoàn.",High,PENDING
+RT_002,Kiểm tra dropdown Trạm cho thuê có dữ liệu,2,UI,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Nhấn vào dropdown Trạm.
+5. Quan sát danh sách.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Dropdown mở ra.
+5. Hiển thị các trạm cho thuê (VD: ""Khu Biển"", ""Khu Thiên Đường""). Mặc định chọn trạm đầu tiên.",High,PENDING
+RT_003,Danh sách sản phẩm cho thuê hiển thị đúng theo trạm,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Chọn trạm ""Khu Biển"".
+5. Quan sát danh sách sản phẩm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Chọn Khu Biển.
+5. Danh sách hiện các sản phẩm cho thuê thuộc khu này: Phao bơi, Tủ đồ, Chòi nghỉ... Mỗi item hiện: Tên, Giá thuê, Tiền cọc.",High,PENDING
+RT_004,Thêm sản phẩm thuê vào giỏ bằng Double-Click,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Chọn trạm ""Khu Biển"".
+5. Double-click vào ""Phao bơi"" (giá thuê 50.000đ, cọc 200.000đ).
+6. Quan sát giỏ thuê.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Khu Biển.
+5. Double-click Phao bơi.
+6. Giỏ thuê thêm 1 dòng: Phao bơi | SL 1 | Thuê 50.000đ | Cọc 200.000đ. Tổng hiện ""Tiền thuê: 50.000đ | Tiền cọc: 200.000đ | TỔNG: 250.000đ"".",Critical,PENDING
+RT_005,Thêm cùng sản phẩm 2 lần — SL gộp tăng lên 2,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Chọn trạm, double-click ""Phao bơi"" lần 1.
+5. Double-click ""Phao bơi"" lần 2.
+6. Quan sát giỏ.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Lần 1: Phao bơi SL=1.
+5. Lần 2: SL gộp = 2 (không tạo dòng mới).
+6. Thuê = 100.000đ, Cọc = 400.000đ, TỔNG = 500.000đ.",High,PENDING
+RT_006,Thêm 2 sản phẩm khác nhau vào giỏ,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Chọn trạm. Double-click ""Phao bơi"".
+5. Double-click ""Tủ đồ"".
+6. Quan sát giỏ.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Phao bơi SL = 1.
+5. Tủ đồ SL = 1.
+6. Giỏ có 2 dòng. Tổng = Thuê phao + Thuê tủ + Cọc phao + Cọc tủ.",High,PENDING
+RT_007,Hiển thị tổng tiền đúng: Tiền thuê + Tiền cọc + TỔNG,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Thêm Phao bơi ×2 (thuê 50K/cái, cọc 200K/cái) + Tủ đồ ×1 (thuê 30K, cọc 100K).
+5. Quan sát khu vực tổng tiền.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Giỏ: 2 phao + 1 tủ.
+5. Tiền thuê = 2×50K + 30K = 130.000đ. Tiền cọc = 2×200K + 100K = 500.000đ. TỔNG = 630.000đ. Hiển thị rõ ràng 3 dòng riêng.",High,PENDING
+RT_008,Quẹt RFID khách hàng khi cho thuê — hiện tên + số dư ví,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Thêm sản phẩm vào giỏ.
+5. Quẹt thẻ RFID khách hàng (KH001, ví 1.000.000đ).
+6. Quan sát thông tin KH.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Giỏ có hàng.
+5. Thẻ RFID quẹt.
+6. Hiện tên khách: ""Nguyễn Văn A"", Số dư ví: 1.000.000đ.",High,PENDING
+RT_009,Thanh toán bằng ví RFID — số dư đủ — thành công,5,E2E,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Thêm Phao bơi ×2 (TỔNG 500K).
+5. Quẹt RFID khách (ví 1.000.000đ).
+6. Nhấn nút ""Thanh toán ví"".
+7. Xác nhận.
+8. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Giỏ: 500K.
+5. Ví 1.000.000đ ≥ 500.000đ.
+6. Nhấn thanh toán ví.
+7. Xác nhận.
+8. Trừ ví 500K → ví còn 500K. Tạo phiên thuê cho mỗi món (trạng thái ""Chưa trả""). Hiện mã biên lai (VD: ""DT260401143022ABCD""). Mã tự copy vào clipboard. Giỏ reset.",Critical,PENDING
+RT_010,Thanh toán ví RFID — số dư KHÔNG đủ — bị chặn,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Thêm hàng sao cho TỔNG = 500K.
+5. Quẹt RFID khách (ví chỉ có 100K).
+6. Nhấn ""Thanh toán ví"".
+7. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Tổng 500K.
+5. Ví 100K < 500K.
+6. Nhấn thanh toán.
+7. Hộp thoại: ""Số dư ví không đủ! Cần: 500.000đ, Có: 100.000đ"". Không trừ ví. Không tạo phiên thuê.",Critical,PENDING
+RT_011,Thanh toán bằng tiền mặt — thành công,5,E2E,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Thêm hàng vào giỏ (TỔNG 250K).
+5. KHÔNG quẹt RFID (khách vãng lai).
+6. Nhấn nút ""Thanh toán tiền mặt"".
+7. Xác nhận.
+8. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Giỏ: 250K.
+5. Khách vãng lai.
+6. Nhấn TT tiền mặt.
+7. Xác nhận.
+8. Tạo phiên thuê (""Chưa trả""). Mã biên lai tự sinh. Mã copy vào clipboard. Nhân viên in hoặc ghi cho khách. Giỏ reset.",High,PENDING
+RT_012,Thanh toán khi giỏ trống — bị chặn,1,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Không thêm gì vào giỏ.
+5. Nhấn thanh toán.
+6. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Giỏ trống.
+5. Nhấn thanh toán.
+6. Hộp thoại: ""Giỏ hàng trống!"". Không tạo phiên thuê.",High,PENDING
+RT_013,Mã biên lai tự copy vào clipboard sau thanh toán,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Thêm hàng, thanh toán thành công.
+5. Mở Notepad.
+6. Nhấn Ctrl+V (Paste).
+7. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Thanh toán thành công.
+4. Mã biên lai sinh.
+5. Mở Notepad.
+6. Paste.
+7. Mã biên lai (VD: ""DT260401143022ABCD"") xuất hiện trong Notepad. Đúng mã vừa tạo.",Medium,PENDING
+RT_014,Giá thuê theo ngày — ngày thường vs cuối tuần vs lễ,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Chọn trạm. Quan sát giá thuê Phao bơi.
+5. So sánh với bảng giá cấu hình cho hôm nay.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Giá thuê.
+5. Giá thuê khớp với bảng giá: ngày thường = giá thường, cuối tuần = giá cuối tuần, ngày lễ = giá lễ.",High,PENDING
+RT_015,Tab Nhận Trả — quẹt RFID khách — hiện đồ đang thuê,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Chuyển sang tab ""Nhận Trả"".
+5. Quẹt thẻ RFID khách đã thuê 3 phao bơi.
+6. Quan sát bảng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Tab Nhận Trả.
+5. Quẹt RFID.
+6. Bảng hiện: ""Phao bơi | Đang thuê: 3 | Khách trả: [  ] | Báo mất: [  ]"". Các ô ""Khách trả"" và ""Báo mất"" cho phép nhập số.",Critical,PENDING
+RT_016,Tab Nhận Trả — quét mã biên lai — hiện đồ đang thuê,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Chuyển sang tab ""Nhận Trả"".
+5. Gõ mã biên lai ""DT260401143022ABCD"" (khách vãng lai), nhấn Enter.
+6. Quan sát bảng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Tab Nhận Trả.
+5. Nhập mã biên lai.
+6. Bảng hiện danh sách đồ thuê của đơn này. Ghi chú: ""Khách vãng lai — Hoàn cọc bằng TIỀN MẶT"".",High,PENDING
+RT_017,Nhận trả đủ — hoàn cọc về ví RFID,5,E2E,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID khách đã thuê 3 phao (cọc 200K/cái = 600K).
+5. Nhập cột ""Khách trả"" = 3, ""Báo mất"" = 0.
+6. Nhấn ""Xác Nhận Trả"".
+7. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Bảng hiện 3 phao.
+5. Trả = 3, Mất = 0.
+6. Nhấn xác nhận.
+7. Hoàn cọc 600.000đ vào ví RFID khách. Trạng thái chuyển ""Đã hoàn"". Danh sách tự tải lại (không còn phao).",Critical,PENDING
+RT_018,Nhận trả đủ khách vãng lai — hoàn cọc tiền mặt,5,E2E,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quét biên lai khách vãng lai (thuê 1 tủ, cọc 100K).
+5. Nhập Trả = 1, Mất = 0.
+6. Nhấn Xác Nhận Trả.
+7. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Bảng hiện 1 tủ.
+5. Trả = 1.
+6. Xác nhận.
+7. Hoàn cọc 100.000đ bằng tiền mặt (hiện thông báo ""Hoàn cọc tiền mặt: 100.000đ""). Trạng thái ""Đã hoàn"".",High,PENDING
+RT_019,Báo mất đồ — popup hỏi tiền đền bù,5,E2E,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID khách thuê 3 phao (cọc 200K/cái).
+5. Nhập Trả = 2, Mất = 1.
+6. Nhấn Xác Nhận Trả.
+7. Quan sát popup.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Bảng: 3 phao.
+5. Trả 2, mất 1.
+6. Nhấn xác nhận.
+7. Popup: ""Khách báo mất 1 cái Phao bơi. Tiền cọc: 200.000đ. Nhập tiền đền bù:"" (gợi ý mặc định = tiền cọc 200K). Có ô nhập số tiền phạt.",Critical,PENDING
+RT_020,Báo mất — nhập tiền phạt — hoàn cọc OK + thu phạt mất,5,E2E,Thuê đồ,"1. Tiếp tục từ RT_019.
+2. Popup hỏi tiền đền bù. Nhập 200.000đ (= tiền cọc).
+3. Nhấn xác nhận popup.
+4. Quan sát kết quả.","1. Popup.
+2. Nhập 200.000đ.
+3. Xác nhận.
+4. Xử lý: 2 phao trả → hoàn cọc 2×200K = 400.000đ. 1 phao mất → giữ cọc 200K + thu thêm phạt 200K. Tổng: hoàn ví 400K, giữ 200K cọc, thu thêm 200K phạt. Trạng thái cập nhật. Bảng tải lại.",Critical,PENDING
+RT_021,Trả + Mất vượt quá Đang thuê — hiện lỗi,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID khách thuê 3 phao.
+5. Nhập Trả = 2, Mất = 2 (tổng 4 > 3).
+6. Nhấn Xác Nhận Trả.
+7. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Bảng: 3 phao.
+5. Trả + Mất = 4 > 3.
+6. Nhấn xác nhận.
+7. Hộp thoại lỗi: ""Phao bơi: Số lượng trả/mất (4) vượt quá số đang thuê (3)"". Không xử lý. Bảng giữ nguyên.",Critical,PENDING
+RT_022,Trả từng phần — trả 2/3 phao — phần còn lại giữ trạng thái Chưa trả,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID khách thuê 3 phao.
+5. Nhập Trả = 2, Mất = 0.
+6. Nhấn Xác Nhận Trả.
+7. Đợi bảng tải lại. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Bảng: 3 phao.
+5. Trả 2.
+6. Xác nhận.
+7. Hoàn cọc 2×200K = 400K. Bảng tải lại còn: ""Phao bơi | Đang thuê: 1"". Phần chưa trả giữ nguyên trạng thái.",High,PENDING
+RT_023,Phím F12 — Trả đủ nhanh tất cả,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID khách thuê 3 phao + 1 tủ.
+5. Nhấn phím F12.
+6. Quan sát cột Khách trả và Báo mất.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Bảng: Phao 3, Tủ 1.
+5. Nhấn F12.
+6. Tất cả cột ""Khách trả"" tự động điền = SL đang thuê (Phao = 3, Tủ = 1). Báo mất = 0. Nhân viên chỉ cần nhấn ""Xác Nhận Trả"".",High,PENDING
+RT_024,F12 rồi Xác nhận — hoàn cọc toàn bộ,5,E2E,Thuê đồ,"1. Tiếp tục từ RT_023.
+2. Nhấn ""Xác Nhận Trả"".
+3. Quan sát.","1. F12 đã điền trả đủ.
+2. Nhấn xác nhận.
+3. Hoàn cọc toàn bộ (3×200K + 100K = 700K). Tất cả chuyển ""Đã hoàn"". Bảng tải lại trống (không còn đồ chưa trả).",High,PENDING
+RT_025,Trả = 0 và Mất = 0 cho tất cả — xác nhận không có gì xảy ra,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID.
+5. Để Trả = 0, Mất = 0 cho mọi dòng.
+6. Nhấn Xác Nhận Trả.
+7. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Bảng hiện đồ đang thuê.
+5. Trả = 0, Mất = 0.
+6. Nhấn xác nhận.
+7. Hiện cảnh báo ""Không có gì để trả/báo mất"" hoặc bỏ qua. Trạng thái không đổi.",Low,PENDING
+RT_026,Quẹt RFID không tìm thấy khách — báo lỗi,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt thẻ RFID không có trong hệ thống.
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Quẹt RFID lạ.
+5. Hiện ""Không tìm thấy khách hàng"" hoặc ""Khách này không có đồ đang thuê"". Bảng trống.",High,PENDING
+RT_027,Quét mã biên lai không tồn tại — báo lỗi,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Gõ mã biên lai lạ ""DT-KHONGTONTAI"", nhấn Enter.
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Gõ mã lạ.
+5. Hiện ""Không tìm thấy đơn hàng thuê"". Bảng trống.",High,PENDING
+RT_028,Quẹt RFID khách không có đồ đang thuê — bảng trống,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID khách có tên nhưng không có đơn thuê nào.
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Quẹt RFID.
+5. Nhận diện KH nhưng không có đồ thuê chưa trả. Bảng trống hoặc hiện ""Không có đồ đang thuê"".",Medium,PENDING
+RT_029,Mất số âm — bị chặn,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID khách thuê 3 phao.
+5. Nhập Mất = -1.
+6. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Bảng: 3 phao.
+5. Nhập -1.
+6. Ô không cho nhập số âm (SpinEdit min = 0) hoặc hiện lỗi.",Low,PENDING
+RT_030,Trả số âm — bị chặn,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID.
+5. Nhập Trả = -1.
+6. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Bảng.
+5. Nhập -1.
+6. Ô không cho nhập số âm.",Low,PENDING
+RT_031,Nhiều sản phẩm — báo mất 1 trong 2 loại — chỉ popup cho sp mất,5,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID khách thuê 2 phao + 1 tủ.
+5. Nhập: Phao → Trả=1, Mất=1. Tủ → Trả=1, Mất=0.
+6. Nhấn Xác Nhận Trả.
+7. Quan sát popup.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Bảng: Phao 2, Tủ 1.
+5. Phao: trả 1, mất 1. Tủ: trả 1, mất 0.
+6. Xác nhận.
+7. Popup chỉ hỏi phạt cho Phao mất (1 cái). Tủ trả đủ → hoàn cọc tủ. Xử lý đúng cho từng loại riêng.",High,PENDING
+RT_032,Tab Giám sát — hiện danh sách phiên thuê chưa hoàn,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Chuyển sang tab ""Giám sát"".
+5. Nhấn nút ""Xem chưa trả"" (hoặc bảng tự hiện).
+6. Quan sát bảng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Tab Giám sát.
+5. Bảng tải danh sách.
+6. Hiện các phiên thuê chưa hoàn trong ngày, nhóm theo mã biên lai + tên khách. Mỗi dòng có: mã, tên KH, số món chưa về.",High,PENDING
+RT_033,Tab Giám sát — nhấp đúp vào dòng — chuyển sang tab Nhận Trả,3,UI,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Giám sát. Có ít nhất 1 phiên chưa trả.
+5. Nhấp đúp vào dòng phiên đó.
+6. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Tab Giám sát có dữ liệu.
+5. Nhấp đúp.
+6. Tự động chuyển sang tab ""Nhận Trả"" và tải sẵn đơn thuê đó (bảng hiện đồ đang mượn). Nhân viên chỉ cần nhập số trả.",High,PENDING
+RT_034,Tab Giám sát hiện đúng tổng phiên chờ + tổng món,2,UI,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Giám sát.
+5. Quan sát thông tin tổng hợp.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Tab Giám sát.
+5. Hiện nhãn tổng hợp: ""Đang có X phiên chờ (Y món chưa về)"". VD: ""Đang có 5 phiên chờ (12 món chưa về)"".",Medium,PENDING
+RT_035,Sửa SL trong giỏ cho thuê — tổng tiền cập nhật,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Cho thuê. Thêm Phao bơi (SL=1).
+5. Sửa SL = 5.
+6. Quan sát tổng tiền.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Phao SL=1.
+5. SL = 5.
+6. Thuê = 5×50K = 250K. Cọc = 5×200K = 1.000K. TỔNG = 1.250.000đ. Cập nhật đúng.",Medium,PENDING
+RT_036,Xóa dòng trong giỏ cho thuê — tổng giảm,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Cho thuê. Thêm 2 SP: Phao + Tủ.
+5. Xóa dòng Phao.
+6. Quan sát tổng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Giỏ: 2 dòng.
+5. Xóa Phao.
+6. Giỏ: 1 dòng (Tủ). Tổng chỉ tính Tủ.",Medium,PENDING
+RT_037,Đổi trạm — danh sách SP cập nhật theo trạm mới,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Chọn trạm A — hiện SP trạm A.
+5. Đổi sang trạm B.
+6. Quan sát danh sách SP.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. SP trạm A.
+5. Đổi trạm B.
+6. Danh sách cập nhật: hiện SP thuộc trạm B. SP trạm A biến mất.",High,PENDING
+RT_038,Phải có nhân viên đăng nhập — nếu session mất phải restart,3,Security,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Giả lập session mất (nếu có thể).
+5. Thử thanh toán.
+6. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Session mất.
+5. Thử thanh toán.
+6. Hệ thống phát hiện không có nhân viên → buộc khởi động lại hoặc hiện lỗi session.",Medium,PENDING
+RT_039,Không có quyền — màn hình bị khóa,2,Security,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản không có quyền thuê đồ.
+3. Nhấn menu ""Thuê đồ"".
+4. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Menu bị ẩn hoặc disabled, hoặc hiện ""Không có quyền"".
+4. Không thể cho thuê hoặc nhận trả.",High,PENDING
+RT_040,SQL injection trong ô biên lai — hệ thống an toàn,3,Security,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Gõ ""'; DROP TABLE PhienThue;--"" vào ô biên lai, nhấn Enter.
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. Gõ SQL injection.
+5. ""Không tìm thấy"". Bảng PhienThue vẫn tồn tại. Dữ liệu an toàn.",Critical,PENDING
+RT_041,Mã biên lai sinh đúng format,2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Cho thuê. Thêm SP, thanh toán thành công.
+5. Quan sát mã biên lai hiển thị.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Thanh toán xong.
+4. Mã biên lai sinh.
+5. Format: ""DT"" + ngày tháng + giờ phút giây + 4 ký tự ngẫu nhiên. VD: ""DT260401143022ABCD"". Không trùng mã trước đó.",Medium,PENDING
+RT_042,2 đơn thuê cùng lúc — mã biên lai khác nhau,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tạo đơn thuê 1: thanh toán → ghi nhận mã biên lai 1.
+5. Tạo đơn thuê 2: thanh toán → ghi nhận mã biên lai 2.
+6. So sánh 2 mã.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Tạo 2 đơn thuê liên tiếp.
+4. Mã 1 sinh.
+5. Mã 2 sinh.
+6. Hai mã biên lai KHÁC NHAU (không trùng).",Medium,PENDING
+RT_043,Thêm SP thuê hết hàng — bị chặn (nếu giới hạn số lượng),2,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Cho thuê. Thêm SP đã hết số lượng cho thuê (nếu có giới hạn).
+5. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Thuê đồ hiển thị.
+4. SP hết.
+5. Hộp thoại cảnh báo hoặc không cho thêm. (Nếu không giới hạn: thêm bình thường).",Medium,PENDING
+RT_044,Phản hồi popup đền bù = 0đ — chỉ giữ cọc không thu thêm,3,Logic,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""thuedonv01"" / ""123456"".
+3. Nhấn menu ""Thuê đồ"".
+4. Tab Nhận Trả. Quẹt RFID khách.
+5. Báo mất 1 phao (cọc 200K).
+6. Popup hỏi tiền phạt → nhập 0đ.
+7. Xác nhận.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình hiển thị.
+4. Bảng.
+5. Mất 1.
+6. Nhập 0đ.
+7. Giữ cọc 200K (vì mất đồ) nhưng không thu thêm phạt. Tổng: giữ 200K cọc, thu 0 phạt.",Medium,PENDING
+RT_045,Đóng form — mở lại — tab mặc định là Cho Thuê,2,UI,Thuê đồ,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập.
+3. Mở form Thuê đồ. Chuyển sang tab Nhận Trả.
+4. Đóng form.
+5. Mở lại form Thuê đồ.
+6. Quan sát tab đang chọn.","1. Đăng nhập thành công.
+2. Form mở.
+3. Tab Nhận Trả.
+4. Đóng.
+5. Mở lại.
+6. Tab mặc định = ""Cho Thuê"" (tab đầu tiên). Giỏ trống.",Medium,PENDING
+RT_046,Hiệu năng — cho thuê 20 đơn liên tiếp không chậm,10,Performance,Thuê đồ,"1. Mở phần mềm.
+2. Đăng nhập.
+3. Mở form Thuê đồ.
+4. Tạo 20 đơn thuê liên tiếp (thêm SP, thanh toán, giỏ reset, lặp lại).
+5. Quan sát tốc độ.","1. Đăng nhập thành công.
+2. Form mở.
+3. Tạo 20 đơn.
+4. Mỗi đơn phản hồi trong 1 giây.
+5. Không chậm dần, không treo, không memory leak.",Medium,PENDING
+RT_047,Mất mạng giữa thanh toán — lỗi an toàn,3,Logic,Thuê đồ,"1. Mở phần mềm (đã đăng nhập).
+2. Mở form Thuê đồ. Thêm hàng. Quẹt RFID.
+3. Ngắt mạng.
+4. Nhấn thanh toán.
+5. Quan sát.","1. Form mở.
+2. Giỏ có hàng, RFID gắn.
+3. Mạng ngắt.
+4. Nhấn thanh toán.
+5. Lỗi kết nối. Ví KHÔNG bị trừ. Đơn KHÔNG được tạo. Giao dịch rollback.",Medium,PENDING
+RT_048,Ký tự đặc biệt trong ô biên lai — không crash,2,Logic,Thuê đồ,"1. Mở phần mềm.
+2. Đăng nhập.
+3. Mở form Thuê đồ. Tab Nhận Trả.
+4. Gõ ""!@#$%^"" vào ô biên lai, nhấn Enter.
+5. Quan sát.","1. Đăng nhập thành công.
+2. Form mở.
+3. Tab Nhận Trả.
+4. Gõ ký tự đặc biệt.
+5. ""Không tìm thấy"". Không crash, không lỗi.",Low,PENDING
+RT_049,Chuỗi dài > 200 ký tự trong ô biên lai — không crash,2,Logic,Thuê đồ,"1. Mở phần mềm.
+2. Đăng nhập.
+3. Tab Nhận Trả.
+4. Gõ 200+ ký tự ngẫu nhiên.
+5. Quan sát.","1. Đăng nhập thành công.
+2. Form mở.
+3. Tab Nhận Trả.
+4. Chuỗi dài.
+5. ""Không tìm thấy"". Không overflow, không crash.",Low,PENDING
+RT_050,Thanh toán ví khi chưa quẹt RFID — bị chặn,2,Logic,Thuê đồ,"1. Mở phần mềm.
+2. Đăng nhập.
+3. Tab Cho thuê. Thêm SP.
+4. KHÔNG quẹt RFID (khách vãng lai).
+5. Nhấn ""Thanh toán ví"".
+6. Quan sát.","1. Đăng nhập thành công.
+2. Form mở.
+3. Giỏ có hàng.
+4. Không quẹt RFID.
+5. Nhấn thanh toán ví.
+6. Hộp thoại: ""Thanh toán ví bắt buộc phải quẹt thẻ RFID trước!"". Không tạo đơn.",Critical,PENDING
+RT_051,Xóa tất cả dòng trong giỏ — tổng tiền = 0,2,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thêm 3 SP vào giỏ.
+3. Xóa lần lượt 3 dòng.
+4. Quan sát tổng tiền.","1. Đăng nhập thành công.
+2. Giỏ 3 dòng.
+3. Xóa hết.
+4. Tổng tiền = 0đ. Tiền thuê = 0. Tiền cọc = 0. Giỏ trống.",Medium,PENDING
+RT_052,Double-click SP khi giỏ đã có hàng khác trạm — xử lý đúng,3,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Chọn trạm A, thêm Phao vào giỏ.
+3. Đổi sang trạm B.
+4. Double-click SP trạm B.
+5. Quan sát giỏ.","1. Đăng nhập thành công.
+2. Giỏ: Phao (trạm A).
+3. Đổi trạm B.
+4. Thêm SP trạm B.
+5. Giỏ có 2 dòng (mỗi sản phẩm khác trạm) HOẶC hệ thống cảnh báo chỉ được thuê từ 1 trạm.",Medium,PENDING
+RT_053,Thanh toán tiền mặt cho khách RFID — vẫn hoạt động,3,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thêm SP. Quẹt RFID khách (ví đủ).
+3. Nhấn ""Thanh toán tiền mặt"" thay vì ""Thanh toán ví"".
+4. Quan sát.","1. Đăng nhập thành công.
+2. RFID gắn.
+3. Nhấn TT tiền mặt.
+4. Tạo đơn thuê bình thường. Ghi nhận thanh toán tiền mặt. Ví KHÔNG bị trừ (khách chọn trả tiền mặt dù có ví).",Medium,PENDING
+RT_054,Thanh toán ví thành công — ví trừ chính xác,5,E2E,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thêm Phao x2 (TỔNG 500K).
+3. Quẹt RFID KH ví = 800K.
+4. Thanh toán ví. Xác nhận.
+5. Kiểm tra số dư ví sau.","1. Đăng nhập thành công.
+2. TỔNG 500K.
+3. Ví 800K.
+4. Trừ 500K.
+5. Ví còn 300K (800K - 500K). Chính xác.",High,PENDING
+RT_055,Hoàn cọc RFID — ví cộng lại chính xác,5,E2E,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Khách thuê 2 phao (cọc 400K), ví 800K → sau thuê ví = 300K (trừ 500K gồm thuê+cọc).
+3. Tab Nhận Trả. Quẹt RFID. Trả đủ 2 phao.
+4. Xác nhận.
+5. Kiểm tra ví.","1. Đăng nhập thành công.
+2. Ví sau thuê = 300K.
+3. Trả đủ.
+4. Hoàn cọc 400K.
+5. Ví = 700K (300K + 400K). Chính xác.",Critical,PENDING
+RT_056,Hoàn cọc tiền mặt — hiện popup nêu rõ số tiền,3,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. Quét biên lai khách vãng lai (cọc 300K).
+3. Trả đủ. Xác nhận.
+4. Quan sát thông báo.","1. Đăng nhập thành công.
+2. Biên lai khách vãng lai.
+3. Trả đủ.
+4. Popup: ""Hoàn cọc tiền mặt: 300.000đ"". Nhân viên chuẩn bị tiền trả khách.",High,PENDING
+RT_057,Báo mất toàn bộ — không hoàn cọc + thu phạt,5,E2E,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. Quẹt RFID khách thuê 3 phao.
+3. Nhập Trả = 0, Mất = 3.
+4. Xác nhận.
+5. Popup hỏi phạt → nhập 300K/cái.
+6. Quan sát.","1. Đăng nhập thành công.
+2. Bảng: 3 phao.
+3. Mất hết 3.
+4. Xác nhận.
+5. Phạt 3 × 300K = 900K.
+6. Giữ cọc 3×200K = 600K. Thu thêm 900K phạt. Tổng thiệt hại cho KH: 600K cọc + 900K phạt = 1.500K. Ví bị trừ hoặc nhân viên thu tiền mặt.",High,PENDING
+RT_058,Báo mất — popup đền bù hiện gợi ý = tiền cọc mặc định,2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. Báo mất 1 phao (cọc 200K).
+3. Quan sát popup đền bù.","1. Đăng nhập thành công.
+2. Báo mất.
+3. Popup: ô nhập tiền đền bù mặc định = 200.000đ (= tiền cọc). Nhân viên có thể sửa.",Medium,PENDING
+RT_059,Báo mất — nhập phạt lớn hơn cọc — hệ thống chấp nhận,3,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. Báo mất 1 phao (cọc 200K).
+3. Popup → nhập phạt = 500K (lớn hơn cọc).
+4. Xác nhận.","1. Đăng nhập thành công.
+2. Báo mất.
+3. Phạt 500K.
+4. Hệ thống chấp nhận. Giữ cọc 200K + thu thêm 500K. (Nhân viên quyết định phạt).",Medium,PENDING
+RT_060,Báo mất — nhập phạt âm — bị chặn,2,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. Báo mất 1 phao.
+3. Popup → nhập phạt = -100.
+4. Quan sát.","1. Đăng nhập thành công.
+2. Báo mất.
+3. Nhập số âm.
+4. Ô không cho nhập số âm hoặc hiện lỗi. Phạt phải ≥ 0.",Low,PENDING
+RT_061,F12 khi bảng trống — không xảy ra gì,1,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. Chưa quẹt RFID (bảng trống).
+3. Nhấn F12.
+4. Quan sát.","1. Đăng nhập thành công.
+2. Bảng trống.
+3. Nhấn F12.
+4. Không có gì xảy ra. Không crash.",Low,PENDING
+RT_062,F12 rồi sửa tay trước khi xác nhận — cho phép,3,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. Quẹt RFID khách thuê 3 phao + 1 tủ.
+3. Nhấn F12 → tự điền trả đủ.
+4. Sửa Phao: Trả = 2, Mất = 1 (bớt 1 để báo mất).
+5. Nhấn Xác Nhận Trả.","1. Đăng nhập thành công.
+2. Bảng.
+3. F12 điền: Phao=3, Tủ=1.
+4. Sửa: Phao trả=2, mất=1. Tủ vẫn 1.
+5. Hệ thống xử lý theo giá trị đã sửa (phao mất 1 → popup phạt). Cho phép edit sau F12.",Medium,PENDING
+RT_063,Trả từng phần 2 lần — phần còn lại giảm dần,5,E2E,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Khách thuê 5 phao. Tab Nhận Trả, quẹt RFID.
+3. Trả = 2. Xác nhận. → Hoàn cọc 2 cái.
+4. Quẹt lại RFID.
+5. Bảng hiện: Phao đang thuê = 3.
+6. Trả = 3. Xác nhận.","1. Đăng nhập thành công.
+2. Bảng: 5 phao.
+3. Trả 2 → hoàn cọc 2 cái.
+4. Quẹt lại.
+5. Bảng: 3 phao (5-2).
+6. Trả 3 → hoàn cọc 3 cái. Tổng cọc hoàn = 5 cái.",High,PENDING
+RT_064,Tab Giám sát — bảng trống khi không có phiên chờ,2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Giám sát (khi tất cả đơn đã trả).
+3. Quan sát.","1. Đăng nhập thành công.
+2. Tab Giám sát.
+3. Bảng trống. Nhãn: ""Đang có 0 phiên chờ (0 món chưa về)"" hoặc tương tự.",Medium,PENDING
+RT_065,Tab Giám sát — cập nhật sau khi trả đồ,5,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Giám sát: có 3 phiên chờ.
+3. Chuyển tab Nhận Trả. Trả đủ 1 phiên.
+4. Chuyển lại Giám sát.
+5. Quan sát.","1. Đăng nhập thành công.
+2. 3 phiên chờ.
+3. Trả 1 phiên.
+4. Chuyển lại.
+5. Còn 2 phiên chờ. Bảng cập nhật (F5 hoặc tự load).",High,PENDING
+RT_066,Tab Giám sát — nhấp đúp → tab Nhận Trả load đúng đơn,5,E2E,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Giám sát. Có phiên KH ""Nguyễn Văn A"" (3 phao chưa về).
+3. Nhấp đúp vào dòng đó.
+4. Quan sát tab Nhận Trả.","1. Đăng nhập thành công.
+2. Dòng KH A.
+3. Nhấp đúp.
+4. Tab chuyển sang Nhận Trả. Bảng đã load sẵn: Phao bơi | Đang thuê: 3. RFID hoặc biên lai đã tự gắn. Nhân viên chỉ cần nhập số trả.",High,PENDING
+RT_067,Tiền thuê format đúng (N0 + đ),2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thêm SP có giá thuê 50.000đ.
+3. Quan sát format hiển thị.","1. Đăng nhập thành công.
+2. Giỏ: 50.000đ.
+3. Hiện ""50,000đ"" hoặc ""50.000đ"" (có dấu phân cách hàng nghìn + đ). Không hiện ""50000"".",Low,PENDING
+RT_068,Tiền cọc format đúng (N0 + đ),2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thêm SP có cọc 200.000đ.
+3. Quan sát format.","1. Đăng nhập thành công.
+2. Giỏ: cọc 200.000đ.
+3. Hiện ""200,000đ"" hoặc ""200.000đ"". Có dấu phân cách.",Low,PENDING
+RT_069,Tổng tiền format đúng (N0 + đ),2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thêm 2 phao (TỔNG 500K).
+3. Quan sát dòng TỔNG.","1. Đăng nhập thành công.
+2. TỔNG 500K.
+3. TỔNG hiện ""500,000đ"" hoặc ""500.000đ"". Format rõ ràng.",Low,PENDING
+RT_070,Popup thanh toán thành công — hiện đầy đủ thông tin,3,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thêm SP, thanh toán thành công.
+3. Đọc popup kết quả.","1. Đăng nhập thành công.
+2. Thanh toán xong.
+3. Popup: ""✅ Thanh toán thành công! Mã biên lai: DT260401... [tự sinh] Tiền thuê: 50.000đ Tiền cọc: 200.000đ Phương thức: Ví RFID / Tiền mặt"". Đầy đủ thông tin.",Medium,PENDING
+RT_071,Popup thanh toán — mã biên lai tự copy clipboard + thông báo,2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thanh toán thành công.
+3. Quan sát popup.","1. Đăng nhập thành công.
+2. Thành công.
+3. Popup có dòng nhỏ: ""📋 Mã biên lai đã sao chép vào clipboard"". Nhân viên biết Ctrl+V để dán.",Medium,PENDING
+RT_072,Popup thanh toán tiền mặt — ghi chú khách vãng lai,2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thêm SP. KHÔNG quẹt RFID.
+3. Thanh toán tiền mặt thành công.
+4. Quan sát popup.","1. Đăng nhập thành công.
+2. Khách vãng lai.
+3. Thành công.
+4. Popup hiện: ""⚠️ Khách vãng lai — Giữ biên lai để nhận hoàn cọc"". Cảnh báo nhân viên nhắc khách.",Medium,PENDING
+RT_073,Giỏ reset sau thanh toán — giỏ trống + tổng = 0,2,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thêm SP, thanh toán thành công.
+3. Quan sát giỏ sau khi popup đóng.","1. Đăng nhập thành công.
+2. Thành công.
+3. Giỏ hoàn toàn trống. Tổng = 0đ. Sẵn sàng đơn mới.",Medium,PENDING
+RT_074,Quẹt RFID reset sau thanh toán — thông tin KH bị xóa,2,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Quẹt RFID KH (hiện tên + ví).
+3. Thêm SP, thanh toán thành công.
+4. Quan sát thông tin KH.","1. Đăng nhập thành công.
+2. Hiện tên KH.
+3. Thành công.
+4. Thông tin KH bị xóa (RFID reset). Form sạch cho đơn tiếp.",Medium,PENDING
+RT_075,SL trong giỏ ≤ 0 — không cho phép,2,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thêm SP. Sửa SL = 0.
+3. Quan sát.","1. Đăng nhập thành công.
+2. Sửa SL = 0.
+3. Dòng tự xóa khỏi giỏ HOẶC hiện cảnh báo ""SL phải ≥ 1"". Không cho thanh toán SL = 0.",Low,PENDING
+RT_076,Dòng giỏ hiện tên SP + giá thuê + cọc + thành tiền,2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thêm Phao x2 (thuê 50K, cọc 200K).
+3. Quan sát dòng trong giỏ.","1. Đăng nhập thành công.
+2. Giỏ có 1 dòng.
+3. Dòng hiện: Phao bơi | SL: 2 | Đơn giá thuê: 50K | Đơn giá cọc: 200K | Thành tiền: 500K (hoặc cột tương tự).",Low,PENDING
+RT_077,Danh sách SP cho thuê hiện: Tên + Giá thuê + Cọc,2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Quan sát danh sách SP cho thuê.","1. Đăng nhập thành công.
+2. Mỗi dòng SP hiện: Tên sản phẩm (VD: Phao bơi), Giá thuê hôm nay (50K), Tiền cọc (200K). Đầy đủ 3 thông tin.",Medium,PENDING
+RT_078,Giá thuê dynamic — ngày thường vs cuối tuần kiểm tra,5,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ vào ngày thường.
+2. Ghi nhận giá Phao = X.
+3. Mở lại form vào ngày cuối tuần.
+4. Ghi nhận giá Phao = Y.
+5. So sánh.","1. Đăng nhập thành công.
+2. Giá ngày thường = X (VD: 50K).
+3. Mở cuối tuần.
+4. Giá cuối tuần = Y (VD: 70K).
+5. Y > X (cuối tuần đắt hơn). Giá lấy từ BUS_BangGia.GetDynamicPrice() theo DateTime.Now.",High,PENDING
+RT_079,Cọc cố định — không đổi theo ngày,3,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Ghi nhận cọc Phao ngày thường.
+3. Mở lại ngày cuối tuần.
+4. Ghi nhận cọc Phao ngày cuối tuần.
+5. So sánh.","1. Đăng nhập thành công.
+2. Cọc = 200K.
+3. Mở cuối tuần.
+4. Cọc = 200K.
+5. Cọc GIỐNG NHAU (cọc không dynamic, chỉ giá thuê dynamic).",Medium,PENDING
+RT_080,Phiên thuê ghi nhận NhanVien đúng từ session,3,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tạo đơn thuê thành công.
+3. Kiểm tra DB: PhienThue → trường IdNhanVien.","1. Đăng nhập thành công.
+2. Tạo đơn.
+3. DB: IdNhanVien = ID của ""thuedonv01"". Ghi nhận đúng nhân viên xử lý.",Medium,PENDING
+RT_081,Phiên thuê ghi nhận thời gian thuê chính xác,3,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Ghi nhận giờ hiện tại (VD: 14:30).
+3. Tạo đơn thuê.
+4. Kiểm tra DB: PhienThue → trường GioBatDau.","1. Đăng nhập thành công.
+2. Giờ = 14:30.
+3. Tạo đơn.
+4. GioBatDau ≈ 14:30 (sai lệch ≤ 1 phút). Chính xác.",Medium,PENDING
+RT_082,Tab Nhận Trả — quẹt RFID 2 lần liên tiếp — bảng cập nhật lần sau,3,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. Quẹt RFID KH A (3 phao).
+3. Quẹt RFID KH B (2 tủ).
+4. Quan sát bảng.","1. Đăng nhập thành công.
+2. Bảng: 3 phao (KH A).
+3. Bảng cập nhật: 2 tủ (KH B).
+4. Bảng hiện đồ của KH B. KH A bị thay thế.",Medium,PENDING
+RT_083,Tab Nhận Trả — enter trong ô biên lai tự tìm,2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả.
+3. Gõ mã biên lai, nhấn Enter.
+4. Quan sát.","1. Đăng nhập thành công.
+2. Tab Nhận Trả.
+3. Gõ mã, Enter.
+4. Hệ thống tìm và load đơn (tương tự nhấn nút Tìm). Enter = tìm kiếm.",Medium,PENDING
+RT_084,Xác nhận trả khi bảng trống — bị chặn,1,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. Chưa quẹt RFID.
+3. Nhấn Xác Nhận Trả.
+4. Quan sát.","1. Đăng nhập thành công.
+2. Bảng trống.
+3. Nhấn xác nhận.
+4. Hiện cảnh báo hoặc không có gì. Không crash.",Low,PENDING
+RT_085,Xác nhận trả popup hỏi — nhấn Không → hủy bỏ,2,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. Quẹt RFID. Nhập trả.
+3. Nhấn Xác Nhận Trả → popup hỏi.
+4. Nhấn ""Không"".
+5. Quan sát.","1. Đăng nhập thành công.
+2. Bảng có dữ liệu.
+3. Popup hỏi xác nhận.
+4. Nhấn Không.
+5. KHÔNG xử lý. Bảng giữ nguyên. Cọc không hoàn.",Medium,PENDING
+RT_086,Dark theme — form Thuê đồ hiển thị đúng,2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Quan sát tổng thể giao diện.","1. Đăng nhập thành công.
+2. Form có nền tối (dark theme). Card, panel, grid nền xám đậm. Chữ sáng. Đồng nhất với form khác.",Low,PENDING
+RT_087,ThemeManager áp dụng cho tất cả tab,2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Chuyển qua 3 tab: Cho Thuê, Nhận Trả, Giám sát.
+3. Quan sát theme.","1. Đăng nhập thành công.
+2. 3 tab.
+3. Cả 3 tab đều áp dụng ThemeManager đồng nhất: font, màu, viền, spacing.",Low,PENDING
+RT_088,Quẹt RFID tab Cho Thuê — hiện số dư dạng format tiền,2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Quẹt RFID KH (ví 1.234.567đ).
+3. Quan sát hiển thị.","1. Đăng nhập thành công.
+2. Quẹt RFID.
+3. Số dư hiện: ""1,234,567đ"" hoặc ""1.234.567đ"" (có dấu phân cách). Không hiện ""1234567"".",Low,PENDING
+RT_089,Tên KH hiện đúng khi quẹt RFID,2,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Quẹt RFID KH ""Trần Thị B"".
+3. Quan sát.","1. Đăng nhập thành công.
+2. Quẹt RFID.
+3. Hiện ""Trần Thị B"". Tên đúng, không lỗi encoding tiếng Việt.",Medium,PENDING
+RT_090,Trả + Mất gần bằng Đang thuê — chính xác,3,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. Quẹt RFID khách thuê 5 phao.
+3. Nhập Trả = 3, Mất = 2 (tổng = 5 = đang thuê).
+4. Xác nhận.","1. Đăng nhập thành công.
+2. Bảng: 5 phao.
+3. Trả + Mất = 5 = 5 → hợp lệ.
+4. Hoàn cọc 3 cái. Giữ cọc + phạt 2 cái. Xử lý đúng.",High,PENDING
+RT_091,Trả + Mất chính xác bằng Đang thuê cho nhiều SP,5,E2E,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. KH thuê 3 phao + 2 tủ.
+3. Phao: Trả=2, Mất=1. Tủ: Trả=2, Mất=0.
+4. Xác nhận.","1. Đăng nhập thành công.
+2. Bảng: phao 3, tủ 2.
+3. Tổng phao = 3 ✅. Tổng tủ = 2 ✅.
+4. Hoàn cọc: 2 phao + 2 tủ. Phạt: 1 phao mất. Mỗi SP xử lý độc lập.",High,PENDING
+RT_092,Unicode trong ô biên lai — không crash,2,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả.
+3. Gõ ""ĐƠN-HÀNG-001"" (có dấu tiếng Việt), nhấn Enter.
+4. Quan sát.","1. Đăng nhập thành công.
+2. Tab Nhận Trả.
+3. Gõ Unicode.
+4. ""Không tìm thấy"" hoặc tìm thấy. Không crash.",Low,PENDING
+RT_093,XSS script tag trong ô biên lai — không crash,2,Security,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả.
+3. Gõ ""<script>alert(1)</script>"", nhấn Enter.
+4. Quan sát.","1. Đăng nhập thành công.
+2. Tab Nhận Trả.
+3. Gõ script.
+4. ""Không tìm thấy"". Không execute. WinForms an toàn.",Low,PENDING
+RT_094,Mất mạng khi trả đồ — rollback an toàn,3,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Nhận Trả. Quẹt RFID. Nhập trả.
+3. Ngắt mạng.
+4. Nhấn Xác Nhận Trả.
+5. Quan sát.","1. Đăng nhập thành công.
+2. Bảng có dữ liệu.
+3. Mạng ngắt.
+4. Xác nhận.
+5. Lỗi kết nối. Cọc KHÔNG hoàn. Trạng thái KHÔNG đổi. Giao dịch rollback.",Medium,PENDING
+RT_095,Lịch sử thuê ghi nhận phương thức thanh toán,3,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tạo đơn bằng ví RFID.
+3. Tạo đơn bằng tiền mặt.
+4. Kiểm tra DB: PhienThue → trường PhuongThuc.","1. Đăng nhập thành công.
+2. Đơn 1: PhuongThuc = ""RFID"".
+3. Đơn 2: PhuongThuc = ""TienMat"".
+4. Ghi nhận đúng phương thức.",Medium,PENDING
+RT_096,Cho thuê khi trạm không có SP nào — danh sách trống,2,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Chọn trạm không có SP cho thuê.
+3. Quan sát danh sách.","1. Đăng nhập thành công.
+2. Chọn trạm trống.
+3. Danh sách SP trống. Không lỗi. Nếu cố thanh toán → ""Giỏ trống"".",Medium,PENDING
+RT_097,Tab Giám sát — cập nhật realtime khi tạo đơn mới,5,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Tab Giám sát: ghi nhận X phiên.
+3. Chuyển Cho Thuê, tạo đơn mới.
+4. Chuyển lại Giám sát.
+5. Quan sát.","1. Đăng nhập thành công.
+2. X phiên.
+3. Tạo đơn → X+1.
+4. Chuyển.
+5. Bảng hiện X+1 phiên. Phiên mới vừa tạo xuất hiện.",High,PENDING
+RT_098,Popup xác nhận thanh toán — nhấn Close (X) → hủy,2,Logic,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Giỏ có hàng. Nhấn Thanh toán.
+3. Popup hỏi xác nhận → nhấn X.
+4. Quan sát.","1. Đăng nhập thành công.
+2. Popup hỏi.
+3. Nhấn X.
+4. KHÔNG thanh toán. Giỏ giữ nguyên. Ví không trừ.",Medium,PENDING
+RT_099,E2E luồng cho thuê RFID — từ thêm SP đến thanh toán xong,10,E2E,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"".
+2. Mở Thuê đồ → tab Cho Thuê. Chọn trạm A.
+3. Double-click Phao x2, Tủ x1.
+4. Kiểm tra tổng: đúng.
+5. Quẹt RFID KH (ví 2.000K).
+6. Nhấn TT ví → popup → Có.
+7. Popup thành công. Mã biên lai sinh. Clipboard. Giỏ reset.
+8. Tab Giám sát: phiên mới xuất hiện.","1. Đăng nhập thành công.
+2. Tab Cho Thuê.
+3. Giỏ: 2 phao + 1 tủ.
+4. Tổng đúng.
+5. RFID gắn.
+6. Thanh toán OK.
+7. Mã sinh. Clipboard = mã. Giỏ trống.
+8. Giám sát có phiên mới. E2E HOÀN CHỈNH.",Critical,PENDING
+RT_100,E2E luồng trả đồ RFID — từ quẹt RFID đến hoàn cọc xong,10,E2E,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"".
+2. Tab Nhận Trả. Quẹt RFID KH (3 phao đang thuê).
+3. F12 → tự điền trả đủ.
+4. Xác nhận → hoàn cọc ví.
+5. Quẹt lại RFID → bảng trống.
+6. Tab Giám sát: phiên biến mất.","1. Đăng nhập thành công.
+2. Bảng: 3 phao.
+3. F12 → Phao=3.
+4. Hoàn cọc 3×200K = 600K.
+5. Bảng trống (không còn đồ).
+6. Giám sát giảm 1 phiên. E2E HOÀN CHỈNH.",Critical,PENDING
+RT_101,E2E luồng trả đồ tiền mặt — khách vãng lai,10,E2E,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"".
+2. Tab Nhận Trả. Gõ mã biên lai khách vãng lai.
+3. Bảng hiện đồ thuê.
+4. F12 → trả đủ. Xác nhận.
+5. Popup: ""Hoàn cọc tiền mặt: [X]đ"".
+6. Bảng tải lại trống.","1. Đăng nhập thành công.
+2. Tìm đơn vãng lai.
+3. Bảng hiện.
+4. Trả đủ. Hoàn cọc tiền mặt.
+5. Popup nêu số tiền mặt hoàn.
+6. Bảng trống. E2E HOÀN CHỈNH.",Critical,PENDING
+RT_102,E2E luồng mất đồ — popup phạt → hoàn + giữ cọc,10,E2E,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"".
+2. Tab Nhận Trả. Quẹt RFID KH thuê 3 phao.
+3. Trả = 2, Mất = 1.
+4. Xác nhận → popup phạt → nhập 300K → OK.
+5. Kiểm tra ví: hoàn 2 cọc, giữ 1 cọc, trừ thêm 300K phạt.","1. Đăng nhập thành công.
+2. Bảng: 3 phao.
+3. Trả 2, mất 1.
+4. Phạt 300K.
+5. Ví: +400K (hoàn 2 cọc) -200K (giữ 1 cọc) -300K (phạt). Net: ví thay đổi đúng.",Critical,PENDING
+RT_103,Thanh toán liên tiếp 5 đơn — hiệu năng ổn,10,Performance,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"".
+2. Tạo 5 đơn liên tiếp (thêm SP, thanh toán, reset, lặp).
+3. Quan sát tốc độ.","1. Đăng nhập thành công.
+2. 5 đơn.
+3. Mỗi đơn < 1 giây. Không chậm. Không treo. Không memory leak.",Medium,PENDING
+RT_104,Trả đồ liên tiếp 5 lần — hiệu năng ổn,10,Performance,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"".
+2. Trả 5 đơn liên tiếp (quẹt, F12, xác nhận, lặp).
+3. Quan sát.","1. Đăng nhập thành công.
+2. 5 lần trả.
+3. Mỗi lần < 1 giây. Ổn định.",Medium,PENDING
+RT_105,Đóng form đang có giỏ hàng — cảnh báo mất dữ liệu,2,UI,Thuê đồ,"1. Đăng nhập ""thuedonv01"" / ""123456"". Mở Thuê đồ.
+2. Thêm 2 SP vào giỏ.
+3. Đóng form (nhấn X hoặc chuyển menu).
+4. Quan sát.","1. Đăng nhập thành công.
+2. Giỏ có hàng.
+3. Đóng form.
+4. Hộp thoại cảnh báo ""Giỏ hàng vẫn còn sản phẩm. Đóng sẽ mất dữ liệu?"" HOẶC form đóng và giỏ mất (tùy thiết kế). Quan trọng: không crash.",Medium,PENDING

@@ -35,7 +35,7 @@ namespace BUS
             _lichSuDiemGateway = lsdGw;
         }
 
-        // === CONSTANTS ===
+        //  CONSTANTS 
         private const decimal GIA_TRI_MOT_DIEM = 1000m;   // 1 điểm = 1,000 VND
         private const decimal TY_LE_TIEU_TOI_DA = 0.50m;  // Tối đa 50% đơn hàng
         private const decimal DON_VI_TICH = 100000m;       // Mỗi 100k = 1 đơn vị điểm

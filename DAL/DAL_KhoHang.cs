@@ -25,6 +25,7 @@ namespace DAL
                 Id = s.Id,
                 TenKho = s.TenKho,
                 LoaiKho = s.LoaiKho,
+                IdKhuVuc = s.IdKhuVuc,
                 DiaChi = s.DiaChi,
                 CreatedAt = s.CreatedAt,
                 IsDeleted = s.IsDeleted
@@ -42,6 +43,7 @@ namespace DAL
                 KhoHang obj = new KhoHang();
                 obj.TenKho = et.TenKho;
                 obj.LoaiKho = et.LoaiKho;
+                obj.IdKhuVuc = et.IdKhuVuc;
                 obj.DiaChi = et.DiaChi;
                 obj.CreatedAt = et.CreatedAt;
                 obj.IsDeleted = et.IsDeleted;
@@ -58,6 +60,7 @@ namespace DAL
                 if (obj != null) {
                     obj.TenKho = et.TenKho;
                     obj.LoaiKho = et.LoaiKho;
+                    obj.IdKhuVuc = et.IdKhuVuc;
                     obj.DiaChi = et.DiaChi;
                     obj.CreatedAt = et.CreatedAt;
                     obj.IsDeleted = et.IsDeleted;
@@ -87,6 +90,7 @@ namespace DAL
                 Id = s.Id,
                 TenKho = s.TenKho,
                 LoaiKho = s.LoaiKho,
+                IdKhuVuc = s.IdKhuVuc,
                 DiaChi = s.DiaChi,
                 CreatedAt = s.CreatedAt,
                 IsDeleted = s.IsDeleted

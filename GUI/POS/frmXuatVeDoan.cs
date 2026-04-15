@@ -22,9 +22,9 @@ namespace GUI.POS
             txtBookingCode.Focus();
         }
 
-        // ============================================================
+        // 
         //  SEARCH: Tìm đoàn bằng MaBooking hoặc SĐT trưởng đoàn
-        // ============================================================
+        // 
 
         private void txtBookingCode_KeyDown(object sender, KeyEventArgs e)
         {
@@ -58,9 +58,9 @@ namespace GUI.POS
             HienThiThongTinDoan(doan);
         }
 
-        // ============================================================
+        // 
         //  DISPLAY: Hiển thị thông tin booking + trạng thái validation
-        // ============================================================
+        // 
 
         private void HienThiThongTinDoan(ET_DoanKhach doan)
         {
@@ -76,13 +76,13 @@ namespace GUI.POS
 
             // Hiển thị gói combo nếu có
             if (lblCombo != null)
-                lblCombo.Text = !string.IsNullOrEmpty(doan.TenCombo) ? "🎁 " + doan.TenCombo : "(Chưa chọn gói)";
+                lblCombo.Text = "(Xem tab Dịch Vụ)";
 
             // Validate booking
             bool isValid = doan.IsBookingValid;
             if (isValid)
             {
-                lblValidation.Text = "✅ Booking hợp lệ — sẵn sàng xác nhận đoàn đã đến.";
+                lblValidation.Text = "Booking hợp lệ — sẵn sàng xác nhận đoàn đã đến.";
                 lblValidation.ForeColor = Color.FromArgb(16, 185, 129);
                 lblTrangThai.ForeColor = Color.FromArgb(16, 185, 129);
                 btnXuatVe.Enabled = true;
@@ -108,9 +108,9 @@ namespace GUI.POS
             }
         }
 
-        // ============================================================
+        // 
         //  CONFIRM: Xác nhận đoàn đã đến -> đánh dấu DaXuatVe
-        // ============================================================
+        // 
 
         private void btnXuatVe_Click(object sender, EventArgs e)
         {

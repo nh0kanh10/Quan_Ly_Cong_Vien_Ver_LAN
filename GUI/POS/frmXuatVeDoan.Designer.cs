@@ -51,7 +51,7 @@ namespace GUI.POS
             this.pnlTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTop.Location = new System.Drawing.Point(0, 0);
             this.pnlTop.Name = "pnlTop";
-            this.pnlTop.Size = new System.Drawing.Size(603, 50);
+            this.pnlTop.Size = new System.Drawing.Size(646, 50);
             this.pnlTop.TabIndex = 0;
             // 
             // lblTitle
@@ -61,9 +61,9 @@ namespace GUI.POS
             this.lblTitle.ForeColor = System.Drawing.Color.White;
             this.lblTitle.Location = new System.Drawing.Point(0, 0);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(603, 50);
+            this.lblTitle.Size = new System.Drawing.Size(646, 50);
             this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "🎟 XUẤT VÉ KHÁCH ĐOÀN (B2B)";
+            this.lblTitle.Text = "XUẤT VÉ KHÁCH ĐOÀN (B2B)";
             this.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pnlSearch
@@ -74,7 +74,7 @@ namespace GUI.POS
             this.pnlSearch.Location = new System.Drawing.Point(0, 50);
             this.pnlSearch.Name = "pnlSearch";
             this.pnlSearch.Padding = new System.Windows.Forms.Padding(16, 12, 16, 12);
-            this.pnlSearch.Size = new System.Drawing.Size(603, 60);
+            this.pnlSearch.Size = new System.Drawing.Size(646, 60);
             this.pnlSearch.TabIndex = 1;
             // 
             // btnTimDoan
@@ -84,9 +84,9 @@ namespace GUI.POS
             this.btnTimDoan.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(130)))), ((int)(((byte)(246)))));
             this.btnTimDoan.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
             this.btnTimDoan.ForeColor = System.Drawing.Color.White;
-            this.btnTimDoan.Location = new System.Drawing.Point(457, 12);
+            this.btnTimDoan.Location = new System.Drawing.Point(504, 12);
             this.btnTimDoan.Name = "btnTimDoan";
-            this.btnTimDoan.Size = new System.Drawing.Size(130, 36);
+            this.btnTimDoan.Size = new System.Drawing.Size(126, 36);
             this.btnTimDoan.TabIndex = 1;
             this.btnTimDoan.Text = "TÌM ĐOÀN";
             this.btnTimDoan.Click += new System.EventHandler(this.btnTimDoan_Click);
@@ -103,7 +103,7 @@ namespace GUI.POS
             this.txtBookingCode.Name = "txtBookingCode";
             this.txtBookingCode.PlaceholderText = "Nhập Mã Booking (VD: BK-ABC-001) hoặc SĐT trưởng đoàn...";
             this.txtBookingCode.SelectedText = "";
-            this.txtBookingCode.Size = new System.Drawing.Size(571, 36);
+            this.txtBookingCode.Size = new System.Drawing.Size(614, 36);
             this.txtBookingCode.TabIndex = 0;
             this.txtBookingCode.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtBookingCode_KeyDown);
             // 
@@ -132,7 +132,7 @@ namespace GUI.POS
             this.pnlBookingInfo.Location = new System.Drawing.Point(0, 110);
             this.pnlBookingInfo.Name = "pnlBookingInfo";
             this.pnlBookingInfo.Padding = new System.Windows.Forms.Padding(20);
-            this.pnlBookingInfo.Size = new System.Drawing.Size(603, 380);
+            this.pnlBookingInfo.Size = new System.Drawing.Size(646, 392);
             this.pnlBookingInfo.TabIndex = 2;
             this.pnlBookingInfo.Visible = false;
             // 
@@ -147,7 +147,7 @@ namespace GUI.POS
             this.btnXuatVe.Name = "btnXuatVe";
             this.btnXuatVe.Size = new System.Drawing.Size(567, 48);
             this.btnXuatVe.TabIndex = 17;
-            this.btnXuatVe.Text = "✅ XÁC NHẬN XUẤT VÉ";
+            this.btnXuatVe.Text = "XÁC NHẬN XUẤT VÉ";
             this.btnXuatVe.Click += new System.EventHandler(this.btnXuatVe_Click);
             // 
             // lblValidation
@@ -318,11 +318,11 @@ namespace GUI.POS
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(603, 490);
+            this.ClientSize = new System.Drawing.Size(646, 502);
             this.Controls.Add(this.pnlBookingInfo);
             this.Controls.Add(this.pnlSearch);
             this.Controls.Add(this.pnlTop);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmXuatVeDoan";

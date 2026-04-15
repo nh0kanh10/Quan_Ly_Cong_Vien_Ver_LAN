@@ -67,14 +67,15 @@ namespace GUI
 
                 int idSanPham = Convert.ToInt32(rowParam);
                 string currentUnit = view.GetRowCellValue(hitInfo.RowHandle, "DonViTinh")?.ToString();
+                string pureUnit = currentUnit?.Replace(" 🔄", "")?.Trim();
                 decimal currentQty = Convert.ToDecimal(view.GetRowCellValue(hitInfo.RowHandle, "SoLuong") ?? 0);
                 decimal currentPrice = Convert.ToDecimal(view.GetRowCellValue(hitInfo.RowHandle, "DonGia") ?? 0);
 
-                var allUoM = DAL.DAL_QuyDoiDonVi.Instance.LoadDS().Where(x => x.IdSanPham == idSanPham).ToList();
+                var allUoM = BUS.BUS_SanPham.Instance.LayQuyDoiTheoSP(idSanPham);
                 if (allUoM.Count == 0) return; // Không có quy đổi nào
 
-                var allUnits = DAL.DAL_DonViTinh.Instance.LoadDS();
-                var sp = DAL.DAL_SanPham.Instance.LayTheoId(idSanPham);
+                var allUnits = BUS.BUS_DonViTinh.Instance.LoadDS();
+                var sp = BUS.BUS_SanPham.Instance.GetById(idSanPham);
                 if (sp == null) return;
 
                 var baseDvt = allUnits.FirstOrDefault(u => u.Id == sp.IdDonViCoBan);
@@ -97,7 +98,7 @@ namespace GUI
                 if (cycleList.Count <= 1) return; // Tránh lỗi chia 0 hoặc không có gì xoay
 
                 // Xác định Index đang hiển thị
-                int currentIndex = cycleList.FindIndex(c => c.Item2.Equals(currentUnit, StringComparison.OrdinalIgnoreCase));
+                int currentIndex = cycleList.FindIndex(c => string.Equals(c.Item2, pureUnit, StringComparison.OrdinalIgnoreCase));
                 if (currentIndex < 0) currentIndex = 0; // Trễ nếu tên lệch
 
                 // Lấy Tỷ lệ cũ để quy ngược về BaseQty
@@ -116,7 +117,7 @@ namespace GUI
                 bool wasEditable = view.OptionsBehavior.Editable;
                 view.OptionsBehavior.Editable = true;
 
-                view.SetRowCellValue(hitInfo.RowHandle, "DonViTinh", nextUnit.Item2);
+                view.SetRowCellValue(hitInfo.RowHandle, "DonViTinh", nextUnit.Item2 + " 🔄");
                 view.SetRowCellValue(hitInfo.RowHandle, "SoLuong", Math.Round(baseQty / nextRate, 2));
                 view.SetRowCellValue(hitInfo.RowHandle, "DonGia", basePrice * nextRate);
 
@@ -207,10 +208,10 @@ namespace GUI
 
         public void InitIcons()
         {
-            btnKeToanNhaCungCap.Image = IconHelper.GetBitmap(IconChar.Truck, Color.White, 14);
-            btnNhapKho.Image = IconHelper.GetBitmap(IconChar.Download, Color.White, 16);
-            btnXuatKho.Image = IconHelper.GetBitmap(IconChar.Upload, Color.White, 16);
-            btnKiemKe.Image = IconHelper.GetBitmap(IconChar.ClipboardCheck, Color.White, 16);
+            btnKeToanNhaCungCap.Image = IconHelper.GetBitmap(IconChar.Truck, ThemeManager.PrimaryColor, 14);
+            btnNhapKho.Image = IconHelper.GetBitmap(IconChar.Download, ThemeManager.PrimaryColor, 16);
+            btnXuatKho.Image = IconHelper.GetBitmap(IconChar.Upload, ThemeManager.PrimaryColor, 16);
+            btnKiemKe.Image = IconHelper.GetBitmap(IconChar.ClipboardCheck, ThemeManager.PrimaryColor, 16);
         }
 
         private void LoadComboKho()
@@ -228,6 +229,17 @@ namespace GUI
 
             // 1. Tải danh sách tồn
             var dsTonKho = BUS_KhoHang.Instance.GetTonKhoChiTiet(idKho);
+
+            // Bổ sung ký hiệu 🔄 cho các sản phẩm có Lịch sử quy đổi Đơn Vị Tính
+            foreach (var item in dsTonKho)
+            {
+                var qs = BUS.BUS_SanPham.Instance.LayQuyDoiTheoSP(item.IdSanPham);
+                if (qs != null && qs.Count > 0)
+                {
+                    item.DonViTinh += " 🔄";
+                }
+            }
+
             gridTonKho.DataSource = dsTonKho;
             gridViewTonKho.PopulateColumns();
             FormatGridTonKho();

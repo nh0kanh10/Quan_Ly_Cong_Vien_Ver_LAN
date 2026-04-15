@@ -19,6 +19,8 @@ namespace SD001.Tests
         private Mock<IChiTietDonHangGateway> _mockChiTietDonHang;
         private Mock<IPhieuThuGateway> _mockPhieuThu;
         private Mock<IDoanKhachDichVuGateway> _mockDoanKhachDichVu;
+        private Mock<IBUS_GiaoDichVi> _mockGiaoDichVi;
+        private Mock<IBUS_DoanKhach> _mockDoanKhach;
         private BUS_DatBan _bus;
 
         [TestInitialize]
@@ -31,18 +33,20 @@ namespace SD001.Tests
             _mockChiTietDonHang = new Mock<IChiTietDonHangGateway>();
             _mockPhieuThu = new Mock<IPhieuThuGateway>();
             _mockDoanKhachDichVu = new Mock<IDoanKhachDichVuGateway>();
+            _mockGiaoDichVi = new Mock<IBUS_GiaoDichVi>();
+            _mockDoanKhach = new Mock<IBUS_DoanKhach>();
 
             _bus = new BUS_DatBan(
                 _mockDatBan.Object, _mockBanAn.Object, _mockChiTietDatBan.Object,
                 _mockDonHang.Object, _mockChiTietDonHang.Object, _mockPhieuThu.Object,
-                _mockDoanKhachDichVu.Object
+                _mockDoanKhachDichVu.Object, _mockGiaoDichVi.Object, _mockDoanKhach.Object
             );
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 1 — CRUD (Basic)
-        // =========================================================================
+        // =
 
         #region CRUD
         [TestMethod]
@@ -69,9 +73,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 2 — MO BAN (Check-in tai cho)
-        // =========================================================================
+        // =
 
         #region MoBan
         [TestMethod]
@@ -160,9 +164,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 3 — DAT BAN TRUOC (Reservation)
-        // =========================================================================
+        // =
 
         #region DatBanTruoc
         [TestMethod]
@@ -235,9 +239,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 4 — NHAN BAN (State Machine: DaDat -> DaNhan)
-        // =========================================================================
+        // =
 
         #region NhanBan
         [TestMethod]
@@ -282,9 +286,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 5 — HUY DAT BAN
-        // =========================================================================
+        // =
 
         #region HuyDatBan
         [TestMethod]
@@ -299,9 +303,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 6 — THEM MON / PHU THU / XOA MON (Quan ly Bill)
-        // =========================================================================
+        // =
 
         #region Quan ly Bill
         [TestMethod]
@@ -384,9 +388,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 7 — HUY DON HANG
-        // =========================================================================
+        // =
 
         #region HuyDonHang
         [TestMethod]
@@ -418,9 +422,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 8 — TINH TONG COC (Phep toan tai chinh)
-        // =========================================================================
+        // =
 
         #region TinhTongCoc
         [TestMethod]
@@ -461,9 +465,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // HELPERS
-        // =========================================================================
+        // =
 
         #region Helpers
         private void SetupMoBanInfra()

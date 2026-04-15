@@ -31,11 +31,11 @@ namespace BUS
 
         public BUS_DatBan() : this(new DefaultDatBanGateway(), new DefaultBanAnGateway(), new DefaultChiTietDatBanGateway(), 
                                    new DefaultDonHangGateway(), new DefaultChiTietDonHangGateway(), new DefaultPhieuThuGateway(), 
-                                   new DefaultDoanKhachDichVuGateway()) { }
+                                   new DefaultDoanKhachDichVuGateway(), BUS_GiaoDichVi.Instance, BUS_DoanKhach.Instance) { }
 
         public BUS_DatBan(IDatBanGateway datBanGateway, IBanAnGateway banAnGateway, IChiTietDatBanGateway chiTietDatBanGateway,
                           IDonHangGateway donHangGateway, IChiTietDonHangGateway chiTietDonHangGateway, IPhieuThuGateway phieuThuGateway,
-                          IDoanKhachDichVuGateway doanKhachDichVuGateway)
+                          IDoanKhachDichVuGateway doanKhachDichVuGateway, IBUS_GiaoDichVi giaoDichViService, IBUS_DoanKhach doanKhachService)
         {
             _datBanGateway = datBanGateway;
             _banAnGateway = banAnGateway;
@@ -44,6 +44,8 @@ namespace BUS
             _chiTietDonHangGateway = chiTietDonHangGateway;
             _phieuThuGateway = phieuThuGateway;
             _doanKhachDichVuGateway = doanKhachDichVuGateway;
+            _giaoDichViService = giaoDichViService;
+            _doanKhachService = doanKhachService;
         }
         #endregion
 

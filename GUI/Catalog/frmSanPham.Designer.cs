@@ -67,27 +67,27 @@ namespace GUI
             this.gridBangGia = new DevExpress.XtraGrid.GridControl();
             this.gridViewBangGia = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.pnlBangGiaInput = new Guna.UI2.WinForms.Guna2Panel();
-            this.chkThueTheoGio = new Guna.UI2.WinForms.Guna2CheckBox();
             this.cboNgayLe = new Guna.UI2.WinForms.Guna2ComboBox();
             this.btnThemNgayLe = new Guna.UI2.WinForms.Guna2Button();
             this.cboLoaiGiaApDung = new Guna.UI2.WinForms.Guna2ComboBox();
             this.cboBG_TrangThai = new Guna.UI2.WinForms.Guna2ComboBox();
             this.lblBG_TrangThai = new System.Windows.Forms.Label();
-            this.txtBG_TienCoc = new Guna.UI2.WinForms.Guna2TextBox();
-            this.lblBG_TienCoc = new System.Windows.Forms.Label();
             this.txtBG_GiaThuong = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblBG_GiaThuong = new System.Windows.Forms.Label();
-            this.txtBG_PhutBlock = new Guna.UI2.WinForms.Guna2TextBox();
-            this.lblBG_PhutBlock = new System.Windows.Forms.Label();
-            this.txtBG_PhutTiep = new Guna.UI2.WinForms.Guna2TextBox();
-            this.lblBG_PhutTiep = new System.Windows.Forms.Label();
-            this.txtBG_GiaPhuThu = new Guna.UI2.WinForms.Guna2TextBox();
-            this.lblBG_GiaPhuThu = new System.Windows.Forms.Label();
             this.btnThemGia = new Guna.UI2.WinForms.Guna2Button();
             this.btnSuaGia = new Guna.UI2.WinForms.Guna2Button();
             this.btnLamMoiGia = new Guna.UI2.WinForms.Guna2Button();
             this.pnlBangGiaActions = new Guna.UI2.WinForms.Guna2Panel();
+            this.chkThueTheoGio = new Guna.UI2.WinForms.Guna2CheckBox();
             this.btnXoaGia = new Guna.UI2.WinForms.Guna2Button();
+            this.txtBG_TienCoc = new Guna.UI2.WinForms.Guna2TextBox();
+            this.lblBG_TienCoc = new System.Windows.Forms.Label();
+            this.txtBG_PhutBlock = new Guna.UI2.WinForms.Guna2TextBox();
+            this.lblBG_PhutBlock = new System.Windows.Forms.Label();
+            this.lblBG_GiaPhuThu = new System.Windows.Forms.Label();
+            this.lblBG_PhutTiep = new System.Windows.Forms.Label();
+            this.txtBG_GiaPhuThu = new Guna.UI2.WinForms.Guna2TextBox();
+            this.txtBG_PhutTiep = new Guna.UI2.WinForms.Guna2TextBox();
             this.pnlFooter = new Guna.UI2.WinForms.Guna2Panel();
             this.btnLuuTab1 = new Guna.UI2.WinForms.Guna2Button();
             this.pnlHeader = new Guna.UI2.WinForms.Guna2Panel();
@@ -147,7 +147,7 @@ namespace GUI
             // 
             this.splitMain.Panel2.Controls.Add(this.pnlDetail);
             this.splitMain.Panel2.Controls.Add(this.lblNoSelection);
-            this.splitMain.Size = new System.Drawing.Size(1940, 1024);
+            this.splitMain.Size = new System.Drawing.Size(1924, 1024);
             this.splitMain.SplitterPosition = 510;
             this.splitMain.TabIndex = 0;
             // 
@@ -224,7 +224,7 @@ namespace GUI
             this.pnlDetail.Location = new System.Drawing.Point(0, 0);
             this.pnlDetail.Name = "pnlDetail";
             this.pnlDetail.Padding = new System.Windows.Forms.Padding(15);
-            this.pnlDetail.Size = new System.Drawing.Size(1420, 1024);
+            this.pnlDetail.Size = new System.Drawing.Size(1404, 1024);
             this.pnlDetail.TabIndex = 0;
             this.pnlDetail.Visible = false;
             // 
@@ -238,7 +238,7 @@ namespace GUI
             this.tabDetails.Location = new System.Drawing.Point(15, 95);
             this.tabDetails.Name = "tabDetails";
             this.tabDetails.SelectedIndex = 0;
-            this.tabDetails.Size = new System.Drawing.Size(1390, 854);
+            this.tabDetails.Size = new System.Drawing.Size(1374, 854);
             this.tabDetails.TabButtonHoverState.BorderColor = System.Drawing.Color.Empty;
             this.tabDetails.TabButtonHoverState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(40)))), ((int)(((byte)(52)))), ((int)(((byte)(70)))));
             this.tabDetails.TabButtonHoverState.Font = new System.Drawing.Font("Segoe UI Semibold", 10F);
@@ -264,7 +264,7 @@ namespace GUI
             this.tabThongTin.Controls.Add(this.pnlTab1Body);
             this.tabThongTin.Location = new System.Drawing.Point(4, 44);
             this.tabThongTin.Name = "tabThongTin";
-            this.tabThongTin.Size = new System.Drawing.Size(819, 806);
+            this.tabThongTin.Size = new System.Drawing.Size(1366, 806);
             this.tabThongTin.TabIndex = 0;
             this.tabThongTin.Text = "  THÔNG TIN";
             // 
@@ -292,7 +292,7 @@ namespace GUI
             this.pnlTab1Body.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlTab1Body.Location = new System.Drawing.Point(0, 0);
             this.pnlTab1Body.Name = "pnlTab1Body";
-            this.pnlTab1Body.Size = new System.Drawing.Size(819, 806);
+            this.pnlTab1Body.Size = new System.Drawing.Size(1366, 806);
             this.pnlTab1Body.TabIndex = 0;
             // 
             // cboLoaiSP
@@ -576,7 +576,7 @@ namespace GUI
             this.tabQuyDoi.Controls.Add(this.pnlQuyDoiActions);
             this.tabQuyDoi.Location = new System.Drawing.Point(4, 44);
             this.tabQuyDoi.Name = "tabQuyDoi";
-            this.tabQuyDoi.Size = new System.Drawing.Size(819, 806);
+            this.tabQuyDoi.Size = new System.Drawing.Size(1366, 806);
             this.tabQuyDoi.TabIndex = 1;
             this.tabQuyDoi.Text = "  QUY ĐỔI ĐVT";
             // 
@@ -586,7 +586,7 @@ namespace GUI
             this.gridQuyDoi.Location = new System.Drawing.Point(0, 99);
             this.gridQuyDoi.MainView = this.gridViewQuyDoi;
             this.gridQuyDoi.Name = "gridQuyDoi";
-            this.gridQuyDoi.Size = new System.Drawing.Size(819, 707);
+            this.gridQuyDoi.Size = new System.Drawing.Size(1366, 707);
             this.gridQuyDoi.TabIndex = 0;
             this.gridQuyDoi.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewQuyDoi});
@@ -616,7 +616,7 @@ namespace GUI
             this.pnlQuyDoiInput.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(250)))), ((int)(((byte)(252)))));
             this.pnlQuyDoiInput.Location = new System.Drawing.Point(0, 50);
             this.pnlQuyDoiInput.Name = "pnlQuyDoiInput";
-            this.pnlQuyDoiInput.Size = new System.Drawing.Size(819, 49);
+            this.pnlQuyDoiInput.Size = new System.Drawing.Size(1366, 49);
             this.pnlQuyDoiInput.TabIndex = 1;
             // 
             // btnSuaQuyDoi
@@ -744,7 +744,7 @@ namespace GUI
             this.pnlQuyDoiActions.Location = new System.Drawing.Point(0, 0);
             this.pnlQuyDoiActions.Name = "pnlQuyDoiActions";
             this.pnlQuyDoiActions.Padding = new System.Windows.Forms.Padding(10, 8, 10, 8);
-            this.pnlQuyDoiActions.Size = new System.Drawing.Size(819, 50);
+            this.pnlQuyDoiActions.Size = new System.Drawing.Size(1366, 50);
             this.pnlQuyDoiActions.TabIndex = 1;
             // 
             // btnXoaQuyDoi
@@ -758,7 +758,7 @@ namespace GUI
             this.btnXoaQuyDoi.FillColor = System.Drawing.Color.Transparent;
             this.btnXoaQuyDoi.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
             this.btnXoaQuyDoi.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(63)))), ((int)(((byte)(94)))));
-            this.btnXoaQuyDoi.Location = new System.Drawing.Point(669, 8);
+            this.btnXoaQuyDoi.Location = new System.Drawing.Point(1216, 8);
             this.btnXoaQuyDoi.Name = "btnXoaQuyDoi";
             this.btnXoaQuyDoi.Size = new System.Drawing.Size(140, 34);
             this.btnXoaQuyDoi.TabIndex = 0;
@@ -772,7 +772,7 @@ namespace GUI
             this.tabBangGia.Controls.Add(this.pnlBangGiaActions);
             this.tabBangGia.Location = new System.Drawing.Point(4, 44);
             this.tabBangGia.Name = "tabBangGia";
-            this.tabBangGia.Size = new System.Drawing.Size(1382, 806);
+            this.tabBangGia.Size = new System.Drawing.Size(1366, 806);
             this.tabBangGia.TabIndex = 2;
             this.tabBangGia.Text = "  BẢNG GIÁ";
             // 
@@ -782,7 +782,7 @@ namespace GUI
             this.gridBangGia.Location = new System.Drawing.Point(0, 175);
             this.gridBangGia.MainView = this.gridViewBangGia;
             this.gridBangGia.Name = "gridBangGia";
-            this.gridBangGia.Size = new System.Drawing.Size(1382, 631);
+            this.gridBangGia.Size = new System.Drawing.Size(1366, 631);
             this.gridBangGia.TabIndex = 0;
             this.gridBangGia.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewBangGia});
@@ -813,26 +813,8 @@ namespace GUI
             this.pnlBangGiaInput.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(248)))), ((int)(((byte)(250)))), ((int)(((byte)(252)))));
             this.pnlBangGiaInput.Location = new System.Drawing.Point(0, 60);
             this.pnlBangGiaInput.Name = "pnlBangGiaInput";
-            this.pnlBangGiaInput.Size = new System.Drawing.Size(1382, 115);
+            this.pnlBangGiaInput.Size = new System.Drawing.Size(1366, 115);
             this.pnlBangGiaInput.TabIndex = 2;
-            // 
-            // chkThueTheoGio
-            // 
-            this.chkThueTheoGio.AutoSize = true;
-            this.chkThueTheoGio.BackColor = System.Drawing.Color.Transparent;
-            this.chkThueTheoGio.CheckedState.BorderRadius = 0;
-            this.chkThueTheoGio.CheckedState.BorderThickness = 0;
-            this.chkThueTheoGio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.chkThueTheoGio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(85)))), ((int)(((byte)(105)))));
-            this.chkThueTheoGio.Location = new System.Drawing.Point(15, 20);
-            this.chkThueTheoGio.Name = "chkThueTheoGio";
-            this.chkThueTheoGio.Size = new System.Drawing.Size(217, 19);
-            this.chkThueTheoGio.TabIndex = 12;
-            this.chkThueTheoGio.Text = "Sản phẩm cho thuê / Tính theo giờ";
-            this.chkThueTheoGio.UncheckedState.BorderRadius = 0;
-            this.chkThueTheoGio.UncheckedState.BorderThickness = 0;
-            this.chkThueTheoGio.UseVisualStyleBackColor = false;
-            this.chkThueTheoGio.CheckedChanged += new System.EventHandler(this.chkThueTheoGio_CheckedChanged);
             // 
             // cboNgayLe
             // 
@@ -901,30 +883,6 @@ namespace GUI
             this.lblBG_TrangThai.TabIndex = 1;
             this.lblBG_TrangThai.Text = "Trạng thái:";
             // 
-            // txtBG_TienCoc
-            // 
-            this.txtBG_TienCoc.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtBG_TienCoc.DefaultText = "";
-            this.txtBG_TienCoc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtBG_TienCoc.Location = new System.Drawing.Point(310, 19);
-            this.txtBG_TienCoc.Name = "txtBG_TienCoc";
-            this.txtBG_TienCoc.PlaceholderText = "(để trống = 0)";
-            this.txtBG_TienCoc.SelectedText = "";
-            this.txtBG_TienCoc.Size = new System.Drawing.Size(90, 30);
-            this.txtBG_TienCoc.TabIndex = 3;
-            // 
-            // lblBG_TienCoc
-            // 
-            this.lblBG_TienCoc.AutoSize = true;
-            this.lblBG_TienCoc.BackColor = System.Drawing.Color.Transparent;
-            this.lblBG_TienCoc.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblBG_TienCoc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(85)))), ((int)(((byte)(105)))));
-            this.lblBG_TienCoc.Location = new System.Drawing.Point(250, 20);
-            this.lblBG_TienCoc.Name = "lblBG_TienCoc";
-            this.lblBG_TienCoc.Size = new System.Drawing.Size(54, 15);
-            this.lblBG_TienCoc.TabIndex = 4;
-            this.lblBG_TienCoc.Text = "Tiền cọc:";
-            // 
             // txtBG_GiaThuong
             // 
             this.txtBG_GiaThuong.Cursor = System.Windows.Forms.Cursors.IBeam;
@@ -947,78 +905,6 @@ namespace GUI
             this.lblBG_GiaThuong.Size = new System.Drawing.Size(71, 15);
             this.lblBG_GiaThuong.TabIndex = 7;
             this.lblBG_GiaThuong.Text = "N.Thường *:";
-            // 
-            // txtBG_PhutBlock
-            // 
-            this.txtBG_PhutBlock.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtBG_PhutBlock.DefaultText = "";
-            this.txtBG_PhutBlock.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtBG_PhutBlock.Location = new System.Drawing.Point(480, 19);
-            this.txtBG_PhutBlock.Name = "txtBG_PhutBlock";
-            this.txtBG_PhutBlock.PlaceholderText = "VD: 60";
-            this.txtBG_PhutBlock.SelectedText = "";
-            this.txtBG_PhutBlock.Size = new System.Drawing.Size(80, 30);
-            this.txtBG_PhutBlock.TabIndex = 11;
-            // 
-            // lblBG_PhutBlock
-            // 
-            this.lblBG_PhutBlock.AutoSize = true;
-            this.lblBG_PhutBlock.BackColor = System.Drawing.Color.Transparent;
-            this.lblBG_PhutBlock.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblBG_PhutBlock.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(85)))), ((int)(((byte)(105)))));
-            this.lblBG_PhutBlock.Location = new System.Drawing.Point(410, 20);
-            this.lblBG_PhutBlock.Name = "lblBG_PhutBlock";
-            this.lblBG_PhutBlock.Size = new System.Drawing.Size(75, 15);
-            this.lblBG_PhutBlock.TabIndex = 12;
-            this.lblBG_PhutBlock.Text = "Giữ (phút):";
-            // 
-            // txtBG_PhutTiep
-            // 
-            this.txtBG_PhutTiep.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtBG_PhutTiep.DefaultText = "";
-            this.txtBG_PhutTiep.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtBG_PhutTiep.Location = new System.Drawing.Point(645, 19);
-            this.txtBG_PhutTiep.Name = "txtBG_PhutTiep";
-            this.txtBG_PhutTiep.PlaceholderText = "VD: 30";
-            this.txtBG_PhutTiep.SelectedText = "";
-            this.txtBG_PhutTiep.Size = new System.Drawing.Size(80, 30);
-            this.txtBG_PhutTiep.TabIndex = 4;
-            // 
-            // lblBG_PhutTiep
-            // 
-            this.lblBG_PhutTiep.AutoSize = true;
-            this.lblBG_PhutTiep.BackColor = System.Drawing.Color.Transparent;
-            this.lblBG_PhutTiep.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblBG_PhutTiep.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(85)))), ((int)(((byte)(105)))));
-            this.lblBG_PhutTiep.Location = new System.Drawing.Point(575, 20);
-            this.lblBG_PhutTiep.Name = "lblBG_PhutTiep";
-            this.lblBG_PhutTiep.Size = new System.Drawing.Size(75, 15);
-            this.lblBG_PhutTiep.TabIndex = 8;
-            this.lblBG_PhutTiep.Text = "Lố (phút):";
-            // 
-            // txtBG_GiaPhuThu
-            // 
-            this.txtBG_GiaPhuThu.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.txtBG_GiaPhuThu.DefaultText = "";
-            this.txtBG_GiaPhuThu.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtBG_GiaPhuThu.Location = new System.Drawing.Point(790, 19);
-            this.txtBG_GiaPhuThu.Name = "txtBG_GiaPhuThu";
-            this.txtBG_GiaPhuThu.PlaceholderText = "VD: 50000";
-            this.txtBG_GiaPhuThu.SelectedText = "";
-            this.txtBG_GiaPhuThu.Size = new System.Drawing.Size(120, 30);
-            this.txtBG_GiaPhuThu.TabIndex = 5;
-            // 
-            // lblBG_GiaPhuThu
-            // 
-            this.lblBG_GiaPhuThu.AutoSize = true;
-            this.lblBG_GiaPhuThu.BackColor = System.Drawing.Color.Transparent;
-            this.lblBG_GiaPhuThu.Font = new System.Drawing.Font("Segoe UI", 8.5F);
-            this.lblBG_GiaPhuThu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(85)))), ((int)(((byte)(105)))));
-            this.lblBG_GiaPhuThu.Location = new System.Drawing.Point(735, 20);
-            this.lblBG_GiaPhuThu.Name = "lblBG_GiaPhuThu";
-            this.lblBG_GiaPhuThu.Size = new System.Drawing.Size(74, 15);
-            this.lblBG_GiaPhuThu.TabIndex = 9;
-            this.lblBG_GiaPhuThu.Text = "Phí lố:";
             // 
             // btnThemGia
             // 
@@ -1082,8 +968,26 @@ namespace GUI
             this.pnlBangGiaActions.Location = new System.Drawing.Point(0, 0);
             this.pnlBangGiaActions.Name = "pnlBangGiaActions";
             this.pnlBangGiaActions.Padding = new System.Windows.Forms.Padding(10, 8, 10, 8);
-            this.pnlBangGiaActions.Size = new System.Drawing.Size(1382, 60);
+            this.pnlBangGiaActions.Size = new System.Drawing.Size(1366, 60);
             this.pnlBangGiaActions.TabIndex = 2;
+            // 
+            // chkThueTheoGio
+            // 
+            this.chkThueTheoGio.AutoSize = true;
+            this.chkThueTheoGio.BackColor = System.Drawing.Color.Transparent;
+            this.chkThueTheoGio.CheckedState.BorderRadius = 0;
+            this.chkThueTheoGio.CheckedState.BorderThickness = 0;
+            this.chkThueTheoGio.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
+            this.chkThueTheoGio.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(85)))), ((int)(((byte)(105)))));
+            this.chkThueTheoGio.Location = new System.Drawing.Point(15, 20);
+            this.chkThueTheoGio.Name = "chkThueTheoGio";
+            this.chkThueTheoGio.Size = new System.Drawing.Size(217, 19);
+            this.chkThueTheoGio.TabIndex = 12;
+            this.chkThueTheoGio.Text = "Sản phẩm cho thuê / Tính theo giờ";
+            this.chkThueTheoGio.UncheckedState.BorderRadius = 0;
+            this.chkThueTheoGio.UncheckedState.BorderThickness = 0;
+            this.chkThueTheoGio.UseVisualStyleBackColor = false;
+            this.chkThueTheoGio.CheckedChanged += new System.EventHandler(this.chkThueTheoGio_CheckedChanged);
             // 
             // btnXoaGia
             // 
@@ -1096,12 +1000,108 @@ namespace GUI
             this.btnXoaGia.FillColor = System.Drawing.Color.Transparent;
             this.btnXoaGia.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
             this.btnXoaGia.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(63)))), ((int)(((byte)(94)))));
-            this.btnXoaGia.Location = new System.Drawing.Point(1232, 8);
+            this.btnXoaGia.Location = new System.Drawing.Point(1216, 8);
             this.btnXoaGia.Name = "btnXoaGia";
             this.btnXoaGia.Size = new System.Drawing.Size(140, 44);
             this.btnXoaGia.TabIndex = 0;
             this.btnXoaGia.Text = "Xóa dòng";
             this.btnXoaGia.Click += new System.EventHandler(this.BtnXoaGia_Click);
+            // 
+            // txtBG_TienCoc
+            // 
+            this.txtBG_TienCoc.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtBG_TienCoc.DefaultText = "";
+            this.txtBG_TienCoc.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtBG_TienCoc.Location = new System.Drawing.Point(310, 19);
+            this.txtBG_TienCoc.Name = "txtBG_TienCoc";
+            this.txtBG_TienCoc.PlaceholderText = "(để trống = 0)";
+            this.txtBG_TienCoc.SelectedText = "";
+            this.txtBG_TienCoc.Size = new System.Drawing.Size(90, 30);
+            this.txtBG_TienCoc.TabIndex = 3;
+            // 
+            // lblBG_TienCoc
+            // 
+            this.lblBG_TienCoc.AutoSize = true;
+            this.lblBG_TienCoc.BackColor = System.Drawing.Color.Transparent;
+            this.lblBG_TienCoc.Font = new System.Drawing.Font("Segoe UI", 8.5F);
+            this.lblBG_TienCoc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(85)))), ((int)(((byte)(105)))));
+            this.lblBG_TienCoc.Location = new System.Drawing.Point(250, 20);
+            this.lblBG_TienCoc.Name = "lblBG_TienCoc";
+            this.lblBG_TienCoc.Size = new System.Drawing.Size(54, 15);
+            this.lblBG_TienCoc.TabIndex = 4;
+            this.lblBG_TienCoc.Text = "Tiền cọc:";
+            // 
+            // txtBG_PhutBlock
+            // 
+            this.txtBG_PhutBlock.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtBG_PhutBlock.DefaultText = "";
+            this.txtBG_PhutBlock.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtBG_PhutBlock.Location = new System.Drawing.Point(480, 19);
+            this.txtBG_PhutBlock.Name = "txtBG_PhutBlock";
+            this.txtBG_PhutBlock.PlaceholderText = "VD: 60";
+            this.txtBG_PhutBlock.SelectedText = "";
+            this.txtBG_PhutBlock.Size = new System.Drawing.Size(80, 30);
+            this.txtBG_PhutBlock.TabIndex = 11;
+            // 
+            // lblBG_PhutBlock
+            // 
+            this.lblBG_PhutBlock.AutoSize = true;
+            this.lblBG_PhutBlock.BackColor = System.Drawing.Color.Transparent;
+            this.lblBG_PhutBlock.Font = new System.Drawing.Font("Segoe UI", 8.5F);
+            this.lblBG_PhutBlock.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(85)))), ((int)(((byte)(105)))));
+            this.lblBG_PhutBlock.Location = new System.Drawing.Point(410, 20);
+            this.lblBG_PhutBlock.Name = "lblBG_PhutBlock";
+            this.lblBG_PhutBlock.Size = new System.Drawing.Size(64, 15);
+            this.lblBG_PhutBlock.TabIndex = 12;
+            this.lblBG_PhutBlock.Text = "Giữ (phút):";
+            // 
+            // lblBG_GiaPhuThu
+            // 
+            this.lblBG_GiaPhuThu.AutoSize = true;
+            this.lblBG_GiaPhuThu.BackColor = System.Drawing.Color.Transparent;
+            this.lblBG_GiaPhuThu.Font = new System.Drawing.Font("Segoe UI", 8.5F);
+            this.lblBG_GiaPhuThu.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(85)))), ((int)(((byte)(105)))));
+            this.lblBG_GiaPhuThu.Location = new System.Drawing.Point(735, 20);
+            this.lblBG_GiaPhuThu.Name = "lblBG_GiaPhuThu";
+            this.lblBG_GiaPhuThu.Size = new System.Drawing.Size(40, 15);
+            this.lblBG_GiaPhuThu.TabIndex = 9;
+            this.lblBG_GiaPhuThu.Text = "Phí lố:";
+            // 
+            // lblBG_PhutTiep
+            // 
+            this.lblBG_PhutTiep.AutoSize = true;
+            this.lblBG_PhutTiep.BackColor = System.Drawing.Color.Transparent;
+            this.lblBG_PhutTiep.Font = new System.Drawing.Font("Segoe UI", 8.5F);
+            this.lblBG_PhutTiep.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(85)))), ((int)(((byte)(105)))));
+            this.lblBG_PhutTiep.Location = new System.Drawing.Point(575, 20);
+            this.lblBG_PhutTiep.Name = "lblBG_PhutTiep";
+            this.lblBG_PhutTiep.Size = new System.Drawing.Size(59, 15);
+            this.lblBG_PhutTiep.TabIndex = 8;
+            this.lblBG_PhutTiep.Text = "Lố (phút):";
+            // 
+            // txtBG_GiaPhuThu
+            // 
+            this.txtBG_GiaPhuThu.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtBG_GiaPhuThu.DefaultText = "";
+            this.txtBG_GiaPhuThu.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtBG_GiaPhuThu.Location = new System.Drawing.Point(790, 19);
+            this.txtBG_GiaPhuThu.Name = "txtBG_GiaPhuThu";
+            this.txtBG_GiaPhuThu.PlaceholderText = "VD: 50000";
+            this.txtBG_GiaPhuThu.SelectedText = "";
+            this.txtBG_GiaPhuThu.Size = new System.Drawing.Size(120, 30);
+            this.txtBG_GiaPhuThu.TabIndex = 5;
+            // 
+            // txtBG_PhutTiep
+            // 
+            this.txtBG_PhutTiep.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtBG_PhutTiep.DefaultText = "";
+            this.txtBG_PhutTiep.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtBG_PhutTiep.Location = new System.Drawing.Point(645, 19);
+            this.txtBG_PhutTiep.Name = "txtBG_PhutTiep";
+            this.txtBG_PhutTiep.PlaceholderText = "VD: 30";
+            this.txtBG_PhutTiep.SelectedText = "";
+            this.txtBG_PhutTiep.Size = new System.Drawing.Size(80, 30);
+            this.txtBG_PhutTiep.TabIndex = 4;
             // 
             // pnlFooter
             // 
@@ -1112,7 +1112,7 @@ namespace GUI
             this.pnlFooter.Location = new System.Drawing.Point(15, 949);
             this.pnlFooter.Name = "pnlFooter";
             this.pnlFooter.Padding = new System.Windows.Forms.Padding(15, 10, 15, 10);
-            this.pnlFooter.Size = new System.Drawing.Size(1390, 60);
+            this.pnlFooter.Size = new System.Drawing.Size(1374, 60);
             this.pnlFooter.TabIndex = 2;
             // 
             // btnLuuTab1
@@ -1124,7 +1124,7 @@ namespace GUI
             this.btnLuuTab1.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(64)))), ((int)(((byte)(175)))));
             this.btnLuuTab1.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
             this.btnLuuTab1.ForeColor = System.Drawing.Color.White;
-            this.btnLuuTab1.Location = new System.Drawing.Point(1195, 10);
+            this.btnLuuTab1.Location = new System.Drawing.Point(1179, 10);
             this.btnLuuTab1.Name = "btnLuuTab1";
             this.btnLuuTab1.Size = new System.Drawing.Size(180, 40);
             this.btnLuuTab1.TabIndex = 0;
@@ -1143,7 +1143,7 @@ namespace GUI
             this.pnlHeader.Location = new System.Drawing.Point(15, 15);
             this.pnlHeader.Name = "pnlHeader";
             this.pnlHeader.Padding = new System.Windows.Forms.Padding(20, 10, 20, 10);
-            this.pnlHeader.Size = new System.Drawing.Size(1390, 80);
+            this.pnlHeader.Size = new System.Drawing.Size(1374, 80);
             this.pnlHeader.TabIndex = 0;
             // 
             // btnXoaSP
@@ -1155,7 +1155,7 @@ namespace GUI
             this.btnXoaSP.FillColor = System.Drawing.Color.Transparent;
             this.btnXoaSP.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
             this.btnXoaSP.ForeColor = System.Drawing.Color.White;
-            this.btnXoaSP.Location = new System.Drawing.Point(1235, 10);
+            this.btnXoaSP.Location = new System.Drawing.Point(1219, 10);
             this.btnXoaSP.Name = "btnXoaSP";
             this.btnXoaSP.Size = new System.Drawing.Size(135, 60);
             this.btnXoaSP.TabIndex = 1;
@@ -1193,7 +1193,7 @@ namespace GUI
             this.lblNoSelection.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(163)))), ((int)(((byte)(184)))));
             this.lblNoSelection.Location = new System.Drawing.Point(0, 0);
             this.lblNoSelection.Name = "lblNoSelection";
-            this.lblNoSelection.Size = new System.Drawing.Size(1420, 1024);
+            this.lblNoSelection.Size = new System.Drawing.Size(1404, 1024);
             this.lblNoSelection.TabIndex = 1;
             this.lblNoSelection.Text = "← Chọn sản phẩm từ danh sách bên trái\r\nhoặc bấm [+ THÊM SẢN PHẨM MỚI]";
             this.lblNoSelection.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -1202,7 +1202,7 @@ namespace GUI
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1940, 1024);
+            this.ClientSize = new System.Drawing.Size(1924, 1024);
             this.Controls.Add(this.splitMain);
             this.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

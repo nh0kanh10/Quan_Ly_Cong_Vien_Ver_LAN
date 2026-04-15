@@ -15,8 +15,6 @@ namespace ET
         public DateTime? NgayDen { get; set; }
         public DateTime? NgayDi { get; set; }
         public string TrangThai { get; set; }
-        public int? IdCombo { get; set; }
-        public string TenCombo { get; set; } 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public int? CreatedBy { get; set; }

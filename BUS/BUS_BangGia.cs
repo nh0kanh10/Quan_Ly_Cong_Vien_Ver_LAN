@@ -135,9 +135,9 @@ namespace BUS
 
         /// <summary>
         /// Tính giá bán khi Thu ngân chọn ĐVT cụ thể trong giỏ hàng.
-        /// - DVT cơ bản → GetDynamicPrice như cũ
-        /// - DVT lớn có GiaBanRieng → dùng giá ưu đãi đó
-        /// - DVT lớn không có GiaBanRieng → TyLeQuyDoi × giá lẻ (không ưu đãi)
+        /// - DVT cơ bản -> GetDynamicPrice như cũ
+        /// - DVT lớn có GiaBanRieng -> dùng giá ưu đãi đó
+        /// - DVT lớn không có GiaBanRieng -> TyLeQuyDoi × giá lẻ (không ưu đãi)
         /// </summary>
         public decimal GetPriceByUnit(int idSanPham, int idDVTChon, DateTime thoiDiem)
         {
@@ -146,7 +146,7 @@ namespace BUS
                 .FirstOrDefault(x => x.IdSanPham == idSanPham && x.IdDonViLon == idDVTChon);
 
             if (quyDoi == null)
-                // Không tìm thấy quy đổi → trả về giá lẻ bình thường
+                // Không tìm thấy quy đổi -> trả về giá lẻ bình thường
                 return GetDynamicPrice(idSanPham, thoiDiem);
 
             // Ưu tiên GiaBanRieng nếu đã cấu hình

@@ -244,6 +244,115 @@ namespace ET
                 new System.Text.RegularExpressions.Regex(@"^\d{9,12}$", System.Text.RegularExpressions.RegexOptions.Compiled);
         }
 
+        // == HR MODULE CONSTANTS ==
+
+        public static class LoaiKhoi
+        {
+            public const string VanHanh = "VanHanh";
+            public const string HanhChinh = "HanhChinh";
+        }
+
+        public static class TrangThaiNhanVien
+        {
+            public const string ThuViec = "ThuViec";
+            public const string DangLamViec = "Đang làm việc";
+            public const string TamNghi = "Tạm nghỉ";
+            public const string NghiViec = "Nghỉ việc";
+        }
+
+        public static class LoaiHopDong
+        {
+            public const string FullTime = "FullTime";
+            public const string PartTime = "PartTime";
+            public const string TheoMua = "TheoMua";
+            public const string Intern = "Intern";
+        }
+
+        public static class NhomCongViec
+        {
+            public const string ThuongThuong = "ThuongThuong";
+            public const string NangNhocNguyHiem = "NangNhocNguyHiem";
+            public const string DacBietNguyHiem = "DacBietNguyHiem";
+        }
+
+        public static class LoaiChungChi
+        {
+            public const string CuuHoBoiLoi = "CuuHoBoiLoi";
+            public const string SoCuuYTe_CPR = "SoCuuYTe_CPR";
+            public const string VanHanhThietBiCoKhi = "VanHanhThietBiCoKhi";
+            public const string ChamSocDongVatHoangDa = "ChamSocDongVatHoangDa";
+            public const string LaiXeNangHang = "LaiXeNangHang";
+            public const string AnToanDien = "AnToanDien";
+            public const string Khac = "Khac";
+        }
+
+        public static class TrangThaiChungChi
+        {
+            public const string ConHieuLuc = "ConHieuLuc";
+            public const string SapHetHan = "SapHetHan";
+            public const string HetHan = "HetHan";
+        }
+
+        public static class LoaiNghi
+        {
+            public const string PhepNam = "PhepNam";
+            public const string NghiOm = "NghiOm";
+            public const string ThaiSanNu = "ThaiSanNu";
+            public const string ThaiSanNam = "ThaiSanNam";
+            public const string TaiNanLaoDong = "TaiNanLaoDong";
+            public const string NghiBu = "NghiBu";
+            public const string NghiLe = "NghiLe";
+            public const string DotXuatCoLuong = "DotXuatCoLuong";
+            public const string NghiKhongLuong = "NghiKhongLuong";
+        }
+
+        public static class NguonChiTra
+        {
+            public const string CongTy = "CongTy";
+            public const string BHXH = "BHXH";
+        }
+
+        public static class TrangThaiDonNghi
+        {
+            public const string ChoDuyet = "ChoDuyet";
+            public const string DaDuyet = "DaDuyet";
+            public const string TuChoi = "TuChoi";
+            public const string DaHuy = "DaHuy";
+        }
+
+        public static class LoaiTaiNan
+        {
+            public const string TrongGioLam = "TrongGioLam";
+            public const string NgoaiGioLam = "NgoaiGioLam";
+            public const string DiLai = "DiLai";
+        }
+
+        public static class MucDoTaiNan
+        {
+            public const string Nhe = "Nhe";
+            public const string TrungBinh = "TrungBinh";
+            public const string NangNe = "NangNe";
+            public const string TuVong = "TuVong";
+        }
+
+        public static class TrangThaiTaiNan
+        {
+            public const string DangDieuTri = "DangDieuTri";
+            public const string DaDieuTri = "DaDieuTri";
+            public const string TamTat = "TamTat";
+            public const string VinhVien = "VinhVien";
+            public const string TuVong = "TuVong";
+        }
+
+        public static class HinhThucKyLuat
+        {
+            public const string CanhCao = "CanhCao";
+            public const string TruLuong = "TruLuong";
+            public const string DinhChiCoLuong = "DinhChiCoLuong";
+            public const string DinhChiKhongLuong = "DinhChiKhongLuong";
+            public const string SaThai = "SaThai";
+        }
+
         public static class Display
         {
             public const string NoData = "Chưa có";

@@ -58,6 +58,17 @@ namespace GUI
         private void frmKhuyenMai_Load(object sender, EventArgs e)
         {
             LoadData();
+
+            // Sửa lỗi WinForms / DevExpress: SplitContainerControl hiển thị không đúng (bị vỡ/dồn cục) khi form mới nạp.
+            // Bằng cách di chuyển Splitter một pixel và trả lại, giao diện sẽ bị ép tự thiết kế lại layout.
+            this.BeginInvoke(new Action(() => {
+                if (pnlMain != null)
+                {
+                    pnlMain.SplitterPosition++;
+                    pnlMain.SplitterPosition--;
+                    pnlMain.Refresh();
+                }
+            }));
         }
 
         public void LoadData()

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Use Case Diagrams — Sprint 3</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: #f8f9fa;
+            padding: 40px 20px;
+        }
+        
+        .page-title {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+        }
+        
+        .page-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .diagram-container {
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            margin: 0 auto 50px;
+            max-width: 1000px;
+            padding: 30px;
+            page-break-inside: avoid;
+        }
+        
+        .diagram-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .diagram-desc {
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        svg { display: block; margin: 0 auto; }
+        
+        /* Actor stick figure */
+        .actor-body { stroke: #333; stroke-width: 2; fill: none; }
+        .actor-head { stroke: #333; stroke-width: 2; fill: #fff; }
+        .actor-label { font-family: 'Inter', sans-serif; font-size: 12px; fill: #333; text-anchor: middle; font-weight: 600; }
+        
+        /* Use case ovals */
+        .usecase-oval { fill: #fff; stroke: #333; stroke-width: 1.8; }
+        .usecase-label { font-family: 'Inter', sans-serif; font-size: 11px; fill: #333; text-anchor: middle; font-weight: 400; }
+        .usecase-id { font-family: 'Inter', sans-serif; font-size: 9px; fill: #888; text-anchor: middle; }
+        
+        /* System boundary */
+        .system-boundary { fill: #FFFDE7; stroke: #333; stroke-width: 2; rx: 8; ry: 8; }
+        .system-label { font-family: 'Inter', sans-serif; font-size: 13px; fill: #333; text-anchor: middle; font-weight: 700; }
+        
+        /* Lines */
+        .assoc-line { stroke: #333; stroke-width: 1.5; }
+        .depend-line { stroke: #333; stroke-width: 1.2; stroke-dasharray: 6,4; }
+        .depend-label { font-family: 'Inter', sans-serif; font-size: 10px; fill: #555; text-anchor: middle; font-style: italic; }
+        
+        /* Arrowhead marker */
+        .arrow-marker { fill: #333; }
+        
+        /* Table */
+        .relation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+        .relation-table th {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 8px 10px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .relation-table td {
+            padding: 6px 10px;
+            border-bottom: 1px solid #eee;
+            color: #333;
+        }
+        .relation-table tr:nth-child(even) { background: #f9f9f9; }
+        .relation-table tr:hover { background: #f0f4ff; }
+        
+        .print-btn {
+            display: block;
+            margin: 0 auto 40px;
+            padding: 12px 30px;
+            background: #1a1a2e;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+        }
+        .print-btn:hover { background: #2d2d5e; }
+        
+        @media print {
+            body { padding: 10px; background: #fff; }
+            .print-btn { display: none; }
+            .diagram-container { border: 1px solid #999; page-break-inside: avoid; margin-bottom: 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<h1 class="page-title">USE CASE DIAGRAMS — SPRINT 3</h1>
+<p class="page-subtitle">Hệ thống Quản lý Công viên Giải trí (APM) · Project Code: APM_SRS_Sprint3_v1.0</p>
+
+<button class="print-btn" onclick="window.print()">🖨️ In / Xuất PDF</button>
+
+<!-- =============================== -->
+<!-- DIAGRAM 1: POS -->
+<!-- =============================== -->
+<div class="diagram-container">
+    <div class="diagram-title">I. USE CASE DIAGRAM — BÁN HÀNG TẠI QUẦY (POS)</div>
+    <div class="diagram-desc">Actors: Nhân viên Thu ngân, Quản lý ca trực · 7 Use Cases</div>
+    
+    <svg width="850" height="520" viewBox="0 0 850 520">
+        <defs>
+            <marker id="arrow1" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" class="arrow-marker"/>
+            </marker>
+        </defs>
+        
+        <!-- System boundary -->
+        <rect x="200" y="20" width="620" height="480" class="system-boundary"/>
+        <text x="510" y="50" class="system-label">Phân hệ Bán hàng tại quầy (POS)</text>
+        
+        <!-- Actor 1: Thu ngân -->
+        <circle cx="80" cy="135" r="16" class="actor-head"/>
+        <line x1="80" y1="151" x2="80" y2="195" class="actor-body"/>
+        <line x1="50" y1="170" x2="110" y2="170" class="actor-body"/>
+        <line x1="80" y1="195" x2="55" y2="230" class="actor-body"/>
+        <line x1="80" y1="195" x2="105" y2="230" class="actor-body"/>
+        <text x="80" y="252" class="actor-label">Nhân viên</text>
+        <text x="80" y="266" class="actor-label">Thu ngân</text>
+        
+        <!-- Actor 2: Quản lý -->
+        <circle cx="80" cy="395" r="16" class="actor-head"/>
+        <line x1="80" y1="411" x2="80" y2="455" class="actor-body"/>
+        <line x1="50" y1="430" x2="110" y2="430" class="actor-body"/>
+        <line x1="80" y1="455" x2="55" y2="490" class="actor-body"/>
+        <line x1="80" y1="455" x2="105" y2="490" class="actor-body"/>
+        <text x="80" y="510" class="actor-label">Quản lý</text>
+        <text x="80" y="524" class="actor-label">ca trực</text>
+        
+        <!-- UC-P01 -->
+        <ellipse cx="370" cy="95" rx="115" ry="28" class="usecase-oval"/>
+        <text x="370" y="90" class="usecase-id">UC-P01</text>
+        <text x="370" y="103" class="usecase-label">Quét mã sản phẩm</text>
+        
+        <!-- UC-P02 -->
+        <ellipse cx="590" cy="95" rx="115" ry="28" class="usecase-oval"/>
+        <text x="590" y="90" class="usecase-id">UC-P02</text>
+        <text x="590" y="103" class="usecase-label">Thanh toán đơn hàng</text>
+        
+        <!-- UC-P03 -->
+        <ellipse cx="370" cy="185" rx="130" ry="28" class="usecase-oval"/>
+        <text x="370" y="180" class="usecase-id">UC-P03</text>
+        <text x="370" y="193" class="usecase-label">Nhận diện khách hàng</text>
+        
+        <!-- UC-P04 -->
+        <ellipse cx="370" cy="275" rx="140" ry="28" class="usecase-oval"/>
+        <text x="370" y="270" class="usecase-id">UC-P04</text>
+        <text x="370" y="283" class="usecase-label">Thanh toán bằng ví RFID</text>
+        
+        <!-- UC-P05 -->
+        <ellipse cx="620" cy="210" rx="115" ry="28" class="usecase-oval"/>
+        <text x="620" y="205" class="usecase-id">UC-P05</text>
+        <text x="620" y="218" class="usecase-label">Phát vé điện tử</text>
+        
+        <!-- UC-P06 -->
+        <ellipse cx="620" cy="300" rx="120" ry="28" class="usecase-oval"/>
+        <text x="620" y="295" class="usecase-id">UC-P06</text>
+        <text x="620" y="308" class="usecase-label">Phục vụ đoàn khách</text>
+        
+        <!-- UC-P07 -->
+        <ellipse cx="440" cy="440" rx="110" ry="28" class="usecase-oval"/>
+        <text x="440" y="435" class="usecase-id">UC-P07</text>
+        <text x="440" y="448" class="usecase-label">Huỷ đơn hàng</text>
+        
+        <!-- Lines: Thu ngân -> UCs -->
+        <line x1="110" y1="160" x2="255" y2="95" class="assoc-line"/>
+        <line x1="110" y1="170" x2="240" y2="185" class="assoc-line"/>
+        <line x1="110" y1="185" x2="230" y2="275" class="assoc-line"/>
+        <line x1="110" y1="175" x2="330" y2="440" class="assoc-line"/>
+        
+        <!-- Line: Quản lý -> UC-P07 -->
+        <line x1="110" y1="430" x2="330" y2="440" class="assoc-line"/>
+        
+        <!-- Dashed: UC-P04 --include--> UC-P03 -->
+        <line x1="370" y1="247" x2="370" y2="213" class="depend-line" marker-end="url(#arrow1)"/>
+        <text x="410" y="233" class="depend-label">«include»</text>
+        
+        <!-- Dashed: UC-P05 --extend--> UC-P02 -->
+        <line x1="620" y1="182" x2="605" y2="123" class="depend-line" marker-end="url(#arrow1)"/>
+        <text x="650" y="155" class="depend-label">«extend»</text>
+        
+        <!-- Dashed: UC-P06 --extend--> UC-P02 -->
+        <line x1="620" y1="272" x2="605" y2="123" class="depend-line" marker-end="url(#arrow1)"/>
+        <text x="655" y="235" class="depend-label">«extend»</text>
+    </svg>
+    
+    <table class="relation-table">
+        <tr><th>ID</th><th>Use Case</th><th>Actor</th><th>Quan hệ</th><th>Giải thích</th></tr>
+        <tr><td>UC-P01</td><td>Quét mã sản phẩm</td><td>Thu ngân</td><td>—</td><td>Quét/chọn SP để thêm giỏ</td></tr>
+        <tr><td>UC-P02</td><td>Thanh toán đơn hàng</td><td>Thu ngân</td><td>—</td><td>Chọn phương thức và hoàn tất</td></tr>
+        <tr><td>UC-P03</td><td>Nhận diện khách hàng</td><td>Thu ngân</td><td>—</td><td>Nhập mã KH hoặc quẹt thẻ</td></tr>
+        <tr><td>UC-P04</td><td>Thanh toán bằng ví RFID</td><td>Thu ngân</td><td>«include» UC-P03</td><td>BẮT BUỘC nhận diện khách trước</td></tr>
+        <tr><td>UC-P05</td><td>Phát vé điện tử</td><td>Thu ngân</td><td>«extend» UC-P02</td><td>CHỈ KHI đơn có vé</td></tr>
+        <tr><td>UC-P06</td><td>Phục vụ đoàn khách</td><td>Thu ngân</td><td>«extend» UC-P02</td><td>CHỈ KHI quét mã booking "BK-"</td></tr>
+        <tr><td>UC-P07</td><td>Huỷ đơn hàng</td><td>Thu ngân, Quản lý</td><td>—</td><td>Huỷ đơn đang soạn</td></tr>
+    </table>
+</div>
+
+<!-- =============================== -->
+<!-- DIAGRAM 2: KIỂM SOÁT VÉ -->
+<!-- =============================== -->
+<div class="diagram-container">
+    <div class="diagram-title">II. USE CASE DIAGRAM — KIỂM SOÁT VÉ TẠI CỔNG</div>
+    <div class="diagram-desc">Actor: Nhân viên Gác cổng · 5 Use Cases</div>
+    
+    <svg width="750" height="420" viewBox="0 0 750 420">
+        <defs>
+            <marker id="arrow2" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" class="arrow-marker"/>
+            </marker>
+        </defs>
+        
+        <!-- System boundary -->
+        <rect x="200" y="20" width="520" height="380" class="system-boundary"/>
+        <text x="460" y="50" class="system-label">Phân hệ Kiểm soát vé tại cổng</text>
+        
+        <!-- Actor: Gác cổng -->
+        <circle cx="80" cy="175" r="16" class="actor-head"/>
+        <line x1="80" y1="191" x2="80" y2="235" class="actor-body"/>
+        <line x1="50" y1="210" x2="110" y2="210" class="actor-body"/>
+        <line x1="80" y1="235" x2="55" y2="270" class="actor-body"/>
+        <line x1="80" y1="235" x2="105" y2="270" class="actor-body"/>
+        <text x="80" y="292" class="actor-label">Nhân viên</text>
+        <text x="80" y="306" class="actor-label">Gác cổng</text>
+        
+        <!-- UC-G01 -->
+        <ellipse cx="380" cy="90" rx="120" ry="28" class="usecase-oval"/>
+        <text x="380" y="85" class="usecase-id">UC-G01</text>
+        <text x="380" y="98" class="usecase-label">Chọn khu vực trực</text>
+        
+        <!-- UC-G02 -->
+        <ellipse cx="380" cy="170" rx="115" ry="28" class="usecase-oval"/>
+        <text x="380" y="165" class="usecase-id">UC-G02</text>
+        <text x="380" y="178" class="usecase-label">Quét mã vé khách</text>
+        
+        <!-- UC-G03 -->
+        <ellipse cx="380" cy="250" rx="115" ry="28" class="usecase-oval"/>
+        <text x="380" y="245" class="usecase-id">UC-G03</text>
+        <text x="380" y="258" class="usecase-label">Xem lịch sử quét</text>
+        
+        <!-- UC-G04 -->
+        <ellipse cx="610" cy="250" rx="130" ry="28" class="usecase-oval"/>
+        <text x="610" y="245" class="usecase-id">UC-G04</text>
+        <text x="610" y="258" class="usecase-label">Quét mã booking đoàn</text>
+        
+        <!-- UC-G05 -->
+        <ellipse cx="380" cy="340" rx="120" ry="28" class="usecase-oval"/>
+        <text x="380" y="335" class="usecase-id">UC-G05</text>
+        <text x="380" y="348" class="usecase-label">Quét mã bằng camera</text>
+        
+        <!-- Lines: Actor -> UCs -->
+        <line x1="110" y1="195" x2="260" y2="90" class="assoc-line"/>
+        <line x1="110" y1="205" x2="265" y2="170" class="assoc-line"/>
+        <line x1="110" y1="215" x2="265" y2="250" class="assoc-line"/>
+        <line x1="110" y1="225" x2="260" y2="340" class="assoc-line"/>
+        
+        <!-- Dashed: UC-G04 --extend--> UC-G02 -->
+        <line x1="560" y1="225" x2="440" y2="195" class="depend-line" marker-end="url(#arrow2)"/>
+        <text x="520" y="200" class="depend-label">«extend»</text>
+    </svg>
+    
+    <table class="relation-table">
+        <tr><th>ID</th><th>Use Case</th><th>Actor</th><th>Quan hệ</th><th>Giải thích</th></tr>
+        <tr><td>UC-G01</td><td>Chọn khu vực trực</td><td>Gác cổng</td><td>—</td><td>Chọn khu vực và trò chơi đang gác</td></tr>
+        <tr><td>UC-G02</td><td>Quét mã vé khách</td><td>Gác cổng</td><td>—</td><td>Quét/nhập mã vé của khách</td></tr>
+        <tr><td>UC-G03</td><td>Xem lịch sử quét</td><td>Gác cổng</td><td>—</td><td>Xem danh sách các lần quét gần đây</td></tr>
+        <tr><td>UC-G04</td><td>Quét mã booking đoàn</td><td>Gác cổng</td><td>«extend» UC-G02</td><td>CHỈ KHI mã bắt đầu "BK-"</td></tr>
+        <tr><td>UC-G05</td><td>Quét mã bằng camera</td><td>Gác cổng</td><td>—</td><td>Bật webcam để quét thay máy quét</td></tr>
+    </table>
+</div>
+
+<!-- =============================== -->
+<!-- DIAGRAM 3: XÁC NHẬN ĐOÀN KHÁCH -->
+<!-- =============================== -->
+<div class="diagram-container">
+    <div class="diagram-title">III. USE CASE DIAGRAM — XÁC NHẬN ĐOÀN KHÁCH</div>
+    <div class="diagram-desc">Actor: Nhân viên Lễ tân / Thu ngân · 2 Use Cases</div>
+    
+    <svg width="650" height="300" viewBox="0 0 650 300">
+        <!-- System boundary -->
+        <rect x="220" y="20" width="400" height="260" class="system-boundary"/>
+        <text x="420" y="50" class="system-label">Phân hệ Xác nhận Đoàn khách</text>
+        
+        <!-- Actor -->
+        <circle cx="80" cy="115" r="16" class="actor-head"/>
+        <line x1="80" y1="131" x2="80" y2="175" class="actor-body"/>
+        <line x1="50" y1="150" x2="110" y2="150" class="actor-body"/>
+        <line x1="80" y1="175" x2="55" y2="210" class="actor-body"/>
+        <line x1="80" y1="175" x2="105" y2="210" class="actor-body"/>
+        <text x="80" y="232" class="actor-label">Nhân viên</text>
+        <text x="80" y="246" class="actor-label">Lễ tân /</text>
+        <text x="80" y="260" class="actor-label">Thu ngân</text>
+        
+        <!-- UC-B01 -->
+        <ellipse cx="420" cy="110" rx="120" ry="30" class="usecase-oval"/>
+        <text x="420" y="105" class="usecase-id">UC-B01</text>
+        <text x="420" y="118" class="usecase-label">Tìm đoàn khách</text>
+        
+        <!-- UC-B02 -->
+        <ellipse cx="420" cy="210" rx="140" ry="30" class="usecase-oval"/>
+        <text x="420" y="205" class="usecase-id">UC-B02</text>
+        <text x="420" y="218" class="usecase-label">Xác nhận đoàn đã đến</text>
+        
+        <!-- Lines -->
+        <line x1="110" y1="140" x2="300" y2="110" class="assoc-line"/>
+        <line x1="110" y1="160" x2="280" y2="210" class="assoc-line"/>
+    </svg>
+    
+    <table class="relation-table">
+        <tr><th>ID</th><th>Use Case</th><th>Actor</th><th>Quan hệ</th><th>Giải thích</th></tr>
+        <tr><td>UC-B01</td><td>Tìm đoàn khách</td><td>Lễ tân / Thu ngân</td><td>—</td><td>Nhập mã booking hoặc SĐT để tìm đoàn</td></tr>
+        <tr><td>UC-B02</td><td>Xác nhận đoàn đã đến</td><td>Lễ tân / Thu ngân</td><td>—</td><td>Bấm "Xuất vé" để xác nhận đoàn check-in</td></tr>
+    </table>
+</div>
+
+<!-- =============================== -->
+<!-- DIAGRAM 4: CHO THUÊ ĐỒ -->
+<!-- =============================== -->
+<div class="diagram-container">
+    <div class="diagram-title">IV. USE CASE DIAGRAM — CHO THUÊ ĐỒ</div>
+    <div class="diagram-desc">Actors: Nhân viên Trạm thuê, Quản lý · 6 Use Cases</div>
+    
+    <svg width="850" height="480" viewBox="0 0 850 480">
+        <defs>
+            <marker id="arrow4" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+                <path d="M0,0 L8,4 L0,8 Z" class="arrow-marker"/>
+            </marker>
+        </defs>
+        
+        <!-- System boundary -->
+        <rect x="200" y="20" width="620" height="440" class="system-boundary"/>
+        <text x="510" y="50" class="system-label">Phân hệ Cho thuê đồ</text>
+        
+        <!-- Actor 1: Trạm thuê -->
+        <circle cx="80" cy="155" r="16" class="actor-head"/>
+        <line x1="80" y1="171" x2="80" y2="215" class="actor-body"/>
+        <line x1="50" y1="190" x2="110" y2="190" class="actor-body"/>
+        <line x1="80" y1="215" x2="55" y2="250" class="actor-body"/>
+        <line x1="80" y1="215" x2="105" y2="250" class="actor-body"/>
+        <text x="80" y="272" class="actor-label">Nhân viên</text>
+        <text x="80" y="286" class="actor-label">Trạm thuê</text>
+        
+        <!-- Actor 2: Quản lý -->
+        <circle cx="80" cy="375" r="16" class="actor-head"/>
+        <line x1="80" y1="391" x2="80" y2="435" class="actor-body"/>
+        <line x1="50" y1="410" x2="110" y2="410" class="actor-body"/>
+        <line x1="80" y1="435" x2="55" y2="470" class="actor-body"/>
+        <line x1="80" y1="435" x2="105" y2="470" class="actor-body"/>
+        <text x="80" y="490" class="actor-label">Quản lý</text>
+        
+        <!-- UC-R01 -->
+        <ellipse cx="380" cy="95" rx="105" ry="28" class="usecase-oval"/>
+        <text x="380" y="90" class="usecase-id">UC-R01</text>
+        <text x="380" y="103" class="usecase-label">Cho thuê đồ</text>
+        
+        <!-- UC-R02 -->
+        <ellipse cx="600" cy="95" rx="100" ry="28" class="usecase-oval"/>
+        <text x="600" y="90" class="usecase-id">UC-R02</text>
+        <text x="600" y="103" class="usecase-label">Nhận trả đồ</text>
+        
+        <!-- UC-R03 -->
+        <ellipse cx="380" cy="195" rx="120" ry="28" class="usecase-oval"/>
+        <text x="380" y="190" class="usecase-id">UC-R03</text>
+        <text x="380" y="203" class="usecase-label">Giám sát phiên thuê</text>
+        
+        <!-- UC-R04 -->
+        <ellipse cx="620" cy="195" rx="105" ry="28" class="usecase-oval"/>
+        <text x="620" y="190" class="usecase-id">UC-R04</text>
+        <text x="620" y="203" class="usecase-label">Báo mất đồ</text>
+        
+        <!-- UC-R05 -->
+        <ellipse cx="380" cy="300" rx="125" ry="28" class="usecase-oval"/>
+        <text x="380" y="295" class="usecase-id">UC-R05</text>
+        <text x="380" y="308" class="usecase-label">Quẹt thẻ RFID khách</text>
+        
+        <!-- UC-R06 -->
+        <ellipse cx="380" cy="395" rx="140" ry="28" class="usecase-oval"/>
+        <text x="380" y="390" class="usecase-id">UC-R06</text>
+        <text x="380" y="403" class="usecase-label">Thanh toán bằng ví RFID</text>
+        
+        <!-- Lines: Trạm thuê -> UCs -->
+        <line x1="110" y1="175" x2="275" y2="95" class="assoc-line"/>
+        <line x1="110" y1="185" x2="260" y2="195" class="assoc-line"/>
+        <line x1="110" y1="195" x2="255" y2="300" class="assoc-line"/>
+        <line x1="110" y1="200" x2="240" y2="395" class="assoc-line"/>
+        
+        <!-- Lines: Quản lý -> UC-R02, UC-R03 -->
+        <line x1="110" y1="395" x2="500" y2="95" class="assoc-line"/>
+        <line x1="110" y1="400" x2="260" y2="195" class="assoc-line"/>
+        
+        <!-- Dashed: UC-R04 --extend--> UC-R02 -->
+        <line x1="620" y1="167" x2="610" y2="123" class="depend-line" marker-end="url(#arrow4)"/>
+        <text x="660" y="150" class="depend-label">«extend»</text>
+        
+        <!-- Dashed: UC-R06 --include--> UC-R05 -->
+        <line x1="380" y1="367" x2="380" y2="328" class="depend-line" marker-end="url(#arrow4)"/>
+        <text x="425" y="352" class="depend-label">«include»</text>
+    </svg>
+    
+    <table class="relation-table">
+        <tr><th>ID</th><th>Use Case</th><th>Actor</th><th>Quan hệ</th><th>Giải thích</th></tr>
+        <tr><td>UC-R01</td><td>Cho thuê đồ</td><td>Trạm thuê</td><td>—</td><td>Chọn SP, thêm giỏ, thanh toán</td></tr>
+        <tr><td>UC-R02</td><td>Nhận trả đồ</td><td>Trạm thuê, Quản lý</td><td>—</td><td>Quét mã biên lai/RFID, nhập SL trả</td></tr>
+        <tr><td>UC-R03</td><td>Giám sát phiên thuê</td><td>Trạm thuê, Quản lý</td><td>—</td><td>Xem DS phiên chưa trả</td></tr>
+        <tr><td>UC-R04</td><td>Báo mất đồ</td><td>Trạm thuê</td><td>«extend» UC-R02</td><td>CHỈ KHI khách báo mất ≥ 1 món</td></tr>
+        <tr><td>UC-R05</td><td>Quẹt thẻ RFID khách</td><td>Trạm thuê</td><td>—</td><td>Quẹt thẻ để nhận diện khách</td></tr>
+        <tr><td>UC-R06</td><td>Thanh toán bằng ví RFID</td><td>Trạm thuê</td><td>«include» UC-R05</td><td>BẮT BUỘC quẹt thẻ trước</td></tr>
+    </table>
+</div>
+
+<div style="text-align:center; color:#999; font-size:12px; margin-top:20px;">
+    © 2026 · APM_SRS_Sprint3_v1.0 · Hệ thống Quản lý Công viên Giải trí Đại Nam
+</div>
+
+</body>
+</html>

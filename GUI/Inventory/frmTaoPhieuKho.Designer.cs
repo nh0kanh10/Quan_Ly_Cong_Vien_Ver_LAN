@@ -125,7 +125,7 @@ namespace GUI
             this.pnlInfo.Location = new System.Drawing.Point(0, 60);
             this.pnlInfo.Name = "pnlInfo";
             this.pnlInfo.Padding = new System.Windows.Forms.Padding(15, 10, 15, 5);
-            this.pnlInfo.Size = new System.Drawing.Size(900, 140);
+            this.pnlInfo.Size = new System.Drawing.Size(900, 186);
             this.pnlInfo.TabIndex = 1;
             // 
             // lbl_cboKho
@@ -144,6 +144,7 @@ namespace GUI
             this.cboKho.Name = "cboKho";
             this.cboKho.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cboKho.Properties.NullText = "--- Chọn kho nguồn ---";
             this.cboKho.Properties.PopupView = this.cboKhoView;
             this.cboKho.Size = new System.Drawing.Size(250, 20);
             this.cboKho.TabIndex = 1;
@@ -171,6 +172,7 @@ namespace GUI
             this.cboNhaCungCap.Name = "cboNhaCungCap";
             this.cboNhaCungCap.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
+            this.cboNhaCungCap.Properties.NullText = "--- Chọn nhà cung cấp ---";
             this.cboNhaCungCap.Properties.PopupView = this.cboNhaCungCapView;
             this.cboNhaCungCap.Size = new System.Drawing.Size(350, 20);
             this.cboNhaCungCap.TabIndex = 3;
@@ -186,7 +188,7 @@ namespace GUI
             // 
             this.lbl_txtSoChungTu.AutoSize = true;
             this.lbl_txtSoChungTu.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lbl_txtSoChungTu.Location = new System.Drawing.Point(20, 50);
+            this.lbl_txtSoChungTu.Location = new System.Drawing.Point(20, 56);
             this.lbl_txtSoChungTu.Name = "lbl_txtSoChungTu";
             this.lbl_txtSoChungTu.Size = new System.Drawing.Size(78, 15);
             this.lbl_txtSoChungTu.TabIndex = 4;
@@ -194,7 +196,7 @@ namespace GUI
             // 
             // txtSoChungTu
             // 
-            this.txtSoChungTu.Location = new System.Drawing.Point(120, 47);
+            this.txtSoChungTu.Location = new System.Drawing.Point(120, 53);
             this.txtSoChungTu.Name = "txtSoChungTu";
             this.txtSoChungTu.Properties.Appearance.BackColor = System.Drawing.Color.Transparent;
             this.txtSoChungTu.Properties.Appearance.Options.UseBackColor = true;
@@ -206,7 +208,7 @@ namespace GUI
             // 
             this.lbl_dtNgay.AutoSize = true;
             this.lbl_dtNgay.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lbl_dtNgay.Location = new System.Drawing.Point(400, 50);
+            this.lbl_dtNgay.Location = new System.Drawing.Point(400, 56);
             this.lbl_dtNgay.Name = "lbl_dtNgay";
             this.lbl_dtNgay.Size = new System.Drawing.Size(38, 15);
             this.lbl_dtNgay.TabIndex = 6;
@@ -215,20 +217,20 @@ namespace GUI
             // dtNgay
             // 
             this.dtNgay.EditValue = null;
-            this.dtNgay.Location = new System.Drawing.Point(520, 47);
+            this.dtNgay.Location = new System.Drawing.Point(520, 53);
             this.dtNgay.Name = "dtNgay";
             this.dtNgay.Properties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
             this.dtNgay.Properties.CalendarTimeProperties.Buttons.AddRange(new DevExpress.XtraEditors.Controls.EditorButton[] {
             new DevExpress.XtraEditors.Controls.EditorButton(DevExpress.XtraEditors.Controls.ButtonPredefines.Combo)});
-            this.dtNgay.Size = new System.Drawing.Size(200, 20);
+            this.dtNgay.Size = new System.Drawing.Size(350, 20);
             this.dtNgay.TabIndex = 7;
             // 
             // lbl_txtLyDo
             // 
             this.lbl_txtLyDo.AutoSize = true;
             this.lbl_txtLyDo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
-            this.lbl_txtLyDo.Location = new System.Drawing.Point(20, 85);
+            this.lbl_txtLyDo.Location = new System.Drawing.Point(20, 97);
             this.lbl_txtLyDo.Name = "lbl_txtLyDo";
             this.lbl_txtLyDo.Size = new System.Drawing.Size(86, 15);
             this.lbl_txtLyDo.TabIndex = 8;
@@ -236,20 +238,18 @@ namespace GUI
             // 
             // txtLyDo
             // 
-            this.txtLyDo.Location = new System.Drawing.Point(120, 82);
+            this.txtLyDo.Location = new System.Drawing.Point(120, 94);
             this.txtLyDo.Name = "txtLyDo";
             this.txtLyDo.Size = new System.Drawing.Size(750, 20);
             this.txtLyDo.TabIndex = 9;
             // 
             // gridChiTiet
             // 
-            this.gridChiTiet.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.gridChiTiet.Location = new System.Drawing.Point(15, 245);
+            this.gridChiTiet.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gridChiTiet.Location = new System.Drawing.Point(0, 246);
             this.gridChiTiet.MainView = this.gridViewChiTiet;
             this.gridChiTiet.Name = "gridChiTiet";
-            this.gridChiTiet.Size = new System.Drawing.Size(870, 300);
+            this.gridChiTiet.Size = new System.Drawing.Size(900, 309);
             this.gridChiTiet.TabIndex = 12;
             this.gridChiTiet.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewChiTiet});
@@ -278,6 +278,7 @@ namespace GUI
             // btnHuy
             // 
             this.btnHuy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnHuy.BackColor = System.Drawing.Color.Transparent;
             this.btnHuy.BorderRadius = 15;
             this.btnHuy.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(149)))), ((int)(((byte)(165)))), ((int)(((byte)(166)))));
             this.btnHuy.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
@@ -292,24 +293,26 @@ namespace GUI
             // btnLuuPhieu
             // 
             this.btnLuuPhieu.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLuuPhieu.BackColor = System.Drawing.Color.Transparent;
             this.btnLuuPhieu.BorderRadius = 15;
             this.btnLuuPhieu.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(46)))), ((int)(((byte)(204)))), ((int)(((byte)(113)))));
             this.btnLuuPhieu.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.btnLuuPhieu.ForeColor = System.Drawing.Color.White;
-            this.btnLuuPhieu.Location = new System.Drawing.Point(710, 10);
+            this.btnLuuPhieu.Location = new System.Drawing.Point(534, 10);
             this.btnLuuPhieu.Name = "btnLuuPhieu";
             this.btnLuuPhieu.Size = new System.Drawing.Size(170, 45);
             this.btnLuuPhieu.TabIndex = 2;
-            this.btnLuuPhieu.Text = "💾 LƯU PHIẾU";
+            this.btnLuuPhieu.Text = "LƯU PHIẾU";
             this.btnLuuPhieu.Click += new System.EventHandler(this.BtnLuuPhieu_Click);
             // 
             // lblTongTienValue
             // 
+            this.lblTongTienValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTongTienValue.AutoSize = true;
+            this.lblTongTienValue.BackColor = System.Drawing.Color.Transparent;
             this.lblTongTienValue.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblTongTienValue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
-            this.lblTongTienValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTongTienValue.Location = new System.Drawing.Point(550, 14);
+            this.lblTongTienValue.Location = new System.Drawing.Point(449, 16);
             this.lblTongTienValue.Name = "lblTongTienValue";
             this.lblTongTienValue.Size = new System.Drawing.Size(46, 30);
             this.lblTongTienValue.TabIndex = 1;
@@ -317,11 +320,12 @@ namespace GUI
             // 
             // lblTongTien
             // 
+            this.lblTongTien.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTongTien.AutoSize = true;
+            this.lblTongTien.BackColor = System.Drawing.Color.Transparent;
             this.lblTongTien.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.lblTongTien.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
-            this.lblTongTien.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblTongTien.Location = new System.Drawing.Point(440, 20);
+            this.lblTongTien.Location = new System.Drawing.Point(339, 22);
             this.lblTongTien.Name = "lblTongTien";
             this.lblTongTien.Size = new System.Drawing.Size(99, 21);
             this.lblTongTien.TabIndex = 0;
@@ -337,7 +341,7 @@ namespace GUI
             this.btnThemDong.Name = "btnThemDong";
             this.btnThemDong.Size = new System.Drawing.Size(120, 32);
             this.btnThemDong.TabIndex = 10;
-            this.btnThemDong.Text = "+ Thêm dòng";
+            this.btnThemDong.Text = "Thêm dòng";
             this.btnThemDong.Click += new System.EventHandler(this.BtnThemDong_Click);
             // 
             // btnXoaDong
@@ -350,7 +354,7 @@ namespace GUI
             this.btnXoaDong.Name = "btnXoaDong";
             this.btnXoaDong.Size = new System.Drawing.Size(120, 32);
             this.btnXoaDong.TabIndex = 11;
-            this.btnXoaDong.Text = "- Xóa dòng";
+            this.btnXoaDong.Text = "Xóa dòng";
             this.btnXoaDong.Click += new System.EventHandler(this.BtnXoaDong_Click);
             // 
             // txtScanner
@@ -370,14 +374,14 @@ namespace GUI
             // btnToggleCamera
             // 
             this.btnToggleCamera.BorderRadius = 8;
-            this.btnToggleCamera.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(59)))), ((int)(((byte)(130)))), ((int)(((byte)(246)))));
+            this.btnToggleCamera.FillColor = System.Drawing.Color.RoyalBlue;
             this.btnToggleCamera.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnToggleCamera.ForeColor = System.Drawing.Color.White;
             this.btnToggleCamera.Location = new System.Drawing.Point(570, 205);
             this.btnToggleCamera.Name = "btnToggleCamera";
             this.btnToggleCamera.Size = new System.Drawing.Size(100, 32);
             this.btnToggleCamera.TabIndex = 15;
-            this.btnToggleCamera.Text = "📷 Cam Kho";
+            this.btnToggleCamera.Text = "Mã vạch";
             this.btnToggleCamera.Click += new System.EventHandler(this.btnToggleCamera_Click);
             // 
             // picCamera

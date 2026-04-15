@@ -30,9 +30,9 @@ namespace DAL
                 ThoiGianKetThuc = s.ThoiGianKetThuc,
                 SoTienCoc = s.SoTienCoc,
                 TrangThaiCoc = s.TrangThaiCoc,
-                IdGiaoDichCoc = s.IdGiaoDichCoc,
-                IdGiaoDichHoanCoc = s.IdGiaoDichHoanCoc,
-                IdGiaoDichPhat = s.IdGiaoDichPhat,
+                IdPhieuThuCoc = s.IdPhieuThuCoc,
+                IdPhieuChiHoanCoc = s.IdPhieuChiHoanCoc,
+                IdPhieuThuPhat = s.IdPhieuThuPhat,
                 TienThueDaThu = s.TienThueDaThu
             }).ToList();
         }
@@ -53,9 +53,9 @@ namespace DAL
                 obj.ThoiGianKetThuc = et.ThoiGianKetThuc;
                 obj.SoTienCoc = et.SoTienCoc;
                 obj.TrangThaiCoc = et.TrangThaiCoc;
-                obj.IdGiaoDichCoc = et.IdGiaoDichCoc;
-                obj.IdGiaoDichHoanCoc = et.IdGiaoDichHoanCoc;
-                obj.IdGiaoDichPhat = et.IdGiaoDichPhat;
+                obj.IdPhieuThuCoc = et.IdPhieuThuCoc;
+                obj.IdPhieuChiHoanCoc = et.IdPhieuChiHoanCoc;
+                obj.IdPhieuThuPhat = et.IdPhieuThuPhat;
                 obj.TienThueDaThu = et.TienThueDaThu;
                 db.GetTable<ThueDoChiTiet>().InsertOnSubmit(obj);
                 db.SubmitChanges();
@@ -75,9 +75,9 @@ namespace DAL
                 obj.ThoiGianKetThuc = et.ThoiGianKetThuc;
                 obj.SoTienCoc = et.SoTienCoc;
                 obj.TrangThaiCoc = et.TrangThaiCoc;
-                obj.IdGiaoDichCoc = et.IdGiaoDichCoc;
-                obj.IdGiaoDichHoanCoc = et.IdGiaoDichHoanCoc;
-                obj.IdGiaoDichPhat = et.IdGiaoDichPhat;
+                obj.IdPhieuThuCoc = et.IdPhieuThuCoc;
+                obj.IdPhieuChiHoanCoc = et.IdPhieuChiHoanCoc;
+                obj.IdPhieuThuPhat = et.IdPhieuThuPhat;
                 obj.TienThueDaThu = et.TienThueDaThu;
                 db.GetTable<ThueDoChiTiet>().InsertOnSubmit(obj);
                 db.SubmitChanges();
@@ -98,9 +98,9 @@ namespace DAL
                     obj.ThoiGianKetThuc = et.ThoiGianKetThuc;
                     obj.SoTienCoc = et.SoTienCoc;
                     obj.TrangThaiCoc = et.TrangThaiCoc;
-                    obj.IdGiaoDichCoc = et.IdGiaoDichCoc;
-                    obj.IdGiaoDichHoanCoc = et.IdGiaoDichHoanCoc;
-                    obj.IdGiaoDichPhat = et.IdGiaoDichPhat;
+                    obj.IdPhieuThuCoc = et.IdPhieuThuCoc;
+                    obj.IdPhieuChiHoanCoc = et.IdPhieuChiHoanCoc;
+                    obj.IdPhieuThuPhat = et.IdPhieuThuPhat;
                     obj.TienThueDaThu = et.TienThueDaThu;
                     db.SubmitChanges();
                     return true;
@@ -133,9 +133,9 @@ namespace DAL
                 ThoiGianKetThuc = s.ThoiGianKetThuc,
                 SoTienCoc = s.SoTienCoc,
                 TrangThaiCoc = s.TrangThaiCoc,
-                IdGiaoDichCoc = s.IdGiaoDichCoc,
-                IdGiaoDichHoanCoc = s.IdGiaoDichHoanCoc,
-                IdGiaoDichPhat = s.IdGiaoDichPhat,
+                IdPhieuThuCoc = s.IdPhieuThuCoc,
+                IdPhieuChiHoanCoc = s.IdPhieuChiHoanCoc,
+                IdPhieuThuPhat = s.IdPhieuThuPhat,
                 TienThueDaThu = s.TienThueDaThu
             }).FirstOrDefault();
         }
@@ -155,9 +155,9 @@ namespace DAL
                 ThoiGianKetThuc = s.ThoiGianKetThuc,
                 SoTienCoc = s.SoTienCoc,
                 TrangThaiCoc = s.TrangThaiCoc,
-                IdGiaoDichCoc = s.IdGiaoDichCoc,
-                IdGiaoDichHoanCoc = s.IdGiaoDichHoanCoc,
-                IdGiaoDichPhat = s.IdGiaoDichPhat,
+                IdPhieuThuCoc = s.IdPhieuThuCoc,
+                IdPhieuChiHoanCoc = s.IdPhieuChiHoanCoc,
+                IdPhieuThuPhat = s.IdPhieuThuPhat,
                 TienThueDaThu = s.TienThueDaThu
             }).ToList();
         }
@@ -179,9 +179,9 @@ namespace DAL
                 ThoiGianKetThuc = s.ThoiGianKetThuc,
                 SoTienCoc = s.SoTienCoc,
                 TrangThaiCoc = s.TrangThaiCoc,
-                IdGiaoDichCoc = s.IdGiaoDichCoc,
-                IdGiaoDichHoanCoc = s.IdGiaoDichHoanCoc,
-                IdGiaoDichPhat = s.IdGiaoDichPhat,
+                IdPhieuThuCoc = s.IdPhieuThuCoc,
+                IdPhieuChiHoanCoc = s.IdPhieuChiHoanCoc,
+                IdPhieuThuPhat = s.IdPhieuThuPhat,
                 TienThueDaThu = s.TienThueDaThu
             }).ToList();
         }

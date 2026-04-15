@@ -1,0 +1,1010 @@
+﻿TC ID,Title,Est. (mins),Test Type,Area,Procedure / Steps,Expected Results,Priority,RESULT
+GATE_001,Mở màn hình Kiểm soát vé — kiểm tra bố cục tổng thể,3,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Tại màn hình đăng nhập, nhập tài khoản ""congvien01"", mật khẩu ""123456"", nhấn ""Đăng nhập"".
+3. Sau khi vào trang chính, nhấn menu ""Kiểm soát vé"" trên thanh điều hướng bên trái.
+4. Quan sát toàn bộ bố cục màn hình.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công, vào trang chính.
+3. Màn hình Kiểm soát vé mở ra.
+4. Bố cục gồm: (A) Bên trái — dropdown chọn Khu vực, dropdown chọn Trò chơi, ô nhập mã vé (quét/gõ), nút bật/tắt camera, lịch sử quét. (B) Bên phải — panel kết quả lớn (hiện trạng thái quét), thẻ thông tin vé. (C) Phía dưới — bộ đếm: Hợp lệ / Từ chối / Tổng quét.",High,PENDING
+GATE_002,Kiểm tra dropdown Khu vực có dữ liệu,2,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Nhấn vào dropdown chọn Khu vực.
+5. Quan sát danh sách hiển thị.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Dropdown mở ra.
+5. Hiển thị danh sách các khu vực đang hoạt động (VD: Khu Thiên Đường, Khu Biển, Khu Mạo Hiểm). Mặc định đã chọn khu đầu tiên.",High,PENDING
+GATE_003,Kiểm tra dropdown Trò chơi liên kết đúng khu vực,2,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn ""Khu Thiên Đường"" ở dropdown Khu vực.
+5. Nhấn vào dropdown Trò chơi.
+6. Quan sát danh sách trò chơi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn Khu Thiên Đường.
+5. Dropdown Trò chơi mở ra.
+6. Chỉ hiển thị các trò chơi thuộc Khu Thiên Đường. Có mục ""Cổng chung (tất cả trò)"" ở đầu danh sách.",High,PENDING
+GATE_004,"Chọn ""Cổng chung"" — trạng thái sẵn sàng",1,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn khu vực bất kỳ.
+5. Chọn ""Cổng chung (tất cả trò)"" ở dropdown Trò chơi.
+6. Quan sát trạng thái màn hình.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Khu vực được chọn.
+5. Chọn ""Cổng chung"".
+6. Panel kết quả hiện trạng thái ""SẴN SÀNG"" (hoặc tương tự), sẵn sàng nhận quét vé. Ô nhập mã vé sẵn sàng focus.",Medium,PENDING
+GATE_005,Kiểm tra ô nhập mã vé tự động focus khi mở form,1,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Quan sát vị trí con trỏ nhập liệu.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Con trỏ nhập liệu tự động nằm trong ô nhập mã vé, sẵn sàng nhận từ đầu đọc barcode hoặc bàn phím.",Medium,PENDING
+GATE_006,Kiểm tra bộ đếm ban đầu = 0,1,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Quan sát bộ đếm phía dưới màn hình.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Bộ đếm: Hợp lệ = 0, Từ chối = 0, Tổng = 0.",Low,PENDING
+GATE_007,Kiểm tra lịch sử quét trống khi mới mở,1,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Quan sát bảng lịch sử quét.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Bảng lịch sử quét trống, không có dòng nào.",Low,PENDING
+GATE_008,Quét vé hợp lệ — đúng khu vực đúng trò chơi — hiện MỜI VÀO,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu vực = ""Khu A"". Chọn Trò chơi = ""Cổng chung"".
+5. Gõ mã vé hợp lệ thuộc Khu A (VD: ""VE-001"", còn 3 lượt) vào ô nhập mã, nhấn Enter.
+6. Quan sát panel kết quả và bộ đếm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Khu A và Cổng chung được chọn.
+5. Hệ thống kiểm tra: vé thuộc Khu A, còn lượt.
+6. Panel kết quả hiện: ✅ ""MỜI VÀO"" nền xanh, viền chớp xanh. Thẻ thông tin bên phải hiện: Tên dịch vụ, Mã vé, Khu vực, ""Lượt còn: 2"" (đã trừ 1). Bộ đếm Hợp lệ tăng 1, Tổng tăng 1. Lịch sử thêm 1 dòng: giờ, mã, ✅.",Critical,PENDING
+GATE_009,Quét vé hợp lệ — lượt tự động trừ 1,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Ghi nhận lượt còn lại của vé VE-001 trước khi quét (VD: 3 lượt).
+6. Quét mã ""VE-001"".
+7. Kiểm tra số lượt còn lại sau quét.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Khu A, Cổng chung.
+5. Lượt trước quét = 3.
+6. Quét thành công → MỜI VÀO.
+7. Lượt còn lại = 2 (đã trừ đúng 1 lượt). Thẻ thông tin hiện ""Lượt còn: 2"".",Critical,PENDING
+GATE_010,Quét vé hợp lệ liên tiếp 3 lần — trừ 3 lượt,5,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Chuẩn bị vé VE-TEST có 5 lượt.
+6. Quét ""VE-TEST"" lần 1. Ghi nhận lượt.
+7. Quét ""VE-TEST"" lần 2. Ghi nhận lượt.
+8. Quét ""VE-TEST"" lần 3. Ghi nhận lượt.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Vé có 5 lượt.
+6. Lần 1: MỜI VÀO, lượt còn 4.
+7. Lần 2: MỜI VÀO, lượt còn 3.
+8. Lần 3: MỜI VÀO, lượt còn 2. Bộ đếm Hợp lệ = 3, Tổng = 3. Lịch sử có 3 dòng.",High,PENDING
+GATE_011,Quét vé sai khu vực — hiện SAI KHU VỰC,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu vực = ""Khu A"", Cổng chung.
+5. Gõ mã vé thuộc Khu B (VD: ""VE-002""), nhấn Enter.
+6. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Đang gác Khu A.
+5. Vé VE-002 thuộc Khu B (khác Khu A).
+6. Panel: ⛔ ""SAI KHU VỰC"" nền đỏ, viền chớp đỏ. Thông tin: ""Vé không thuộc trạm: Khu A"". Bộ đếm Từ chối tăng 1. Lượt vé KHÔNG bị trừ.",Critical,PENDING
+GATE_012,Quét vé sai khu vực — lượt KHÔNG bị trừ,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A.
+5. Ghi nhận lượt vé VE-002 (thuộc Khu B) = 3.
+6. Quét ""VE-002"" tại Khu A.
+7. Kiểm tra lượt vé sau quét.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Khu A.
+5. Lượt trước = 3.
+6. SAI KHU VỰC.
+7. Lượt vẫn = 3 (KHÔNG bị trừ vì quét không hợp lệ).",Critical,PENDING
+GATE_013,Quét vé hết lượt — hiện TỪ CHỐI,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Gõ mã vé đã hết lượt (""VE-003"", lượt = 0), nhấn Enter.
+6. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Khu A, Cổng chung.
+5. Vé VE-003 lượt = 0.
+6. Panel: 🚫 ""TỪ CHỐI"" nền đỏ. Chi tiết: ""[Tên dịch vụ] — hết lượt"". Bộ đếm Từ chối tăng 1.",Critical,PENDING
+GATE_014,Quét mã vé không tồn tại — hiện KHÔNG TÌM THẤY,2,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Gõ mã bất kỳ không có trong hệ thống (""XYZ-999""), nhấn Enter.
+5. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Mã ""XYZ-999"" không tồn tại.
+5. Panel: ❓ ""KHÔNG TÌM THẤY"" nền xám. Chi tiết: ""Mã: XYZ-999"". Bộ đếm Từ chối tăng 1.",High,PENDING
+GATE_015,Quét vé sai trò chơi — hiện SAI TRÒ CHƠI,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A. Chọn trò ""Tàu lượn siêu tốc"" (không phải Cổng chung).
+5. Gõ mã vé thuộc Khu A nhưng dành cho trò ""Đu quay"" (không phải Tàu lượn), nhấn Enter.
+6. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Gác trò Tàu lượn cụ thể.
+5. Vé dành cho trò khác (Đu quay).
+6. Panel: ⚠️ ""SAI TRÒ CHƠI"" nền vàng, viền chớp vàng. Bộ đếm Từ chối tăng 1. Lượt KHÔNG bị trừ.",High,PENDING
+GATE_016,"Quét vé sai trò nhưng đúng khu — nếu chọn ""Cổng chung"" thì hợp lệ",3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, chọn ""Cổng chung (tất cả trò)"".
+5. Gõ mã vé thuộc Khu A dành cho trò ""Đu quay"", nhấn Enter.
+6. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Cổng chung = không kiểm tra trò cụ thể.
+5. Vé thuộc Khu A → đúng khu.
+6. Panel: ✅ ""MỜI VÀO"" nền xanh. Dù vé dành cho trò Đu quay, nhưng ở Cổng chung chỉ cần đúng khu. Lượt trừ 1.",High,PENDING
+GATE_017,Quét mã booking đoàn hợp lệ — hiện MỜI VÀO + thông tin đoàn,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Gõ mã booking đoàn ""BK-20260401-001"" (đoàn Công ty ABC, 50 người, đã vào 30), nhấn Enter.
+6. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Cổng chung.
+5. Mã bắt đầu bằng ""BK-"" → hệ thống xử lý theo luồng booking đoàn.
+6. Panel: ✅ ""MỜI VÀO"" nền xanh + ""🏷️ ĐOÀN: Công ty ABC"". Quota hiện: ""31/50"" (đã tăng 1). Lịch sử: ""✅ ĐOÀN 31/50"". Bộ đếm Hợp lệ tăng 1.",High,PENDING
+GATE_018,Quét booking đoàn đã hết quota — hiện HẾT LƯỢT ĐOÀN,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Gõ mã booking đoàn đã dùng hết quota (VD: 50/50 người đã vào), nhấn Enter.
+6. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Cổng chung.
+5. Booking đã dùng hết quota.
+6. Panel: 🚫 ""HẾT LƯỢT ĐOÀN"" nền đỏ. Bộ đếm Từ chối tăng 1. Quota KHÔNG tăng thêm.",Critical,PENDING
+GATE_019,Quét booking đoàn đã hủy — hiện BOOKING LỖI,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Gõ mã booking đã bị hủy, nhấn Enter.
+6. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Cổng chung.
+5. Booking trạng thái ""Đã hủy"".
+6. Panel: ⚠️ ""BOOKING LỖI"" nền vàng. Thông tin: ""Booking không hợp lệ"". Bộ đếm Từ chối tăng 1.",High,PENDING
+GATE_020,Quét booking đoàn hết hạn — hiện BOOKING LỖI,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn khu vực, Cổng chung.
+5. Gõ mã booking đã hết hạn (ngày đến đã qua), nhấn Enter.
+6. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Cổng chung.
+5. Booking hết hạn.
+6. Panel: ⚠️ ""BOOKING LỖI"" nền vàng. Bộ đếm Từ chối tăng 1.",High,PENDING
+GATE_021,Quét ô trống — không xảy ra gì,1,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Để ô nhập mã vé trống.
+5. Nhấn Enter.
+6. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Ô mã vé trống.
+5. Nhấn Enter.
+6. Không có phản hồi, không hiện lỗi, bộ đếm không đổi. Hệ thống bỏ qua.",Low,PENDING
+GATE_022,Sau quét thành công — ô mã vé tự xóa trắng sẵn sàng quét tiếp,2,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét mã vé hợp lệ ""VE-001"".
+6. Quan sát ô nhập mã sau khi quét.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. MỜI VÀO.
+6. Ô mã vé tự động xóa trắng, con trỏ vẫn nằm trong ô, sẵn sàng quét vé tiếp theo.",Medium,PENDING
+GATE_023,Sau quét thất bại — ô mã vé cũng tự xóa trắng,2,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Quét mã vé sai khu vực hoặc không tồn tại.
+5. Quan sát ô nhập mã sau khi quét.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. SAI KHU VỰC hoặc KHÔNG TÌM THẤY.
+5. Ô mã vé vẫn tự xóa trắng, con trỏ vẫn focus, sẵn sàng quét tiếp.",Medium,PENDING
+GATE_024,Panel kết quả tự quay về trạng thái chờ sau 5 giây,3,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét mã vé hợp lệ. Quan sát panel hiện ""MỜI VÀO"".
+6. Đợi khoảng 5 giây, không thao tác gì.
+7. Quan sát trạng thái panel.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Panel: ✅ MỜI VÀO nền xanh.
+6. Chờ 5 giây.
+7. Panel tự quay về trạng thái ""SẴN SÀNG"" (hoặc reset màu trung tính). Không cần nhân viên thao tác gì.",Medium,PENDING
+GATE_025,Viền chớp (flash border) khi quét hợp lệ — chớp xanh,2,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Quét mã vé hợp lệ.
+5. Quan sát viền panel kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. MỜI VÀO.
+5. Viền panel chớp sáng màu xanh (flash animation) để nhân viên nhìn từ xa cũng nhận biết.",Low,PENDING
+GATE_026,Viền chớp khi quét thất bại — chớp đỏ,2,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Quét mã vé sai khu vực hoặc hết lượt.
+5. Quan sát viền panel.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. SAI KHU VỰC hoặc TỪ CHỐI.
+5. Viền panel chớp sáng màu đỏ.",Low,PENDING
+GATE_027,Lịch sử quét hiển thị đúng thông tin,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét 3 vé: 1 hợp lệ, 1 sai khu, 1 không tìm thấy.
+6. Quan sát bảng lịch sử quét.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Quét 3 vé xong.
+6. Lịch sử hiện 3 dòng (mới nhất ở trên cùng): Giờ quét | Mã vé | Kết quả (✅/⛔/❓). Mỗi dòng hiển thị đúng trạng thái tương ứng.",High,PENDING
+GATE_028,Lịch sử quét tối đa 50 dòng — dòng cũ bị đẩy ra,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét liên tiếp 55 vé (tạo dữ liệu test hoặc quét lặp lại).
+6. Đếm số dòng trong lịch sử quét.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Quét 55 lần.
+6. Lịch sử chỉ giữ tối đa 50 dòng gần nhất. 5 dòng cũ nhất đã bị đẩy ra. Dòng mới nhất ở trên cùng.",Medium,PENDING
+GATE_029,Quét vé có 1 lượt — quét lần 1 hợp lệ — quét lần 2 hết lượt,5,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Chuẩn bị vé VE-ONCE có đúng 1 lượt.
+6. Quét ""VE-ONCE"" lần 1, quan sát.
+7. Quét ""VE-ONCE"" lần 2, quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Vé có 1 lượt.
+6. Lần 1: ✅ MỜI VÀO. Lượt còn: 0.
+7. Lần 2: 🚫 TỪ CHỐI — hết lượt. Lượt = 0, không trừ thêm.",Critical,PENDING
+GATE_030,Đổi khu vực giữa chừng — vé hợp lệ lúc trước giờ sai khu,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, quét vé thuộc Khu A → MỜI VÀO.
+5. Đổi dropdown sang Khu B.
+6. Quét lại cùng loại vé thuộc Khu A.
+7. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Khu A: quét OK.
+5. Đổi sang Khu B.
+6. Quét vé thuộc Khu A tại Khu B.
+7. SAI KHU VỰC. Lượt KHÔNG trừ.",High,PENDING
+GATE_031,Đổi trò chơi giữa chừng — cập nhật dropdown đúng,2,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A. Dropdown Trò chơi hiện danh sách trò Khu A.
+5. Đổi sang Khu B.
+6. Quan sát dropdown Trò chơi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Danh sách trò chơi thuộc Khu A.
+5. Đổi khu vực.
+6. Dropdown Trò chơi tự cập nhật danh sách trò thuộc Khu B (trò Khu A biến mất). Vẫn có ""Cổng chung"" ở đầu.",High,PENDING
+GATE_032,Bật camera webcam — hiện hình trực tiếp,3,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Đảm bảo có camera webcam kết nối vào máy.
+5. Nhấn nút ""Bật Camera"".
+6. Quan sát khu vực hiển thị camera.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Camera đã kết nối.
+5. Nhấn bật camera.
+6. Hình ảnh trực tiếp (live) từ webcam hiện trong ô hình trên màn hình. Hệ thống sẵn sàng quét QR/Barcode tự động.",Medium,PENDING
+GATE_033,Camera tự nhận diện QR — quét và xử lý bình thường,5,E2E,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung. Bật camera.
+5. Đưa vé có mã QR hợp lệ (thuộc Khu A, còn lượt) trước camera.
+6. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Camera bật, hiện hình trực tiếp.
+5. Camera nhận diện mã QR trên vé.
+6. Panel: ✅ MỜI VÀO. Có tiếng beep thành công. Lượt trừ 1. Bộ đếm tăng. Lịch sử cập nhật.",High,PENDING
+GATE_034,Tắt camera — ô hình ẩn đi,2,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Bật camera (đang hiện hình trực tiếp).
+5. Nhấn nút ""Tắt Camera"".
+6. Quan sát.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Camera đang hiện hình.
+5. Nhấn tắt camera.
+6. Camera ngừng hoạt động. Ô hình ẩn đi hoặc hiện màu xám. Hệ thống không còn quét QR tự động.",Medium,PENDING
+GATE_035,Bật camera khi không có webcam — hiện cảnh báo,2,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Đảm bảo KHÔNG có camera webcam kết nối.
+5. Nhấn nút ""Bật Camera"".
+6. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Không có camera.
+5. Nhấn bật camera.
+6. Hiện cảnh báo hoặc thông báo lỗi: ""Không tìm thấy camera"" hoặc tương tự. Không treo, không crash.",Medium,PENDING
+GATE_036,Quét bằng đầu đọc barcode USB — xử lý bình thường,3,E2E,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Kết nối đầu đọc barcode USB vào máy.
+5. Chọn Khu A, Cổng chung.
+6. Dùng đầu đọc quét vé giấy có barcode hợp lệ thuộc Khu A.
+7. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Đầu đọc kết nối.
+5. Chọn xong.
+6. Đầu đọc gửi mã vào ô nhập + tự nhấn Enter.
+7. Hệ thống xử lý quét: ✅ MỜI VÀO (nếu hợp lệ). Ô mã tự xóa. Con trỏ sẵn sàng quét tiếp.",High,PENDING
+GATE_037,Quét từ file ảnh — xử lý bình thường,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Nhấn nút ""Quét từ ảnh"" (nếu có).
+6. Chọn file ảnh QR/Barcode hợp lệ từ máy tính.
+7. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Mở hộp thoại chọn file.
+6. Chọn ảnh QR.
+7. Hệ thống đọc mã từ ảnh, xử lý quét bình thường: MỜI VÀO hoặc SAI KHU VỰC hoặc KHÔNG TÌM THẤY…",Medium,PENDING
+GATE_038,Quét vé hợp lệ — bộ đếm Hợp lệ tăng đúng,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét 5 vé hợp lệ liên tiếp (tạo 5 vé test đều thuộc Khu A còn lượt).
+6. Quan sát bộ đếm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Quét 5 vé xong.
+6. Bộ đếm: Hợp lệ = 5, Từ chối = 0, Tổng = 5.",High,PENDING
+GATE_039,Quét vé thất bại — bộ đếm Từ chối tăng đúng,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét 3 vé thất bại: 1 sai khu, 1 hết lượt, 1 không tồn tại.
+6. Quan sát bộ đếm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. 3 lần quét thất bại.
+6. Bộ đếm: Hợp lệ = 0, Từ chối = 3, Tổng = 3.",High,PENDING
+GATE_040,Quét hỗn hợp hợp lệ + thất bại — bộ đếm chính xác,5,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét 10 vé: 7 hợp lệ + 3 thất bại (sai khu/hết lượt/không tồn tại).
+6. Quan sát bộ đếm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Quét 10 vé.
+6. Bộ đếm: Hợp lệ = 7, Từ chối = 3, Tổng = 10.",High,PENDING
+GATE_041,Quét vé khi chưa chọn khu vực — xử lý mặc định,2,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. KHÔNG đổi dropdown khu vực (giữ mặc định).
+5. Quét mã vé hợp lệ thuộc khu mặc định.
+6. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Khu vực mặc định đã chọn sẵn (khu đầu tiên trong danh sách).
+5. Quét vé.
+6. Hệ thống xử lý theo khu mặc định. Nếu vé đúng khu → MỜI VÀO.",Medium,PENDING
+GATE_042,Thẻ thông tin vé hiện đầy đủ khi quét hợp lệ,3,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét mã vé hợp lệ.
+6. Quan sát thẻ thông tin vé bên phải màn hình.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. MỜI VÀO.
+6. Thẻ thông tin hiện: Tên dịch vụ (VD: Vé Cổng Thiên Đường), Mã vé, Khu vực, Lượt còn lại (đã trừ 1).",High,PENDING
+GATE_043,Thẻ thông tin vé hiện khi quét thất bại (SAI KHU),3,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A.
+5. Quét vé thuộc Khu B.
+6. Quan sát thẻ thông tin.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Khu A.
+5. SAI KHU VỰC.
+6. Thẻ thông tin vẫn hiện: Tên dịch vụ, Mã vé, Khu vực (Khu B), và ghi chú ""Vé không thuộc trạm: Khu A"".",Medium,PENDING
+GATE_044,Quét booking đoàn — hiện tên đoàn + quota,3,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn khu vực, Cổng chung.
+5. Quét mã booking đoàn hợp lệ.
+6. Quan sát thẻ thông tin và lịch sử.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Cổng chung.
+5. MỜI VÀO.
+6. Thẻ hiện: ""🏷️ ĐOÀN: [Tên đoàn]"", quota (VD: 31/50). Lịch sử hiện: ""✅ ĐOÀN 31/50"" (không phải mã vé cá nhân).",High,PENDING
+GATE_045,Quét booking đoàn liên tiếp — quota tăng dần,5,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn khu vực, Cổng chung.
+5. Chuẩn bị booking 50 người, đã vào 30.
+6. Quét mã booking 5 lần liên tiếp.
+7. Quan sát quota mỗi lần.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Cổng chung.
+5. Đoàn 50 người, đã 30.
+6. Quét 5 lần.
+7. Quota tăng: 31/50, 32/50, 33/50, 34/50, 35/50. Mỗi lần hiện MỜI VÀO.",High,PENDING
+GATE_046,Quét booking đoàn đến đúng người cuối cùng — quota full,5,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chuẩn bị booking 3 người, đã vào 2.
+5. Quét lần 1: quota 3/3.
+6. Quét lần 2: vượt quota.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Đoàn 3 người, đã 2.
+5. Lần 1: ✅ MỜI VÀO, quota 3/3 (vừa đủ).
+6. Lần 2: 🚫 HẾT LƯỢT ĐOÀN. Quota vẫn 3/3, không tăng thêm.",Critical,PENDING
+GATE_047,Quét vé khác khu rồi quét đúng khu — bộ đếm chính xác,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét vé sai khu (thuộc Khu B) → SAI KHU VỰC.
+6. Quét vé đúng khu (thuộc Khu A) → MỜI VÀO.
+7. Quan sát bộ đếm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Khu A.
+5. Từ chối = 1.
+6. Hợp lệ = 1.
+7. Bộ đếm: Hợp lệ = 1, Từ chối = 1, Tổng = 2.",Medium,PENDING
+GATE_048,Quét cùng mã liên tiếp nhanh — hệ thống không bị lỗi hoặc trùng xử lý,5,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Chuẩn bị vé có 10 lượt.
+6. Dùng đầu đọc barcode quét mã này liên tiếp 3 lần rất nhanh (< 1 giây).
+7. Quan sát kết quả và lượt.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Vé có 10 lượt.
+6. Quét nhanh 3 lần.
+7. Hệ thống xử lý đúng 3 lần (không trùng, không bỏ sót). Lượt còn = 7. Hợp lệ = 3. Không crash, không treo.",High,PENDING
+GATE_049,Quét mã vé có ký tự đặc biệt — không crash,2,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Gõ ký tự đặc biệt vào ô mã vé (VD: ""!@#$%^&*()""), nhấn Enter.
+5. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Gõ ký tự đặc biệt.
+5. Panel: ❓ KHÔNG TÌM THẤY. Không crash, không lỗi SQL, không exception. Hệ thống xử lý an toàn.",Medium,PENDING
+GATE_050,Quét mã vé rất dài (> 100 ký tự) — không crash,2,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Gõ chuỗi rất dài (hơn 100 ký tự ngẫu nhiên), nhấn Enter.
+5. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Gõ chuỗi dài.
+5. KHÔNG TÌM THẤY. Không crash, không overflow, không lỗi.",Low,PENDING
+GATE_051,Quét mã SQL injection an toàn,3,Security,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Gõ ""'; DROP TABLE VeDienTu;--"" vào ô mã, nhấn Enter.
+5. Quan sát phản hồi.
+6. Quét mã vé bình thường sau đó để đảm bảo hệ thống vẫn hoạt động.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Gõ mã SQL injection.
+5. KHÔNG TÌM THẤY. Hệ thống KHÔNG thực thi câu SQL. Bảng VeDienTu vẫn còn.
+6. Quét bình thường hoạt động tốt. DỮ LIỆU KHÔNG BỊ MẤT.",Critical,PENDING
+GATE_052,Quét vé nhiều lượt — thẻ thông tin cập nhật lượt giảm dần,5,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Chuẩn bị vé VE-MULTI có 5 lượt.
+6. Quét 5 lần liên tiếp, ghi nhận lượt mỗi lần.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. 5 lượt.
+6. Lần 1: Lượt còn 4. Lần 2: 3. Lần 3: 2. Lần 4: 1. Lần 5: 0 (MỜI VÀO lần cuối).",High,PENDING
+GATE_053,Quét vé lần thứ 6 khi đã hết 5 lượt — TỪ CHỐI,3,Logic,Kiểm soát vé,"1. Tiếp tục từ GATE_052.
+2. Quét ""VE-MULTI"" lần thứ 6.
+3. Quan sát kết quả.","1. Vé đã hết lượt (= 0).
+2. Quét lần 6.
+3. 🚫 TỪ CHỐI — hết lượt. Lượt vẫn = 0.",Critical,PENDING
+GATE_054,Quét vé từ 2 khu khác nhau liên tiếp — lịch sử ghi đúng,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, quét 1 vé hợp lệ thuộc Khu A.
+5. Đổi sang Khu B, quét 1 vé hợp lệ thuộc Khu B.
+6. Quan sát lịch sử quét.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Quét Khu A: MỜI VÀO. Lịch sử 1 dòng.
+5. Đổi Khu B + quét: MỜI VÀO. Lịch sử 2 dòng.
+6. Lịch sử có 2 dòng ✅ đúng thời gian và mã vé.",Medium,PENDING
+GATE_055,Camera beep khi nhận diện QR thành công,3,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Bật camera, chọn Khu A, Cổng chung.
+5. Đưa vé có QR trước camera.
+6. Lắng nghe âm thanh.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Camera bật.
+5. Camera nhận diện QR.
+6. Có tiếng beep ngắn khi nhận diện thành công. Không có beep khi chưa nhận được mã.",Medium,PENDING
+GATE_056,Không có quyền truy cập — màn hình bị khóa,2,Security,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản nhân viên KHÔNG có quyền kiểm soát vé (VD: ""thukho01"" / ""123456"").
+3. Nhấn menu ""Kiểm soát vé"".
+4. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Menu ""Kiểm soát vé"" bị ẩn hoặc bị khóa (disabled), hoặc mở form nhưng hiện thông báo ""Bạn không có quyền truy cập chức năng này"".
+4. Không thể quét vé.",High,PENDING
+GATE_057,Quét booking đoàn chưa xác nhận (chưa xuất vé) — vẫn cho quét cổng?,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn khu vực, Cổng chung.
+5. Gõ mã booking đoàn chưa được xác nhận tại Lễ tân (trạng thái chưa ""DaXuatVe"").
+6. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Cổng chung.
+5. Booking chưa xác nhận.
+6. Hệ thống kiểm tra trạng thái booking. Nếu chưa xác nhận → ⚠️ BOOKING LỖI hoặc MỜI VÀO (tùy quy tắc nghiệp vụ).",Medium,PENDING
+GATE_058,Quét mã vé chỉ có khoảng trắng — không xử lý,2,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Gõ ""   "" (3 khoảng trắng) vào ô mã vé, nhấn Enter.
+5. Quan sát phản hồi.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Gõ khoảng trắng.
+5. Hệ thống bỏ qua (coi như trống) hoặc hiện KHÔNG TÌM THẤY. Không crash.",Low,PENDING
+GATE_059,Quét vé trùng mã trong lịch sử — ghi 2 dòng riêng biệt,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét ""VE-001"" lần 1 (MỜI VÀO).
+6. Quét ""VE-001"" lần 2 (MỜI VÀO hoặc hết lượt).
+7. Quan sát lịch sử.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Lần 1: dòng lịch sử ✅.
+6. Lần 2: dòng lịch sử ✅ hoặc 🚫 (tùy còn lượt).
+7. Lịch sử có 2 dòng riêng biệt, mỗi dòng có thời gian khác nhau. Không gộp.",Medium,PENDING
+GATE_060,Kiểm tra hiệu năng — quét 100 vé liên tiếp không bị chậm,10,Performance,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Dùng đầu đọc barcode hoặc gõ tay, quét liên tiếp 100 vé (có thể lặp lại cùng mã để test).
+6. Quan sát tốc độ phản hồi và hiệu năng.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Quét 100 lần.
+6. Mỗi lần quét phản hồi trong vòng 1 giây. Không bị chậm dần (memory leak). Không crash, không treo. Lịch sử giữ đúng 50 dòng gần nhất (không phình lên 100).",Medium,PENDING
+GATE_061,Đổi khu vực — bộ đếm KHÔNG reset,2,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, quét 3 vé hợp lệ.
+5. Đổi sang Khu B.
+6. Quan sát bộ đếm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Hợp lệ = 3.
+5. Đổi Khu B.
+6. Bộ đếm vẫn giữ giá trị cũ (Hợp lệ = 3), KHÔNG reset về 0 khi đổi khu.",Medium,PENDING
+GATE_062,Quét vé khi mạng bị ngắt — xử lý lỗi kết nối,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop (đã đăng nhập).
+2. Nhấn menu ""Kiểm soát vé"".
+3. Ngắt kết nối mạng (rút cable hoặc tắt Wi-Fi).
+4. Quét mã vé bất kỳ.
+5. Quan sát phản hồi.","1. Phần mềm đã mở.
+2. Màn hình Kiểm soát vé hiển thị.
+3. Mạng bị ngắt.
+4. Quét mã.
+5. Hiện thông báo lỗi kết nối: ""Không thể kết nối đến máy chủ"" hoặc tương tự. Không crash, không treo vô hạn. Có thể retry sau khi nối mạng lại.",Medium,PENDING
+GATE_063,Quét booking ""BK-"" viết hoa khác thường (VD: bk-xxx Bk-xxx) — vẫn nhận,2,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Gõ ""bk-20260401-001"" (chữ thường), nhấn Enter.
+5. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Gõ ""bk-"" viết thường.
+5. Hệ thống nhận diện ""bk-"" không phân biệt hoa thường → xử lý theo luồng booking đoàn. Kết quả giống như nhập ""BK-"".",Medium,PENDING
+GATE_064,Quét vé bằng gõ tay khi không có scanner — hoạt động bình thường,2,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. KHÔNG kết nối đầu đọc barcode. Không bật camera.
+5. Chọn Khu A, Cổng chung.
+6. Dùng bàn phím gõ mã vé hợp lệ, nhấn Enter.
+7. Quan sát kết quả.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Không có thiết bị quét.
+5. Chọn xong.
+6. Gõ tay mã vé.
+7. MỜI VÀO (nếu hợp lệ). Chức năng hoạt động bình thường dù không có scanner — gõ tay là phương án dự phòng.",High,PENDING
+GATE_065,Quét nhiều vé khác nhau — thẻ thông tin cập nhật theo vé mới nhất,3,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét vé ""VE-A1"" (dịch vụ Cổng Thiên Đường, 3 lượt).
+6. Quét vé ""VE-A2"" (dịch vụ Đu Quay, 1 lượt).
+7. Quan sát thẻ thông tin.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Thẻ hiện: Cổng Thiên Đường, VE-A1, lượt 2.
+6. Thẻ CẬP NHẬT: Đu Quay, VE-A2, lượt 0.
+7. Thẻ thông tin luôn hiện vé mới nhất vừa quét, không giữ thông tin cũ.",Medium,PENDING
+GATE_066,Quét vé khi form đang hiện kết quả cũ (trong 5 giây chờ) — kết quả mới thay thế,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét vé hợp lệ → MỜI VÀO (nền xanh).
+6. Trong vòng 2 giây (chưa hết 5 giây chờ), quét vé sai khu → SAI KHU VỰC.
+7. Quan sát panel.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Panel: xanh MỜI VÀO.
+6. Panel: NGAY LẬP TỨC đổi sang đỏ SAI KHU VỰC (không chờ hết 5 giây mới cho quét). Timer auto-reset lại.
+7. Kết quả mới thay thế kết quả cũ ngay lập tức.",High,PENDING
+GATE_067,Quét vé Combo (chứa nhiều dịch vụ) — hiện đúng tên dịch vụ trên vé,3,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Chọn Khu A, Cổng chung.
+5. Quét vé điện tử sinh ra từ Combo (VD: Combo Gia Đình gồm Vé Cổng + Vé Trò chơi).
+6. Quan sát thẻ thông tin.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Chọn xong.
+5. Quét vé Combo.
+6. Thẻ hiện tên dịch vụ cụ thể của vé đó (VD: ""Vé Cổng Thiên Đường"") chứ không hiện tên Combo. Mỗi vé trong Combo có mã riêng, xử lý riêng.",Medium,PENDING
+GATE_068,Kiểm tra màn hình hiển thị tốt trên độ phân giải 1920x1080,3,UI,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop trên màn hình 1920x1080.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"".
+4. Quan sát bố cục.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Màn hình Kiểm soát vé hiển thị.
+4. Tất cả control hiển thị đầy đủ, không bị cắt, không tràn. Panel kết quả đủ lớn để nhìn từ xa. Chữ rõ ràng.",Low,PENDING
+GATE_069,Kiểm tra màn hình trên độ phân giải 1366x768 (laptop cũ),3,UI,Kiểm soát vé,"1. Mở phần mềm trên laptop có độ phân giải 1366x768.
+2. Đăng nhập.
+3. Nhấn menu ""Kiểm soát vé"".
+4. Quan sát bố cục.","1. Đăng nhập thành công.
+2. Màn hình Kiểm soát vé mở.
+3. Kiểm tra.
+4. Tất cả control hiển thị đầy đủ, có thể cần cuộn nhưng không bị ẩn phần quan trọng (panel kết quả, ô quét mã, bộ đếm).",Low,PENDING
+GATE_070,Đóng và mở lại form — bộ đếm reset về 0,2,Logic,Kiểm soát vé,"1. Mở phần mềm Quản lý Công viên Đại Nam từ desktop.
+2. Đăng nhập bằng tài khoản ""congvien01"" / ""123456"".
+3. Nhấn menu ""Kiểm soát vé"". Quét 3 vé (bộ đếm = 3).
+4. Đóng màn hình Kiểm soát vé (nhấn X hoặc chuyển menu khác).
+5. Mở lại ""Kiểm soát vé"".
+6. Quan sát bộ đếm.","1. Phần mềm khởi động thành công.
+2. Đăng nhập thành công.
+3. Bộ đếm = 3.
+4. Đóng form.
+5. Mở lại.
+6. Bộ đếm reset về 0. Lịch sử quét trống. Form bắt đầu phiên mới.",Medium,PENDING
+GATE_071,Nhãn verdict badge hiện HỢP LỆ nền xanh khi quét thành công,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A, Cổng chung.
+3. Quét vé hợp lệ.
+4. Quan sát badge verdict trên thẻ thông tin.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. MỜI VÀO.
+4. Badge verdict hiện ""HỢP LỆ"" với nền xanh lá (Green), chữ trắng.",Low,PENDING
+GATE_072,Nhãn verdict badge hiện SAI KHU nền vàng khi quét sai khu,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A.
+3. Quét vé thuộc Khu B.
+4. Quan sát badge verdict.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. SAI KHU VỰC.
+4. Badge verdict hiện ""SAI KHU"" với nền vàng amber, chữ trắng.",Low,PENDING
+GATE_073,Nhãn verdict badge hiện HẾT LƯỢT nền đỏ khi vé hết,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A, Cổng chung.
+3. Quét vé hết lượt.
+4. Quan sát badge verdict.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. TỪ CHỐI.
+4. Badge verdict hiện ""HẾT LƯỢT"" nền đỏ, chữ trắng.",Low,PENDING
+GATE_074,Nhãn verdict badge hiện N/A khi quét mã không tồn tại,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"".
+3. Quét mã không tồn tại.
+4. Quan sát badge verdict.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. KHÔNG TÌM THẤY.
+4. Badge verdict hiện ""N/A"" nền xám. Thẻ thông tin bị xóa trắng (----).",Low,PENDING
+GATE_075,Thẻ thông tin hiện ngày mua vé khi quét hợp lệ,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A, Cổng chung.
+3. Quét vé hợp lệ (biết ngày mua = 01/04/2026).
+4. Quan sát trường ngày mua trên thẻ.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. MỜI VÀO.
+4. Thẻ hiện ""📅 01/04/2026 HH:mm"" (ngày mua đúng).",Low,PENDING
+GATE_076,Tiêu đề thanh header hiện tên khu vực đang gác,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"".
+3. Chọn ""Khu Biển"" ở dropdown.
+4. Quan sát tiêu đề header.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Chọn Khu Biển.
+4. Tiêu đề header (lblGateTitle) hiện tên khu vực ""Khu Biển"" hoặc tên cổng.",Medium,PENDING
+GATE_077,Chọn khu vực không có trò chơi nào — dropdown chỉ có Cổng chung,2,Logic,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"".
+3. Chọn khu vực chưa có trò chơi nào.
+4. Quan sát dropdown Trò chơi.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Chọn khu trống.
+4. Dropdown Trò chơi chỉ có 1 mục: ""-- Cổng chung (tất cả trò) --"". Không có trò nào khác. Hệ thống không lỗi.",Medium,PENDING
+GATE_078,Timer reset panel — sau khi quét thất bại cũng reset sau 5 giây,3,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A.
+3. Quét vé sai khu → SAI KHU VỰC (nền đỏ).
+4. Chờ 5 giây, không thao tác.
+5. Quan sát panel.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Panel đỏ.
+4. Chờ 5 giây.
+5. Panel tự reset về ""SẴN SÀNG"" (nền trung tính). Timer hoạt động cho cả thành công và thất bại.",Medium,PENDING
+GATE_079,Viền chớp vàng khi quét sai trò chơi,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A, chọn trò cụ thể.
+3. Quét vé sai trò (đúng khu nhưng sai trò).
+4. Quan sát viền.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. SAI TRÒ CHƠI.
+4. Viền chớp vàng (amber), không phải đỏ. Phân biệt rõ với SAI KHU VỰC (viền đỏ).",Low,PENDING
+GATE_080,Quét vé khi đang bật camera + gõ tay song song — không conflict,3,Logic,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Bật camera.
+3. Chọn Khu A, Cổng chung.
+4. Gõ mã vé hợp lệ vào ô scan bằng bàn phím, nhấn Enter.
+5. Quan sát kết quả.","1. Đăng nhập thành công.
+2. Camera bật.
+3. Chọn xong.
+4. Gõ tay mã vé.
+5. MỜI VÀO. Camera vẫn chạy. Hai phương thức quét (camera + gõ tay) hoạt động độc lập, không xung đột.",Medium,PENDING
+GATE_081,Camera quét lúc nhân viên đang gõ tay — xử lý camera ưu tiên,5,Logic,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Bật camera. Chọn Khu A.
+3. Bắt đầu gõ TỪ TỪ 1 mã vé bằng tay (chưa nhấn Enter).
+4. Đồng thời đưa vé QR trước camera → camera quét xong trước.
+5. Quan sát kết quả.","1. Đăng nhập thành công.
+2. Camera bật.
+3. Đang gõ dang dở.
+4. Camera nhận QR → ProcessScan chạy.
+5. Panel hiện kết quả từ vé QR (camera). Ô gõ tay vẫn giữ ký tự đã gõ. Không crash.",Medium,PENDING
+GATE_082,Lịch sử quét hiện giờ chính xác theo đồng hồ máy,2,Logic,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A, Cổng chung.
+3. Ghi nhận giờ hiện tại trên đồng hồ máy tính (VD: 14:30:15).
+4. Quét 1 vé hợp lệ.
+5. Quan sát cột giờ trong lịch sử.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Giờ máy = 14:30:15.
+4. Quét vé.
+5. Lịch sử hiện dòng mới với giờ ""14:30:15"" (hoặc sai lệch ≤ 1 giây). Format: HH:mm:ss.",Low,PENDING
+GATE_083,Lịch sử quét — dòng mới nhất luôn ở trên cùng,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A.
+3. Quét vé A (14:30). Quét vé B (14:31). Quét vé C (14:32).
+4. Quan sát thứ tự dòng trong lịch sử.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Quét 3 vé.
+4. Dòng trên cùng = vé C (14:32), dòng 2 = vé B (14:31), dòng 3 = vé A (14:30). Mới nhất ở trên.",Medium,PENDING
+GATE_084,Lịch sử quét — màu chữ đúng theo trạng thái (xanh/đỏ/xám),2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A.
+3. Quét 1 vé hợp lệ, 1 sai khu, 1 không tìm thấy.
+4. Quan sát màu chữ mỗi dòng lịch sử.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Quét 3 vé.
+4. Dòng hợp lệ = chữ xanh lá. Dòng sai khu = chữ vàng cam. Dòng KHÔNG TÌM THẤY = chữ xám. Mỗi dòng có màu khác nhau để phân biệt nhanh.",Medium,PENDING
+GATE_085,Icon trạng thái panel đổi theo kết quả quét,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A.
+3. Quét vé hợp lệ → quan sát icon.
+4. Quét vé sai khu → quan sát icon.
+5. Quét mã không tồn tại → quan sát icon.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Icon: ✅ (CheckCircle) xanh.
+4. Icon: 📍 (MapMarker) đỏ.
+5. Icon: ❓ (QuestionCircle) xám. Mỗi trạng thái có icon khác nhau.",Low,PENDING
+GATE_086,Panel hiện subtitle chi tiết khi quét hết lượt,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A.
+3. Quét vé hết lượt (VD: ""Vé Cổng Thiên Đường"").
+4. Quan sát subtitle trên panel.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Vé hết lượt.
+4. Subtitle hiện: ""Vé Cổng Thiên Đường — hết lượt"" (tên dịch vụ + ""hết lượt"").",Low,PENDING
+GATE_087,Panel hiện subtitle trong trường hợp SAI TRÒ CHƠI,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A, chọn trò ""Tàu lượn"".
+3. Quét vé dành cho ""Đu quay"" (thuộc Khu A).
+4. Quan sát subtitle.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. SAI TRÒ CHƠI.
+4. Subtitle hiện: ""Vé: [Tên dịch vụ] — Trạm: Tàu lượn"". Cho nhân viên biết vé này dành cho trò nào, trạm đang gác là gì.",Medium,PENDING
+GATE_088,Panel hiện subtitle trong trường hợp SAI KHU VỰC,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A.
+3. Quét vé thuộc Khu B.
+4. Quan sát subtitle.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. SAI KHU VỰC.
+4. Subtitle: ""Vé không thuộc trạm: Khu A"". Rõ ràng nhân viên đang gác khu nào.",Medium,PENDING
+GATE_089,Quét booking đoàn — lịch sử hiện ĐOÀN quota thay vì emoji vé cá nhân,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A, Cổng chung.
+3. Quét mã booking đoàn hợp lệ (VD: quota 31/50).
+4. Quan sát lịch sử.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. MỜI VÀO.
+4. Lịch sử hiện: ""✅ ĐOÀN 31/50"" (không phải ""✅ HỢP LỆ""). Phân biệt rõ vé cá nhân vs đoàn.",Medium,PENDING
+GATE_090,Quét booking đoàn hết quota — lịch sử hiện ĐOÀN HẾT VÉ,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn khu vực.
+3. Quét booking đoàn đã full quota.
+4. Quan sát lịch sử.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. HẾT LƯỢT ĐOÀN.
+4. Lịch sử hiện: ""🚫 ĐOÀN HẾT VÉ"" (chữ đỏ).",Medium,PENDING
+GATE_091,Quét booking lỗi — lịch sử hiện BK LỖI,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn khu vực.
+3. Quét booking đã hủy hoặc hết hạn.
+4. Quan sát lịch sử.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. BOOKING LỖI.
+4. Lịch sử hiện: ""⚠️ BK LỖI"" (chữ vàng cam).",Medium,PENDING
+GATE_092,Quét booking đoàn — thẻ thông tin hiện HẾT QUOTA khi đã full,3,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn khu vực.
+3. Quét booking đoàn đã full quota.
+4. Quan sát thẻ thông tin vé bên phải.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. HẾT LƯỢT ĐOÀN.
+4. Thẻ thông tin hiện: Tên đoàn, Mã booking, Khu vực, Lượt = ""0"". Badge: ""HẾT QUOTA"" nền đỏ.",Medium,PENDING
+GATE_093,Font chữ panel kết quả đủ lớn nhìn từ xa (28pt),2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"".
+3. Quét vé hợp lệ.
+4. Đứng cách màn hình 2 mét, quan sát chữ MỜI VÀO.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. MỜI VÀO.
+4. Chữ ""MỜI VÀO"" đủ lớn (font 28pt Bold) để nhìn rõ từ khoảng cách 2 mét. Nhân viên gác cổng không cần ngồi sát màn hình.",Low,PENDING
+GATE_094,Font Consolas cho lịch sử quét — dễ đọc monospace,1,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"".
+3. Quét 3 vé.
+4. Quan sát font chữ lịch sử.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Quét 3 vé.
+4. Font lịch sử là Consolas (monospace), các cột giờ | mã | trạng thái thẳng hàng đều nhau.",Low,PENDING
+GATE_095,Ô scanner ẩn (invisible) chạy nền cho đầu đọc barcode USB,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"".
+3. Quan sát xem có thấy ô scanner ẩn trên giao diện không.
+4. Kết nối đầu đọc barcode, quét mã.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. KHÔNG thấy ô scanner (vì ẩn, font 1pt, đồng màu nền). Chỉ có ô scan demo nhìn thấy.
+4. Đầu đọc quét → mã gửi vào ô ẩn → Enter tự động → ProcessScan chạy. Kết quả hiện bình thường.",Low,PENDING
+GATE_096,Khu vực hiển thị đúng theo TenKhuVuc từ DB,2,Logic,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"".
+3. Dropdown Khu vực hiện thị.
+4. So sánh tên khu với DB bảng KhuVuc.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Tên khu vực hiện đúng theo trường TenKhuVuc trong CSDL.
+4. Không hard-code, không sai chính tả.",Low,PENDING
+GATE_097,Quét vé sai trò nhưng chọn Cổng chung — lượt BỊ TRỪ (vì hợp lệ),3,Logic,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A, Cổng chung.
+3. Ghi nhận lượt vé = 3.
+4. Quét vé dành cho trò Đu quay (thuộc Khu A).
+5. Kiểm tra lượt.","1. Đăng nhập thành công.
+2. Cổng chung = không check trò.
+3. Lượt = 3.
+4. MỜI VÀO (đúng khu → cho qua).
+5. Lượt = 2 (bị trừ vì quét hợp lệ tại Cổng chung).",High,PENDING
+GATE_098,Quét vé sai trò khi chọn trò cụ thể — lượt KHÔNG trừ,3,Logic,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn Khu A, chọn trò Tàu lượn.
+3. Ghi nhận lượt vé dành cho Đu quay = 3.
+4. Quét vé Đu quay → SAI TRÒ CHƠI.
+5. Kiểm tra lượt.","1. Đăng nhập thành công.
+2. Chọn trò cụ thể.
+3. Lượt = 3.
+4. SAI TRÒ CHƠI.
+5. Lượt vẫn = 3 (KHÔNG trừ vì quét thất bại).",High,PENDING
+GATE_099,Bộ đếm format đúng hiển thị emoji,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"".
+3. Quét 5 hợp lệ + 2 thất bại.
+4. Quan sát format bộ đếm.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Quét 7 lần.
+4. Bộ đếm format: ""✅ Hợp lệ: 5     ❌ Từ chối: 2     📊 Tổng quét: 7"". Có emoji ✅❌📊 và khoảng cách rõ ràng.",Low,PENDING
+GATE_100,Dark theme toàn bộ — nền tối mắt dễ chịu ban đêm,2,UI,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"".
+3. Quan sát màu nền tổng thể.","1. Đăng nhập thành công.
+2. Màn hình mở.
+3. Nền tổng thể là màu tối (dark theme ~18,18,24). Tất cả card/panel nền xám đậm. Chữ sáng. Dễ nhìn trong môi trường ánh sáng yếu (cabin cổng).",Low,PENDING
+GATE_101,Quét XSS script tag — không crash không execute,3,Security,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"".
+3. Gõ ""<script>alert(1)</script>"" vào ô mã vé, nhấn Enter.
+4. Quan sát.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Gõ script tag.
+4. KHÔNG TÌM THẤY. Không execute JavaScript (WinForms). Không crash.",Medium,PENDING
+GATE_102,Quét vé Unicode tiếng Việt — không crash,2,Logic,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"".
+3. Gõ ""VÉ-NGƯỜI-LỚN-001"" (có dấu tiếng Việt), nhấn Enter.
+4. Quan sát.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Gõ mã có dấu.
+4. Tìm thấy vé (nếu tồn tại) hoặc KHÔNG TÌM THẤY. Xử lý Unicode bình thường, không crash.",Low,PENDING
+GATE_103,Camera bật rồi đóng form — camera tự tắt không leak resource,3,Logic,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Bật camera.
+3. Đóng form (nhấn X hoặc chuyển menu khác).
+4. Quan sát: camera webcam còn sáng đèn không?","1. Đăng nhập thành công.
+2. Camera bật.
+3. Đóng form.
+4. Camera tắt (đèn webcam tắt). Không leak tài nguyên. Nếu mở lại form, camera ở trạng thái tắt.",Medium,PENDING
+GATE_104,Quét 2 booking đoàn khác nhau liên tiếp — quota đúng cho từng đoàn,5,Logic,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"". Chọn khu vực, Cổng chung.
+3. Quét booking A (50 người, đã 30) → MỜI VÀO, quota 31/50.
+4. Quét booking B (20 người, đã 0) → MỜI VÀO, quota 1/20.
+5. Quan sát lịch sử.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Đoàn A: quota 31/50.
+4. Đoàn B: quota 1/20 (không phải 32/50).
+5. Lịch sử 2 dòng: ĐOÀN 31/50 và ĐOÀN 1/20. Mỗi đoàn tính quota riêng.",High,PENDING
+GATE_105,Quét file ảnh không phải QR — hiện thông báo không nhận diện,3,Logic,Kiểm soát vé,"1. Mở phần mềm. Đăng nhập ""congvien01"" / ""123456"".
+2. Nhấn menu ""Kiểm soát vé"".
+3. Nhấn ""Quét từ ảnh"".
+4. Chọn file ảnh thường (ảnh phong cảnh, không có QR/Barcode).
+5. Quan sát phản hồi.","1. Đăng nhập thành công.
+2. Màn hình hiển thị.
+3. Mở hộp thoại chọn file.
+4. Chọn ảnh không có mã.
+5. Hiện thông báo: ""Không nhận diện được mã trên ảnh"" hoặc tương tự. Không crash.",Medium,PENDING

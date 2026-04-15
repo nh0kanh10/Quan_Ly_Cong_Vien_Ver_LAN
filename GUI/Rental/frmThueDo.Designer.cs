@@ -53,8 +53,8 @@ namespace GUI
             this.txtMaDonHang = new Guna.UI2.WinForms.Guna2TextBox();
             this.txtRfidTra = new Guna.UI2.WinForms.Guna2TextBox();
             this.pnlActionTra = new System.Windows.Forms.Panel();
-            this.btnXacNhanTra = new Guna.UI2.WinForms.Guna2Button();
             this.btnTraDu = new Guna.UI2.WinForms.Guna2Button();
+            this.btnXacNhanTra = new Guna.UI2.WinForms.Guna2Button();
             this.gridControlDangThue = new DevExpress.XtraGrid.GridControl();
             this.gridViewDangThue = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.pnlHeader.SuspendLayout();
@@ -206,7 +206,7 @@ namespace GUI
             this.splitGiaoDo.Panel2.Controls.Add(this.pnlTongTien);
             this.splitGiaoDo.ShowSplitGlyph = DevExpress.Utils.DefaultBoolean.True;
             this.splitGiaoDo.Size = new System.Drawing.Size(1407, 681);
-            this.splitGiaoDo.SplitterPosition = 618;
+            this.splitGiaoDo.SplitterPosition = 620;
             this.splitGiaoDo.TabIndex = 0;
             // 
             // txtTimKiem
@@ -221,7 +221,7 @@ namespace GUI
             this.txtTimKiem.Name = "txtTimKiem";
             this.txtTimKiem.PlaceholderText = "🔍 Tìm sản phẩm cho thuê...";
             this.txtTimKiem.SelectedText = "";
-            this.txtTimKiem.Size = new System.Drawing.Size(618, 53);
+            this.txtTimKiem.Size = new System.Drawing.Size(620, 53);
             this.txtTimKiem.TabIndex = 1;
             this.txtTimKiem.TextChanged += new System.EventHandler(this.txtTimKiem_TextChanged);
             // 
@@ -231,7 +231,7 @@ namespace GUI
             this.gridControlSanPham.Location = new System.Drawing.Point(0, 0);
             this.gridControlSanPham.MainView = this.gridViewSanPham;
             this.gridControlSanPham.Name = "gridControlSanPham";
-            this.gridControlSanPham.Size = new System.Drawing.Size(618, 681);
+            this.gridControlSanPham.Size = new System.Drawing.Size(620, 681);
             this.gridControlSanPham.TabIndex = 0;
             this.gridControlSanPham.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewSanPham});
@@ -253,7 +253,7 @@ namespace GUI
             this.gridControlGioHang.Location = new System.Drawing.Point(0, 138);
             this.gridControlGioHang.MainView = this.gridViewGioHang;
             this.gridControlGioHang.Name = "gridControlGioHang";
-            this.gridControlGioHang.Size = new System.Drawing.Size(779, 335);
+            this.gridControlGioHang.Size = new System.Drawing.Size(777, 335);
             this.gridControlGioHang.TabIndex = 3;
             this.gridControlGioHang.ViewCollection.AddRange(new DevExpress.XtraGrid.Views.Base.BaseView[] {
             this.gridViewGioHang});
@@ -276,7 +276,7 @@ namespace GUI
             this.pnlKhachHangGiao.Location = new System.Drawing.Point(0, 0);
             this.pnlKhachHangGiao.Name = "pnlKhachHangGiao";
             this.pnlKhachHangGiao.Padding = new System.Windows.Forms.Padding(9);
-            this.pnlKhachHangGiao.Size = new System.Drawing.Size(779, 138);
+            this.pnlKhachHangGiao.Size = new System.Drawing.Size(777, 138);
             this.pnlKhachHangGiao.TabIndex = 2;
             // 
             // lblSoDuVi
@@ -313,7 +313,7 @@ namespace GUI
             this.txtRfidGiao.Name = "txtRfidGiao";
             this.txtRfidGiao.PlaceholderText = "Quẹt vòng RFID khách hàng...";
             this.txtRfidGiao.SelectedText = "";
-            this.txtRfidGiao.Size = new System.Drawing.Size(761, 51);
+            this.txtRfidGiao.Size = new System.Drawing.Size(759, 51);
             this.txtRfidGiao.TabIndex = 2;
             this.txtRfidGiao.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRfidGiao_KeyDown);
             // 
@@ -330,7 +330,7 @@ namespace GUI
             this.pnlTongTien.Location = new System.Drawing.Point(0, 473);
             this.pnlTongTien.Name = "pnlTongTien";
             this.pnlTongTien.Padding = new System.Windows.Forms.Padding(9);
-            this.pnlTongTien.Size = new System.Drawing.Size(779, 208);
+            this.pnlTongTien.Size = new System.Drawing.Size(777, 208);
             this.pnlTongTien.TabIndex = 1;
             // 
             // btnHuyGiao
@@ -340,7 +340,7 @@ namespace GUI
             this.btnHuyGiao.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.btnHuyGiao.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.btnHuyGiao.ForeColor = System.Drawing.Color.White;
-            this.btnHuyGiao.Location = new System.Drawing.Point(194, 167);
+            this.btnHuyGiao.Location = new System.Drawing.Point(192, 167);
             this.btnHuyGiao.Name = "btnHuyGiao";
             this.btnHuyGiao.Size = new System.Drawing.Size(569, 35);
             this.btnHuyGiao.TabIndex = 0;
@@ -354,7 +354,7 @@ namespace GUI
             this.btnThanhToanTienMat.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(158)))), ((int)(((byte)(11)))));
             this.btnThanhToanTienMat.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
             this.btnThanhToanTienMat.ForeColor = System.Drawing.Color.White;
-            this.btnThanhToanTienMat.Location = new System.Drawing.Point(480, 117);
+            this.btnThanhToanTienMat.Location = new System.Drawing.Point(478, 117);
             this.btnThanhToanTienMat.Name = "btnThanhToanTienMat";
             this.btnThanhToanTienMat.Size = new System.Drawing.Size(283, 43);
             this.btnThanhToanTienMat.TabIndex = 1;
@@ -368,7 +368,7 @@ namespace GUI
             this.btnThanhToanRfid.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
             this.btnThanhToanRfid.Font = new System.Drawing.Font("Segoe UI", 13F, System.Drawing.FontStyle.Bold);
             this.btnThanhToanRfid.ForeColor = System.Drawing.Color.White;
-            this.btnThanhToanRfid.Location = new System.Drawing.Point(191, 118);
+            this.btnThanhToanRfid.Location = new System.Drawing.Point(189, 118);
             this.btnThanhToanRfid.Name = "btnThanhToanRfid";
             this.btnThanhToanRfid.Size = new System.Drawing.Size(283, 43);
             this.btnThanhToanRfid.TabIndex = 2;
@@ -380,7 +380,7 @@ namespace GUI
             this.lblTongCong.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTongCong.Font = new System.Drawing.Font("Segoe UI", 18F, System.Drawing.FontStyle.Bold);
             this.lblTongCong.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(220)))), ((int)(((byte)(38)))), ((int)(((byte)(38)))));
-            this.lblTongCong.Location = new System.Drawing.Point(463, 72);
+            this.lblTongCong.Location = new System.Drawing.Point(461, 72);
             this.lblTongCong.Name = "lblTongCong";
             this.lblTongCong.Size = new System.Drawing.Size(300, 35);
             this.lblTongCong.TabIndex = 3;
@@ -392,7 +392,7 @@ namespace GUI
             this.lblTongCoc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTongCoc.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold);
             this.lblTongCoc.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(158)))), ((int)(((byte)(11)))));
-            this.lblTongCoc.Location = new System.Drawing.Point(463, 40);
+            this.lblTongCoc.Location = new System.Drawing.Point(461, 40);
             this.lblTongCoc.Name = "lblTongCoc";
             this.lblTongCoc.Size = new System.Drawing.Size(300, 25);
             this.lblTongCoc.TabIndex = 4;
@@ -404,7 +404,7 @@ namespace GUI
             this.lblTongThue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.lblTongThue.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.lblTongThue.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(65)))), ((int)(((byte)(85)))));
-            this.lblTongThue.Location = new System.Drawing.Point(463, 10);
+            this.lblTongThue.Location = new System.Drawing.Point(461, 10);
             this.lblTongThue.Name = "lblTongThue";
             this.lblTongThue.Size = new System.Drawing.Size(300, 25);
             this.lblTongThue.TabIndex = 5;
@@ -609,7 +609,6 @@ namespace GUI
             this.txtRfidTra.TabIndex = 5;
             this.txtRfidTra.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtRfidTra_KeyDown);
             // 
-            // 
             // pnlActionTra
             // 
             this.pnlActionTra.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(241)))), ((int)(((byte)(245)))), ((int)(((byte)(249)))));
@@ -621,19 +620,6 @@ namespace GUI
             this.pnlActionTra.Padding = new System.Windows.Forms.Padding(9);
             this.pnlActionTra.Size = new System.Drawing.Size(797, 61);
             this.pnlActionTra.TabIndex = 1;
-            // 
-            // btnXacNhanTra
-            // 
-            this.btnXacNhanTra.BorderRadius = 10;
-            this.btnXacNhanTra.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
-            this.btnXacNhanTra.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.btnXacNhanTra.ForeColor = System.Drawing.Color.White;
-            this.btnXacNhanTra.Location = new System.Drawing.Point(9, 9);
-            this.btnXacNhanTra.Name = "btnXacNhanTra";
-            this.btnXacNhanTra.Size = new System.Drawing.Size(419, 43);
-            this.btnXacNhanTra.TabIndex = 1;
-            this.btnXacNhanTra.Text = "XÁC NHẬN THU HỒI ĐỒ";
-            this.btnXacNhanTra.Click += new System.EventHandler(this.btnXacNhanTra_Click);
             // 
             // btnTraDu
             // 
@@ -647,6 +633,19 @@ namespace GUI
             this.btnTraDu.TabIndex = 2;
             this.btnTraDu.Text = "TRẢ ĐỦ (F12)";
             this.btnTraDu.Click += new System.EventHandler(this.btnTraDu_Click);
+            // 
+            // btnXacNhanTra
+            // 
+            this.btnXacNhanTra.BorderRadius = 10;
+            this.btnXacNhanTra.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
+            this.btnXacNhanTra.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.btnXacNhanTra.ForeColor = System.Drawing.Color.White;
+            this.btnXacNhanTra.Location = new System.Drawing.Point(9, 9);
+            this.btnXacNhanTra.Name = "btnXacNhanTra";
+            this.btnXacNhanTra.Size = new System.Drawing.Size(419, 43);
+            this.btnXacNhanTra.TabIndex = 1;
+            this.btnXacNhanTra.Text = "XÁC NHẬN THU HỒI ĐỒ";
+            this.btnXacNhanTra.Click += new System.EventHandler(this.btnXacNhanTra_Click);
             // 
             // gridControlDangThue
             // 

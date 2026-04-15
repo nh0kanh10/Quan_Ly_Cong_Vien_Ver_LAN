@@ -626,17 +626,17 @@ namespace GUI
         }
         #endregion
 
-        // === Outer Split ===
+        //  Outer Split 
         private DevExpress.XtraEditors.SplitContainerControl splitOuter;
 
-        // === Left: Combo List ===
+        //  Left: Combo List 
         private Guna.UI2.WinForms.Guna2Panel pnlComboList;
         private Guna.UI2.WinForms.Guna2GroupBox gbComboList;
         protected internal DevExpress.XtraGrid.GridControl gridControl;
         protected internal DevExpress.XtraGrid.Views.Grid.GridView gridView;
         private Guna.UI2.WinForms.Guna2TextBox txtTimKiem;
 
-        // === Right: Builder ===
+        //  Right: Builder 
         private Guna.UI2.WinForms.Guna2Panel pnlBuilder;
 
         // Header

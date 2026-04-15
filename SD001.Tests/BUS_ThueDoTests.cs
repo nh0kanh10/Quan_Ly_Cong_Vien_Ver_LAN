@@ -75,7 +75,7 @@ namespace SD001.Tests
             };
             
             _mockDonHangGw.Setup(g => g.ThemVaLayId(It.IsAny<ET_DonHang>())).Returns(100);
-            _mockPhieuThuGw.Setup(g => g.Them(It.IsAny<ET_PhieuThu>())).Returns(true);
+            _mockPhieuThuGw.Setup(g => g.ThemVaLayId(It.IsAny<ET_PhieuThu>())).Returns(50); // trả Id Phiếu Thu
             _mockCTDHGw.Setup(g => g.ThemVaLayId(It.IsAny<ET_ChiTietDonHang>())).Returns(200);
             _mockThueDoGw.Setup(g => g.Them(It.IsAny<ET_ThueDoChiTiet>())).Returns(true);
 
@@ -85,8 +85,8 @@ namespace SD001.Tests
             // Assert
             Assert.IsTrue(result.IsSuccess, "Nên cho thuê thành công bằng tiền mặt");
             _mockDonHangGw.Verify(g => g.ThemVaLayId(It.IsAny<ET_DonHang>()), Times.Once, "Phải tạo 1 đơn hàng gốc");
-            _mockPhieuThuGw.Verify(g => g.Them(It.IsAny<ET_PhieuThu>()), Times.Once, "Phải tạo 1 phiếu thu cho tiền mặt");
-            
+            _mockPhieuThuGw.Verify(g => g.ThemVaLayId(It.IsAny<ET_PhieuThu>()), Times.Once, "Phải tạo 1 phiếu thu cho tiền mặt");
+
             // TDD: Có 2 món (SoLuong = 2) nên hệ thống phải rã ra làm 2 CTDH và 2 ThueDoChiTiet
             _mockCTDHGw.Verify(g => g.ThemVaLayId(It.IsAny<ET_ChiTietDonHang>()), Times.Exactly(2), "Phải rã giỏ hàng thành 2 CTDH độc lập");
             _mockThueDoGw.Verify(g => g.Them(It.IsAny<ET_ThueDoChiTiet>()), Times.Exactly(2), "Phải rã giỏ hàng thành 2 ThueDoChiTiet độc lập");
@@ -104,6 +104,7 @@ namespace SD001.Tests
             _mockViDienTuGw.Setup(g => g.LayTheoKhachHang(10)).Returns(vi);
             _mockViDienTuGw.Setup(g => g.Sua(It.IsAny<ET_ViDienTu>())).Returns(true);
             _mockGiaoDichGw.Setup(g => g.ThemVaLayId(It.IsAny<ET_GiaoDichVi>())).Returns(300);
+            _mockPhieuThuGw.Setup(g => g.ThemVaLayId(It.IsAny<ET_PhieuThu>())).Returns(50); // PhieuThu RFID
             _mockCTDHGw.Setup(g => g.ThemVaLayId(It.IsAny<ET_ChiTietDonHang>())).Returns(200);
             _mockThueDoGw.Setup(g => g.Them(It.IsAny<ET_ThueDoChiTiet>())).Returns(true);
 
@@ -208,7 +209,8 @@ namespace SD001.Tests
         [TestMethod]
         public void ReturnItem_TienMat_HoanFullCoc_ThanhCong()
         {
-            var td = new ET_ThueDoChiTiet { Id = 5, IdGiaoDichCoc = null, SoTienCoc = 200000, TrangThaiCoc = "ChuaHoan", ThoiGianBatDau = DateTime.Now.AddHours(-1) };
+            // TienMat: IdPhieuThuCoc = null -> PhieuThu null -> không RFID -> tạo PhieuChi
+            var td = new ET_ThueDoChiTiet { Id = 5, IdPhieuThuCoc = null, SoTienCoc = 200000, TrangThaiCoc = "ChuaHoan", ThoiGianBatDau = DateTime.Now.AddHours(-1) };
             _mockThueDoGw.Setup(g => g.LayTheoId(5)).Returns(td);
             _mockPhieuChiGw.Setup(g => g.Them(It.IsAny<ET_PhieuChi>())).Returns(true);
 
@@ -216,42 +218,54 @@ namespace SD001.Tests
 
             Assert.IsTrue(result.IsSuccess);
             Assert.AreEqual("DaHoan", td.TrangThaiCoc);
-            _mockPhieuChiGw.Verify(g => g.Them(It.Is<ET_PhieuChi>(p => p.SoTien == 200000)), Times.Once, "Phải xuất 1 Phiếu Chi trị giá 200k hoàn cọc cho khách");
+            _mockPhieuChiGw.Verify(g => g.Them(It.Is<ET_PhieuChi>(p => p.SoTien == 200000)), Times.Once, "Phải xuất 1 Phiếu Chi trị giá 200k hoàn cọoc cho khách");
         }
 
         [TestMethod]
         public void ReturnItem_ViRfid_HoanFullCoc_ThanhCong()
         {
-            // Trả bằng RFID không bị phạt, tiền được nhả từ SoDuDongBang về SoDuKhaDung
-            var td = new ET_ThueDoChiTiet { Id = 5, IdGiaoDichCoc = 999, SoTienCoc = 100000, TrangThaiCoc = "ChuaHoan" };
+            // RFID: IdPhieuThuCoc=10 -> PhieuThu.PhuongThuc=ViRfid, IdGiaoDichVi=999 -> GiaoDichVi.IdVi=10
+            var td = new ET_ThueDoChiTiet { Id = 5, IdPhieuThuCoc = 10, SoTienCoc = 100000, TrangThaiCoc = "ChuaHoan" };
             _mockThueDoGw.Setup(g => g.LayTheoId(5)).Returns(td);
-            
+
+            var phieuThu = new ET_PhieuThu { Id = 10, PhuongThuc = AppConstants.PhuongThucThanhToan.ViRfid, IdDonHang = 888, IdGiaoDichVi = 999 };
+            _mockPhieuThuGw.Setup(g => g.LayTheoId(10)).Returns(phieuThu);
+
             var gdCoc = new ET_GiaoDichVi { Id = 999, IdVi = 10, IdDonHangLienQuan = 888 };
             _mockGiaoDichGw.Setup(g => g.LayTheoId(999)).Returns(gdCoc);
 
             var vi = new ET_ViDienTu { Id = 10, SoDuDongBang = 100000, SoDuKhaDung = 500000 };
             _mockViDienTuGw.Setup(g => g.LayTheoId(10)).Returns(vi);
+            _mockGiaoDichGw.Setup(g => g.ThemVaLayId(It.IsAny<ET_GiaoDichVi>())).Returns(300);
+            _mockPhieuChiGw.Setup(g => g.Them(It.IsAny<ET_PhieuChi>())).Returns(true);
 
             var result = _bus.ReturnItem(5, false, 0, 1);
 
             Assert.IsTrue(result.IsSuccess);
-            Assert.AreEqual(0, vi.SoDuDongBang, "Hệ thống phải gỡ 100k băng");
-            Assert.AreEqual(600000, vi.SoDuKhaDung, "Hệ thống cộng dồn 100k cọc về khả dụng");
-            
+            Assert.AreEqual(0, vi.SoDuDongBang, "Hệ thống phải gỡ băng 100k");
+            Assert.AreEqual(600000, vi.SoDuKhaDung, "Hệ thống cộng dồn 100k cọoc về khả dụng");
+
             _mockGiaoDichGw.Verify(g => g.ThemVaLayId(It.Is<ET_GiaoDichVi>(x => x.LoaiGiaoDich == AppConstants.LoaiGiaoDichVi.HoanCoc && x.SoTien == 100000)), Times.Once);
         }
 
         [TestMethod]
         public void ReturnItem_ViRfid_BiPhatVuotCoc_ThanhCongVaTuTaoPhieuThu()
         {
-            var td = new ET_ThueDoChiTiet { Id = 5, IdGiaoDichCoc = 999, SoTienCoc = 100000, TrangThaiCoc = "ChuaHoan" };
+            var td = new ET_ThueDoChiTiet { Id = 5, IdPhieuThuCoc = 10, SoTienCoc = 100000, TrangThaiCoc = "ChuaHoan" };
             _mockThueDoGw.Setup(g => g.LayTheoId(5)).Returns(td);
             
+            var phieuThu = new ET_PhieuThu { Id = 10, PhuongThuc = AppConstants.PhuongThucThanhToan.ViRfid, IdDonHang = 888, IdGiaoDichVi = 999 };
+            _mockPhieuThuGw.Setup(g => g.LayTheoId(10)).Returns(phieuThu);
+
             var gdCoc = new ET_GiaoDichVi { Id = 999, IdVi = 10, IdDonHangLienQuan = 888 };
             _mockGiaoDichGw.Setup(g => g.LayTheoId(999)).Returns(gdCoc);
 
             var vi = new ET_ViDienTu { Id = 10, SoDuDongBang = 100000, SoDuKhaDung = 500000 };
             _mockViDienTuGw.Setup(g => g.LayTheoId(10)).Returns(vi);
+
+            _mockViDienTuGw.Setup(g => g.Sua(It.IsAny<ET_ViDienTu>())).Returns(true);
+            _mockPhieuThuGw.Setup(g => g.Them(It.IsAny<ET_PhieuThu>())).Returns(true);
+            _mockPhieuChiGw.Setup(g => g.Them(It.IsAny<ET_PhieuChi>())).Returns(true);
 
             var result = _bus.ReturnItem(5, true, 150000, 1);
 
@@ -322,13 +336,11 @@ namespace SD001.Tests
         [TestMethod]
         public void ReturnItem_SoTienPhatAm_PhaiTraVeFail()
         {
-            // TDD: Expectation - Hệ thống không được phép truyền tiền phạt < 0 vì sẽ gây hoàn dương tiền
-            var td = new ET_ThueDoChiTiet { Id = 5, IdGiaoDichCoc = null, SoTienCoc = 100000, TrangThaiCoc = "ChuaHoan" };
+            var td = new ET_ThueDoChiTiet { Id = 5, IdPhieuThuCoc = null, SoTienCoc = 100000, TrangThaiCoc = "ChuaHoan" };
             _mockThueDoGw.Setup(g => g.LayTheoId(5)).Returns(td);
 
             var result = _bus.ReturnItem(5, true, -50000, 1);
 
-            // Mong đợi BUS sẽ chốt chặn không cho tiền phạt âm
             Assert.IsFalse(result.IsSuccess, "[TDD Expectation] BUS_ThueDo cần bắt lỗi tiền phạt bị âm (< 0).");
         }
 

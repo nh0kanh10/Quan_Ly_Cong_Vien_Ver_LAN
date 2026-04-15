@@ -6,22 +6,34 @@ using System.Linq;
 using System.Windows.Forms;
 using BUS;
 using ET;
+using FontAwesome.Sharp;
 
 namespace GUI
 {
     public partial class frmLichLamViec : Form
     {
         private DateTime currentMonday;
-        private string currentCa = "Sang";
+        private int currentCaId;
 
         // Data sources
         private List<ET_NhanVien> dsNhanVien;
         private List<ET_KhuVuc> dsKhuVuc;
+        private List<ET_CaLamMau> dsCaLam;
         private string[] tenNgay = { "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7", "CN" };
 
         public frmLichLamViec()
         {
             InitializeComponent();
+            InitIcons();
+        }
+
+        private void InitIcons()
+        {
+            btnTuanTruoc.Image = IconHelper.GetBitmap(IconChar.ChevronLeft,  System.Drawing.Color.White, 14);
+            btnTuanSau.Image   = IconHelper.GetBitmap(IconChar.ChevronRight, System.Drawing.Color.White, 14);
+            btnCopyTuan.Image  = IconHelper.GetBitmap(IconChar.Copy,         System.Drawing.Color.White, 14);
+            btnPhanCong.Image  = IconHelper.GetBitmap(IconChar.ArrowDown,    System.Drawing.Color.White, 14);
+            btnGoBo.Image      = IconHelper.GetBitmap(IconChar.ArrowUp,      System.Drawing.Color.White, 14);
         }
 
         private void frmLichLamViec_Load(object sender, EventArgs e)
@@ -45,12 +57,18 @@ namespace GUI
             // Tính thứ 2 tuần hiện tại
             currentMonday = BUS_LichLamViec.LayThu2CuaTuan(DateTime.Today);
 
+            // Load DS Nhân viên + Khu vực + Ca làm
+            LoadMasterData();
+
             // Load ComboBox Ca
-            cboCaLam.Items.Clear();
-            cboCaLam.Items.Add("Ca Sáng (7:30 - 12:00)");
-            cboCaLam.Items.Add("Ca Chiều (12:00 - 17:30)");
-            cboCaLam.Items.Add("Ca Đêm (18:00 - 7:00)");
-            cboCaLam.SelectedIndex = 0;
+            cboCaLam.DataSource = null;
+            if (dsCaLam != null && dsCaLam.Count > 0)
+            {
+                cboCaLam.DataSource = dsCaLam;
+                cboCaLam.DisplayMember = "TenCa";
+                cboCaLam.ValueMember = "Id";
+                if (cboCaLam.Items.Count > 0) cboCaLam.SelectedIndex = 0;
+            }
 
             // Load DS Nhân viên + Khu vực
             LoadMasterData();
@@ -65,27 +83,30 @@ namespace GUI
             // Load ComboBox Ngày trong tuần
             CapNhatComboNgay();
 
-            // Events
-            btnTuanTruoc.Click += BtnTuanTruoc_Click;
-            btnTuanSau.Click += BtnTuanSau_Click;
-            cboCaLam.SelectedIndexChanged += CboCaLam_SelectedIndexChanged;
-            cboKhuVuc.SelectedIndexChanged += (s, ev) => LoadDualList();
-            cboNgayTrongTuan.SelectedIndexChanged += (s, ev) => LoadDualList();
-            btnPhanCong.Click += BtnPhanCong_Click;
-            btnGoBo.Click += BtnGoBo_Click;
-            btnCopyTuan.Click += BtnCopyTuan_Click;
+            // Che do xem
+            cboCheDo.Items.Add("Lịch Tuần");
+            cboCheDo.Items.Add("Lịch Tháng");
+            cboCheDo.SelectedIndex = 0;
 
-            // Drag & Drop setup
-            SetupDragDrop();
+            // Drag & Drop đã được wire trong Designer.cs
 
             // Load lần đầu
-            LoadGridTuan();
+            CapNhatUI();
+        }
+
+        private void CboKhuVuc_SelectedIndexChanged(object sender, EventArgs e)
+        {
             LoadDualList();
         }
 
-        // ========================================
+        private void CboNgayTrongTuan_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LoadDualList();
+        }
+
+        // =
         // MASTER DATA
-        // ========================================
+        // =
         private void LoadMasterData()
         {
             try
@@ -93,36 +114,55 @@ namespace GUI
                 dsNhanVien = BUS_NhanVien.Instance.LoadDS()
                     .Where(nv => nv.TrangThai != "Nghỉ việc").ToList();
                 dsKhuVuc = BUS_KhuVuc.Instance.LoadDS();
+                dsCaLam = BUS_LichLamViec.Instance.LoadCaLamMau();
             }
             catch
             {
                 dsNhanVien = new List<ET_NhanVien>();
                 dsKhuVuc = new List<ET_KhuVuc>();
+                dsCaLam = new List<ET_CaLamMau>();
             }
         }
 
-        // ========================================
+        // =
         // TUẦN NAVIGATION
-        // ========================================
+        // =
+        private bool IsMonthMode => cboCheDo.SelectedIndex == 1;
+
+        private void CboCheDo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (IsMonthMode) {
+                // Đưa về đầu tháng
+                currentMonday = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 1);
+                btnCopyTuan.Text = "Copy sang tháng sau";
+                gbLichTuan.Text = "LỊCH PHÂN CA THÁNG";
+            } else {
+                currentMonday = GetMonday(DateTime.Today);
+                btnCopyTuan.Text = "Copy sang tuần sau";
+                gbLichTuan.Text = "LỊCH PHÂN CA TUẦN";
+            }
+            CapNhatUI();
+        }
+
         private void BtnTuanTruoc_Click(object sender, EventArgs e)
         {
-            currentMonday = currentMonday.AddDays(-7);
+            if (IsMonthMode) currentMonday = currentMonday.AddMonths(-1);
+            else currentMonday = currentMonday.AddDays(-7);
             CapNhatUI();
         }
 
         private void BtnTuanSau_Click(object sender, EventArgs e)
         {
-            currentMonday = currentMonday.AddDays(7);
+            if (IsMonthMode) currentMonday = currentMonday.AddMonths(1);
+            else currentMonday = currentMonday.AddDays(7);
             CapNhatUI();
         }
 
         private void CboCaLam_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (cboCaLam.SelectedIndex)
+            if (cboCaLam.SelectedValue != null && cboCaLam.SelectedValue is int id)
             {
-                case 0: currentCa = "Sang"; break;
-                case 1: currentCa = "Chieu"; break;
-                case 2: currentCa = "Dem"; break;
+                currentCaId = id;
             }
             CapNhatUI();
         }
@@ -135,87 +175,125 @@ namespace GUI
             LoadDualList();
         }
 
+        private DateTime GetMonday(DateTime date)
+        {
+            int diff = (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7;
+            return date.AddDays(-diff).Date;
+        }
+
         private void CapNhatLabelTuan()
         {
-            DateTime sunday = currentMonday.AddDays(6);
-            lblTuanHienTai.Text = string.Format("Tuần: {0:dd/MM} -> {1:dd/MM/yyyy}",
-                currentMonday, sunday);
+            if (IsMonthMode) {
+                lblTuanHienTai.Text = string.Format("Tháng: {0:MM/yyyy}", currentMonday);
+            } else {
+                DateTime sunday = currentMonday.AddDays(6);
+                lblTuanHienTai.Text = string.Format("Tuần: {0:dd/MM} -> {1:dd/MM/yyyy}", currentMonday, sunday);
+            }
         }
 
         private void CapNhatComboNgay()
         {
+            var oldIdx = cboNgayTrongTuan.SelectedIndex;
             cboNgayTrongTuan.Items.Clear();
-            for (int i = 0; i < 7; i++)
+            int days = IsMonthMode ? DateTime.DaysInMonth(currentMonday.Year, currentMonday.Month) : 7;
+            for (int i = 0; i < days; i++)
             {
                 DateTime d = currentMonday.AddDays(i);
-                cboNgayTrongTuan.Items.Add(string.Format("{0} - {1:dd/MM}", tenNgay[i], d));
+                int dayOfWeekIndex = d.DayOfWeek == DayOfWeek.Sunday ? 6 : (int)d.DayOfWeek - 1;
+                cboNgayTrongTuan.Items.Add(string.Format("{0} - {1:dd/MM}", tenNgay[dayOfWeekIndex], d));
             }
-            // Mặc định chọn ngày hôm nay (hoặc T2)
+            // Mặc định chọn ngày hôm nay
             int todayOffset = (DateTime.Today - currentMonday).Days;
-            if (todayOffset >= 0 && todayOffset <= 6)
+            if (todayOffset >= 0 && todayOffset < days)
                 cboNgayTrongTuan.SelectedIndex = todayOffset;
+            else if (oldIdx >= 0 && oldIdx < days)
+                cboNgayTrongTuan.SelectedIndex = oldIdx;
             else
                 cboNgayTrongTuan.SelectedIndex = 0;
         }
 
-        // ========================================
+        // =
         // GRID LỊCH TUẦN (CrossTab / Pivot)
-        // ========================================
+        // =
         private void LoadGridTuan()
         {
             CapNhatLabelTuan();
-
-            var lichTuan = BUS_LichLamViec.Instance.LoadTheoTuan(currentMonday, currentCa);
-
-            // Build DataTable dạng CrossTab: KhuVuc | T2 | T3 | T4 | T5 | T6 | T7 | CN
-            DataTable dt = new DataTable();
-            dt.Columns.Add("Khu Vực", typeof(string));
-            for (int i = 0; i < 7; i++)
+            int days = IsMonthMode ? DateTime.DaysInMonth(currentMonday.Year, currentMonday.Month) : 7;
+            
+            // Xử lý lấy danh sách bằng cách gọi LoadTheoTuan nhiều lần nếu là tháng
+            var dsAllLich = new List<ET.ET_LichLamViec>();
+            int weeks = (int)Math.Ceiling((double)days / 7);
+            for (int w = 0; w < weeks; w++)
             {
-                DateTime d = currentMonday.AddDays(i);
-                dt.Columns.Add(string.Format("{0}\n{1:dd/MM}", tenNgay[i], d), typeof(string));
+                var tmp = BUS_LichLamViec.Instance.LoadTheoTuan(currentMonday.AddDays(w * 7), currentCaId);
+                if (tmp != null) dsAllLich.AddRange(tmp);
             }
 
+            // Build DataTable dạng CrossTab
+            DataTable dt = new DataTable();
+            dt.Columns.Add("Khu Vực", typeof(string));
+            for (int i = 0; i < days; i++)
+            {
+                DateTime d = currentMonday.AddDays(i);
+                int dayOfWeekIndex = d.DayOfWeek == DayOfWeek.Sunday ? 6 : (int)d.DayOfWeek - 1;
+                dt.Columns.Add(string.Format("{0}\n{1:dd/MM}", tenNgay[dayOfWeekIndex], d), typeof(string));
+            }
+
+            // Fill Data
             foreach (var kv in dsKhuVuc)
             {
-                DataRow row = dt.NewRow();
-                row[0] = kv.TenKhuVuc;
-                for (int i = 0; i < 7; i++)
+                DataRow r = dt.NewRow();
+                r["Khu Vực"] = kv.TenKhuVuc;
+                for (int i = 0; i < days; i++)
                 {
                     DateTime d = currentMonday.AddDays(i);
-                    var nvTrongO = lichTuan
-                        .Where(x => x.IdKhuVuc == kv.Id && x.NgayLam.Date == d.Date)
-                        .Select(x => x.TenNhanVien)
-                        .ToList();
-                    row[i + 1] = nvTrongO.Count > 0 ? string.Join("\n", nvTrongO) : "";
+                    // Đếm số NV trong ca, ngày, khu vực này
+                    int count = dsAllLich.Count(l =>
+                        l.NgayLam.Date == d.Date &&
+                        l.IdKhuVuc == kv.Id);
+
+                    r[i + 1] = count > 0 ? string.Format("{0} NV", count) : "-";
                 }
-                dt.Rows.Add(row);
+                dt.Rows.Add(r);
             }
 
             gridLichTuan.DataSource = dt;
             gridViewLichTuan.PopulateColumns();
 
-            // Style columns
+            // Cấu hình giao diện chuẩn UI/UX
+            gridViewLichTuan.OptionsView.ShowGroupPanel = false;
+            gridViewLichTuan.OptionsView.ShowIndicator = false;
+            gridViewLichTuan.OptionsView.ColumnAutoWidth = !IsMonthMode; // Tháng thì tắt AutoWidth để cuộn ngang
+            gridViewLichTuan.Appearance.HeaderPanel.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+            gridViewLichTuan.Appearance.HeaderPanel.Options.UseTextOptions = true;
+            gridViewLichTuan.Appearance.HeaderPanel.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+            gridViewLichTuan.Appearance.HeaderPanel.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
+            gridViewLichTuan.Appearance.HeaderPanel.BackColor = System.Drawing.Color.FromArgb(243, 244, 246);
+            gridViewLichTuan.ColumnPanelRowHeight = 50;
+
             foreach (DevExpress.XtraGrid.Columns.GridColumn col in gridViewLichTuan.Columns)
             {
                 col.OptionsColumn.AllowEdit = false;
                 if (col.FieldName == "Khu Vực")
                 {
-                    col.Width = 130;
+                    col.Width = 150;
                     col.Fixed = DevExpress.XtraGrid.Columns.FixedStyle.Left;
-                    col.AppearanceCell.Font = new Font("Segoe UI", 9.5f, FontStyle.Bold);
-                    col.AppearanceCell.ForeColor = Color.FromArgb(30, 41, 59);
+                    col.AppearanceCell.Font = new System.Drawing.Font("Segoe UI", 9.5f, System.Drawing.FontStyle.Bold);
+                    col.AppearanceCell.ForeColor = System.Drawing.Color.FromArgb(30, 41, 59);
+                    col.AppearanceCell.BackColor = System.Drawing.Color.FromArgb(248, 250, 252);
                 }
                 else
                 {
-                    col.Width = 120;
-                    col.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Top;
-                    col.AppearanceCell.TextOptions.WordWrap = DevExpress.Utils.WordWrap.Wrap;
+                    col.Width = 110;
+                    col.AppearanceCell.TextOptions.VAlignment = DevExpress.Utils.VertAlignment.Center;
+                    col.AppearanceCell.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
+                    col.AppearanceHeader.Options.UseTextOptions = true;
+                    col.AppearanceHeader.TextOptions.HAlignment = DevExpress.Utils.HorzAlignment.Center;
                 }
             }
 
-            // Row height tự động cho multiline
-            gridViewLichTuan.OptionsView.RowAutoHeight = true;
+            // Row height tự động
+            gridViewLichTuan.RowHeight = 35;
 
             // Highlight ô có người vs không có
             gridViewLichTuan.RowCellStyle -= GridViewLichTuan_RowCellStyle;
@@ -238,9 +316,9 @@ namespace GUI
             }
         }
 
-        // ========================================
+        // =
         // DUAL LIST: NV Chưa phân ↔ NV Đã phân
-        // ========================================
+        // =
         private void LoadDualList()
         {
             if (cboKhuVuc.SelectedIndex < 0 || cboNgayTrongTuan.SelectedIndex < 0) return;
@@ -250,10 +328,10 @@ namespace GUI
             DateTime ngay = currentMonday.AddDays(cboNgayTrongTuan.SelectedIndex);
 
             // NV đã phân vào ô này
-            var daPhan = BUS_LichLamViec.Instance.LoadTheoO(kv.Id, ngay, currentCa);
+            var daPhan = BUS_LichLamViec.Instance.LoadTheoO(kv.Id, ngay, currentCaId);
 
             // NV đã phân trong ngày+ca (bất kỳ khu vực nào)
-            var idsDaPhan = BUS_LichLamViec.Instance.LayDsIdNVDaPhanTrongNgay(ngay, currentCa);
+            var idsDaPhan = BUS_LichLamViec.Instance.LayDsIdNVDaPhanTrongNgay(ngay, currentCaId);
 
             // NV chưa phân ca
             var chuaPhan = dsNhanVien.Where(nv => !idsDaPhan.Contains(nv.Id)).ToList();
@@ -268,15 +346,16 @@ namespace GUI
             foreach (var l in daPhan)
                 lstNVDaPhan.Items.Add(new NVItem { Id = l.Id, HoTen = l.TenNhanVien, IdNhanVien = l.IdNhanVien });
 
-            // Cập nhật title
-            gbNVDaPhan.Text = string.Format("✅ ĐÃ PHÂN: {0} — {1} — {2} ({3} người)",
+            // Cập nhật title (dung text thuần, icon sẽ hiển thị qua GroupBox)
+            var strCa = cboCaLam.Text;
+            gbNVDaPhan.Text = string.Format("ĐA PHÂN: {0} — {1} — {2} ({3} người)",
                 kv.TenKhuVuc, tenNgay[cboNgayTrongTuan.SelectedIndex],
-                ET_LichLamViec.LayTenCa(currentCa), daPhan.Count);
+                strCa, daPhan.Count);
         }
 
-        // ========================================
+        // =
         // NÚT PHÂN CÔNG / GỠ BỎ
-        // ========================================
+        // =
         private void BtnPhanCong_Click(object sender, EventArgs e)
         {
             if (lstNVChuaPhan.SelectedItems.Count == 0)
@@ -295,7 +374,7 @@ namespace GUI
             foreach (var item in lstNVChuaPhan.SelectedItems)
             {
                 var nv = item as NVItem;
-                if (nv != null && BUS_LichLamViec.Instance.ThemNVVaoCa(nv.Id, kv.Id, ngay, currentCa))
+                if (nv != null && BUS_LichLamViec.Instance.ThemNVVaoCa(nv.Id, kv.Id, ngay, currentCaId))
                     count++;
             }
 
@@ -330,22 +409,23 @@ namespace GUI
             }
         }
 
-        // ========================================
+        // =
         // COPY TUẦN
-        // ========================================
+        // =
         private void BtnCopyTuan_Click(object sender, EventArgs e)
         {
             DateTime mondayDich = currentMonday.AddDays(7);
+            var strCa = cboCaLam.Text;
             var result = MessageBox.Show(
                 string.Format("Sao chép lịch {0} từ tuần {1:dd/MM} sang tuần {2:dd/MM}?",
-                    ET_LichLamViec.LayTenCa(currentCa),
+                    strCa,
                     currentMonday, mondayDich),
                 "Xác nhận Copy Tuần",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
             if (result == DialogResult.Yes)
             {
-                int copied = BUS_LichLamViec.Instance.CopyTuan(currentMonday, mondayDich, currentCa);
+                int copied = BUS_LichLamViec.Instance.CopyTuan(currentMonday, mondayDich, currentCaId);
                 MessageBox.Show(string.Format("Đã sao chép {0} lịch phân công sang tuần sau!", copied),
                     "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -355,25 +435,9 @@ namespace GUI
             }
         }
 
-        // ========================================
-        // DRAG & DROP
-        // ========================================
-        private void SetupDragDrop()
-        {
-            // ListBox NV Chưa Phân: cho phép kéo ra
-            lstNVChuaPhan.MouseDown += LstNVChuaPhan_MouseDown;
 
-            // ListBox NV Đã Phân: nhận drop
-            lstNVDaPhan.AllowDrop = true;
-            lstNVDaPhan.DragOver += LstNVDaPhan_DragOver;
-            lstNVDaPhan.DragDrop += LstNVDaPhan_DragDrop;
+ 
 
-            // Ngược lại: Kéo từ Đã Phân về Chưa Phân = Gỡ
-            lstNVDaPhan.MouseDown += LstNVDaPhan_MouseDown;
-            lstNVChuaPhan.AllowDrop = true;
-            lstNVChuaPhan.DragOver += LstNVChuaPhan_DragOver;
-            lstNVChuaPhan.DragDrop += LstNVChuaPhan_DragDrop;
-        }
 
         // --- Kéo từ Chưa Phân -> Đã Phân (Phân công) ---
         private void LstNVChuaPhan_MouseDown(object sender, MouseEventArgs e)
@@ -410,7 +474,7 @@ namespace GUI
             var kv = dsKhuVuc[cboKhuVuc.SelectedIndex];
             DateTime ngay = currentMonday.AddDays(cboNgayTrongTuan.SelectedIndex);
 
-            if (BUS_LichLamViec.Instance.ThemNVVaoCa(data.Item.Id, kv.Id, ngay, currentCa))
+            if (BUS_LichLamViec.Instance.ThemNVVaoCa(data.Item.Id, kv.Id, ngay, currentCaId))
             {
                 LoadGridTuan();
                 LoadDualList();
@@ -455,9 +519,9 @@ namespace GUI
             }
         }
 
-        // ========================================
+        // =
         // HELPER CLASSES
-        // ========================================
+        // =
 
         /// <summary>
         /// Item hiển thị trong ListBox

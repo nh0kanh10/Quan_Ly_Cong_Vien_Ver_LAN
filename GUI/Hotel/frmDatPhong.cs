@@ -74,9 +74,9 @@ namespace GUI
             // Icons được tạo động trong BuildAreaFilters và BuildStatusFilters
         }
 
-        // ===========================
+        // 
         // LOAD DATA & BUILD FILTERS
-        // ===========================
+        // 
 
         public void LoadData()
         {
@@ -201,9 +201,9 @@ namespace GUI
             }
         }
 
-        // ===========================
+        // 
         // APPLY FILTERS & RENDER
-        // ===========================
+        // 
 
         private void ApplyFilters()
         {
@@ -246,9 +246,9 @@ namespace GUI
             pnlFloorMap.ResumeLayout(true);
         }
 
-        // ===========================
+        // 
         // STATISTICS
-        // ===========================
+        // 
 
         private void UpdateStats()
         {
@@ -264,9 +264,9 @@ namespace GUI
                 occupancy, occupied, total, revenue.ToString("N0") + "đ");
         }
 
-        // ===========================
+        // 
         // ROOM CARD CREATION
-        // ===========================
+        // 
 
         private Control CreateRoomCard(ET_RoomMapItem room)
         {
@@ -274,7 +274,7 @@ namespace GUI
                 : new RoomStatusInfo("???", Color.FromArgb(248, 250, 252), Color.FromArgb(148, 163, 184));
             var icon = StatusIcons.ContainsKey(room.TrangThai) ? StatusIcons[room.TrangThai] : IconChar.QuestionCircle;
 
-            // === FLAT CARD — No shadow, minimal border ===
+            //  FLAT CARD — No shadow, minimal border 
             Guna2Panel card = new Guna2Panel();
             card.Size = new Size(170, 110);
             card.BorderRadius = 6;
@@ -302,10 +302,10 @@ namespace GUI
                 card.ContextMenuStrip = BuildContextMenu(room, info.Accent);
             }
 
-            // === Tùy biến UI cho Chế độ Khách Đoàn ===
+            //  Tùy biến UI cho Chế độ Khách Đoàn 
             // (Đã loại bỏ checkbox để form nhẹ mượt hơn, chỉ dùng Border và FillColor)
 
-            // === Left Accent Stripe (4px color bar) ===
+            //  Left Accent Stripe (4px color bar) 
             Panel stripe = new Panel();
             stripe.Size = new Size(4, card.Height);
             stripe.Location = new Point(0, 0);
@@ -315,7 +315,7 @@ namespace GUI
 
             if (!tgGroupMode.Checked)
             {
-                // === Status Icon (small, top-right) ===
+                //  Status Icon (small, top-right) 
                 PictureBox pbIcon = new PictureBox();
                 pbIcon.Image = IconHelper.GetBitmap(icon, info.Accent, 20);
                 pbIcon.SizeMode = PictureBoxSizeMode.CenterImage;
@@ -326,7 +326,7 @@ namespace GUI
                 card.Controls.Add(pbIcon);
             }
 
-            // === Room Name (left-aligned, bold) ===
+            //  Room Name (left-aligned, bold) 
             Label lblName = new Label();
             lblName.Text = room.TenPhong;
             lblName.Font = new Font("Segoe UI", 11, FontStyle.Bold);
@@ -337,7 +337,7 @@ namespace GUI
             lblName.Click += (s, e) => HandleCardClick(card, room);
             card.Controls.Add(lblName);
 
-            // === Status Text (under name) ===
+            //  Status Text (under name) 
             Label lblStatus = new Label();
             lblStatus.Text = info.Label;
             lblStatus.Font = new Font("Segoe UI", 8, FontStyle.Bold);
@@ -348,7 +348,7 @@ namespace GUI
             lblStatus.Click += (s, e) => HandleCardClick(card, room);
             card.Controls.Add(lblStatus);
 
-            // === Extra Info Line (bottom area) ===
+            //  Extra Info Line (bottom area) 
             string extraText = "";
             Color extraColor = Color.FromArgb(148, 163, 184); // Slate-400
 
@@ -390,7 +390,7 @@ namespace GUI
                 card.Controls.Add(lblExtra);
             }
 
-            // === Price at bottom ===
+            //  Price at bottom 
             if (room.DonGia > 0)
             {
                 Label lblPrice = new Label();
@@ -408,9 +408,9 @@ namespace GUI
             return card;
         }
 
-        // ===========================
+        // 
         // CONTEXT MENU
-        // ===========================
+        // 
 
         private ContextMenuStrip BuildContextMenu(ET_RoomMapItem room, Color accent)
         {
@@ -520,9 +520,9 @@ namespace GUI
             return menu;
         }
 
-        // ===========================
+        // 
         // SIDEBAR DETAIL
-        // ===========================
+        // 
 
         private void ShowRoomDetail(ET_RoomMapItem room)
         {
@@ -640,14 +640,14 @@ namespace GUI
                     if (checkoutInfo != null)
                     {
                         decimal tongTien = Math.Max(0, checkoutInfo.TienPhongGoc + checkoutInfo.PhuThuTreGio - checkoutInfo.DaThanhToan);
-                        string msg = string.Format("=== ĐẠI NAM HOTEL - MASTER FOLIO ===\n" +
+                        string msg = string.Format(" ĐẠI NAM HOTEL - MASTER FOLIO \n" +
                                      "Phòng: {0}\n" +
                                      "Tiền phòng gốc: {1:N0} đ\n" +
                                      "Phạt lố giờ: {2:N0} đ\n" +
                                      "Đã đặt cọc: {3:N0} đ\n" +
                                      "------------------------------------\n" +
                                      "TỔNG THANH TOÁN (GỒM VAT): {4:N0} đ\n" +
-                                     "====================================",
+                                     "",
                                      room.TenPhong, checkoutInfo.TienPhongGoc, checkoutInfo.PhuThuTreGio, checkoutInfo.DaThanhToan, tongTien);
                         TDCMessageBox.Show(msg, "In Hóa Đơn Trả Phòng");
                     }
@@ -689,18 +689,18 @@ namespace GUI
             return btn;
         }
 
-        // ===========================
+        // 
         // SEARCH EVENT
-        // ===========================
+        // 
 
         private void txtTimKiem_TextChanged(object sender, EventArgs e)
         {
             ApplyFilters();
         }
 
-        // ===========================
+        // 
         // HELPER: FILTER BUTTONS
-        // ===========================
+        // 
 
         private Guna2Button CreateFilterButton(string text, bool isActive)
         {
@@ -745,9 +745,9 @@ namespace GUI
             activeBtn.BorderThickness = 0;
         }
 
-        // ===========================
+        // 
         // HANDLERS: CHECK-IN / RESERVE / CHECK-OUT
-        // ===========================
+        // 
 
         private int GetCurrentUserId()
         {
@@ -830,9 +830,9 @@ namespace GUI
                 TDCMessageBox.Show(result.ErrorMessage ?? "Lỗi khi trả phòng.", "Lỗi");
             }
         }
-        // ===========================
+        // 
         // GROUP MODE LOGIC & EVENTS
-        // ===========================
+        // 
 
         private void HandleCardClick(Guna2Panel card, ET_RoomMapItem room)
         {

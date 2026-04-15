@@ -47,9 +47,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 1 — CRUD (Basic Smoke Tests)
-        // =========================================================================
+        // =
 
         #region CRUD
         [TestMethod]
@@ -119,9 +119,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 2 — VALIDATION (Input Guards)
-        // =========================================================================
+        // =
 
         #region Validation Input
         [TestMethod]
@@ -239,9 +239,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 3 — CHONG HACK GIA (Toan ven tai chinh)
-        // =========================================================================
+        // =
 
         #region Anti-Price-Hack (Server-side Recalculation)
         [TestMethod]
@@ -318,9 +318,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 4 — THANH TOAN BANG VI (RFID Wallet)
-        // =========================================================================
+        // =
 
         #region Thanh toan Vi dien tu
         [TestMethod]
@@ -428,9 +428,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // NHOM 5 — SUA / XOA DON HANG
-        // =========================================================================
+        // =
 
         #region Sua & Xoa
         [TestMethod]
@@ -477,9 +477,9 @@ namespace SD001.Tests
         }
         #endregion
 
-        // =========================================================================
+        // =
         // HELPER — Tao mock data chung
-        // =========================================================================
+        // =
 
         #region Helpers
         private void SetupSanPhamCache(params ET_SanPham[] sanPhams)

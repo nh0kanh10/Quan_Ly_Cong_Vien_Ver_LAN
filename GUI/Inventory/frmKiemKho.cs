@@ -35,9 +35,9 @@ namespace GUI
             this.Load += (s, e) => txtBarcode.Focus();
         }
 
-        // ===========================
+        // 
         // INIT
-        // ===========================
+        // 
 
         private void InitHeader()
         {
@@ -209,9 +209,9 @@ namespace GUI
             };
         }
 
-        // ===========================
+        // 
         // DATA
-        // ===========================
+        // 
 
         private void LoadKiemKeData()
         {
@@ -224,7 +224,7 @@ namespace GUI
             foreach (var item in tonKhoList)
             {
                 var row = _dtKiemKe.NewRow();
-                row["IdSanPham"] = item.Id > 0 ? item.Id : 0;
+                row["IdSanPham"] = item.IdSanPham;
                 row["MaSanPham"] = item.MaSanPham;
                 row["TenSanPham"] = item.TenSanPham;
                 row["DonViTinh"] = item.DonViTinh;
@@ -284,9 +284,9 @@ namespace GUI
             lblStats.Text = string.Format("Tổng SP: {0} | Lệch tăng: {1} | Lệch giảm: {2}", total, lechTang, lechGiam);
         }
 
-        // ===========================
+        // 
         // HOÀN TẤT
-        // ===========================
+        // 
 
         private void BtnHoanTat_Click(object sender, EventArgs e)
         {
@@ -297,12 +297,10 @@ namespace GUI
                 int cl = Convert.ToInt32(row["ChenhLech"]);
                 if (cl != 0)
                 {
-                    // IdSanPham trong DataTable là Id của TonKho, cần map lại sang IdSanPham thật
-                    // Dùng MaSanPham để tìm SanPham
-                    string masp = row["MaSanPham"].ToString();
-                    var sp = DAL.DAL_SanPham.Instance.LoadDS().FirstOrDefault(x => x.MaCode == masp);
-                    if (sp != null)
-                        rowsLech.Add((sp.Id, cl, row["GhiChu"].ToString()));
+                    // IdSanPham trong DataTable đã lưu đúng Id sản phẩm từ lúc Load
+                    int idSanPham = Convert.ToInt32(row["IdSanPham"]);
+                    if (idSanPham > 0)
+                        rowsLech.Add((idSanPham, cl, row["GhiChu"].ToString()));
                 }
             }
 
@@ -330,9 +328,9 @@ namespace GUI
             }
         }
 
-        // ===========================
+        // 
         // HELPERS
-        // ===========================
+        // 
 
         private int GetCurrentUserId()
         {

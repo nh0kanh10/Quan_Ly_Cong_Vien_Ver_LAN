@@ -19,10 +19,9 @@ namespace GUI
             this.lblHeader = new System.Windows.Forms.Label();
             this.pnlContent = new Guna.UI2.WinForms.Guna2Panel();
             this.lblServer = new System.Windows.Forms.Label();
-            this.cboServer = new Guna.UI2.WinForms.Guna2ComboBox();
-            this.btnRefreshServer = new Guna.UI2.WinForms.Guna2Button();
+            this.txtServer = new Guna.UI2.WinForms.Guna2TextBox();
             this.lblDatabase = new System.Windows.Forms.Label();
-            this.cboDatabase = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.txtDatabase = new Guna.UI2.WinForms.Guna2TextBox();
             this.chkWindowsAuth = new Guna.UI2.WinForms.Guna2CheckBox();
             this.lblUser = new System.Windows.Forms.Label();
             this.txtUser = new Guna.UI2.WinForms.Guna2TextBox();
@@ -63,10 +62,9 @@ namespace GUI
             // pnlContent
             // 
             this.pnlContent.Controls.Add(this.lblServer);
-            this.pnlContent.Controls.Add(this.cboServer);
-            this.pnlContent.Controls.Add(this.btnRefreshServer);
+            this.pnlContent.Controls.Add(this.txtServer);
             this.pnlContent.Controls.Add(this.lblDatabase);
-            this.pnlContent.Controls.Add(this.cboDatabase);
+            this.pnlContent.Controls.Add(this.txtDatabase);
             this.pnlContent.Controls.Add(this.chkWindowsAuth);
             this.pnlContent.Controls.Add(this.lblUser);
             this.pnlContent.Controls.Add(this.txtUser);
@@ -92,34 +90,19 @@ namespace GUI
             this.lblServer.TabIndex = 0;
             this.lblServer.Text = "Server Name:";
             // 
-            // cboServer
+            // txtServer
             // 
-            this.cboServer.BackColor = System.Drawing.Color.Transparent;
-            this.cboServer.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cboServer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboServer.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.cboServer.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.cboServer.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.cboServer.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
-            this.cboServer.ItemHeight = 22;
-            this.cboServer.Location = new System.Drawing.Point(33, 39);
-            this.cboServer.Name = "cboServer";
-            this.cboServer.Size = new System.Drawing.Size(390, 28);
-            this.cboServer.TabIndex = 1;
-            this.cboServer.SelectedIndexChanged += new System.EventHandler(this.cboServer_SelectedIndexChanged);
-            // 
-            // btnRefreshServer
-            // 
-            this.btnRefreshServer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.btnRefreshServer.BorderRadius = 5;
-            this.btnRefreshServer.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.btnRefreshServer.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Bold);
-            this.btnRefreshServer.ForeColor = System.Drawing.Color.White;
-            this.btnRefreshServer.Location = new System.Drawing.Point(430, 39);
-            this.btnRefreshServer.Name = "btnRefreshServer";
-            this.btnRefreshServer.Size = new System.Drawing.Size(37, 28);
-            this.btnRefreshServer.TabIndex = 10;
-            this.btnRefreshServer.Click += new System.EventHandler(this.btnRefreshServer_Click);
+            this.txtServer.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(246)))));
+            this.txtServer.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtServer.DefaultText = "";
+            this.txtServer.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtServer.Location = new System.Drawing.Point(33, 39);
+            this.txtServer.Name = "txtServer";
+            this.txtServer.Padding = new System.Windows.Forms.Padding(7);
+            this.txtServer.PlaceholderText = @"VD: .\SQLEXPRESS";
+            this.txtServer.SelectedText = "";
+            this.txtServer.Size = new System.Drawing.Size(434, 34);
+            this.txtServer.TabIndex = 1;
             // 
             // lblDatabase
             // 
@@ -132,20 +115,19 @@ namespace GUI
             this.lblDatabase.TabIndex = 2;
             this.lblDatabase.Text = "Database:";
             // 
-            // cboDatabase
+            // txtDatabase
             // 
-            this.cboDatabase.BackColor = System.Drawing.Color.Transparent;
-            this.cboDatabase.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cboDatabase.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cboDatabase.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.cboDatabase.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(150)))), ((int)(((byte)(136)))));
-            this.cboDatabase.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.cboDatabase.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(68)))), ((int)(((byte)(88)))), ((int)(((byte)(112)))));
-            this.cboDatabase.ItemHeight = 22;
-            this.cboDatabase.Location = new System.Drawing.Point(33, 98);
-            this.cboDatabase.Name = "cboDatabase";
-            this.cboDatabase.Size = new System.Drawing.Size(434, 28);
-            this.cboDatabase.TabIndex = 3;
+            this.txtDatabase.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(244)))), ((int)(((byte)(246)))));
+            this.txtDatabase.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.txtDatabase.DefaultText = "";
+            this.txtDatabase.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.txtDatabase.Location = new System.Drawing.Point(33, 98);
+            this.txtDatabase.Name = "txtDatabase";
+            this.txtDatabase.Padding = new System.Windows.Forms.Padding(7);
+            this.txtDatabase.PlaceholderText = "VD: DaiNamResort";
+            this.txtDatabase.SelectedText = "";
+            this.txtDatabase.Size = new System.Drawing.Size(434, 34);
+            this.txtDatabase.TabIndex = 3;
             // 
             // chkWindowsAuth
             // 
@@ -156,7 +138,7 @@ namespace GUI
             this.chkWindowsAuth.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkWindowsAuth.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkWindowsAuth.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.chkWindowsAuth.Location = new System.Drawing.Point(33, 139);
+            this.chkWindowsAuth.Location = new System.Drawing.Point(33, 145);
             this.chkWindowsAuth.Name = "chkWindowsAuth";
             this.chkWindowsAuth.Size = new System.Drawing.Size(200, 23);
             this.chkWindowsAuth.TabIndex = 4;
@@ -171,7 +153,7 @@ namespace GUI
             this.lblUser.AutoSize = true;
             this.lblUser.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblUser.ForeColor = System.Drawing.Color.DimGray;
-            this.lblUser.Location = new System.Drawing.Point(30, 169);
+            this.lblUser.Location = new System.Drawing.Point(30, 179);
             this.lblUser.Name = "lblUser";
             this.lblUser.Size = new System.Drawing.Size(62, 15);
             this.lblUser.TabIndex = 5;
@@ -183,7 +165,7 @@ namespace GUI
             this.txtUser.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtUser.DefaultText = "";
             this.txtUser.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtUser.Location = new System.Drawing.Point(33, 191);
+            this.txtUser.Location = new System.Drawing.Point(33, 198);
             this.txtUser.Name = "txtUser";
             this.txtUser.Padding = new System.Windows.Forms.Padding(7);
             this.txtUser.PlaceholderText = "";
@@ -197,7 +179,7 @@ namespace GUI
             this.lblPassword.AutoSize = true;
             this.lblPassword.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.lblPassword.ForeColor = System.Drawing.Color.DimGray;
-            this.lblPassword.Location = new System.Drawing.Point(30, 235);
+            this.lblPassword.Location = new System.Drawing.Point(30, 242);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(62, 15);
             this.lblPassword.TabIndex = 7;
@@ -209,7 +191,7 @@ namespace GUI
             this.txtPassword.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtPassword.DefaultText = "";
             this.txtPassword.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtPassword.Location = new System.Drawing.Point(33, 255);
+            this.txtPassword.Location = new System.Drawing.Point(33, 261);
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.Padding = new System.Windows.Forms.Padding(7);
             this.txtPassword.PlaceholderText = "";
@@ -292,10 +274,9 @@ namespace GUI
         private System.Windows.Forms.Label lblHeader;
         private Guna.UI2.WinForms.Guna2Panel pnlContent;
         private System.Windows.Forms.Label lblServer;
-        private Guna.UI2.WinForms.Guna2ComboBox cboServer;
-        private Guna.UI2.WinForms.Guna2Button btnRefreshServer;
+        private Guna.UI2.WinForms.Guna2TextBox txtServer;
         private System.Windows.Forms.Label lblDatabase;
-        private Guna.UI2.WinForms.Guna2ComboBox cboDatabase;
+        private Guna.UI2.WinForms.Guna2TextBox txtDatabase;
         private Guna.UI2.WinForms.Guna2CheckBox chkWindowsAuth;
         private System.Windows.Forms.Label lblUser;
         private Guna.UI2.WinForms.Guna2TextBox txtUser;

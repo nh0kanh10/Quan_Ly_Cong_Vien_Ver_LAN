@@ -25,7 +25,7 @@ namespace DAL
                 Id = s.Id,
                 MaCode = s.MaCode,
                 IdVaiTro = s.IdVaiTro,
-                IdKhuVuc = s.IdKhuVuc,
+                IdNguoiQuanLy = s.IdNguoiQuanLy,
                 HoTen = s.HoTen,
                 GioiTinh = s.GioiTinh,
                 NgaySinh = s.NgaySinh,
@@ -57,7 +57,7 @@ namespace DAL
                 NhanVien obj = new NhanVien();
                 obj.MaCode = et.MaCode;
                 obj.IdVaiTro = et.IdVaiTro;
-                obj.IdKhuVuc = et.IdKhuVuc;
+                obj.IdNguoiQuanLy = et.IdNguoiQuanLy;
                 obj.HoTen = et.HoTen;
                 obj.GioiTinh = et.GioiTinh;
                 obj.NgaySinh = et.NgaySinh;
@@ -88,7 +88,7 @@ namespace DAL
                 if (obj != null) {
                     obj.MaCode = et.MaCode;
                     obj.IdVaiTro = et.IdVaiTro;
-                    obj.IdKhuVuc = et.IdKhuVuc;
+                    obj.IdNguoiQuanLy = et.IdNguoiQuanLy;
                     obj.HoTen = et.HoTen;
                     obj.GioiTinh = et.GioiTinh;
                     obj.NgaySinh = et.NgaySinh;
@@ -132,7 +132,7 @@ namespace DAL
                 Id = s.Id,
                 MaCode = s.MaCode,
                 IdVaiTro = s.IdVaiTro,
-                IdKhuVuc = s.IdKhuVuc,
+                IdNguoiQuanLy = s.IdNguoiQuanLy,
                 HoTen = s.HoTen,
                 GioiTinh = s.GioiTinh,
                 NgaySinh = s.NgaySinh,

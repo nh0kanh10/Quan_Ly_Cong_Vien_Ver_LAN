@@ -134,7 +134,7 @@ namespace GUI
             this.btnTimDoan.ForeColor = System.Drawing.Color.White;
             this.btnTimDoan.Location = new System.Drawing.Point(465, 15);
             this.btnTimDoan.Name = "btnTimDoan";
-            this.btnTimDoan.Size = new System.Drawing.Size(100, 30);
+            this.btnTimDoan.Size = new System.Drawing.Size(117, 30);
             this.btnTimDoan.TabIndex = 1;
             this.btnTimDoan.Text = "🔍 TÌM ĐOÀN";
             this.btnTimDoan.Click += new System.EventHandler(this.btnTimDoan_Click);
@@ -144,9 +144,9 @@ namespace GUI
             this.lblTimKetQua.AutoSize = true;
             this.lblTimKetQua.Font = new System.Drawing.Font("Segoe UI", 8.5F, System.Drawing.FontStyle.Italic);
             this.lblTimKetQua.ForeColor = System.Drawing.Color.Gray;
-            this.lblTimKetQua.Location = new System.Drawing.Point(20, 48);
+            this.lblTimKetQua.Location = new System.Drawing.Point(20, 52);
             this.lblTimKetQua.Name = "lblTimKetQua";
-            this.lblTimKetQua.Size = new System.Drawing.Size(250, 15);
+            this.lblTimKetQua.Size = new System.Drawing.Size(231, 15);
             this.lblTimKetQua.TabIndex = 31;
             this.lblTimKetQua.Text = "Bỏ trống ô trên -> sẽ tạo đoàn MỚI khi lưu.";
             // 
@@ -155,7 +155,7 @@ namespace GUI
             this.lblSection1.AutoSize = true;
             this.lblSection1.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
             this.lblSection1.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblSection1.Location = new System.Drawing.Point(20, 60);
+            this.lblSection1.Location = new System.Drawing.Point(20, 80);
             this.lblSection1.Name = "lblSection1";
             this.lblSection1.Size = new System.Drawing.Size(204, 17);
             this.lblSection1.TabIndex = 2;
@@ -164,7 +164,7 @@ namespace GUI
             // lblDoan
             // 
             this.lblDoan.AutoSize = true;
-            this.lblDoan.Location = new System.Drawing.Point(20, 90);
+            this.lblDoan.Location = new System.Drawing.Point(20, 110);
             this.lblDoan.Name = "lblDoan";
             this.lblDoan.Size = new System.Drawing.Size(120, 17);
             this.lblDoan.TabIndex = 3;
@@ -177,7 +177,7 @@ namespace GUI
             this.txtTenDoan.DefaultText = "";
             this.txtTenDoan.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtTenDoan.ForeColor = System.Drawing.Color.Black;
-            this.txtTenDoan.Location = new System.Drawing.Point(160, 85);
+            this.txtTenDoan.Location = new System.Drawing.Point(160, 105);
             this.txtTenDoan.Name = "txtTenDoan";
             this.txtTenDoan.PlaceholderText = "Tên công ty/đoàn...";
             this.txtTenDoan.SelectedText = "";
@@ -191,7 +191,7 @@ namespace GUI
             this.txtNguoiDaiDien.DefaultText = "";
             this.txtNguoiDaiDien.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtNguoiDaiDien.ForeColor = System.Drawing.Color.Black;
-            this.txtNguoiDaiDien.Location = new System.Drawing.Point(370, 85);
+            this.txtNguoiDaiDien.Location = new System.Drawing.Point(370, 105);
             this.txtNguoiDaiDien.Name = "txtNguoiDaiDien";
             this.txtNguoiDaiDien.PlaceholderText = "Trưởng đoàn...";
             this.txtNguoiDaiDien.SelectedText = "";
@@ -201,7 +201,7 @@ namespace GUI
             // lblSdt
             // 
             this.lblSdt.AutoSize = true;
-            this.lblSdt.Location = new System.Drawing.Point(20, 125);
+            this.lblSdt.Location = new System.Drawing.Point(20, 145);
             this.lblSdt.Name = "lblSdt";
             this.lblSdt.Size = new System.Drawing.Size(128, 17);
             this.lblSdt.TabIndex = 6;
@@ -214,7 +214,7 @@ namespace GUI
             this.txtSdt.DefaultText = "";
             this.txtSdt.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.txtSdt.ForeColor = System.Drawing.Color.Black;
-            this.txtSdt.Location = new System.Drawing.Point(160, 120);
+            this.txtSdt.Location = new System.Drawing.Point(160, 140);
             this.txtSdt.Name = "txtSdt";
             this.txtSdt.PlaceholderText = "";
             this.txtSdt.SelectedText = "";
@@ -224,7 +224,7 @@ namespace GUI
             // lblCheckIn
             // 
             this.lblCheckIn.AutoSize = true;
-            this.lblCheckIn.Location = new System.Drawing.Point(20, 160);
+            this.lblCheckIn.Location = new System.Drawing.Point(20, 180);
             this.lblCheckIn.Name = "lblCheckIn";
             this.lblCheckIn.Size = new System.Drawing.Size(119, 17);
             this.lblCheckIn.TabIndex = 8;
@@ -238,7 +238,7 @@ namespace GUI
             this.dtpCheckIn.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpCheckIn.ForeColor = System.Drawing.Color.Black;
             this.dtpCheckIn.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpCheckIn.Location = new System.Drawing.Point(160, 155);
+            this.dtpCheckIn.Location = new System.Drawing.Point(160, 175);
             this.dtpCheckIn.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.dtpCheckIn.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.dtpCheckIn.Name = "dtpCheckIn";
@@ -250,7 +250,7 @@ namespace GUI
             // lblCheckOut
             // 
             this.lblCheckOut.AutoSize = true;
-            this.lblCheckOut.Location = new System.Drawing.Point(20, 195);
+            this.lblCheckOut.Location = new System.Drawing.Point(20, 215);
             this.lblCheckOut.Name = "lblCheckOut";
             this.lblCheckOut.Size = new System.Drawing.Size(120, 17);
             this.lblCheckOut.TabIndex = 10;
@@ -264,7 +264,7 @@ namespace GUI
             this.dtpCheckOut.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.dtpCheckOut.ForeColor = System.Drawing.Color.Black;
             this.dtpCheckOut.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpCheckOut.Location = new System.Drawing.Point(160, 190);
+            this.dtpCheckOut.Location = new System.Drawing.Point(160, 210);
             this.dtpCheckOut.MaxDate = new System.DateTime(9998, 12, 31, 0, 0, 0, 0);
             this.dtpCheckOut.MinDate = new System.DateTime(1753, 1, 1, 0, 0, 0, 0);
             this.dtpCheckOut.Name = "dtpCheckOut";
@@ -276,7 +276,7 @@ namespace GUI
             // lblNights
             // 
             this.lblNights.AutoSize = true;
-            this.lblNights.Location = new System.Drawing.Point(370, 195);
+            this.lblNights.Location = new System.Drawing.Point(370, 215);
             this.lblNights.Name = "lblNights";
             this.lblNights.Size = new System.Drawing.Size(90, 17);
             this.lblNights.TabIndex = 12;
@@ -287,7 +287,7 @@ namespace GUI
             this.lblSection2.AutoSize = true;
             this.lblSection2.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
             this.lblSection2.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblSection2.Location = new System.Drawing.Point(20, 240);
+            this.lblSection2.Location = new System.Drawing.Point(20, 260);
             this.lblSection2.Name = "lblSection2";
             this.lblSection2.Size = new System.Drawing.Size(326, 17);
             this.lblSection2.TabIndex = 13;
@@ -295,7 +295,7 @@ namespace GUI
             // 
             // dgvRooms
             // 
-            this.dgvRooms.Location = new System.Drawing.Point(20, 270);
+            this.dgvRooms.Location = new System.Drawing.Point(20, 290);
             this.dgvRooms.MainView = this.gridViewRooms;
             this.dgvRooms.Name = "dgvRooms";
             this.dgvRooms.Size = new System.Drawing.Size(640, 130);
@@ -315,7 +315,7 @@ namespace GUI
             this.lblSection3.AutoSize = true;
             this.lblSection3.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
             this.lblSection3.ForeColor = System.Drawing.Color.SteelBlue;
-            this.lblSection3.Location = new System.Drawing.Point(20, 420);
+            this.lblSection3.Location = new System.Drawing.Point(20, 440);
             this.lblSection3.Name = "lblSection3";
             this.lblSection3.Size = new System.Drawing.Size(209, 17);
             this.lblSection3.TabIndex = 15;
@@ -324,7 +324,7 @@ namespace GUI
             // lblTitleRoomTotal
             // 
             this.lblTitleRoomTotal.AutoSize = true;
-            this.lblTitleRoomTotal.Location = new System.Drawing.Point(20, 450);
+            this.lblTitleRoomTotal.Location = new System.Drawing.Point(20, 470);
             this.lblTitleRoomTotal.Name = "lblTitleRoomTotal";
             this.lblTitleRoomTotal.Size = new System.Drawing.Size(138, 17);
             this.lblTitleRoomTotal.TabIndex = 16;
@@ -335,7 +335,7 @@ namespace GUI
             this.lblTotalRoom.AutoSize = true;
             this.lblTotalRoom.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
             this.lblTotalRoom.ForeColor = System.Drawing.Color.Crimson;
-            this.lblTotalRoom.Location = new System.Drawing.Point(160, 450);
+            this.lblTotalRoom.Location = new System.Drawing.Point(160, 470);
             this.lblTotalRoom.Name = "lblTotalRoom";
             this.lblTotalRoom.Size = new System.Drawing.Size(27, 17);
             this.lblTotalRoom.TabIndex = 17;
@@ -344,7 +344,7 @@ namespace GUI
             // lblTitleChietKhau
             // 
             this.lblTitleChietKhau.AutoSize = true;
-            this.lblTitleChietKhau.Location = new System.Drawing.Point(20, 480);
+            this.lblTitleChietKhau.Location = new System.Drawing.Point(20, 500);
             this.lblTitleChietKhau.Name = "lblTitleChietKhau";
             this.lblTitleChietKhau.Size = new System.Drawing.Size(132, 17);
             this.lblTitleChietKhau.TabIndex = 18;
@@ -355,7 +355,7 @@ namespace GUI
             this.numChietKhau.BackColor = System.Drawing.Color.Transparent;
             this.numChietKhau.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.numChietKhau.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.numChietKhau.Location = new System.Drawing.Point(160, 475);
+            this.numChietKhau.Location = new System.Drawing.Point(160, 495);
             this.numChietKhau.Name = "numChietKhau";
             this.numChietKhau.Size = new System.Drawing.Size(60, 26);
             this.numChietKhau.TabIndex = 19;
@@ -364,7 +364,7 @@ namespace GUI
             // lblGiamGia
             // 
             this.lblGiamGia.AutoSize = true;
-            this.lblGiamGia.Location = new System.Drawing.Point(230, 480);
+            this.lblGiamGia.Location = new System.Drawing.Point(230, 500);
             this.lblGiamGia.Name = "lblGiamGia";
             this.lblGiamGia.Size = new System.Drawing.Size(86, 17);
             this.lblGiamGia.TabIndex = 20;
@@ -375,7 +375,7 @@ namespace GUI
             this.lblTitleFinal.AutoSize = true;
             this.lblTitleFinal.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.lblTitleFinal.ForeColor = System.Drawing.Color.OrangeRed;
-            this.lblTitleFinal.Location = new System.Drawing.Point(20, 515);
+            this.lblTitleFinal.Location = new System.Drawing.Point(20, 535);
             this.lblTitleFinal.Name = "lblTitleFinal";
             this.lblTitleFinal.Size = new System.Drawing.Size(208, 20);
             this.lblTitleFinal.TabIndex = 21;
@@ -386,7 +386,7 @@ namespace GUI
             this.lblFinalTotal.AutoSize = true;
             this.lblFinalTotal.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
             this.lblFinalTotal.ForeColor = System.Drawing.Color.OrangeRed;
-            this.lblFinalTotal.Location = new System.Drawing.Point(210, 515);
+            this.lblFinalTotal.Location = new System.Drawing.Point(210, 535);
             this.lblFinalTotal.Name = "lblFinalTotal";
             this.lblFinalTotal.Size = new System.Drawing.Size(31, 20);
             this.lblFinalTotal.TabIndex = 22;
@@ -395,7 +395,7 @@ namespace GUI
             // lblTitleCoc
             // 
             this.lblTitleCoc.AutoSize = true;
-            this.lblTitleCoc.Location = new System.Drawing.Point(20, 550);
+            this.lblTitleCoc.Location = new System.Drawing.Point(20, 570);
             this.lblTitleCoc.Name = "lblTitleCoc";
             this.lblTitleCoc.Size = new System.Drawing.Size(144, 17);
             this.lblTitleCoc.TabIndex = 23;
@@ -407,7 +407,7 @@ namespace GUI
             this.txtTienCoc.Cursor = System.Windows.Forms.Cursors.IBeam;
             this.txtTienCoc.DefaultText = "";
             this.txtTienCoc.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.txtTienCoc.Location = new System.Drawing.Point(165, 545);
+            this.txtTienCoc.Location = new System.Drawing.Point(165, 565);
             this.txtTienCoc.Name = "txtTienCoc";
             this.txtTienCoc.PlaceholderText = "";
             this.txtTienCoc.SelectedText = "";
@@ -417,7 +417,7 @@ namespace GUI
             // lblTitlePT
             // 
             this.lblTitlePT.AutoSize = true;
-            this.lblTitlePT.Location = new System.Drawing.Point(20, 580);
+            this.lblTitlePT.Location = new System.Drawing.Point(20, 600);
             this.lblTitlePT.Name = "lblTitlePT";
             this.lblTitlePT.Size = new System.Drawing.Size(117, 17);
             this.lblTitlePT.TabIndex = 25;
@@ -428,7 +428,7 @@ namespace GUI
             this.rbTienMat.AutoSize = true;
             this.rbTienMat.Checked = true;
             this.rbTienMat.CheckedState.BorderThickness = 0;
-            this.rbTienMat.Location = new System.Drawing.Point(165, 580);
+            this.rbTienMat.Location = new System.Drawing.Point(165, 600);
             this.rbTienMat.Name = "rbTienMat";
             this.rbTienMat.Size = new System.Drawing.Size(76, 21);
             this.rbTienMat.TabIndex = 26;
@@ -440,7 +440,7 @@ namespace GUI
             // 
             this.rbChuyenKhoan.AutoSize = true;
             this.rbChuyenKhoan.CheckedState.BorderThickness = 0;
-            this.rbChuyenKhoan.Location = new System.Drawing.Point(260, 580);
+            this.rbChuyenKhoan.Location = new System.Drawing.Point(260, 600);
             this.rbChuyenKhoan.Name = "rbChuyenKhoan";
             this.rbChuyenKhoan.Size = new System.Drawing.Size(107, 21);
             this.rbChuyenKhoan.TabIndex = 27;
@@ -451,7 +451,7 @@ namespace GUI
             // 
             this.rbViRFID.AutoSize = true;
             this.rbViRFID.CheckedState.BorderThickness = 0;
-            this.rbViRFID.Location = new System.Drawing.Point(380, 580);
+            this.rbViRFID.Location = new System.Drawing.Point(380, 600);
             this.rbViRFID.Name = "rbViRFID";
             this.rbViRFID.Size = new System.Drawing.Size(67, 21);
             this.rbViRFID.TabIndex = 28;
@@ -464,7 +464,7 @@ namespace GUI
             this.btnCancel.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.btnCancel.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
             this.btnCancel.ForeColor = System.Drawing.Color.White;
-            this.btnCancel.Location = new System.Drawing.Point(76, 610);
+            this.btnCancel.Location = new System.Drawing.Point(76, 630);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(120, 30);
             this.btnCancel.TabIndex = 29;
@@ -477,7 +477,7 @@ namespace GUI
             this.btnSave.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(391, 610);
+            this.btnSave.Location = new System.Drawing.Point(391, 630);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(250, 30);
             this.btnSave.TabIndex = 30;

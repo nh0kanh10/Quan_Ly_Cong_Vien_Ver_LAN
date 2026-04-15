@@ -164,6 +164,7 @@ namespace GUI
                     Items = new MenuDef[]
                     {
                         new MenuDef { Text = "Dashboard",       Icon = IconChar.ChartPie,            Permissions = new[] { "VIEW_REPORT" },   FormType = typeof(frmDashboard) },
+                        new MenuDef { Text = "Báo Cáo DT",     Icon = IconChar.ChartBar,            Permissions = new[] { "VIEW_REPORT" },   FormType = typeof(frmBaoCao) },
                         new MenuDef { Text = "Tra Cứu Đơn",    Icon = IconChar.Receipt,             Permissions = new[] { "VIEW_DONHANG" },  FormType = typeof(frmDonHang) },
                         new MenuDef { Text = "Phiếu Thu/Chi",   Icon = IconChar.FileInvoiceDollar,   Permissions = new[] { "VIEW_LEDGER" },   FormType = typeof(frmPhieuThuChi) },
                     }
@@ -909,7 +910,7 @@ namespace GUI
 
         /// <summary>
         /// Bridge method cho AI Agent gọi — mở form theo tên string.
-        /// AI gửi tên form (vd: "frmKhoHang") → method này tìm trong _categories → mở form.
+        /// AI gửi tên form (vd: "frmKhoHang") -> method này tìm trong _categories -> mở form.
         /// </summary>
         public void NavigateToFormByAI(string formName)
         {

@@ -10,8 +10,7 @@ using FontAwesome.Sharp;
 using DevExpress.XtraEditors.Repository;
 using DevExpress.XtraGrid.Views.Grid;
 using DevExpress.XtraGrid.Columns;
-using DAL;
-
+using DevExpress.XtraGrid.Columns;
 namespace GUI
 {
     public partial class frmTaoPhieuKho : Form
@@ -204,7 +203,7 @@ namespace GUI
                 if (row == null || row.IdSanPham <= 0) return;
 
                 // Load all possible units
-                var allUoM = DAL_QuyDoiDonVi.Instance.LoadDS().Where(x => x.IdSanPham == row.IdSanPham).ToList();
+                var allUoM = BUS_SanPham.Instance.LayQuyDoiTheoSP(row.IdSanPham);
                 if (allUoM.Count == 0)
                 {
                     ToolTip tt = new ToolTip();
@@ -212,21 +211,27 @@ namespace GUI
                     return;
                 }
 
-                var baseDvt = DAL_DonViTinh.Instance.LayTheoId(_allSanPham.First(x => x.Id == row.IdSanPham).IdDonViCoBan);
+                var baseDvt = BUS_DonViTinh.Instance.GetById(_allSanPham.First(x => x.Id == row.IdSanPham).IdDonViCoBan);
 
-                // Build sequence: Base Unit (x1) -> UoM 1 -> UoM 2 -> ...
                 var cycleList = new List<Tuple<int, string, decimal>>(); // IdDvt, Tên, Tỉ lệ
-                cycleList.Add(Tuple.Create(baseDvt.Id, baseDvt.Ten + " (Base)", 1m));
+                cycleList.Add(Tuple.Create(baseDvt.Id, baseDvt.Ten, 1m));
 
                 foreach (var u in allUoM)
                 {
-                    var dvt = DAL_DonViTinh.Instance.LayTheoId(u.IdDonViLon);
+                    var dvt = BUS_DonViTinh.Instance.GetById(u.IdDonViLon);
                     if (dvt != null)
-                        cycleList.Add(Tuple.Create(dvt.Id, dvt.Ten + " (x" + u.TyLeQuyDoi + ")", u.TyLeQuyDoi));
+                        cycleList.Add(Tuple.Create(dvt.Id, dvt.Ten, u.TyLeQuyDoi));
                 }
 
-                // Find current index in cycle
-                int currentIndex = cycleList.FindIndex(x => x.Item1 == row.IdDonViHienTai);
+                // Append the indicator to visually show it's a cycled unit
+                for (int i = 0; i < cycleList.Count; i++)
+                {
+                    cycleList[i] = Tuple.Create(cycleList[i].Item1, cycleList[i].Item2 + " 🔄", cycleList[i].Item3);
+                }
+
+                string curUnit = row.DonVi;
+                string pureUnit = curUnit?.Replace(" 🔄", "")?.Trim();
+                int currentIndex = cycleList.FindIndex(c => string.Equals(c.Item2.Replace(" 🔄", "").Trim(), pureUnit, StringComparison.OrdinalIgnoreCase));
                 if (currentIndex < 0) currentIndex = 0;
 
                 // Move to next
@@ -302,9 +307,14 @@ namespace GUI
                     gridViewChiTiet.SetRowCellValue(e.RowHandle, "DonGia", sp.DonGia);
 
                     // Load Base Unit Defaults
-                    var dvt = DAL_DonViTinh.Instance.LayTheoId(sp.IdDonViCoBan);
+                    var dvt = BUS_DonViTinh.Instance.GetById(sp.IdDonViCoBan);
+                    
+                    var allUoM = BUS_SanPham.Instance.LayQuyDoiTheoSP(sp.Id);
+                    string defaultUnit = dvt?.Ten ?? "Lon/Cái";
+                    if (allUoM.Count > 0) defaultUnit += " 🔄";
+
                     gridViewChiTiet.SetRowCellValue(e.RowHandle, "IdDonViHienTai", sp.IdDonViCoBan);
-                    gridViewChiTiet.SetRowCellValue(e.RowHandle, "DonVi", dvt?.Ten ?? "Lon/Cái");
+                    gridViewChiTiet.SetRowCellValue(e.RowHandle, "DonVi", defaultUnit);
                     gridViewChiTiet.SetRowCellValue(e.RowHandle, "TyLeQuyDoi", 1m);
                 }
             }
@@ -320,7 +330,7 @@ namespace GUI
                     
                     int soLuongBase = (int)(soHan * tyLe); // Số lượng cần xuất (tính theo Base Unit)
 
-                    var ton = DAL_TonKho.Instance.LoadDS().FirstOrDefault(x => x.IdKho == idKho && x.IdSanPham == idSP);
+                    var ton = BUS_KhoHang.Instance.GetTonKhoChiTiet(idKho).FirstOrDefault(x => x.IdSanPham == idSP);
                     int currentTon = ton != null ? ton.SoLuong : 0;
                     
                     if (soLuongBase > currentTon)
@@ -344,9 +354,9 @@ namespace GUI
             lblTongTienValue.Text = total.ToString("N0") + " đ";
         }
 
-        // ==========================================================
+        // =
         // CAMERA SCANNER MÃ VẠCH (THÔNG MINH & TIỆN QUÉT)
-        // ==========================================================
+        // =
 
         private void EnsureScanner()
         {
@@ -429,13 +439,13 @@ namespace GUI
                 }
 
                 int idKho = Convert.ToInt32(cboKho.EditValue);
-                var ton = DAL_TonKho.Instance.LoadDS().FirstOrDefault(x => x.IdKho == idKho && x.IdSanPham == sp.Id);
+                var ton = BUS_KhoHang.Instance.GetTonKhoChiTiet(idKho).FirstOrDefault(x => x.IdSanPham == sp.Id);
                 int currentTon = ton != null ? ton.SoLuong : 0;
 
                 var existingItem = _chiTietRows.FirstOrDefault(x => x.IdSanPham == sp.Id);
-                int proposedSoLuong = (existingItem != null ? existingItem.SoLuong : 0) + 1;
+                int proposedSoLuongBase = (int)(((existingItem != null ? existingItem.SoLuong : 0) + 1) * (existingItem != null ? existingItem.TyLeQuyDoi : 1));
 
-                if (proposedSoLuong > currentTon)
+                if (proposedSoLuongBase > currentTon)
                 {
                     TDCMessageBox.Show($"Trong kho chỉ còn {currentTon} cái '{sp.Ten}'!\nKhông thể xuất thêm.", "Hết hàng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtScanner.Clear();
@@ -542,15 +552,15 @@ namespace GUI
             if (!_isNhapMode)
             {
                 int idKho = Convert.ToInt32(cboKho.EditValue);
-                var allTonKho = DAL_TonKho.Instance.LoadDS().Where(x => x.IdKho == idKho).ToList();
+                var allTonKho = BUS_KhoHang.Instance.GetTonKhoChiTiet(idKho);
                 
                 foreach (var r in _chiTietRows)
                 {
                     var ton = allTonKho.FirstOrDefault(x => x.IdSanPham == r.IdSanPham);
                     int currentTon = ton != null ? ton.SoLuong : 0;
-                    if (r.SoLuong > currentTon)
+                    if ((r.SoLuong * r.TyLeQuyDoi) > currentTon)
                     {
-                        TDCMessageBox.Show($"Sản phẩm '{r.TenSanPham}' không đủ tồn kho!\nTồn hiện tại: {currentTon} - Bạn muốn xuất: {r.SoLuong}", "Thiếu tồn kho", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        TDCMessageBox.Show($"Sản phẩm '{r.TenSanPham}' không đủ tồn kho!\nTồn hiện tại: {currentTon} - Bạn muốn xuất tổng cộng: {r.SoLuong * r.TyLeQuyDoi} (Base units)", "Thiếu tồn kho", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
                 }

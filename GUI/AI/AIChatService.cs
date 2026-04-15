@@ -116,7 +116,7 @@ namespace GUI.AI
                             parts = new List<GeminiPart> { new GeminiPart { functionCall = part.functionCall } }
                         });
 
-                        // Kiểm tra nếu là open_form → DEFER, không fire event trong loop
+                        // Kiểm tra nếu là open_form -> DEFER, không fire event trong loop
                         if (toolName == "open_form")
                         {
                             string formName = toolArgs.ContainsKey("form_name") ? toolArgs["form_name"]?.ToString() : "";
@@ -170,11 +170,11 @@ namespace GUI.AI
                             }}
                         });
 
-                        // TIẾP TỤC LOOP → gửi lại cho AI để AI xử lý data
+                        // TIẾP TỤC LOOP -> gửi lại cho AI để AI xử lý data
                         continue;
                     }
 
-                    // CASE B: AI trả lời text → THOÁT LOOP
+                    // CASE B: AI trả lời text -> THOÁT LOOP
                     if (!string.IsNullOrEmpty(part.text))
                     {
                         // Thêm response vào history
@@ -464,9 +464,9 @@ HỆ THỐNG:
 - frmMarketing: Chiến dịch Marketing
 
 QUY TẮC BẮT BUỘC:
-1. Khi người dùng muốn mở/xem/tra cứu một chức năng → BẮT BUỘC gọi tool open_form NGAY LẬP TỨC. TUYỆT ĐỐI KHÔNG chỉ gợi ý bằng text.
-2. Khi người dùng hỏi về dữ liệu (khách hàng, kho, đơn hàng...) → PHẢI gọi open_form để chuyển form trước, rồi dùng tool lấy data.
-3. Nếu không chắc form nào phù hợp → Hỏi lại ngắn gọn (tối đa 1 câu).
+1. Khi người dùng muốn mở/xem/tra cứu một chức năng -> BẮT BUỘC gọi tool open_form NGAY LẬP TỨC. TUYỆT ĐỐI KHÔNG chỉ gợi ý bằng text.
+2. Khi người dùng hỏi về dữ liệu (khách hàng, kho, đơn hàng...) -> PHẢI gọi open_form để chuyển form trước, rồi dùng tool lấy data.
+3. Nếu không chắc form nào phù hợp -> Hỏi lại ngắn gọn (tối đa 1 câu).
 4. Trả lời bằng tiếng Việt, thân thiện, ngắn gọn.
 5. Sau khi mở form, hãy gợi ý 1-2 thao tác người dùng có thể làm tiếp.
 6. KHÔNG BAO GIỜ nói 'bạn hãy vào form X' — thay vào đó PHẢI gọi tool open_form để mở form đó cho người dùng.";
@@ -484,9 +484,9 @@ BẠN CÓ THỂ:
 3. Dùng tool open_form để chuyển sang form khác nếu người dùng yêu cầu
 
 QUY TẮC:
-1. Khi cần DATA để trả lời → Gọi tool phù hợp, KHÔNG bịa số liệu
+1. Khi cần DATA để trả lời -> Gọi tool phù hợp, KHÔNG bịa số liệu
 2. Trả lời bằng tiếng Việt, thân thiện, có số liệu cụ thể
-3. Nếu phát hiện vấn đề (hàng sắp hết, đơn bất thường...) → Chủ động cảnh báo
+3. Nếu phát hiện vấn đề (hàng sắp hết, đơn bất thường...) -> Chủ động cảnh báo
 4. Data trả về từ tool là dữ liệu THẬT từ database, hãy phân tích và tóm tắt dễ hiểu";
         }
     }

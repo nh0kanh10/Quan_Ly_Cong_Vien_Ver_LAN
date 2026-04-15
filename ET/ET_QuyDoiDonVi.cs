@@ -10,7 +10,7 @@ namespace ET
         public int IdDonViLon { get; set; }
         public decimal TyLeQuyDoi { get; set; }
         public decimal? GiaBanRieng { get; set; }
-        public bool LaDonViCoBan { get; set; }
+        // [DROPPED] LaDonViCoBan — Dư thừa, SanPham.IdDonViCoBan đã làm nhiệm vụ này
         public DateTime CreatedAt { get; set; }
     }
 }

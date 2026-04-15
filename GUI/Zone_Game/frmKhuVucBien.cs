@@ -45,9 +45,9 @@ namespace GUI
             this.Load += (s, e) => LoadData();
         }
 
-        // ============================
+        // =
         // KHU VỰC BIỂN (MASTER)
-        // ============================
+        // =
 
         private void LoadData()
         {
@@ -116,9 +116,9 @@ namespace GUI
             }
         }
 
-        // ============================
+        // =
         // CHÒI NGHỈ MÁT (DETAIL)
-        // ============================
+        // =
         private int _currentKhuVucBienId = 0;
 
         private void LoadChoiNghiMat(int idKhuVucBien)
@@ -197,9 +197,9 @@ namespace GUI
             };
         }
 
-        // ============================
+        // =
         // BUTTON HANDLERS (context-aware)
-        // ============================
+        // =
 
         private void btnThem_Click(object sender, EventArgs e)
         {

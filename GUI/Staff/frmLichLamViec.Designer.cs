@@ -23,6 +23,8 @@ namespace GUI
             this.btnTuanSau = new Guna.UI2.WinForms.Guna2Button();
             this.lblCaLam = new System.Windows.Forms.Label();
             this.cboCaLam = new Guna.UI2.WinForms.Guna2ComboBox();
+            this.lblCheDo = new System.Windows.Forms.Label();
+            this.cboCheDo = new Guna.UI2.WinForms.Guna2ComboBox();
             this.btnCopyTuan = new Guna.UI2.WinForms.Guna2Button();
             this.splitMain = new System.Windows.Forms.SplitContainer();
             this.gbLichTuan = new Guna.UI2.WinForms.Guna2GroupBox();
@@ -63,6 +65,8 @@ namespace GUI
             this.pnlTopBar.Controls.Add(this.btnTuanSau);
             this.pnlTopBar.Controls.Add(this.lblCaLam);
             this.pnlTopBar.Controls.Add(this.cboCaLam);
+            this.pnlTopBar.Controls.Add(this.lblCheDo);
+            this.pnlTopBar.Controls.Add(this.cboCheDo);
             this.pnlTopBar.Controls.Add(this.btnCopyTuan);
             this.pnlTopBar.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlTopBar.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(41)))), ((int)(((byte)(59)))));
@@ -78,11 +82,14 @@ namespace GUI
             this.btnTuanTruoc.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(65)))), ((int)(((byte)(85)))));
             this.btnTuanTruoc.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnTuanTruoc.ForeColor = System.Drawing.Color.White;
+            this.btnTuanTruoc.ImageAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.btnTuanTruoc.ImageSize = new System.Drawing.Size(16, 16);
             this.btnTuanTruoc.Location = new System.Drawing.Point(15, 12);
             this.btnTuanTruoc.Name = "btnTuanTruoc";
             this.btnTuanTruoc.Size = new System.Drawing.Size(40, 36);
             this.btnTuanTruoc.TabIndex = 0;
-            this.btnTuanTruoc.Text = "◀";
+            this.btnTuanTruoc.Text = "";
+            this.btnTuanTruoc.Click += new System.EventHandler(this.BtnTuanTruoc_Click);
             // 
             // lblTuanHienTai
             // 
@@ -104,11 +111,14 @@ namespace GUI
             this.btnTuanSau.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(65)))), ((int)(((byte)(85)))));
             this.btnTuanSau.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnTuanSau.ForeColor = System.Drawing.Color.White;
+            this.btnTuanSau.ImageAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.btnTuanSau.ImageSize = new System.Drawing.Size(16, 16);
             this.btnTuanSau.Location = new System.Drawing.Point(340, 12);
             this.btnTuanSau.Name = "btnTuanSau";
             this.btnTuanSau.Size = new System.Drawing.Size(40, 36);
             this.btnTuanSau.TabIndex = 2;
-            this.btnTuanSau.Text = "▶";
+            this.btnTuanSau.Text = "";
+            this.btnTuanSau.Click += new System.EventHandler(this.BtnTuanSau_Click);
             // 
             // lblCaLam
             // 
@@ -136,8 +146,36 @@ namespace GUI
             this.cboCaLam.ItemHeight = 30;
             this.cboCaLam.Location = new System.Drawing.Point(482, 12);
             this.cboCaLam.Name = "cboCaLam";
-            this.cboCaLam.Size = new System.Drawing.Size(220, 36);
+            this.cboCaLam.Size = new System.Drawing.Size(180, 36);
             this.cboCaLam.TabIndex = 4;
+            this.cboCaLam.SelectedIndexChanged += new System.EventHandler(this.CboCaLam_SelectedIndexChanged);
+            // 
+            // lblCheDo
+            // 
+            this.lblCheDo.AutoSize = true;
+            this.lblCheDo.BackColor = System.Drawing.Color.Transparent;
+            this.lblCheDo.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
+            this.lblCheDo.ForeColor = System.Drawing.Color.White;
+            this.lblCheDo.Location = new System.Drawing.Point(670, 20);
+            this.lblCheDo.Name = "lblCheDo";
+            this.lblCheDo.Size = new System.Drawing.Size(62, 19);
+            this.lblCheDo.TabIndex = 6;
+            this.lblCheDo.Text = "Chế độ:";
+            // 
+            // cboCheDo
+            // 
+            this.cboCheDo.BackColor = System.Drawing.Color.Transparent;
+            this.cboCheDo.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cboCheDo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboCheDo.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(65)))), ((int)(((byte)(85)))));
+            this.cboCheDo.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.cboCheDo.ForeColor = System.Drawing.Color.White;
+            this.cboCheDo.ItemHeight = 30;
+            this.cboCheDo.Location = new System.Drawing.Point(735, 12);
+            this.cboCheDo.Name = "cboCheDo";
+            this.cboCheDo.Size = new System.Drawing.Size(120, 36);
+            this.cboCheDo.TabIndex = 7;
+            this.cboCheDo.SelectedIndexChanged += new System.EventHandler(this.CboCheDo_SelectedIndexChanged);
             // 
             // btnCopyTuan
             // 
@@ -146,11 +184,15 @@ namespace GUI
             this.btnCopyTuan.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(16)))), ((int)(((byte)(185)))), ((int)(((byte)(129)))));
             this.btnCopyTuan.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
             this.btnCopyTuan.ForeColor = System.Drawing.Color.White;
-            this.btnCopyTuan.Location = new System.Drawing.Point(741, 12);
+            this.btnCopyTuan.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btnCopyTuan.ImageOffset = new System.Drawing.Point(10, 0);
+            this.btnCopyTuan.ImageSize = new System.Drawing.Size(16, 16);
+            this.btnCopyTuan.Location = new System.Drawing.Point(865, 12);
             this.btnCopyTuan.Name = "btnCopyTuan";
-            this.btnCopyTuan.Size = new System.Drawing.Size(200, 36);
+            this.btnCopyTuan.Size = new System.Drawing.Size(220, 36);
             this.btnCopyTuan.TabIndex = 5;
-            this.btnCopyTuan.Text = "📋 Copy sang tuần sau";
+            this.btnCopyTuan.Text = "  Copy sang tuần sau";
+            this.btnCopyTuan.Click += new System.EventHandler(this.BtnCopyTuan_Click);
             // 
             // splitMain
             // 
@@ -212,16 +254,22 @@ namespace GUI
             this.gbNVChuaPhan.Name = "gbNVChuaPhan";
             this.gbNVChuaPhan.Size = new System.Drawing.Size(384, 317);
             this.gbNVChuaPhan.TabIndex = 0;
-            this.gbNVChuaPhan.Text = "👥 NV CHƯA PHÂN CA (kéo thả sang ->)";
+            this.gbNVChuaPhan.Text = "NV CHƯA PHÂN CA (kéo thả sang ->)";
             // 
             // lstNVChuaPhan
             // 
+            this.lstNVChuaPhan.AllowDrop = true;
             this.lstNVChuaPhan.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lstNVChuaPhan.Location = new System.Drawing.Point(0, 40);
             this.lstNVChuaPhan.Name = "lstNVChuaPhan";
             this.lstNVChuaPhan.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
             this.lstNVChuaPhan.Size = new System.Drawing.Size(384, 277);
             this.lstNVChuaPhan.TabIndex = 0;
+            // Drag source: kéo NV chưa phân sang lstNVDaPhan
+            this.lstNVChuaPhan.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LstNVChuaPhan_MouseDown);
+            // Drop target: nhận NV từ lstNVDaPhan (gỡ bỏ ngược lại)
+            this.lstNVChuaPhan.DragOver += new System.Windows.Forms.DragEventHandler(this.LstNVChuaPhan_DragOver);
+            this.lstNVChuaPhan.DragDrop += new System.Windows.Forms.DragEventHandler(this.LstNVChuaPhan_DragDrop);
             // 
             // pnlButtons
             // 
@@ -239,11 +287,15 @@ namespace GUI
             this.btnPhanCong.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(99)))), ((int)(((byte)(235)))));
             this.btnPhanCong.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnPhanCong.ForeColor = System.Drawing.Color.White;
+            this.btnPhanCong.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btnPhanCong.ImageOffset = new System.Drawing.Point(10, 0);
+            this.btnPhanCong.ImageSize = new System.Drawing.Size(16, 16);
             this.btnPhanCong.Location = new System.Drawing.Point(10, 7);
             this.btnPhanCong.Name = "btnPhanCong";
             this.btnPhanCong.Size = new System.Drawing.Size(160, 36);
             this.btnPhanCong.TabIndex = 0;
-            this.btnPhanCong.Text = "▼ Phân công ▼";
+            this.btnPhanCong.Text = "   Phân công";
+            this.btnPhanCong.Click += new System.EventHandler(this.BtnPhanCong_Click);
             // 
             // btnGoBo
             // 
@@ -251,11 +303,15 @@ namespace GUI
             this.btnGoBo.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(239)))), ((int)(((byte)(68)))), ((int)(((byte)(68)))));
             this.btnGoBo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold);
             this.btnGoBo.ForeColor = System.Drawing.Color.White;
+            this.btnGoBo.ImageAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.btnGoBo.ImageOffset = new System.Drawing.Point(10, 0);
+            this.btnGoBo.ImageSize = new System.Drawing.Size(16, 16);
             this.btnGoBo.Location = new System.Drawing.Point(180, 7);
             this.btnGoBo.Name = "btnGoBo";
             this.btnGoBo.Size = new System.Drawing.Size(160, 36);
             this.btnGoBo.TabIndex = 1;
-            this.btnGoBo.Text = "▲ Gỡ bỏ ▲";
+            this.btnGoBo.Text = "   Gỡ bỏ";
+            this.btnGoBo.Click += new System.EventHandler(this.BtnGoBo_Click);
             // 
             // gbNVDaPhan
             // 
@@ -267,7 +323,7 @@ namespace GUI
             this.gbNVDaPhan.Name = "gbNVDaPhan";
             this.gbNVDaPhan.Size = new System.Drawing.Size(384, 250);
             this.gbNVDaPhan.TabIndex = 2;
-            this.gbNVDaPhan.Text = "✅ NV ĐÃ PHÂN VÀO CA NÀY";
+            this.gbNVDaPhan.Text = "NV ĐÃ PHÂN VÀO CA NÀY";
             // 
             // lstNVDaPhan
             // 
@@ -277,6 +333,11 @@ namespace GUI
             this.lstNVDaPhan.Name = "lstNVDaPhan";
             this.lstNVDaPhan.Size = new System.Drawing.Size(384, 210);
             this.lstNVDaPhan.TabIndex = 0;
+            // Drag source: kéo NV đã phân về lstNVChuaPhan (gỡ bỏ)
+            this.lstNVDaPhan.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LstNVDaPhan_MouseDown);
+            // Drop target: nhận NV từ lstNVChuaPhan (phân công)
+            this.lstNVDaPhan.DragOver += new System.Windows.Forms.DragEventHandler(this.LstNVDaPhan_DragOver);
+            this.lstNVDaPhan.DragDrop += new System.Windows.Forms.DragEventHandler(this.LstNVDaPhan_DragDrop);
             // 
             // gbPhanCong
             // 
@@ -315,6 +376,7 @@ namespace GUI
             this.cboKhuVuc.Name = "cboKhuVuc";
             this.cboKhuVuc.Size = new System.Drawing.Size(290, 36);
             this.cboKhuVuc.TabIndex = 1;
+            this.cboKhuVuc.SelectedIndexChanged += new System.EventHandler(this.CboKhuVuc_SelectedIndexChanged);
             // 
             // lblChonNgay
             // 
@@ -338,6 +400,7 @@ namespace GUI
             this.cboNgayTrongTuan.Name = "cboNgayTrongTuan";
             this.cboNgayTrongTuan.Size = new System.Drawing.Size(290, 36);
             this.cboNgayTrongTuan.TabIndex = 3;
+            this.cboNgayTrongTuan.SelectedIndexChanged += new System.EventHandler(this.CboNgayTrongTuan_SelectedIndexChanged);
             // 
             // frmLichLamViec
             // 
@@ -378,6 +441,8 @@ namespace GUI
         private System.Windows.Forms.Label lblCaLam;
         private Guna.UI2.WinForms.Guna2ComboBox cboCaLam;
         private Guna.UI2.WinForms.Guna2Button btnCopyTuan;
+        private System.Windows.Forms.Label lblCheDo;
+        private Guna.UI2.WinForms.Guna2ComboBox cboCheDo;
 
         private System.Windows.Forms.SplitContainer splitMain;
         private Guna.UI2.WinForms.Guna2GroupBox gbLichTuan;
