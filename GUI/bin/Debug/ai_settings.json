@@ -1,1 +1,0 @@
-{"GeminiApiKey":"AIzaSyDTDgMn8yJwVQ4t-v7JUZMiPARQTafBn1A","Model":"gemini-2.5-flash","MaxReActLoops":5,"MaxDataRows":50,"TimeoutSeconds":20,"MaxConversationTurns":20,"RetryCount":1,"RetryDelayMs":2000}

@@ -1,1 +1,0 @@
-# Tài Liệu Thiết Kế Kỹ Thuật — pos-luu-tru-cho-thue-fix
