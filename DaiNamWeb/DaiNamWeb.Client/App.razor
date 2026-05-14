@@ -1,0 +1,10 @@
+<Router AppAssembly="@typeof(App).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(DaiNamWeb.Client.Layout.MainLayout)" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(DaiNamWeb.Client.Layout.MainLayout)">
+            <p>Trang không tồn tại.</p>
+        </LayoutView>
+    </NotFound>
+</Router>

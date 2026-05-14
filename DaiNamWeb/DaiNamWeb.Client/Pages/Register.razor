@@ -1,0 +1,49 @@
+@page "/register"
+@inject AuthService Auth
+@inject NavigationManager Nav
+
+<div class="auth-box">
+    <h2><i class="bi bi-person-plus"></i> Đăng ký tài khoản</h2>
+
+    @if (!string.IsNullOrEmpty(message))
+    {
+        <div class="alert @(success ? "alert-ok" : "alert-err")">@message</div>
+    }
+
+    <label>Họ tên</label>
+    <input type="text" @bind="hoTen" placeholder="Nguyễn Văn A" />
+
+    <label>Số điện thoại</label>
+    <input type="tel" @bind="sdt" placeholder="0901234567" />
+
+    <label>Mật khẩu</label>
+    <input type="password" @bind="pass" />
+
+    <button class="btn-primary" @onclick="DoRegister" disabled="@loading">
+        @if (loading)
+        {
+            <i class="bi bi-arrow-repeat spin"></i>
+            <span> Đang xử lý...</span>
+        }
+        else
+        {
+            <i class="bi bi-person-check"></i>
+            <span> Đăng ký</span>
+        }
+    </button>
+
+    <p class="auth-link">Đã có tài khoản? <a href="/login">Đăng nhập</a></p>
+</div>
+
+@code {
+    string hoTen = "", sdt = "", pass = "", message = "";
+    bool loading, success;
+
+    async Task DoRegister()
+    {
+        loading = true;
+        var (ok, msg) = await Auth.Register(sdt, pass, hoTen);
+        message = msg; success = ok; loading = false;
+        if (ok) Nav.NavigateTo("/");
+    }
+}

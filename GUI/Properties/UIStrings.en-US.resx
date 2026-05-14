@@ -1,0 +1,3286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="MENU_GRP_DASHBOARD" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="MENU_ITEM_DASHBOARD" xml:space="preserve">
+    <value>Overview Statistics</value>
+  </data>
+  <data name="MENU_GRP_DANHMUC" xml:space="preserve">
+    <value>Category System</value>
+  </data>
+  <data name="MENU_ITEM_SANPHAM" xml:space="preserve">
+    <value>Products, Services &amp; Tickets</value>
+  </data>
+  <data name="GRID_COL_MASP" xml:space="preserve">
+    <value>Product Code</value>
+  </data>
+  <data name="GRID_COL_TENSP" xml:space="preserve">
+    <value>Product Name</value>
+  </data>
+  <data name="GRID_COL_LOAISP" xml:space="preserve">
+    <value>Product Type</value>
+  </data>
+  <data name="GRID_COL_DVT" xml:space="preserve">
+    <value>Unit</value>
+  </data>
+  <data name="GRID_COL_TRANG_THAI" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="GRID_COL_HANH_DONG" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="BTN_SUA" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="BTN_XOA" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="BTN_THEM" xml:space="preserve">
+    <value>Add New</value>
+  </data>
+  <data name="BTN_LAM_MOI" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="TXT_TONG" xml:space="preserve">
+    <value>Total:</value>
+  </data>
+  <data name="TITLE_THEM_SP" xml:space="preserve">
+    <value>Add New Product</value>
+  </data>
+  <data name="TITLE_SUA_SP" xml:space="preserve">
+    <value>Edit Product</value>
+  </data>
+  <data name="TAB_THONG_TIN" xml:space="preserve">
+    <value>General Info</value>
+  </data>
+  <data name="TAB_BANG_GIA" xml:space="preserve">
+    <value>Price List</value>
+  </data>
+  <data name="TAB_QUY_DOI" xml:space="preserve">
+    <value>Unit Conversion</value>
+  </data>
+  <data name="TAB_CAU_HINH" xml:space="preserve">
+    <value>Operation Config</value>
+  </data>
+  <data name="LBL_TENSP" xml:space="preserve">
+    <value>Product Name (*)</value>
+  </data>
+  <data name="LBL_MASP" xml:space="preserve">
+    <value>Product Code (*)</value>
+  </data>
+  <data name="LBL_LOAISP" xml:space="preserve">
+    <value>Product Type (*)</value>
+  </data>
+  <data name="LBL_DVT" xml:space="preserve">
+    <value>Unit of Measurement (*)</value>
+  </data>
+  <data name="LBL_VAT" xml:space="preserve">
+    <value>VAT Tax</value>
+  </data>
+  <data name="LBL_TRANG_THAI" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="LBL_GIA_UU_TIEN" xml:space="preserve">
+    <value>Priority Price</value>
+  </data>
+  <data name="LBL_DIEM_BAN" xml:space="preserve">
+    <value>Point of Sale (POS)</value>
+  </data>
+  <data name="CHK_ALL_POS" xml:space="preserve">
+    <value>Apply to all POS</value>
+  </data>
+  <data name="CHK_VAT_TU" xml:space="preserve">
+    <value>Is inventory-managed material</value>
+  </data>
+  <data name="CHK_LO" xml:space="preserve">
+    <value>Manage Expiration Date (Batch)</value>
+  </data>
+  <data name="BTN_LUU" xml:space="preserve">
+    <value>Save (F2)</value>
+  </data>
+  <data name="BTN_HUY" xml:space="preserve">
+    <value>Cancel (Esc)</value>
+  </data>
+  <data name="BTN_THEM_DONG" xml:space="preserve">
+    <value>+ Add row</value>
+  </data>
+  <data name="FILTER_ALL" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="FILTER_VE" xml:space="preserve">
+    <value>Ticket</value>
+  </data>
+  <data name="FILTER_DOAN" xml:space="preserve">
+    <value>Food</value>
+  </data>
+  <data name="FILTER_DOUONG" xml:space="preserve">
+    <value>Beverage</value>
+  </data>
+  <data name="FILTER_CHOTHUE" xml:space="preserve">
+    <value>Rental</value>
+  </data>
+  <data name="FILTER_LUUTRU" xml:space="preserve">
+    <value>Accommodation</value>
+  </data>
+  <data name="FILTER_VATTU" xml:space="preserve">
+    <value>Supplies</value>
+  </data>
+  <data name="LOAISP_VEVAOKHU" xml:space="preserve">
+    <value>Entrance Ticket</value>
+  </data>
+  <data name="LOAISP_VETROCHOI" xml:space="preserve">
+    <value>Game Ticket</value>
+  </data>
+  <data name="LOAISP_ANUONG" xml:space="preserve">
+    <value>Food</value>
+  </data>
+  <data name="LOAISP_DOUONG" xml:space="preserve">
+    <value>Beverage</value>
+  </data>
+  <data name="LOAISP_HANGHOA" xml:space="preserve">
+    <value>General Goods</value>
+  </data>
+  <data name="LOAISP_TUDO" xml:space="preserve">
+    <value>Locker</value>
+  </data>
+  <data name="LOAISP_DOCHO" xml:space="preserve">
+    <value>Rental Item</value>
+  </data>
+  <data name="LOAISP_CHOINGHIMAT" xml:space="preserve">
+    <value>Gazebo</value>
+  </data>
+  <data name="LOAISP_LUUTRU" xml:space="preserve">
+    <value>Accommodation (Room)</value>
+  </data>
+  <data name="LOAISP_NGUYENLIEU" xml:space="preserve">
+    <value>Material</value>
+  </data>
+  <data name="LOAISP_GUIXE" xml:space="preserve">
+    <value>Parking</value>
+  </data>
+  <data name="LOAISP_DATCHOTHUAN" xml:space="preserve">
+    <value>Animal Feeding Prep</value>
+  </data>
+  <data name="TRANGTHAI_DANGBAN" xml:space="preserve">
+    <value>Selling</value>
+  </data>
+  <data name="TRANGTHAI_TAMNGUNG" xml:space="preserve">
+    <value>Suspended</value>
+  </data>
+  <data name="TRANGTHAI_NGUNGBAN" xml:space="preserve">
+    <value>Discontinued</value>
+  </data>
+  <data name="COL_LOAIGIA" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="LOAIGIA_MACDINH" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="LOAIGIA_NGAYLE" xml:space="preserve">
+    <value>Holiday</value>
+  </data>
+  <data name="LOAIGIA_KHUYENMAI" xml:space="preserve">
+    <value>Promotion</value>
+  </data>
+  <data name="COL_HIEULUC_TU" xml:space="preserve">
+    <value>Valid From</value>
+  </data>
+  <data name="COL_HIEULUC_DEN" xml:space="preserve">
+    <value>Valid Until</value>
+  </data>
+  <data name="COL_GIABAN" xml:space="preserve">
+    <value>Selling Price</value>
+  </data>
+  <data name="COL_TIENCOC" xml:space="preserve">
+    <value>Deposit</value>
+  </data>
+  <data name="COL_PHUTBLOCK" xml:space="preserve">
+    <value>Block (min)</value>
+  </data>
+  <data name="COL_PHUTTIEP" xml:space="preserve">
+    <value>Next min</value>
+  </data>
+  <data name="COL_GIAPHUTHU" xml:space="preserve">
+    <value>Surcharge Price</value>
+  </data>
+  <data name="COL_DVT_DICH" xml:space="preserve">
+    <value>Target Unit</value>
+  </data>
+  <data name="COL_HESO" xml:space="preserve">
+    <value>Conversion Ratio</value>
+  </data>
+  <data name="TXT_CHON_DVT" xml:space="preserve">
+    <value>(Select Unit)</value>
+  </data>
+  <data name="TXT_CHON_THUE" xml:space="preserve">
+    <value>(Select Tax)</value>
+  </data>
+  <data name="TXT_CHON_DIEMBAN" xml:space="preserve">
+    <value>(Select POS)</value>
+  </data>
+  <data name="COL_MA" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="COL_TEN" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="TOPBAR_SYSTEM" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="TOPBAR_LANGUAGE" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="TOPBAR_LOGOUT" xml:space="preserve">
+    <value>Logout</value>
+  </data>
+  <data name="TOOLTIP_VATTU" xml:space="preserve">
+    <value>Physical products requiring inventory tracking.</value>
+  </data>
+  <data name="TOOLTIP_QUANLYLO" xml:space="preserve">
+    <value>Special goods requiring expiration date control.</value>
+  </data>
+  <data name="TOOLTIP_GIAUUTIEN" xml:space="preserve">
+    <value>This price is read-only. Please go to [Price List] Tab to schedule new pricing.</value>
+  </data>
+  <data name="TOOLTIP_DONVITINH" xml:space="preserve">
+    <value>Nên chọn đơn vị quy đổi nhỏ nhất của sản phẩm (Ví dụ: Chọn "Lon" thay vì "Thùng") để tiện cho việc báo cáo tồn kho và hao hụt.</value>
+  </data>
+  <data name="ERR_EMPTY_CODE" xml:space="preserve">
+    <value>Product code cannot be empty.</value>
+  </data>
+  <data name="ERR_EMPTY_NAME" xml:space="preserve">
+    <value>Product name cannot be empty.</value>
+  </data>
+  <data name="ERR_EMPTY_TYPE" xml:space="preserve">
+    <value>Please select product type.</value>
+  </data>
+  <data name="ERR_EMPTY_UNIT" xml:space="preserve">
+    <value>Please select unit of measurement.</value>
+  </data>
+  <data name="ERR_TICKET_NO_GATE" xml:space="preserve">
+    <value>Ticket product requires at least 1 gate access right.</value>
+  </data>
+  <data name="ERR_RENTAL_NO_PRICE" xml:space="preserve">
+    <value>Rental product has no price set.</value>
+  </data>
+  <data name="ERR_PRICE_OVERLAP" xml:space="preserve">
+    <value>Bảng giá "{0}" bị chồng lấp thời gian. Dòng kết thúc {1} nhưng dòng sau lại bắt đầu {2}</value>
+  </data>
+  <data name="ERR_DUP_CODE" xml:space="preserve">
+    <value>Product code '{0}' already exists.</value>
+  </data>
+  <data name="ERR_DUP_UNIT_GRID" xml:space="preserve">
+    <value>This unit already exists in the list.</value>
+  </data>
+  <data name="MSG_ADD_SUCCESS" xml:space="preserve">
+    <value>Added successfully!</value>
+  </data>
+  <data name="MSG_UPDATE_SUCCESS" xml:space="preserve">
+    <value>Updated successfully!</value>
+  </data>
+  <data name="MSG_UNSAVED" xml:space="preserve">
+    <value>Unsaved data! Do you want to save before switching?</value>
+  </data>
+  <data name="TITLE_UNSAVED" xml:space="preserve">
+    <value>Data Loss Warning</value>
+  </data>
+  <data name="WATERMARK_TIM_KIEM" xml:space="preserve">
+    <value>Search by name, code...</value>
+  </data>
+  <data name="TXT_KHONG_CAU_HINH" xml:space="preserve">
+    <value>This product has no custom configuration</value>
+  </data>
+  <data name="TXT_CHUA_CO" xml:space="preserve">
+    <value>(None)</value>
+  </data>
+  <data name="TXT_CHON_ANH" xml:space="preserve">
+    <value>Click here to select an image</value>
+  </data>
+  <data name="LBL_TITLE_FNB" xml:space="preserve">
+    <value>Exclusive for: FOOD &amp; BEVERAGE</value>
+  </data>
+  <data name="LBL_NHA_HANG" xml:space="preserve">
+    <value>Kitchen / Bar in charge:</value>
+  </data>
+  <data name="LBL_PHAN_LOAI_FNB" xml:space="preserve">
+    <value>Additional Category:</value>
+  </data>
+  <data name="CHK_DI_UNG" xml:space="preserve">
+    <value>Dish contains allergens</value>
+  </data>
+  <data name="LBL_GRID_TITLE_FNB" xml:space="preserve">
+    <value>Material Quota (R&amp;D BOM):</value>
+  </data>
+  <data name="COL_NGUYEN_LIEU" xml:space="preserve">
+    <value>Material / Ingredient</value>
+  </data>
+  <data name="COL_DVT" xml:space="preserve">
+    <value>Base Unit</value>
+  </data>
+  <data name="COL_SO_LUONG" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="BTN_THEM_NGUYEN_LIEU" xml:space="preserve">
+    <value>Add material</value>
+  </data>
+  <data name="FNB_CAT_MONCHINH" xml:space="preserve">
+    <value>Main Course</value>
+  </data>
+  <data name="FNB_CAT_TRANGMIENG" xml:space="preserve">
+    <value>Dessert</value>
+  </data>
+  <data name="FNB_CAT_KHAIVI" xml:space="preserve">
+    <value>Appetizers</value>
+  </data>
+  <data name="FNB_CAT_NUOC" xml:space="preserve">
+    <value>Drinks</value>
+  </data>
+  <data name="FNB_CAT_ANVAT" xml:space="preserve">
+    <value>Snacks</value>
+  </data>
+  <data name="FNB_CAT_CHAY" xml:space="preserve">
+    <value>Vegetarian</value>
+  </data>
+  <data name="TXT_CHON_NGUYEN_LIEU" xml:space="preserve">
+    <value>(Select material)</value>
+  </data>
+  <data name="ERR_KHO_MA_RONG" xml:space="preserve">
+    <value>Warehouse code cannot be empty.</value>
+  </data>
+  <data name="ERR_KHO_TEN_RONG" xml:space="preserve">
+    <value>Warehouse name cannot be empty.</value>
+  </data>
+  <data name="MSG_KHO_LUU_OK" xml:space="preserve">
+    <value>Warehouse info saved successfully</value>
+  </data>
+  <data name="ERR_KHO_TRUNG_MA" xml:space="preserve">
+    <value>Warehouse code already exists.</value>
+  </data>
+  <data name="ERR_KHO_DA_CO_GIAO_DICH" xml:space="preserve">
+    <value>Error: Warehouse has transactions</value>
+  </data>
+  <data name="MSG_KHO_XOA_OK" xml:space="preserve">
+    <value>Warehouse deleted successfully</value>
+  </data>
+  <data name="ERR_KHO_MUC_TON_AM" xml:space="preserve">
+    <value>Error: Negative stock level</value>
+  </data>
+  <data name="MSG_KHO_MUC_TON_OK" xml:space="preserve">
+    <value>Inventory alert updated successfully</value>
+  </data>
+  <data name="ERR_CTK_MA_RONG" xml:space="preserve">
+    <value>Warehouse voucher code cannot be empty.</value>
+  </data>
+  <data name="ERR_CTK_THIEU_CHITIET" xml:space="preserve">
+    <value>Warehouse voucher has no details.</value>
+  </data>
+  <data name="ERR_CTK_TRUNG_KHO_XUAT_NHAP" xml:space="preserve">
+    <value>Issuing and receiving warehouses cannot be the same.</value>
+  </data>
+  <data name="ERR_CTK_SOLUONG_AM" xml:space="preserve">
+    <value>Warehouse voucher quantity is invalid.</value>
+  </data>
+  <data name="MSG_CTK_LUU_OK" xml:space="preserve">
+    <value>Draft warehouse voucher saved.</value>
+  </data>
+  <data name="ERR_CTK_DA_DUYET" xml:space="preserve">
+    <value>This voucher has been approved and locked.</value>
+  </data>
+  <data name="ERR_SYSTEM_FAIL" xml:space="preserve">
+    <value>System error. Please contact administrator.</value>
+  </data>
+  <data name="MSG_CTK_XOA_OK" xml:space="preserve">
+    <value>Voucher deleted successfully.</value>
+  </data>
+  <data name="ERR_CTK_KHONG_TON_TAI" xml:space="preserve">
+    <value>Warehouse voucher does not exist.</value>
+  </data>
+  <data name="ERR_CTK_DA_DUYET_TRUOC_DO" xml:space="preserve">
+    <value>This inventory voucher has already been approved.</value>
+  </data>
+  <data name="ERR_CTK_KIEMKE_THIEU_KHONHAP" xml:space="preserve">
+    <value>Inventory voucher is missing receiving warehouse.</value>
+  </data>
+  <data name="ERR_CTK_KIEMKE_THIEU_KHOXUAT" xml:space="preserve">
+    <value>Inventory voucher is missing issuing warehouse.</value>
+  </data>
+  <data name="ERR_CTK_THIEU_KHONGUON_KHODICH" xml:space="preserve">
+    <value>Missing source or destination warehouse info.</value>
+  </data>
+  <data name="MSG_CTK_DUYET_OK" xml:space="preserve">
+    <value>Inventory voucher approved! Stock quantities updated.</value>
+  </data>
+  <data name="ERR_LOHANG_TEN_RONG" xml:space="preserve">
+    <value>Batch name cannot be empty</value>
+  </data>
+  <data name="ERR_LOHANG_THIEU_SANPHAM" xml:space="preserve">
+    <value>Missing product info for the batch.</value>
+  </data>
+  <data name="ERR_LOHANG_NSX_TUONGLAI" xml:space="preserve">
+    <value>Manufacture date cannot be in the future.</value>
+  </data>
+  <data name="ERR_LOHANG_HSD_NHO_HON_NSX" xml:space="preserve">
+    <value>Expiration date cannot be earlier than manufacture date.</value>
+  </data>
+  <data name="MSG_LOHANG_LUU_OK" xml:space="preserve">
+    <value>Batch updated successfully</value>
+  </data>
+  <data name="ERR_GIU_THIEU_DONHANG" xml:space="preserve">
+    <value>Missing reservation order info.</value>
+  </data>
+  <data name="ERR_GIU_THIEU_SANPHAM" xml:space="preserve">
+    <value>Missing reservation product info.</value>
+  </data>
+  <data name="ERR_GIU_SO_LUONG_AM" xml:space="preserve">
+    <value>Reserved quantity cannot be negative.</value>
+  </data>
+  <data name="ERR_GIU_THOIGIAN_SAI" xml:space="preserve">
+    <value>Reservation time is invalid.</value>
+  </data>
+  <data name="MSG_GIU_LUU_OK" xml:space="preserve">
+    <value>Inventory successfully reserved</value>
+  </data>
+  <data name="MSG_GIU_XOA_OK" xml:space="preserve">
+    <value>Goods released successfully</value>
+  </data>
+  <data name="FRM_KHO_TITLE" xml:space="preserve">
+    <value>Warehouse Management</value>
+  </data>
+  <data name="LBL_MA_KHO" xml:space="preserve">
+    <value>Warehouse Code</value>
+  </data>
+  <data name="LBL_TEN_KHO" xml:space="preserve">
+    <value>Warehouse Name</value>
+  </data>
+  <data name="LBL_KHU_VUC" xml:space="preserve">
+    <value>Area</value>
+  </data>
+  <data name="CHK_KHO_AO" xml:space="preserve">
+    <value>Virtual warehouse (book only)</value>
+  </data>
+  <data name="CHK_TON_AM" xml:space="preserve">
+    <value>Allow negative inventory</value>
+  </data>
+  <data name="LBL_TRANG_THAI_KHO" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="TRANGTHAI_HOATDONG" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="TRANGTHAI_NGUNGHOATDONG" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="COL_MA_KHO" xml:space="preserve">
+    <value>Warehouse Code</value>
+  </data>
+  <data name="COL_TEN_KHO" xml:space="preserve">
+    <value>Warehouse Name</value>
+  </data>
+  <data name="COL_KHO_AO" xml:space="preserve">
+    <value>Virtual Warehouse</value>
+  </data>
+  <data name="COL_TRANG_THAI" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="CTX_MO_PHIEU" xml:space="preserve">
+    <value>Open voucher details</value>
+  </data>
+  <data name="CTX_SAO_CHEP" xml:space="preserve">
+    <value>Copy as new voucher</value>
+  </data>
+  <data name="CTX_IN_PHIEU" xml:space="preserve">
+    <value>Print voucher</value>
+  </data>
+  <data name="CTX_HUY_PHIEU" xml:space="preserve">
+    <value>Cancel voucher</value>
+  </data>
+  <data name="CTX_CHEN_DONG" xml:space="preserve">
+    <value>Insert new row</value>
+  </data>
+  <data name="CTX_XOA_DONG" xml:space="preserve">
+    <value>Delete this row</value>
+  </data>
+  <data name="CTX_XEM_TON" xml:space="preserve">
+    <value>View inventory for this product</value>
+  </data>
+  <data name="CTX_XEM_LICHSU" xml:space="preserve">
+    <value>View history for this item</value>
+  </data>
+  <data name="CTX_SAO_DONG" xml:space="preserve">
+    <value>Copy row</value>
+  </data>
+  <data name="CTX_TAO_PHIEU_XUAT" xml:space="preserve">
+    <value>Create issue voucher for this item</value>
+  </data>
+  <data name="CTX_THIET_LAP_MUC_CB" xml:space="preserve">
+    <value>Set warning level</value>
+  </data>
+  <data name="CTX_XUAT_EXCEL" xml:space="preserve">
+    <value>Export Excel</value>
+  </data>
+  <data name="CTX_MO_PHIEU_GOC" xml:space="preserve">
+    <value>Open original voucher</value>
+  </data>
+  <data name="MENU_GRP_KHO" xml:space="preserve">
+    <value>Warehouse &amp; F&amp;B</value>
+  </data>
+  <data name="MENU_ITEM_DANH_MUC_KHO" xml:space="preserve">
+    <value>Warehouse List</value>
+  </data>
+  <data name="MENU_ITEM_TRUNG_TAM_KHO" xml:space="preserve">
+    <value>Inventory Hub</value>
+  </data>
+  <data name="BTN_THEM_MOI" xml:space="preserve">
+    <value>Add New</value>
+  </data>
+  <data name="TOOLTIP_KHOAO_TITLE" xml:space="preserve">
+    <value>Virtual Warehouse (Temp)</value>
+  </data>
+  <data name="PROMPT_TIM_KIEM" xml:space="preserve">
+    <value>Enter keyword to search...</value>
+  </data>
+  <data name="TOOLTIP_TONAM_DESC" xml:space="preserve">
+    <value>Warehouse (like Kitchen) can issue goods before entry voucher. System will show negative inventory (-).</value>
+  </data>
+  <data name="TOOLTIP_TONAM_TITLE" xml:space="preserve">
+    <value>Allow Negative Inventory</value>
+  </data>
+  <data name="TOOLTIP_KHOAO_DESC" xml:space="preserve">
+    <value>No physical location. Used for intermediate processing. Does not support negative inventory.</value>
+  </data>
+  <data name="MSG_XAC_NHAN_XOA" xml:space="preserve">
+    <value>Confirm deactivating this warehouse?</value>
+  </data>
+  <data name="TITLE_XAC_NHAN" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="COL_TEN_KHU_VUC" xml:space="preserve">
+    <value>Area Name</value>
+  </data>
+  <data name="COL_MA_KHU_VUC" xml:space="preserve">
+    <value>Area Code</value>
+  </data>
+  <data name="BTN_KHO_TAOPHIEU" xml:space="preserve">
+    <value> CREATE / EDIT VOUCHER</value>
+  </data>
+  <data name="BTN_KHO_TONKHO" xml:space="preserve">
+    <value> CURRENT INVENTORY</value>
+  </data>
+  <data name="BTN_KHO_LICHSU" xml:space="preserve">
+    <value> TRANSACTION HISTORY</value>
+  </data>
+  <data name="BTN_KHO_CANHBAO" xml:space="preserve">
+    <value> WARNINGS</value>
+  </data>
+  <data name="LBL_KHO_DSPHIEU" xml:space="preserve">
+    <value>RECENT VOUCHERS</value>
+  </data>
+  <data name="TXT_ALERT_HSD" xml:space="preserve">
+    <value>0 Batches expiring soon</value>
+  </data>
+  <data name="TXT_ALERT_TON" xml:space="preserve">
+    <value>0 Items below threshold</value>
+  </data>
+  <data name="MSG_WARN_UNSAVED" xml:space="preserve">
+    <value>Unsaved voucher! Navigating away will lose draft data. Continue?</value>
+  </data>
+  <data name="TITLE_CANHBAO" xml:space="preserve">
+    <value>Data Loss Warning</value>
+  </data>
+  <data name="COL_MAHANG" xml:space="preserve">
+    <value>Item Code</value>
+  </data>
+  <data name="COL_TENHANG" xml:space="preserve">
+    <value>Item Name</value>
+  </data>
+  <data name="COL_TONMAY" xml:space="preserve">
+    <value>System Stock</value>
+  </data>
+  <data name="COL_DEMTHUCTE" xml:space="preserve">
+    <value>Count / Input</value>
+  </data>
+  <data name="COL_LECH" xml:space="preserve">
+    <value>Diff</value>
+  </data>
+  <data name="GRP_KHO_NGUON" xml:space="preserve">
+    <value>Source Warehouse (Double click to transfer)</value>
+  </data>
+  <data name="LBL_LOAIPHIEU" xml:space="preserve">
+    <value>Voucher Type:</value>
+  </data>
+  <data name="LBL_NGAYLAP" xml:space="preserve">
+    <value>Creation Date:</value>
+  </data>
+  <data name="LBL_DOITAC" xml:space="preserve">
+    <value>Partner:</value>
+  </data>
+  <data name="LBL_KHONHAP" xml:space="preserve">
+    <value>To Warehouse:</value>
+  </data>
+  <data name="NULL_KHONHAP" xml:space="preserve">
+    <value>-- Select To Warehouse --</value>
+  </data>
+  <data name="LBL_GHICHU" xml:space="preserve">
+    <value>Note:</value>
+  </data>
+  <data name="NULL_DOITAC" xml:space="preserve">
+    <value>-- Select Partner --</value>
+  </data>
+  <data name="LBL_KHOXUAT" xml:space="preserve">
+    <value>From Warehouse:</value>
+  </data>
+  <data name="GRP_KHO_CHITIET" xml:space="preserve">
+    <value>Voucher Details</value>
+  </data>
+  <data name="NULL_KHOXUAT" xml:space="preserve">
+    <value>-- Select From Warehouse --</value>
+  </data>
+  <data name="LBL_MAPHIEU" xml:space="preserve">
+    <value>Voucher Code:</value>
+  </data>
+  <data name="COL_THANHTIEN" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="COL_DONGIA" xml:space="preserve">
+    <value>Unit Price</value>
+  </data>
+  <data name="COL_SOLUONG" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="COL_MUCCANHBAO" xml:space="preserve">
+    <value>Alert Quota</value>
+  </data>
+  <data name="COL_TRANGTHAI" xml:space="preserve">
+    <value>Status</value>
+  </data>
+  <data name="COL_TONKHO" xml:space="preserve">
+    <value>In Stock</value>
+  </data>
+  <data name="LBL_KHO" xml:space="preserve">
+    <value>Working Warehouse:</value>
+  </data>
+  <data name="LBL_NHOMSP" xml:space="preserve">
+    <value>Category:</value>
+  </data>
+  <data name="BTN_LOC" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="BTN_EXCEL" xml:space="preserve">
+    <value>Export Excel</value>
+  </data>
+  <data name="DANH_MUC_KHO" xml:space="preserve">
+    <value>WAREHOUSE LIST</value>
+  </data>
+  <data name="TRUNG_TAM_KHO" xml:space="preserve">
+    <value>INVENTORY HUB</value>
+  </data>
+  <data name="MNU_TAOPHIEU" xml:space="preserve">
+    <value>Create/Edit Voucher</value>
+  </data>
+  <data name="MNU_TONKHO" xml:space="preserve">
+    <value>Current Inventory</value>
+  </data>
+  <data name="MNU_LICHSU" xml:space="preserve">
+    <value>Transaction History</value>
+  </data>
+  <data name="MNU_CANHBAO" xml:space="preserve">
+    <value>Alerts</value>
+  </data>
+  <data name="TITLE_PHIEUGANDAY" xml:space="preserve">
+    <value>Recent Vouchers</value>
+  </data>
+  <data name="COL_LOAISP" xml:space="preserve">
+    <value>Product Type</value>
+  </data>
+  <data name="COL_LOAIPHIEU" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="COL_MAPHIEU" xml:space="preserve">
+    <value>Voucher</value>
+  </data>
+  <data name="COL_KHOXUAT" xml:space="preserve">
+    <value>From Warehouse</value>
+  </data>
+  <data name="COL_KHONHAP" xml:space="preserve">
+    <value>To Warehouse</value>
+  </data>
+  <data name="COL_CHONSP" xml:space="preserve">
+    <value>-- Select Product --</value>
+  </data>
+  <data name="COL_NGAYLAP" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="LBL_TUNGAY" xml:space="preserve">
+    <value>From:</value>
+  </data>
+  <data name="LBL_DENNGAY" xml:space="preserve">
+    <value>To:</value>
+  </data>
+  <data name="BTN_TIMKIEM" xml:space="preserve">
+    <value>SEARCH</value>
+  </data>
+  <data name="NHAP_MUA" xml:space="preserve">
+    <value>Purchase Receipt</value>
+  </data>
+  <data name="XUAT_BAN" xml:space="preserve">
+    <value>Sales Issue</value>
+  </data>
+  <data name="TRA_NCC" xml:space="preserve">
+    <value>Return to Supplier</value>
+  </data>
+  <data name="KHACH_TRA" xml:space="preserve">
+    <value>Customer Return</value>
+  </data>
+  <data name="HUY_HONG" xml:space="preserve">
+    <value>Damaged</value>
+  </data>
+  <data name="CHUYEN_KHO" xml:space="preserve">
+    <value>Transfer</value>
+  </data>
+  <data name="KIEM_KE" xml:space="preserve">
+    <value>Inventory Count</value>
+  </data>
+  <data name="XUAT_BAOTRI" xml:space="preserve">
+    <value>Issue maintenance supplies</value>
+  </data>
+  <data name="XUAT_SANXUAT" xml:space="preserve">
+    <value>Issue production (BOM)</value>
+  </data>
+  <data name="TITLE_LOI" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="TITLE_THONGBAO" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+  <data name="ERR_CHONKHO" xml:space="preserve">
+    <value>Please select a working warehouse!</value>
+  </data>
+  <data name="ERR_CHITIETRONG" xml:space="preserve">
+    <value>No item details provided (or empty)!</value>
+  </data>
+  <data name="ERR_CHONNGAY" xml:space="preserve">
+    <value>Please select a valid voucher date!</value>
+  </data>
+  <data name="MSG_LUUTHATBAI" xml:space="preserve">
+    <value>Save failed!</value>
+  </data>
+  <data name="LBL_NCC" xml:space="preserve">
+    <value>Supplier:</value>
+  </data>
+  <data name="MNU_XOADONG" xml:space="preserve">
+    <value>Delete row</value>
+  </data>
+  <data name="ToChuc" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="CaNhan" xml:space="preserve">
+    <value>Individual</value>
+  </data>
+  <data name="CongTyLuHanh" xml:space="preserve">
+    <value>Travel Agency</value>
+  </data>
+  <data name="MENU_GRP_POS" xml:space="preserve">
+    <value>Sales</value>
+  </data>
+  <data name="MENU_ITEM_POS" xml:space="preserve">
+    <value>Point of Sale (POS)</value>
+  </data>
+  <data name="POS_TITLE" xml:space="preserve">
+    <value>DAI NAM POS</value>
+  </data>
+  <data name="POS_LBL_THUNGAN" xml:space="preserve">
+    <value>Cashier:</value>
+  </data>
+  <data name="POS_LBL_CA" xml:space="preserve">
+    <value>Shift:</value>
+  </data>
+  <data name="POS_LBL_GIOHANG" xml:space="preserve">
+    <value>SHOPPING CART</value>
+  </data>
+  <data name="POS_LBL_TIENHANG" xml:space="preserve">
+    <value>Subtotal:</value>
+  </data>
+  <data name="POS_LBL_THUEVAT" xml:space="preserve">
+    <value>VAT Tax:</value>
+  </data>
+  <data name="POS_LBL_GIAMGIA" xml:space="preserve">
+    <value>Discount:</value>
+  </data>
+  <data name="POS_LBL_TONGTHANHTOAN" xml:space="preserve">
+    <value>TOTAL:</value>
+  </data>
+  <data name="POS_BTN_THANHTOAN" xml:space="preserve">
+    <value>CHECKOUT (F5)</value>
+  </data>
+  <data name="POS_BTN_XOAGIO" xml:space="preserve">
+    <value>Clear Cart</value>
+  </data>
+  <data name="POS_BTN_DONGPHIEN" xml:space="preserve">
+    <value>Close Shift (F8)</value>
+  </data>
+  <data name="POS_WATERMARK_BARCODE" xml:space="preserve">
+    <value>Scan barcode or type product name...</value>
+  </data>
+  <data name="POS_TAB_VE" xml:space="preserve">
+    <value>Ticket</value>
+  </data>
+  <data name="POS_TAB_FNB" xml:space="preserve">
+    <value>F&amp;B</value>
+  </data>
+  <data name="POS_TAB_THUEDO" xml:space="preserve">
+    <value>Rental</value>
+  </data>
+  <data name="POS_TAB_HANGHOA" xml:space="preserve">
+    <value>Goods</value>
+  </data>
+  <data name="POS_COL_THEM" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="POS_TT_TITLE" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="POS_TT_TONGPHAITHU" xml:space="preserve">
+    <value>Total due:</value>
+  </data>
+  <data name="POS_TT_DATRA" xml:space="preserve">
+    <value>Paid:</value>
+  </data>
+  <data name="POS_TT_CONTHIEU" xml:space="preserve">
+    <value>Remaining:</value>
+  </data>
+  <data name="POS_TT_TIENTHUA" xml:space="preserve">
+    <value>Change:</value>
+  </data>
+  <data name="POS_TT_COL_PHUONGTHUC" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="POS_TT_COL_SOTIEN" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="POS_TT_COL_MATHERFID" xml:space="preserve">
+    <value>RFID Code</value>
+  </data>
+  <data name="POS_TT_BTN_THEMDONG" xml:space="preserve">
+    <value>+ Add payment line</value>
+  </data>
+  <data name="POS_TT_BTN_XACNHAN" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="POS_TT_BTN_VUADU" xml:space="preserve">
+    <value>Exact Amount</value>
+  </data>
+  <data name="POS_TT_LBL_SODU" xml:space="preserve">
+    <value>Wallet Balance:</value>
+  </data>
+  <data name="POS_TT_LBL_SAUTRU" xml:space="preserve">
+    <value>After deduct:</value>
+  </data>
+  <data name="POS_TT_LBL_CHUTHE" xml:space="preserve">
+    <value>Cardholder:</value>
+  </data>
+  <data name="POS_PHIEN_TITLE_MO" xml:space="preserve">
+    <value>Open Cashier Session</value>
+  </data>
+  <data name="POS_PHIEN_TITLE_DONG" xml:space="preserve">
+    <value>Close Cashier Session</value>
+  </data>
+  <data name="POS_PHIEN_LBL_MAYPOS" xml:space="preserve">
+    <value>POS Machine:</value>
+  </data>
+  <data name="POS_PHIEN_LBL_KHOXUAT" xml:space="preserve">
+    <value>From Warehouse:</value>
+  </data>
+  <data name="POS_PHIEN_LBL_TIENDAUCA" xml:space="preserve">
+    <value>Starting Cash:</value>
+  </data>
+  <data name="POS_PHIEN_LBL_TIENCUOICA" xml:space="preserve">
+    <value>End Cash (Manual Count):</value>
+  </data>
+  <data name="POS_PHIEN_LBL_TONGTHU" xml:space="preserve">
+    <value>Total shift revenue:</value>
+  </data>
+  <data name="POS_PHIEN_LBL_CHENHLECH" xml:space="preserve">
+    <value>Difference:</value>
+  </data>
+  <data name="POS_PHIEN_BTN_MO" xml:space="preserve">
+    <value>Open Session</value>
+  </data>
+  <data name="POS_PHIEN_BTN_CHOT" xml:space="preserve">
+    <value>Close Shift</value>
+  </data>
+  <data name="POS_PHIEN_LBL_MOLUC" xml:space="preserve">
+    <value>Opened At:</value>
+  </data>
+  <data name="PTTT_TIENMAT" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="PTTT_CHUYENKHOAN" xml:space="preserve">
+    <value>Bank Transfer</value>
+  </data>
+  <data name="PTTT_VIRFID" xml:space="preserve">
+    <value>RFID Wallet</value>
+  </data>
+  <data name="PTTT_QR" xml:space="preserve">
+    <value>QR Code</value>
+  </data>
+  <data name="PTTT_MOMO" xml:space="preserve">
+    <value>MoMo</value>
+  </data>
+  <data name="PTTT_THENGANH" xml:space="preserve">
+    <value>Bank Card</value>
+  </data>
+  <data name="POS_STATUS_PHIEN" xml:space="preserve">
+    <value>Session</value>
+  </data>
+  <data name="POS_STATUS_MAY" xml:space="preserve">
+    <value>Machine:</value>
+  </data>
+  <data name="POS_STATUS_KHO" xml:space="preserve">
+    <value>Warehouse:</value>
+  </data>
+  <data name="POS_TOAST_THANHCONG" xml:space="preserve">
+    <value>Payment Successful</value>
+  </data>
+  <data name="POS_TOAST_VENAPHAT" xml:space="preserve">
+    <value>{0} ticket QR codes issued</value>
+  </data>
+  <data name="POS_TOAST_TIENTHUA" xml:space="preserve">
+    <value>Change: {0}</value>
+  </data>
+  <data name="POS_MSG_XOAGIO" xml:space="preserve">
+    <value>Clear entire cart? This action cannot be undone.</value>
+  </data>
+  <data name="ERR_POS_GIO_RONG" xml:space="preserve">
+    <value>Cart is empty, nothing to checkout.</value>
+  </data>
+  <data name="ERR_POS_CHUA_MO_PHIEN" xml:space="preserve">
+    <value>Cashier session not open. Please open session before selling.</value>
+  </data>
+  <data name="ERR_POS_TIEN_KHONG_KHOP" xml:space="preserve">
+    <value>Total payment does not match the bill. Please check again.</value>
+  </data>
+  <data name="ERR_POS_RFID_KHONG_DU" xml:space="preserve">
+    <value>RFID wallet balance is insufficient for this payment.</value>
+  </data>
+  <data name="ERR_POS_HET_HANG" xml:space="preserve">
+    <value>Product '{0}' is out of stock.</value>
+  </data>
+  <data name="ERR_POS_SOLUONG_AM" xml:space="preserve">
+    <value>Quantity must be greater than 0.</value>
+  </data>
+  <data name="ERR_POS_RFID_KHONGTIMTHAY" xml:space="preserve">
+    <value>RFID card '{0}' not found in the system.</value>
+  </data>
+  <data name="ERR_POS_PHIEN_DANG_MO" xml:space="preserve">
+    <value>This POS has an open session by another user.</value>
+  </data>
+  <data name="ERR_POS_SP_KHONGTIMTHAY" xml:space="preserve">
+    <value>Product with code '{0}' not found.</value>
+  </data>
+  <data name="MSG_POS_CHECKOUT_OK" xml:space="preserve">
+    <value>Order checkout successful.</value>
+  </data>
+  <data name="MSG_POS_PHIEN_MO_OK" xml:space="preserve">
+    <value>Cashier session opened successfully.</value>
+  </data>
+  <data name="MSG_POS_PHIEN_DONG_OK" xml:space="preserve">
+    <value>Cashier session closed successfully.</value>
+  </data>
+  <data name="POS_CASHIER" xml:space="preserve">
+    <value>Cashier: ---</value>
+  </data>
+  <data name="POS_SHIFT" xml:space="preserve">
+    <value>Shift: ---</value>
+  </data>
+  <data name="POS_NO_SESSION" xml:space="preserve">
+    <value>No active cashier session</value>
+  </data>
+  <data name="POS_TAB_ALL" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="POS_TAB_TICKET" xml:space="preserve">
+    <value>Tickets</value>
+  </data>
+  <data name="POS_TAB_GOODS" xml:space="preserve">
+    <value>Goods</value>
+  </data>
+  <data name="POS_BARCODE_HINT" xml:space="preserve">
+    <value>Scan barcode or type product name...</value>
+  </data>
+  <data name="POS_COL_PRODUCT" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="POS_SUBTOTAL" xml:space="preserve">
+    <value>Subtotal:</value>
+  </data>
+  <data name="POS_VAT" xml:space="preserve">
+    <value>VAT:</value>
+  </data>
+  <data name="POS_DISCOUNT" xml:space="preserve">
+    <value>Discount:</value>
+  </data>
+  <data name="POS_TOTAL" xml:space="preserve">
+    <value>TOTAL:</value>
+  </data>
+  <data name="POS_BTN_CHECKOUT" xml:space="preserve">
+    <value>CHECKOUT (F5)</value>
+  </data>
+  <data name="POS_BTN_CLEAR" xml:space="preserve">
+    <value>Clear Cart</value>
+  </data>
+  <data name="POS_BTN_CLOSE_SESSION" xml:space="preserve">
+    <value>Close Shift (F8)</value>
+  </data>
+  <data name="POS_LBL_CASHIER" xml:space="preserve">
+    <value>Cashier</value>
+  </data>
+  <data name="POS_LBL_SHIFT" xml:space="preserve">
+    <value>Shift</value>
+  </data>
+  <data name="POS_LBL_SESSION" xml:space="preserve">
+    <value>Session</value>
+  </data>
+  <data name="POS_LBL_MACHINE" xml:space="preserve">
+    <value>Machine</value>
+  </data>
+  <data name="SES_OPEN_TITLE" xml:space="preserve">
+    <value>OPEN CASHIER SESSION</value>
+  </data>
+  <data name="SES_BTN_OPEN" xml:space="preserve">
+    <value>OPEN</value>
+  </data>
+  <data name="SES_CLOSE_TITLE" xml:space="preserve">
+    <value>CLOSE CASHIER SESSION</value>
+  </data>
+  <data name="SES_BTN_CLOSE" xml:space="preserve">
+    <value>CLOSE</value>
+  </data>
+  <data name="SES_FORM_TITLE" xml:space="preserve">
+    <value>Cashier Session</value>
+  </data>
+  <data name="SES_MACHINE" xml:space="preserve">
+    <value>POS Machine:</value>
+  </data>
+  <data name="SES_START_CASH" xml:space="preserve">
+    <value>Opening Cash:</value>
+  </data>
+  <data name="SES_WAREHOUSE" xml:space="preserve">
+    <value>Sales Warehouse:</value>
+  </data>
+  <data name="SES_NOTE" xml:space="preserve">
+    <value>Note:</value>
+  </data>
+  <data name="SES_END_CASH" xml:space="preserve">
+    <value>Closing Cash:</value>
+  </data>
+  <data name="SES_TOTAL_REV" xml:space="preserve">
+    <value>Session Revenue:</value>
+  </data>
+  <data name="SES_DIFF" xml:space="preserve">
+    <value>Variance:</value>
+  </data>
+  <data name="SES_SELECT_WH" xml:space="preserve">
+    <value>-- Select Warehouse --</value>
+  </data>
+  <data name="MSG_POS_CONFIRM_CLEAR_CART" xml:space="preserve">
+    <value>Are you sure you want to clear the entire cart?</value>
+  </data>
+  <data name="MSG_CONFIRM" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="ERR_POS_NO_OPEN_SESSION" xml:space="preserve">
+    <value>No open cashier session</value>
+  </data>
+  <data name="MSG_POS_PROMO_NOT_READY" xml:space="preserve">
+    <value>Promo engine not ready.</value>
+  </data>
+  <data name="ERR_POS_PRODUCT_NOT_FOUND" xml:space="preserve">
+    <value>Product not found</value>
+  </data>
+  <data name="ERR_POS_NO_SESSION" xml:space="preserve">
+    <value>Please open a cashier session before checking out.</value>
+  </data>
+  <data name="ERR_POS_CART_EMPTY" xml:space="preserve">
+    <value>Cart is empty</value>
+  </data>
+  <data name="PAY_TITLE" xml:space="preserve">
+    <value>Payment</value>
+  </data>
+  <data name="PAY_HEADER" xml:space="preserve">
+    <value>PAYMENT</value>
+  </data>
+  <data name="PAY_TOTAL_DUE" xml:space="preserve">
+    <value>Total Due:</value>
+  </data>
+  <data name="PAY_COL_METHOD" xml:space="preserve">
+    <value>Method</value>
+  </data>
+  <data name="PAY_COL_AMOUNT" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="PAY_COL_NOTE" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="PAY_BTN_ADD_LINE" xml:space="preserve">
+    <value>+ Add payment line</value>
+  </data>
+  <data name="PAY_BTN_EXACT" xml:space="preserve">
+    <value>Exact</value>
+  </data>
+  <data name="PAY_PAID" xml:space="preserve">
+    <value>Paid:</value>
+  </data>
+  <data name="PAY_REMAINING" xml:space="preserve">
+    <value>Remaining:</value>
+  </data>
+  <data name="PAY_CHANGE" xml:space="preserve">
+    <value>Change:</value>
+  </data>
+  <data name="PAY_RFID_CODE" xml:space="preserve">
+    <value>Card ID:</value>
+  </data>
+  <data name="PAY_BTN_CANCEL" xml:space="preserve">
+    <value>CANCEL (Esc)</value>
+  </data>
+  <data name="PAY_BTN_CONFIRM" xml:space="preserve">
+    <value>CONFIRM</value>
+  </data>
+  <data name="ERR_POS_PAYMENT_NOT_ENOUGH" xml:space="preserve">
+    <value>Payment amount is insufficient!</value>
+  </data>
+  <data name="ERR_POS_MACHINE_REQUIRED" xml:space="preserve">
+    <value>Please enter POS machine code.</value>
+  </data>
+  <data name="BTN_DONG" xml:space="preserve">
+    <value>CLOSE</value>
+  </data>
+  <data name="CUST_SEARCH_HINT" xml:space="preserve">
+    <value>Phone / Cust ID / Scan RFID...</value>
+  </data>
+  <data name="CUST_BTN_SEARCH" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="CUST_BTN_CLEAR" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="CUST_LBL_POINTS" xml:space="preserve">
+    <value>points</value>
+  </data>
+  <data name="ERR_CUST_EMPTY_KEYWORD" xml:space="preserve">
+    <value>Please enter a search keyword</value>
+  </data>
+  <data name="ERR_CUST_NOT_FOUND" xml:space="preserve">
+    <value>Customer not found</value>
+  </data>
+  <data name="ERR_CUST_RFID_NOT_FOUND" xml:space="preserve">
+    <value>Customer RFID not found</value>
+  </data>
+  <data name="MSG_KM_APPLIED" xml:space="preserve">
+    <value>Applied code {0}: discount {1:#,##0}₫</value>
+  </data>
+  <data name="ERR_KM_EMPTY" xml:space="preserve">
+    <value>Promotion code is empty</value>
+  </data>
+  <data name="ERR_KM_NOT_FOUND" xml:space="preserve">
+    <value>Promotion code not found</value>
+  </data>
+  <data name="ERR_KM_HET_LUOT" xml:space="preserve">
+    <value>Promotion code has reached usage limit</value>
+  </data>
+  <data name="ERR_KM_DON_TOI_THIEU" xml:space="preserve">
+    <value>Order does not meet minimum value for promotion</value>
+  </data>
+  <data name="ERR_KM_DIEU_KIEN" xml:space="preserve">
+    <value>Customer not eligible for this promotion</value>
+  </data>
+  <data name="POS_BTN_REMOVE_KM" xml:space="preserve">
+    <value>Remove Promo</value>
+  </data>
+  <data name="PAY_USE_POINTS" xml:space="preserve">
+    <value>Use {0} points (deduct {1}₫)</value>
+  </data>
+  <data name="REFUND_TITLE" xml:space="preserve">
+    <value>Retail Refund Operation</value>
+  </data>
+  <data name="REFUND_SEARCH_HINT" xml:space="preserve">
+    <value>Order Code to refund...</value>
+  </data>
+  <data name="REFUND_BTN_SEARCH" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="REFUND_BTN_CONFIRM" xml:space="preserve">
+    <value>CONFIRM REFUND</value>
+  </data>
+  <data name="REFUND_BTN_CLOSE" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="TITLE_SUCCESS" xml:space="preserve">
+    <value>Success!</value>
+  </data>
+  <data name="TITLE_FAIL" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="MSG_REFUND_SUCCESS" xml:space="preserve">
+    <value>Refund successful</value>
+  </data>
+  <data name="MSG_REFUND_FAIL" xml:space="preserve">
+    <value>Refund failed</value>
+  </data>
+  <data name="MSG_REFUND_CONFIRM" xml:space="preserve">
+    <value>Are you sure you want to refund? This process is irreversible!</value>
+  </data>
+  <data name="TITLE_REFUND_CONFIRM" xml:space="preserve">
+    <value>Refund to Customer</value>
+  </data>
+  <data name="ERR_REFUND_EMPTY_CODE" xml:space="preserve">
+    <value>Please enter order code</value>
+  </data>
+  <data name="ERR_REFUND_NOT_FOUND" xml:space="preserve">
+    <value>Order not found</value>
+  </data>
+  <data name="ERR_REFUND_NO_ITEMS" xml:space="preserve">
+    <value>Please enter refund amount for at least 1 product!</value>
+  </data>
+  <data name="REFUND_COL_PRODUCT" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="REFUND_COL_TYPE" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="REFUND_COL_BOUGHT" xml:space="preserve">
+    <value>Bought</value>
+  </data>
+  <data name="REFUND_COL_REFUNDED" xml:space="preserve">
+    <value>Refunded</value>
+  </data>
+  <data name="REFUND_COL_PRICE" xml:space="preserve">
+    <value>Price / Penalty</value>
+  </data>
+  <data name="REFUND_COL_RETURNQTY" xml:space="preserve">
+    <value>Return Qty</value>
+  </data>
+  <data name="REFUND_COL_REASON" xml:space="preserve">
+    <value>Reason</value>
+  </data>
+  <data name="POS_BTN_REFUND" xml:space="preserve">
+    <value>Refund (F9)</value>
+  </data>
+  <data name="MSG_POS_TOAST_TITLE" xml:space="preserve">
+    <value>Payment Successful</value>
+  </data>
+  <data name="MSG_POS_TOAST_CHANGE" xml:space="preserve">
+    <value>Change</value>
+  </data>
+  <data name="MSG_POS_TOAST_TICKETS" xml:space="preserve">
+    <value>Tickets</value>
+  </data>
+  <data name="ERR_PAY_NEGATIVE_AMOUNT" xml:space="preserve">
+    <value>Payment amount cannot be negative</value>
+  </data>
+  <data name="ERR_POS_RFID_EMPTY" xml:space="preserve">
+    <value>Please scan RFID card</value>
+  </data>
+  <data name="FRM_KH_TITLE" xml:space="preserve">
+    <value>Customer Management</value>
+  </data>
+  <data name="MENU_GRP_DOITAC" xml:space="preserve">
+    <value>Administration</value>
+  </data>
+  <data name="MENU_ITEM_KHACHHANG" xml:space="preserve">
+    <value>Customers</value>
+  </data>
+  <data name="BTN_KH_NAP_TIEN" xml:space="preserve">
+    <value>Top Up Wallet</value>
+  </data>
+  <data name="BTN_KH_KHOA_THE" xml:space="preserve">
+    <value>Lock Card</value>
+  </data>
+  <data name="BTN_KH_CAP_VI_THE" xml:space="preserve">
+    <value>Issue E-Wallet</value>
+  </data>
+  <data name="BTN_KH_CHINH_DIEM" xml:space="preserve">
+    <value>Adjust Points</value>
+  </data>
+  <data name="BTN_KH_MO_THE" xml:space="preserve">
+    <value>Issue Card</value>
+  </data>
+  <data name="TAB_KH_THONGTIN" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="TAB_KH_THE_VI" xml:space="preserve">
+    <value>Cards &amp; Wallets</value>
+  </data>
+  <data name="TAB_KH_LICHSU" xml:space="preserve">
+    <value>Transaction History</value>
+  </data>
+  <data name="TAB_KH_LICHSU_GD" xml:space="preserve">
+    <value>Transaction History</value>
+  </data>
+  <data name="TAB_KH_DIEM" xml:space="preserve">
+    <value>Points History</value>
+  </data>
+  <data name="LBL_KH_MA" xml:space="preserve">
+    <value>Cust Code</value>
+  </data>
+  <data name="LBL_KH_TEN" xml:space="preserve">
+    <value>Full Name (*)</value>
+  </data>
+  <data name="LBL_KH_SDT" xml:space="preserve">
+    <value>Phone (*)</value>
+  </data>
+  <data name="LBL_KH_EMAIL" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="LBL_KH_CCCD" xml:space="preserve">
+    <value>ID Card</value>
+  </data>
+  <data name="LBL_KH_DIACHI" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="LBL_KH_LOAI" xml:space="preserve">
+    <value>Customer Type</value>
+  </data>
+  <data name="LBL_KH_HANG" xml:space="preserve">
+    <value>Membership Tier</value>
+  </data>
+  <data name="LBL_KH_SODU" xml:space="preserve">
+    <value>Available Balance</value>
+  </data>
+  <data name="LBL_KH_DIEM" xml:space="preserve">
+    <value>Accumulated Points</value>
+  </data>
+  <data name="LBL_KH_THE_RFID" xml:space="preserve">
+    <value>RFID Card</value>
+  </data>
+  <data name="LBL_KH_TONGCHI" xml:space="preserve">
+    <value>Total Spending</value>
+  </data>
+  <data name="LBL_KH_FIELD_MA" xml:space="preserve">
+    <value>Customer Code</value>
+  </data>
+  <data name="LBL_KH_FIELD_SDT" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="LBL_KH_FIELD_EMAIL" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="LBL_KH_FIELD_CCCD" xml:space="preserve">
+    <value>ID Card / Passport</value>
+  </data>
+  <data name="LBL_KH_FIELD_DIACHI" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="LBL_KH_FIELD_NGAYTAO" xml:space="preserve">
+    <value>Registration Date</value>
+  </data>
+  <data name="LBL_KH_FIELD_HANG" xml:space="preserve">
+    <value>Membership Tier</value>
+  </data>
+  <data name="TXT_KH_KHACH" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="MSG_KH_NHAP_MA_THE" xml:space="preserve">
+    <value>Enter RFID code:</value>
+  </data>
+  <data name="MSG_KH_NHAP_SOTIEN" xml:space="preserve">
+    <value>Enter deposit amount:</value>
+  </data>
+  <data name="MSG_KH_NHAP_DIEM" xml:space="preserve">
+    <value>Enter Points (+) or (-):</value>
+  </data>
+  <data name="ERR_KH_TEN_RONG" xml:space="preserve">
+    <value>Customer name cannot be empty</value>
+  </data>
+  <data name="ERR_KH_SDT_RONG" xml:space="preserve">
+    <value>Phone number cannot be empty</value>
+  </data>
+  <data name="ERR_KH_SDT_TRUNG" xml:space="preserve">
+    <value>Phone number already exists</value>
+  </data>
+  <data name="ERR_KH_CCCD_TRUNG" xml:space="preserve">
+    <value>ID card number already exists.</value>
+  </data>
+  <data name="MSG_KH_LUU_OK" xml:space="preserve">
+    <value>Customer information saved successfully!</value>
+  </data>
+  <data name="MSG_KH_XOA_OK" xml:space="preserve">
+    <value>Customer deleted successfully!</value>
+  </data>
+  <data name="MSG_NAP_TIEN_OK" xml:space="preserve">
+    <value>Money added to wallet successfully!</value>
+  </data>
+  <data name="ERR_VI_SO_TIEN_AM" xml:space="preserve">
+    <value>Amount must be greater than 0!</value>
+  </data>
+  <data name="ERR_VI_CHUA_CO" xml:space="preserve">
+    <value>E-wallet is not initialized.</value>
+  </data>
+  <data name="ERR_VI_DA_CO" xml:space="preserve">
+    <value>E-wallet already exists.</value>
+  </data>
+  <data name="ERR_RFID_MA_RONG" xml:space="preserve">
+    <value>RFID card code cannot be empty.</value>
+  </data>
+  <data name="ERR_RFID_MA_TRUNG" xml:space="preserve">
+    <value>RFID card code already exists.</value>
+  </data>
+  <data name="ERR_RFID_KHONG_TIM_THAY" xml:space="preserve">
+    <value>RFID card not found in the system.</value>
+  </data>
+  <data name="ERR_RFID_TRANG_THAI_TRUNG" xml:space="preserve">
+    <value>RFID card status is unchanged.</value>
+  </data>
+  <data name="ERR_RFID_LUONG_KHONG_HOP_LE" xml:space="preserve">
+    <value>Invalid RFID card quantity.</value>
+  </data>
+  <data name="MSG_RFID_KICH_HOAT_OK" xml:space="preserve">
+    <value>Card activated/issued successfully!</value>
+  </data>
+  <data name="MSG_RFID_KHOA_OK" xml:space="preserve">
+    <value>Card locked successfully!</value>
+  </data>
+  <data name="MSG_RFID_CHUYEN_OK" xml:space="preserve">
+    <value>Card status changed successfully!</value>
+  </data>
+  <data name="ERR_DIEM_SO_AM" xml:space="preserve">
+    <value>Points cannot be negative</value>
+  </data>
+  <data name="ERR_DIEM_KHONG_DU" xml:space="preserve">
+    <value>Insufficient points</value>
+  </data>
+  <data name="MSG_DIEM_CONG_OK" xml:space="preserve">
+    <value>Points added successfully!</value>
+  </data>
+  <data name="MSG_DIEM_TRU_OK" xml:space="preserve">
+    <value>Points deducted successfully!</value>
+  </data>
+  <data name="ERR_POS_RFID_NOT_FOUND_OR_INACTIVE" xml:space="preserve">
+    <value>RFID card not found or inactive</value>
+  </data>
+  <data name="ERR_POS_PAYMENT_INSUFFICIENT" xml:space="preserve">
+    <value>Insufficient payment amount</value>
+  </data>
+  <data name="ERR_POS_RFID_PAYMENT_NO_ID" xml:space="preserve">
+    <value>RFID wallet not identified</value>
+  </data>
+  <data name="ERR_POS_RFID_INSUFFICIENT_BALANCE" xml:space="preserve">
+    <value>Insufficient RFID wallet balance</value>
+  </data>
+  <data name="MSG_POS_CHECKOUT_SUCCESS" xml:space="preserve">
+    <value>Checkout successful</value>
+  </data>
+  <data name="ERR_POS_CHECKOUT_FAILED_UNKNOWN" xml:space="preserve">
+    <value>Checkout failed, unknown error</value>
+  </data>
+  <data name="ERR_POS_MACHINE_IN_USE" xml:space="preserve">
+    <value>This POS machine is in use by another staff</value>
+  </data>
+  <data name="ERR_POS_ALREADY_OPENED_SESSION" xml:space="preserve">
+    <value>You already have an active cashier session</value>
+  </data>
+  <data name="MSG_POS_SESSION_OPENED" xml:space="preserve">
+    <value>Cashier session opened successfully</value>
+  </data>
+  <data name="ERR_POS_INVALID_SESSION_ID" xml:space="preserve">
+    <value>Invalid session ID</value>
+  </data>
+  <data name="MSG_POS_SESSION_CLOSED" xml:space="preserve">
+    <value>Cashier session closed successfully</value>
+  </data>
+  <data name="TXT_THE_DANGDUNG" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="TXT_THE_DAKHOA" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="TXT_THE_CHUAKICHHOAT" xml:space="preserve">
+    <value>Inactive</value>
+  </data>
+  <data name="TXT_THE_DATRA" xml:space="preserve">
+    <value>Returned</value>
+  </data>
+  <data name="TXT_GD_NAP" xml:space="preserve">
+    <value>Top-up</value>
+  </data>
+  <data name="TXT_GD_TRU" xml:space="preserve">
+    <value>Deduct</value>
+  </data>
+  <data name="TXT_GD_THU" xml:space="preserve">
+    <value>Receive</value>
+  </data>
+  <data name="TXT_GD_CHI" xml:space="preserve">
+    <value>Spend</value>
+  </data>
+  <data name="TXT_GD_CONG" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="TXT_DIEM_CONG" xml:space="preserve">
+    <value>Earn Points</value>
+  </data>
+  <data name="TXT_DIEM_TRU" xml:space="preserve">
+    <value>Use Points</value>
+  </data>
+  <data name="COL_KH_MAGD" xml:space="preserve">
+    <value>Txn ID</value>
+  </data>
+  <data name="COL_KH_NHOMGD" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="COL_KH_LOAIGD" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="COL_KH_SOTIEN" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="COL_KH_SODIEM" xml:space="preserve">
+    <value>Points</value>
+  </data>
+  <data name="COL_KH_SODUSAUGD" xml:space="preserve">
+    <value>Balance After</value>
+  </data>
+  <data name="COL_KH_MOTA" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="COL_KH_THOIGIAN" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="BTN_KH_MOKHOA_THE" xml:space="preserve">
+    <value>Unlock Card</value>
+  </data>
+  <data name="MSG_KH_NHAP_LYDO" xml:space="preserve">
+    <value>Enter adjustment reason:</value>
+  </data>
+  <data name="TXT_KH_LYDO_MACDINH" xml:space="preserve">
+    <value>Manual adjustment</value>
+  </data>
+  <data name="Doan" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="DoanhNghiep" xml:space="preserve">
+    <value>Corporate</value>
+  </data>
+  <data name="HocSinhSinhVien" xml:space="preserve">
+    <value>Student</value>
+  </data>
+  <data name="VIP" xml:space="preserve">
+    <value>VIP Customer</value>
+  </data>
+  <data name="VVIP" xml:space="preserve">
+    <value>VVIP Customer</value>
+  </data>
+  <data name="NoiBo" xml:space="preserve">
+    <value>Internal</value>
+  </data>
+  <data name="Thuong" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="BacSilver" xml:space="preserve">
+    <value>Silver</value>
+  </data>
+  <data name="VangGold" xml:space="preserve">
+    <value>Gold</value>
+  </data>
+  <data name="KimCuongDiamond" xml:space="preserve">
+    <value>Diamond</value>
+  </data>
+  <data name="Bac" xml:space="preserve">
+    <value>Silver</value>
+  </data>
+  <data name="Vang" xml:space="preserve">
+    <value>Gold</value>
+  </data>
+  <data name="KimCuong" xml:space="preserve">
+    <value>Diamond</value>
+  </data>
+  <data name="TITLE_THEM_KH" xml:space="preserve">
+    <value>Add new customer</value>
+  </data>
+  <data name="FRM_LOGIN_TITLE" xml:space="preserve">
+    <value>System Login</value>
+  </data>
+  <data name="LBL_LOGIN_BRAND" xml:space="preserve">
+    <value>DAI NAM TOURIST AREA</value>
+  </data>
+  <data name="LBL_LOGIN_SUBTITLE" xml:space="preserve">
+    <value>Tourist Area Management System</value>
+  </data>
+  <data name="LBL_USERNAME" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="LBL_PASSWORD" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="LBL_LANGUAGE" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="CHK_REMEMBER_USER" xml:space="preserve">
+    <value>Remember Username</value>
+  </data>
+  <data name="BTN_LOGIN" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="BTN_EXIT" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="ERR_AUTH_EMPTY" xml:space="preserve">
+    <value>Please enter both username and password!</value>
+  </data>
+  <data name="ERR_AUTH_WRONG_USER_PASS" xml:space="preserve">
+    <value>Invalid username or password!</value>
+  </data>
+  <data name="ERR_AUTH_PROFILE_MISSING" xml:space="preserve">
+    <value>Account profile is not configured!</value>
+  </data>
+  <data name="MSG_AUTH_SUCCESS" xml:space="preserve">
+    <value>Login successful!</value>
+  </data>
+  <data name="TOPBAR_SKIN" xml:space="preserve">
+    <value>UI Theme</value>
+  </data>
+  <data name="MENU_ITEM_COMBO" xml:space="preserve">
+    <value>Combo Management</value>
+  </data>
+  <data name="FRM_COMBO_TITLE" xml:space="preserve">
+    <value>PRODUCT COMBO MANAGEMENT</value>
+  </data>
+  <data name="ERR_COMBO_CHUA_LUU" xml:space="preserve">
+    <value>Please save the Combo first!</value>
+  </data>
+  <data name="ERR_COMBO_TEN_RONG" xml:space="preserve">
+    <value>Combo name cannot be empty.</value>
+  </data>
+  <data name="ERR_COMBO_GIA_AM" xml:space="preserve">
+    <value>Combo price cannot be negative.</value>
+  </data>
+  <data name="MSG_LUU_RO_OK" xml:space="preserve">
+    <value>Combo basket saved successfully!</value>
+  </data>
+  <data name="MSG_CONFIRM_LOGOUT" xml:space="preserve">
+    <value>Are you sure you want to log out?</value>
+  </data>
+  <data name="AI_TYPING" xml:space="preserve">
+    <value>AI is processing</value>
+  </data>
+  <data name="AI_TITLE" xml:space="preserve">
+    <value>AI Assistant</value>
+  </data>
+  <data name="AI_BTN_SEND" xml:space="preserve">
+    <value>Send</value>
+  </data>
+  <data name="AI_INPUT_HINT" xml:space="preserve">
+    <value>Type your question...</value>
+  </data>
+  <data name="AI_LABEL_SYSTEM" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="AI_ERR_NO_KEY" xml:space="preserve">
+    <value>API Key not configured. Open Settings to setup.</value>
+  </data>
+  <data name="AI_LABEL_YOU" xml:space="preserve">
+    <value>You</value>
+  </data>
+  <data name="AI_SETTINGS_TITLE" xml:space="preserve">
+    <value>AI Settings</value>
+  </data>
+  <data name="AI_SETTINGS_APIKEY" xml:space="preserve">
+    <value>Gemini API Key:</value>
+  </data>
+  <data name="AI_SETTINGS_MODEL" xml:space="preserve">
+    <value>Model:</value>
+  </data>
+  <data name="AI_SETTINGS_SAVE" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="AI_SETTINGS_TEST" xml:space="preserve">
+    <value>Test Connection</value>
+  </data>
+  <data name="AI_SETTINGS_SAVED" xml:space="preserve">
+    <value>Saved!</value>
+  </data>
+  <data name="AI_SETTINGS_NO_KEY" xml:space="preserve">
+    <value>API Key is missing.</value>
+  </data>
+  <data name="AI_SETTINGS_TESTING" xml:space="preserve">
+    <value>Testing...</value>
+  </data>
+  <data name="AI_SETTINGS_OK" xml:space="preserve">
+    <value>Connection successful!</value>
+  </data>
+  <data name="AI_SETTINGS_ERR" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="AI_MOD_TONGQUAN" xml:space="preserve">
+    <value>Dashboard, revenue reports, KPIs</value>
+  </data>
+  <data name="AI_MOD_POS" xml:space="preserve">
+    <value>Cashier, ticketing, F&amp;B sales</value>
+  </data>
+  <data name="AI_MOD_SANPHAM" xml:space="preserve">
+    <value>Manage products, services, tickets</value>
+  </data>
+  <data name="AI_MOD_COMBO" xml:space="preserve">
+    <value>Manage combos (product bundles)</value>
+  </data>
+  <data name="AI_MOD_KHO" xml:space="preserve">
+    <value>Warehouse categories</value>
+  </data>
+  <data name="AI_MOD_TTKHO" xml:space="preserve">
+    <value>Inventory Hub: import/export, stock, alerts</value>
+  </data>
+  <data name="AI_MOD_KH" xml:space="preserve">
+    <value>Manage customers, RFID wallet, loyalty points</value>
+  </data>
+  <data name="AI_MOD_PQ" xml:space="preserve">
+    <value>System permissions</value>
+  </data>
+  <data name="AI_APP_GUIDE" xml:space="preserve">
+    <value>DAI NAM APP USER GUIDE:
+- Create Order: Lobby &gt; Retail POS &gt; Scan barcode/type name &gt; Checkout
+- Import Goods: Inventory &amp; F&amp;B &gt; Inventory Hub &gt; Create Voucher &gt; Import
+- Export Goods: Inventory &amp; F&amp;B &gt; Inventory Hub &gt; Create Voucher &gt; Export
+- View Stock: Inventory &amp; F&amp;B &gt; Inventory Hub &gt; Current Stock Tab
+- Add Customer: Admin &gt; Customers &gt; Click Add New
+- Find Customer: Admin &gt; Customers &gt; Type in search box
+- Manage Combos: Category &gt; Combo &gt; Create or edit
+- Permissions: Admin &gt; Permissions</value>
+  </data>
+  <data name="AI_ERR_TIMEOUT" xml:space="preserve">
+    <value>Request timed out. Please try again.</value>
+  </data>
+  <data name="AI_ERR_EMPTY" xml:space="preserve">
+    <value>AI returned empty response.</value>
+  </data>
+  <data name="AI_ERR_MAX_LOOPS" xml:space="preserve">
+    <value>AI reached max processing loops. Please ask briefly.</value>
+  </data>
+  <data name="AI_ERR_CANCELLED" xml:space="preserve">
+    <value>Request was cancelled.</value>
+  </data>
+  <data name="AI_ERR_NETWORK" xml:space="preserve">
+    <value>Network error.</value>
+  </data>
+  <data name="AI_ERR_UNKNOWN" xml:space="preserve">
+    <value>An unexpected error occurred.</value>
+  </data>
+  <data name="AI_SUG_KHO_1" xml:space="preserve">
+    <value>How many warehouses are there?</value>
+  </data>
+  <data name="AI_SUG_KHO_2" xml:space="preserve">
+    <value>Which warehouses are active?</value>
+  </data>
+  <data name="AI_SUG_TTKHO_1" xml:space="preserve">
+    <value>Current stock</value>
+  </data>
+  <data name="AI_SUG_TTKHO_2" xml:space="preserve">
+    <value>Which products are running out?</value>
+  </data>
+  <data name="AI_SUG_TTKHO_3" xml:space="preserve">
+    <value>How to create an import voucher</value>
+  </data>
+  <data name="AI_SUG_KH_1" xml:space="preserve">
+    <value>Find VIP customers</value>
+  </data>
+  <data name="AI_SUG_KH_2" xml:space="preserve">
+    <value>Who has the highest loyalty points?</value>
+  </data>
+  <data name="AI_SUG_KH_3" xml:space="preserve">
+    <value>Filter Diamond tier customers</value>
+  </data>
+  <data name="AI_SUG_POS_1" xml:space="preserve">
+    <value>Payment instructions</value>
+  </data>
+  <data name="AI_SUG_POS_2" xml:space="preserve">
+    <value>How to scan customer RFID card</value>
+  </data>
+  <data name="AI_SUG_POS_3" xml:space="preserve">
+    <value>Open cashier session</value>
+  </data>
+  <data name="AI_SUG_SP_1" xml:space="preserve">
+    <value>How many products are there?</value>
+  </data>
+  <data name="AI_SUG_SP_2" xml:space="preserve">
+    <value>Filter tickets priced over 200k</value>
+  </data>
+  <data name="AI_SUG_SP_3" xml:space="preserve">
+    <value>Which products are discontinued?</value>
+  </data>
+  <data name="AI_SUG_CB_1" xml:space="preserve">
+    <value>List all combos</value>
+  </data>
+  <data name="AI_SUG_CB_2" xml:space="preserve">
+    <value>Which combos are active?</value>
+  </data>
+  <data name="AI_SUG_CB_3" xml:space="preserve">
+    <value>VIP combo details</value>
+  </data>
+  <data name="ERR_REQUIRED_MASP" xml:space="preserve">
+    <value>Product code is required</value>
+  </data>
+  <data name="ERR_REQUIRED_TENSP" xml:space="preserve">
+    <value>Product name is required</value>
+  </data>
+  <data name="ERR_REQUIRED_LOAISP" xml:space="preserve">
+    <value>Product type is required</value>
+  </data>
+  <data name="ERR_REQUIRED_DVT" xml:space="preserve">
+    <value>Unit of measure is required</value>
+  </data>
+  <data name="ERR_TRUNG_MASP" xml:space="preserve">
+    <value>Product code already exists: {0}</value>
+  </data>
+  <data name="ERR_MASP_CHI_TIENTO" xml:space="preserve">
+    <value>Product code cannot contain only prefix. Please type more or scan barcode.</value>
+  </data>
+  <data name="ERR_HESO_KHONGHOPLE" xml:space="preserve">
+    <value>Conversion rate must be a valid positive number</value>
+  </data>
+  <data name="ERR_LUOI_CONG_RONG" xml:space="preserve">
+    <value>Turnstile access grid cannot be empty</value>
+  </data>
+  <data name="ERR_NGAY_KHONGHOPLE" xml:space="preserve">
+    <value>Valid To date must be after Valid From date</value>
+  </data>
+  <data name="ERR_ANH_SAIDINHDANG" xml:space="preserve">
+    <value>Invalid image format. Only jpg, png, gif, webp are accepted</value>
+  </data>
+  <data name="ERR_LUOI_VE_QUA1DONG" xml:space="preserve">
+    <value>Game ticket can only be configured for 1 access area</value>
+  </data>
+  <data name="ERR_GIABAN_AMHOAC0" xml:space="preserve">
+    <value>Price must be greater than 0</value>
+  </data>
+  <data name="ERR_CONTONKHO" xml:space="preserve">
+    <value>Product is still in stock, cannot be deleted</value>
+  </data>
+  <data name="ERR_CONDONHANG" xml:space="preserve">
+    <value>Product is in an unclosed order, cannot be deleted</value>
+  </data>
+  <data name="MSG_LUU_THANH_CONG" xml:space="preserve">
+    <value>Saved successfully</value>
+  </data>
+  <data name="MSG_LUU_THAT_BAI" xml:space="preserve">
+    <value>Save failed</value>
+  </data>
+  <data name="MSG_XOA_THANH_CONG" xml:space="preserve">
+    <value>Product deleted</value>
+  </data>
+  <data name="ERR_POS_OUT_OF_STOCK" xml:space="preserve">
+    <value>Product is out of stock!</value>
+  </data>
+  <data name="MSG_POS_CART_NOT_EMPTY" xml:space="preserve">
+    <value>Cart is not empty, are you sure you want to cancel?</value>
+  </data>
+  <data name="ERR_POS_NO_MACHINE" xml:space="preserve">
+    <value>POS machine selection is required</value>
+  </data>
+  <data name="ERR_POS_INVALID_OPENING_CASH" xml:space="preserve">
+    <value>Opening cash cannot be negative</value>
+  </data>
+  <data name="ERR_POS_INVALID_CLOSING_CASH" xml:space="preserve">
+    <value>Closing cash cannot be negative</value>
+  </data>
+  <data name="ERR_POS_INSUFFICIENT_POINTS" xml:space="preserve">
+    <value>Insufficient loyalty points</value>
+  </data>
+  <data name="ERR_POS_CUSTOMER_NOT_FOUND" xml:space="preserve">
+    <value>Customer not found</value>
+  </data>
+  <data name="MSG_POS_MULTI_RESULT" xml:space="preserve">
+    <value>Multiple products found, please select one</value>
+  </data>
+  <data name="ERR_REFUND_NEGATIVE_QTY" xml:space="preserve">
+    <value>Refund quantity cannot be negative</value>
+  </data>
+  <data name="ERR_REFUND_OVER_QTY" xml:space="preserve">
+    <value>Refund quantity cannot exceed purchased quantity</value>
+  </data>
+  <data name="ERR_REFUND_INVALID_NUMBER" xml:space="preserve">
+    <value>Please enter a valid number</value>
+  </data>
+  <data name="ERR_HOAN_INVALID_REQUEST" xml:space="preserve">
+    <value>Invalid refund request</value>
+  </data>
+  <data name="ERR_HOAN_NO_ITEMS" xml:space="preserve">
+    <value>No items selected for refund</value>
+  </data>
+  <data name="ERR_HOAN_REASON_REQUIRED" xml:space="preserve">
+    <value>Refund reason is required</value>
+  </data>
+  <data name="ERR_HOAN_VE_KHONG_DUOC_HOAN" xml:space="preserve">
+    <value>Tickets cannot be refunded</value>
+  </data>
+  <data name="ERR_HOAN_QUA_HAN" xml:space="preserve">
+    <value>Refund period has expired</value>
+  </data>
+  <data name="PARTIAL_TICKET_SCANNED" xml:space="preserve">
+    <value>Ticket has been scanned and cannot be refunded</value>
+  </data>
+  <data name="ERR_LOHANG_MA_RONG" xml:space="preserve">
+    <value>Batch code cannot be empty.</value>
+  </data>
+  <data name="ERR_NAP_MAN_HINH" xml:space="preserve">
+    <value>Screen loading error:</value>
+  </data>
+  <data name="ERR_PHANQUYEN_INVALID_ROLE" xml:space="preserve">
+    <value>Invalid permission role.</value>
+  </data>
+  <data name="MSG_COMBO_TYLE_CHUA_DU" xml:space="preserve">
+    <value>Total allocation ratio has not reached 100%.
+The system automatically sets Combo to 'Draft' to ensure revenue safety.</value>
+  </data>
+  <data name="MSG_DUYETTHANHCONG" xml:space="preserve">
+    <value>Voucher approved!</value>
+  </data>
+  <data name="MSG_HUYTHANHCONG" xml:space="preserve">
+    <value>Voucher cancelled!</value>
+  </data>
+  <data name="MSG_LOI" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="BTN_LAMMOI" xml:space="preserve">
+    <value>REFRESH</value>
+  </data>
+  <data name="ERR_PHANQUYEN_FAIL" xml:space="preserve">
+    <value>Update failed. Please try again!</value>
+  </data>
+  <data name="FRM_PHANQUYEN_TITLE" xml:space="preserve">
+    <value>Permission Settings</value>
+  </data>
+  <data name="LBL_QUYENHAN_TITLE" xml:space="preserve">
+    <value>Permissions (Hierarchy Tree)</value>
+  </data>
+  <data name="LBL_VAITRO_TITLE" xml:space="preserve">
+    <value>Select Role</value>
+  </data>
+  <data name="MSG_PHANQUYEN_SUCCESS" xml:space="preserve">
+    <value>Permissions updated successfully!</value>
+  </data>
+  <data name="MENU_ITEM_THUE_DO_GIAO" xml:space="preserve">
+    <value>Equipment Rental</value>
+  </data>
+  <data name="MENU_ITEM_THUE_DO_TRA" xml:space="preserve">
+    <value>Equipment Return</value>
+  </data>
+  <data name="MENU_GRP_BANHANG" xml:space="preserve">
+    <value>Front Office &amp; Sales</value>
+  </data>
+  <data name="THUE_DO_GIAO" xml:space="preserve">
+    <value>Equipment Rental</value>
+  </data>
+  <data name="THUE_DO_TRA" xml:space="preserve">
+    <value>Equipment Return</value>
+  </data>
+  <data name="RENTAL_TITLE" xml:space="preserve">
+    <value>EQUIPMENT RENTAL</value>
+  </data>
+  <data name="RENTAL_COL_TEN" xml:space="preserve">
+    <value>Product</value>
+  </data>
+  <data name="RENTAL_COL_TIENTHUE" xml:space="preserve">
+    <value>Rental Fee</value>
+  </data>
+  <data name="RENTAL_COL_TIENCOC" xml:space="preserve">
+    <value>Deposit</value>
+  </data>
+  <data name="RENTAL_BARCODE_HINT" xml:space="preserve">
+    <value>Scan barcode or search product...</value>
+  </data>
+  <data name="RENTAL_MONITOR_TITLE" xml:space="preserve">
+    <value>Currently rented at station</value>
+  </data>
+  <data name="BTN_REFRESH" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="POS_BTN_CASH" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="ERR_RENTAL_CART_EMPTY" xml:space="preserve">
+    <value>Rental cart is empty!</value>
+  </data>
+  <data name="ERR_RENTAL_RFID_REQUIRED" xml:space="preserve">
+    <value>Please scan customer RFID before checkout.</value>
+  </data>
+  <data name="ERR_RENTAL_TAISAN_KHONG_TIM_THAY" xml:space="preserve">
+    <value>Asset not found with this barcode.</value>
+  </data>
+  <data name="ERR_RENTAL_TAISAN_DANG_THUE" xml:space="preserve">
+    <value>Asset is currently rented or already in cart.</value>
+  </data>
+  <data name="ERR_RENTAL_VI_KHONG_DU" xml:space="preserve">
+    <value>Insufficient RFID wallet balance.</value>
+  </data>
+  <data name="MSG_RENTAL_CONFIRM" xml:space="preserve">
+    <value>Confirm equipment rental?</value>
+  </data>
+  <data name="MSG_RENTAL_CHECKOUT_SUCCESS" xml:space="preserve">
+    <value>Rental checkout successful! Receipt: {0}</value>
+  </data>
+  <data name="RETURN_TITLE" xml:space="preserve">
+    <value>EQUIPMENT RETURN</value>
+  </data>
+  <data name="RETURN_COL_BATDAU" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="RETURN_COL_TRASL" xml:space="preserve">
+    <value>Return Qty</value>
+  </data>
+  <data name="RETURN_COL_MAT" xml:space="preserve">
+    <value>Lost</value>
+  </data>
+  <data name="RETURN_HOANCOC" xml:space="preserve">
+    <value>Refund Deposit:</value>
+  </data>
+  <data name="RETURN_PHAT" xml:space="preserve">
+    <value>Penalty:</value>
+  </data>
+  <data name="RETURN_BTN_CONFIRM" xml:space="preserve">
+    <value>Confirm Return</value>
+  </data>
+  <data name="RETURN_BTN_ALL" xml:space="preserve">
+    <value>Return All (F12)</value>
+  </data>
+  <data name="RETURN_MONITOR_TITLE" xml:space="preserve">
+    <value>Unreturned Sessions</value>
+  </data>
+  <data name="RETURN_INPUT_CODE" xml:space="preserve">
+    <value>Enter receipt code DT-xxx...</value>
+  </data>
+  <data name="RETURN_INPUT_RFID" xml:space="preserve">
+    <value>Scan customer RFID...</value>
+  </data>
+  <data name="ERR_RETURN_NO_ITEMS" xml:space="preserve">
+    <value>No items to return.</value>
+  </data>
+  <data name="ERR_RETURN_SL_VUOT_QUA" xml:space="preserve">
+    <value>Return + Lost qty cannot exceed rented qty.</value>
+  </data>
+  <data name="ERR_RETURN_PHAT_CHUA_NHAP" xml:space="preserve">
+    <value>Penalty amount not entered for lost items.</value>
+  </data>
+  <data name="ERR_RETURN_DONHANG_KHONG_TIM_THAY" xml:space="preserve">
+    <value>Order not found.</value>
+  </data>
+  <data name="ERR_RETURN_KHACH_KHONG_CO_DO" xml:space="preserve">
+    <value>Customer has no active rentals.</value>
+  </data>
+  <data name="MSG_RETURN_CONFIRM" xml:space="preserve">
+    <value>Confirm return?</value>
+  </data>
+  <data name="MSG_RETURN_SUCCESS" xml:space="preserve">
+    <value>Return completed successfully!</value>
+  </data>
+  <data name="RETURN_PENALTY_DESC" xml:space="preserve">
+    <value>Product: {0}
+Lost qty: {1}
+Suggested: {2:N0} ₫
+(Staff enters actual penalty)</value>
+  </data>
+  <data name="MSG_SP_FNB_MISSING_BOM" xml:space="preserve">
+    <value>This processed F&amp;B product has no Material Quota declared.
+If saved, POS cashiers selling this item will NOT deduct any inventory.
+
+Are you sure you want to continue saving?</value>
+  </data>
+  <data name="MSG_SP_FNB_MISSING_BOM_TITLE" xml:space="preserve">
+    <value>Missing quota warning</value>
+  </data>
+  <data name="MSG_SP_FNB_CANCEL_SAVE" xml:space="preserve">
+    <value>Product save operation cancelled.</value>
+  </data>
+  <data name="LOAISP_DOUONGDONGCHAI" xml:space="preserve">
+    <value>Bottled Beverage</value>
+  </data>
+  <data name="LOAISP_ANUONGTIENLOI" xml:space="preserve">
+    <value>Convenience Food</value>
+  </data>
+  <data name="LOAISP_PHUONGTIEN" xml:space="preserve">
+    <value>Vehicle</value>
+  </data>
+  <data name="LOAISP_DOCHOTHUE" xml:space="preserve">
+    <value>Rental Item</value>
+  </data>
+  <data name="MSG_COPIED_TO_CLIPBOARD" xml:space="preserve">
+    <value>Receipt copied to clipboard: {0}</value>
+  </data>
+  <data name="RENTAL_PENALTY_EXCEED" xml:space="preserve">
+    <value>Penalty exceeds deposit. Extra payment of {0} required.</value>
+  </data>
+  <data name="RENTAL_SURCHARGE_INVOICE" xml:space="preserve">
+    <value>Surcharge/Penalty Invoice</value>
+  </data>
+  <data name="RENTAL_ENTER_QUANTITY" xml:space="preserve">
+    <value>Enter quantity:</value>
+  </data>
+  <data name="RENTAL_QUANTITY_TITLE" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="ERR_INVALID_QUANTITY" xml:space="preserve">
+    <value>Invalid quantity!</value>
+  </data>
+  <data name="MSG_PRINT_INVOICE_NOT_READY" xml:space="preserve">
+    <value>Invoice printing (XtraReport) will be updated.</value>
+  </data>
+  <data name="RPT_KDL_DAI_NAM" xml:space="preserve">
+    <value>DAI NAM TOURISM</value>
+  </data>
+  <data name="RPT_PHIEU_THANH_TOAN" xml:space="preserve">
+    <value>RECEIPT</value>
+  </data>
+  <data name="RPT_CAM_ON" xml:space="preserve">
+    <value>Thank You &amp; See You Again!</value>
+  </data>
+  <data name="RPT_MA_DON" xml:space="preserve">
+    <value>Receipt No</value>
+  </data>
+  <data name="RPT_NGAY" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="RPT_TONG_TIEN_HANG" xml:space="preserve">
+    <value>Subtotal</value>
+  </data>
+  <data name="RPT_GIAM_GIA" xml:space="preserve">
+    <value>Discount</value>
+  </data>
+  <data name="RPT_TRU_DIEM" xml:space="preserve">
+    <value>Points deduction</value>
+  </data>
+  <data name="RPT_CAN_THANH_TOAN" xml:space="preserve">
+    <value>Amount Due</value>
+  </data>
+  <data name="RPT_TIEN_THUA" xml:space="preserve">
+    <value>Change/Refund</value>
+  </data>
+  <data name="PAY_POINTS_AVAILABLE" xml:space="preserve">
+    <value>Have {0} pts. Use:</value>
+  </data>
+  <data name="PAY_POINTS_DISABLED_DISCOUNT" xml:space="preserve">
+    <value>Cannot stack (Has Discount/VIP)</value>
+  </data>
+  <data name="LBL_TITLE_LUU_TRU" xml:space="preserve">
+    <value>Exclusive for: ACCOMMODATION ROOM TYPE</value>
+  </data>
+  <data name="LBL_NGUOI_LON" xml:space="preserve">
+    <value>Capacity (Adults):</value>
+  </data>
+  <data name="LBL_TRE_EM" xml:space="preserve">
+    <value>Max children:</value>
+  </data>
+  <data name="LBL_DIEN_TICH" xml:space="preserve">
+    <value>Area (m2):</value>
+  </data>
+  <data name="LBL_TIEN_NGHI" xml:space="preserve">
+    <value>Amenities desc:</value>
+  </data>
+  <data name="LBL_GRID_VAT_TU" xml:space="preserve">
+    <value>Default room supplies (Initial setup):</value>
+  </data>
+  <data name="BTN_THEM_VAT_TU" xml:space="preserve">
+    <value>Add Supply</value>
+  </data>
+  <data name="LBL_TITLE_CHO_THUE" xml:space="preserve">
+    <value>Exclusive for: RENTAL ITEMS (BIKES, LOCKERS...)</value>
+  </data>
+  <data name="LBL_QUET_MA_NHAP_KHO" xml:space="preserve">
+    <value>Scan barcode to import:</value>
+  </data>
+  <data name="LBL_GRID_TAI_SAN" xml:space="preserve">
+    <value>Physical assets list (Parking, Lockers):</value>
+  </data>
+  <data name="COL_VAT_TU" xml:space="preserve">
+    <value>Supplies (Towels, Water...)</value>
+  </data>
+  <data name="COL_SO_LUONG_SETUP" xml:space="preserve">
+    <value>Setup Quantity</value>
+  </data>
+  <data name="COL_MA_VACH" xml:space="preserve">
+    <value>Barcode</value>
+  </data>
+  <data name="COL_TEN_NHAN_DIEN" xml:space="preserve">
+    <value>Identifier (e.g. Bike 1)</value>
+  </data>
+  <data name="COL_VI_TRI_BAI" xml:space="preserve">
+    <value>Parking / Area</value>
+  </data>
+  <data name="COL_MAKHUVUC" xml:space="preserve">
+    <value>Area Code</value>
+  </data>
+  <data name="COL_TENKHUVUC" xml:space="preserve">
+    <value>Area Name</value>
+  </data>
+  <data name="COL_MA_PHONG" xml:space="preserve">
+    <value>Room Code</value>
+  </data>
+  <data name="COL_LOAI_PHONG" xml:space="preserve">
+    <value>Room Type</value>
+  </data>
+  <data name="COL_KHACH_HANG" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="TITLE_BOOKING_DIALOG" xml:space="preserve">
+    <value>Check-in / Booking</value>
+  </data>
+  <data name="LBL_TEN_KHACH_HANG" xml:space="preserve">
+    <value>Customer Name</value>
+  </data>
+  <data name="LBL_SO_DIEN_THOAI" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="LBL_PHONG_LUA_CHON" xml:space="preserve">
+    <value>Selected Room</value>
+  </data>
+  <data name="LBL_GIO_CHECK_IN" xml:space="preserve">
+    <value>Check-in Time</value>
+  </data>
+  <data name="LBL_GIO_CHECK_OUT" xml:space="preserve">
+    <value>Check-out Time</value>
+  </data>
+  <data name="LBL_TIEN_DAT_COC" xml:space="preserve">
+    <value>Deposit</value>
+  </data>
+  <data name="BTN_NHAN_PHONG" xml:space="preserve">
+    <value>Check-in</value>
+  </data>
+  <data name="BTN_HUY_BO" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="TXT_CHON_PHONG" xml:space="preserve">
+    <value>Select room...</value>
+  </data>
+  <data name="TITLE_CHECKOUT_DIALOG" xml:space="preserve">
+    <value>Check-out</value>
+  </data>
+  <data name="LBL_GIO_IN_OUT" xml:space="preserve">
+    <value>In/Out Time</value>
+  </data>
+  <data name="LBL_TIEN_PHONG" xml:space="preserve">
+    <value>Room Fee</value>
+  </data>
+  <data name="LBL_TIEN_PHAT" xml:space="preserve">
+    <value>Penalty</value>
+  </data>
+  <data name="LBL_PHU_THU_KHAC" xml:space="preserve">
+    <value>Surcharge</value>
+  </data>
+  <data name="LBL_GHI_CHU_PT" xml:space="preserve">
+    <value>Surcharge Note</value>
+  </data>
+  <data name="LBL_TONG_THANH_TOAN" xml:space="preserve">
+    <value>Total Payment</value>
+  </data>
+  <data name="BTN_TRA_PHONG" xml:space="preserve">
+    <value>Check-out</value>
+  </data>
+  <data name="MSG_TRA_PHONG_THANH_CONG" xml:space="preserve">
+    <value>Check-out successful!</value>
+  </data>
+  <data name="ERR_PHONG_DANG_BAN" xml:space="preserve">
+    <value>Room is occupied!</value>
+  </data>
+  <data name="MSG_CHECKIN_THANH_CONG" xml:space="preserve">
+    <value>Check-in successful!</value>
+  </data>
+  <data name="ERR_DIEN_THOAI_TRONG" xml:space="preserve">
+    <value>Phone number cannot be empty!</value>
+  </data>
+  <data name="ERR_TEN_KHACH_HANG_TRONG" xml:space="preserve">
+    <value>Customer name cannot be empty!</value>
+  </data>
+  <data name="ERR_CHUA_CHON_PHONG" xml:space="preserve">
+    <value>No room selected!</value>
+  </data>
+  <data name="ERR_CTK_THIEU_KHO_CHENH_LECH" xml:space="preserve">
+    <value>Missing variance warehouse (KHO_CHENH_LECH). Please run Seed Data.</value>
+  </data>
+  <data name="ERR_CTK_TON_KHONG_DU" xml:space="preserve">
+    <value>Insufficient stock. Product #{0}: need {2}, have {1}.</value>
+  </data>
+  <data name="ERR_KHO_KHONG_XOA_AO" xml:space="preserve">
+    <value>System (virtual) warehouse cannot be deleted.</value>
+  </data>
+  <data name="ERR_CTK_DA_HUY" xml:space="preserve">
+    <value>This voucher has been cancelled and cannot be modified.</value>
+  </data>
+  <data name="ERR_CTK_CHUA_DUYET_CAP1" xml:space="preserve">
+    <value>Voucher has not passed level 1 approval (ChoDuyet2).</value>
+  </data>
+  <data name="ERR_PHONG_CHUA_CHECKIN" xml:space="preserve">
+    <value>Room is not checked in!</value>
+  </data>
+  <data name="ERR_NGAY_GIA_HAN_PHAI_LON_HON_NGAY_CU" xml:space="preserve">
+    <value>Extension date must be after original check-out date!</value>
+  </data>
+  <data name="ERR_SO_NGUOI_KHONG_HOP_LE" xml:space="preserve">
+    <value>Invalid number of guests</value>
+  </data>
+  <data name="ERR_VUOT_SO_NGUOI_TOI_DA" xml:space="preserve">
+    <value>This room allows a maximum of {0} guests!</value>
+  </data>
+  <data name="LBL_GIA_DU_KIEN" xml:space="preserve">
+    <value>Estimated Room Price</value>
+  </data>
+  <data name="LBL_SO_NGUOI" xml:space="preserve">
+    <value>Number of Guests</value>
+  </data>
+  <data name="LBL_THE_RFID" xml:space="preserve">
+    <value>RFID Code</value>
+  </data>
+  <data name="ERR_PHIEU_DP_KHONG_TON_TAI" xml:space="preserve">
+    <value>Booking not found</value>
+  </data>
+  <data name="ERR_PHIEU_DA_CHECKIN_HUY" xml:space="preserve">
+    <value>Only pre-booked reservations can be cancelled</value>
+  </data>
+  <data name="MENU_PHU_THU_MINIBAR" xml:space="preserve">
+    <value>Surcharge / Minibar</value>
+  </data>
+  <data name="POS_BTN_START_CAM" xml:space="preserve">
+    <value>Start Cam</value>
+  </data>
+  <data name="POS_BTN_STOP_CAM" xml:space="preserve">
+    <value>⏹ Stop Cam</value>
+  </data>
+  <data name="POS_LBL_COMPONENTS" xml:space="preserve">
+    <value>Components:</value>
+  </data>
+  <data name="ERR_POS_TONKHO_KHONGDU" xml:space="preserve">
+    <value>Insufficient stock! (Remaining: {0:N0})</value>
+  </data>
+  <data name="ERR_GATE_MA_RONG" xml:space="preserve">
+    <value>Please scan ticket barcode.</value>
+  </data>
+  <data name="GATE_HOP_LE" xml:space="preserve">
+    <value>Valid. Welcome!</value>
+  </data>
+  <data name="GATE_SAI_KHU_VUC" xml:space="preserve">
+    <value>Ticket not applicable for this area.</value>
+  </data>
+  <data name="GATE_HET_LUOT" xml:space="preserve">
+    <value>Ticket has no remaining uses.</value>
+  </data>
+  <data name="GATE_KHONG_TIM_THAY" xml:space="preserve">
+    <value>Ticket information not found.</value>
+  </data>
+  <data name="GATE_SAI_TRO_CHOI" xml:space="preserve">
+    <value>Ticket not applicable for this game.</value>
+  </data>
+  <data name="GATE_VE_HET_HAN" xml:space="preserve">
+    <value>Ticket has expired.</value>
+  </data>
+  <data name="GATE_VE_DA_HUY" xml:space="preserve">
+    <value>Ticket has been cancelled.</value>
+  </data>
+  <data name="MOD_BANGDIEUKHIEN" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+  <data name="MOD_BANHANG" xml:space="preserve">
+    <value>Sales</value>
+  </data>
+  <data name="MOD_KHO" xml:space="preserve">
+    <value>Warehouse &amp; Logistics</value>
+  </data>
+  <data name="MOD_HETHONG" xml:space="preserve">
+    <value>System</value>
+  </data>
+  <data name="PQ_QUYEN_DASHBOARD" xml:space="preserve">
+    <value>View Dashboard</value>
+  </data>
+  <data name="PQ_QUYEN_POS_BAN_LE" xml:space="preserve">
+    <value>POS Sales (Retail)</value>
+  </data>
+  <data name="PQ_QUYEN_THUE_DO" xml:space="preserve">
+    <value>Rental Management</value>
+  </data>
+  <data name="PQ_QUYEN_KHACH_HANG_CRM" xml:space="preserve">
+    <value>Customer Management (CRM)</value>
+  </data>
+  <data name="PQ_QUYEN_DANH_MUC_KHO" xml:space="preserve">
+    <value>Warehouse Categories</value>
+  </data>
+  <data name="PQ_QUYEN_TRUNG_TAM_KHO" xml:space="preserve">
+    <value>Inventory Hub</value>
+  </data>
+  <data name="PQ_QUYEN_SAN_PHAM" xml:space="preserve">
+    <value>Product/Category Management</value>
+  </data>
+  <data name="PQ_QUYEN_COMBO" xml:space="preserve">
+    <value>Product Combos</value>
+  </data>
+  <data name="PQ_QUYEN_PHAN_QUYEN" xml:space="preserve">
+    <value>System Permissions</value>
+  </data>
+  <data name="PQ_QUYEN_LE_TAN_PHONG" xml:space="preserve">
+    <value>Front Desk &amp; Accommodation</value>
+  </data>
+  <data name="MENU_ITEM_LE_TAN_PHONG" xml:space="preserve">
+    <value>Front Desk &amp; Accommodation</value>
+  </data>
+  <data name="ERR_CHONDOITAC" xml:space="preserve">
+    <value>Please select a partner (supplier or customer)!</value>
+  </data>
+  <data name="ERR_KHO_TRUNG" xml:space="preserve">
+    <value>Source and destination warehouses cannot be the same!</value>
+  </data>
+  <data name="ERR_CONSTRAINT_DATE_FROMTO" xml:space="preserve">
+    <value>"From date" cannot be later than "To date"!</value>
+  </data>
+  <data name="ERR_FORMAT_DATE" xml:space="preserve">
+    <value>Invalid date format!</value>
+  </data>
+  <data name="TITLE_ERROR" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="ERR_TIEN_PHU_THU_INVALID" xml:space="preserve">
+    <value>Please enter a valid surcharge amount (&gt;0)!</value>
+  </data>
+  <data name="ERR_GHI_CHU_INVALID" xml:space="preserve">
+    <value>Please enter a note (e.g. Broken glass, laundry...)!</value>
+  </data>
+  <data name="ERR_SDT_INVALID" xml:space="preserve">
+    <value>Invalid phone number. Please enter at least 10 digits!</value>
+  </data>
+  <data name="LBL_CHUA_CHON_PHONG" xml:space="preserve">
+    <value>No room selected</value>
+  </data>
+  <data name="LBL_DANG_TINH" xml:space="preserve">
+    <value>Calculating...</value>
+  </data>
+  <data name="MENU_GRP_VANHANH" xml:space="preserve">
+    <value>Operational Management</value>
+  </data>
+  <data name="MENU_ITEM_KIEM_SOAT_CONG" xml:space="preserve">
+    <value>Gate Access Control</value>
+  </data>
+  <data name="KIEM_SOAT_CONG" xml:space="preserve">
+    <value>Gate Control</value>
+  </data>
+  <data name="CONG_KIEM_SOAT_VE_DAI_NAM" xml:space="preserve">
+    <value>DAI NAM TICKET ACCESS GATE</value>
+  </data>
+  <data name="QUET_VE" xml:space="preserve">
+    <value>Scan Ticket:</value>
+  </data>
+  <data name="MOI_VAO" xml:space="preserve">
+    <value>PLEASE ENTER</value>
+  </data>
+  <data name="THAO_TAC_THANH_CONG" xml:space="preserve">
+    <value>Action successful</value>
+  </data>
+  <data name="DUNG_LAI" xml:space="preserve">
+    <value>STOP</value>
+  </data>
+  <data name="HOP_LE" xml:space="preserve">
+    <value>VALID</value>
+  </data>
+  <data name="TU_CHOI" xml:space="preserve">
+    <value>REJECTED</value>
+  </data>
+  <data name="CHO_QUET" xml:space="preserve">
+    <value>WAITING FOR SCAN</value>
+  </data>
+  <data name="MOI_QUET_VE" xml:space="preserve">
+    <value>PLEASE SCAN TICKET</value>
+  </data>
+  <data name="THONG_TIN_VE" xml:space="preserve">
+    <value>TICKET INFO</value>
+  </data>
+  <data name="MA_VE" xml:space="preserve">
+    <value>Ticket Code:</value>
+  </data>
+  <data name="TEN_VE" xml:space="preserve">
+    <value>Ticket Name:</value>
+  </data>
+  <data name="LOAI_VE" xml:space="preserve">
+    <value>Ticket Type:</value>
+  </data>
+  <data name="KHU_VUC" xml:space="preserve">
+    <value>Zone:</value>
+  </data>
+  <data name="LUOT_CON" xml:space="preserve">
+    <value>Rem. Uses:</value>
+  </data>
+  <data name="NGAY_TAO" xml:space="preserve">
+    <value>Created Date:</value>
+  </data>
+  <data name="HET_HAN" xml:space="preserve">
+    <value>Expired:</value>
+  </data>
+  <data name="KHACH_HANG" xml:space="preserve">
+    <value>Customer:</value>
+  </data>
+  <data name="RFID" xml:space="preserve">
+    <value>RFID:</value>
+  </data>
+  <data name="LICH_SU_QUET" xml:space="preserve">
+    <value>SCAN HISTORY</value>
+  </data>
+  <data name="GIO" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="KET_QUA" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="HOP_LE_LABEL" xml:space="preserve">
+    <value>Valid:</value>
+  </data>
+  <data name="TU_CHOI_LABEL" xml:space="preserve">
+    <value>Rejected:</value>
+  </data>
+  <data name="TONG_QUET" xml:space="preserve">
+    <value>Total:</value>
+  </data>
+  <data name="MENU_ITEM_THUE_DO" xml:space="preserve">
+    <value>Rental &amp; Lockers</value>
+  </data>
+  <data name="MENU_ITEM_PHANQUYEN" xml:space="preserve">
+    <value>Permissions</value>
+  </data>
+  <data name="ERR_PHONG_KHONG_TON_TAI" xml:space="preserve">
+    <value>Room does not exist.</value>
+  </data>
+  <data name="ERR_KHONG_AP_DUNG_DONG_THOI_KM_VA_DIEM" xml:space="preserve">
+    <value>Cannot apply both promotion and points.</value>
+  </data>
+  <data name="ERR_CHUA_MO_PHIEN" xml:space="preserve">
+    <value>Please open a cashier session before payment.</value>
+  </data>
+  <data name="ERR_DAT_PHONG_KHONG_TON_TAI" xml:space="preserve">
+    <value>Booking information does not exist or has been deleted!</value>
+  </data>
+  <data name="DASHBOARD_SEC_BAN_HANG" xml:space="preserve">
+    <value>SALES &amp; SERVICES</value>
+  </data>
+  <data name="DASHBOARD_SEC_LUU_TRU" xml:space="preserve">
+    <value>ACCOMMODATION (ROOMS)</value>
+  </data>
+  <data name="DASHBOARD_SEC_KHO" xml:space="preserve">
+    <value>INVENTORY &amp; SUPPLY</value>
+  </data>
+  <data name="DASHBOARD_SEC_KHACH_HANG" xml:space="preserve">
+    <value>CUSTOMER STATISTICS</value>
+  </data>
+  <data name="KPI_DON_HOM_NAY" xml:space="preserve">
+    <value>Today's Orders</value>
+  </data>
+  <data name="KPI_DOANH_THU_HOM_NAY" xml:space="preserve">
+    <value>Today's Revenue</value>
+  </data>
+  <data name="KPI_DOANH_THU_THANG" xml:space="preserve">
+    <value>Monthly Revenue</value>
+  </data>
+  <data name="KPI_DON_CHO" xml:space="preserve">
+    <value>Pending Orders</value>
+  </data>
+  <data name="KPI_TONG_PHONG" xml:space="preserve">
+    <value>Total Rooms</value>
+  </data>
+  <data name="KPI_PHONG_TRONG" xml:space="preserve">
+    <value>Available Rooms</value>
+  </data>
+  <data name="KPI_TONG_SP" xml:space="preserve">
+    <value>Total Products</value>
+  </data>
+  <data name="KPI_SAP_HET" xml:space="preserve">
+    <value>Low Stock</value>
+  </data>
+  <data name="KPI_HET_HANG" xml:space="preserve">
+    <value>Out of Stock</value>
+  </data>
+  <data name="KPI_PHIEU_CHO" xml:space="preserve">
+    <value>Pending Vouchers</value>
+  </data>
+  <data name="SES_SELECT_POS" xml:space="preserve">
+    <value>Select POS Machine</value>
+  </data>
+  <data name="LBL_PHUONG_THUC" xml:space="preserve">
+    <value>Payment Method</value>
+  </data>
+  <data name="PAY_CASH" xml:space="preserve">
+    <value>Cash</value>
+  </data>
+  <data name="PAY_TRANSFER" xml:space="preserve">
+    <value>Transfer</value>
+  </data>
+  <data name="PAY_CARD" xml:space="preserve">
+    <value>Bank Card</value>
+  </data>
+  <data name="BTN_AP_DUNG" xml:space="preserve">
+    <value>Apply</value>
+  </data>
+  <data name="LBL_KHUYEN_MAI" xml:space="preserve">
+    <value>Promotion</value>
+  </data>
+  <data name="LBL_KHACH_HANG" xml:space="preserve">
+    <value>Customer</value>
+  </data>
+  <data name="LBL_PHONG" xml:space="preserve">
+    <value>Room</value>
+  </data>
+  <data name="LBL_SEC_KHACH_HANG" xml:space="preserve">
+    <value>CUSTOMER</value>
+  </data>
+  <data name="LBL_SEC_THOI_GIAN" xml:space="preserve">
+    <value>TIME</value>
+  </data>
+  <data name="LBL_SEC_TAI_CHINH" xml:space="preserve">
+    <value>FINANCE</value>
+  </data>
+  <data name="LBL_SEC_THAO_TAC" xml:space="preserve">
+    <value>QUICK ACTIONS</value>
+  </data>
+  <data name="LBL_HO_TEN_SIDEBAR" xml:space="preserve">
+    <value>Full name:</value>
+  </data>
+  <data name="LBL_SDT_SIDEBAR" xml:space="preserve">
+    <value>Phone:</value>
+  </data>
+  <data name="LBL_CHECKIN_SIDEBAR" xml:space="preserve">
+    <value>Check-in:</value>
+  </data>
+  <data name="LBL_CHECKOUT_SIDEBAR" xml:space="preserve">
+    <value>Check-out:</value>
+  </data>
+  <data name="LBL_TIEN_PHONG_SIDEBAR" xml:space="preserve">
+    <value>Room rate:</value>
+  </data>
+  <data name="LBL_PHU_THU_SIDEBAR" xml:space="preserve">
+    <value>Surcharge:</value>
+  </data>
+  <data name="LBL_DA_COC_SIDEBAR" xml:space="preserve">
+    <value>Deposit:</value>
+  </data>
+  <data name="LBL_TONG_TIEN_SIDEBAR" xml:space="preserve">
+    <value>Total:</value>
+  </data>
+  <data name="BTN_ACTION_CHECKOUT" xml:space="preserve">
+    <value>Pay &amp; Check-out</value>
+  </data>
+  <data name="BTN_ACTION_PHU_THU" xml:space="preserve">
+    <value>Surcharge</value>
+  </data>
+  <data name="BTN_ACTION_DOI_PHONG" xml:space="preserve">
+    <value>Change Room</value>
+  </data>
+  <data name="BTN_ACTION_GIA_HAN" xml:space="preserve">
+    <value>Extend</value>
+  </data>
+  <data name="BTN_ACTION_IN_BILL" xml:space="preserve">
+    <value>Pro-forma Bill</value>
+  </data>
+  <data name="LBL_TONG_THAN_TOAN" xml:space="preserve">
+    <value>Total Payment</value>
+  </data>
+  <data name="CHK_DUNG_DIEM" xml:space="preserve">
+    <value>Use loyalty points</value>
+  </data>
+  <data name="LBL_DIEM_KHA_DUNG" xml:space="preserve">
+    <value>Available Points:</value>
+  </data>
+  <data name="COL_NGAY_GIAO_DICH" xml:space="preserve">
+    <value>Transaction Date</value>
+  </data>
+  <data name="COL_MA_GIAO_DICH" xml:space="preserve">
+    <value>Transaction Code</value>
+  </data>
+  <data name="COL_LOAI_DOANH_THU" xml:space="preserve">
+    <value>Revenue Type</value>
+  </data>
+  <data name="COL_DOANH_THU" xml:space="preserve">
+    <value>Revenue</value>
+  </data>
+  <data name="COL_NHAN_VIEN_THU_NGAN" xml:space="preserve">
+    <value>Cashier</value>
+  </data>
+  <data name="LBL_TU_NGAY" xml:space="preserve">
+    <value>From Date:</value>
+  </data>
+  <data name="LBL_DEN_NGAY" xml:space="preserve">
+    <value>To Date:</value>
+  </data>
+  <data name="BTN_XUAT_EXCEL" xml:space="preserve">
+    <value>Export Excel</value>
+  </data>
+  <data name="MSG_XUAT_EXCEL_THANH_CONG" xml:space="preserve">
+    <value>Exported to Excel successfully!</value>
+  </data>
+  <data name="MENU_GRP_TAICHINH" xml:space="preserve">
+    <value>Finance &amp; Reports</value>
+  </data>
+  <data name="MENU_ITEM_DOANHTHU" xml:space="preserve">
+    <value>Revenue Report</value>
+  </data>
+  <data name="LBL_BO_LOC_DU_LIEU" xml:space="preserve">
+    <value>DATA FILTERS</value>
+  </data>
+  <data name="COL_PHUONG_THUC" xml:space="preserve">
+    <value>Payment Method</value>
+  </data>
+  <data name="LBL_TONG_DOANH_THU" xml:space="preserve">
+    <value>Total Revenue: {0:N0}₫</value>
+  </data>
+  <data name="COL_LOAI_GIAO_DICH" xml:space="preserve">
+    <value>Transaction Type</value>
+  </data>
+  <data name="COL_GHI_CHU_CHI_TIET" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="LBL_TONG_CHI_PHI" xml:space="preserve">
+    <value>Total Cost</value>
+  </data>
+  <data name="LBL_DA_THU_COC" xml:space="preserve">
+    <value>Deposit Collected</value>
+  </data>
+  <data name="MSG_DON_DEP_ROOM" xml:space="preserve">
+    <value>Confirm room cleaning is finished? Status will be changed to Available.</value>
+  </data>
+  <data name="TITLE_BUONG_PHONG" xml:space="preserve">
+    <value>Housekeeping Service</value>
+  </data>
+  <data name="STATUS_TRONG" xml:space="preserve">
+    <value>Available</value>
+  </data>
+  <data name="STATUS_DANG_O" xml:space="preserve">
+    <value>Occupied</value>
+  </data>
+  <data name="STATUS_BAO_TRI" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="STATUS_DON_DEP" xml:space="preserve">
+    <value>Cleaning</value>
+  </data>
+  <data name="TAB_ALL" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="TAB_TICKET" xml:space="preserve">
+    <value>Tickets</value>
+  </data>
+  <data name="TAB_COMBO" xml:space="preserve">
+    <value>Combo</value>
+  </data>
+  <data name="TAB_FNB" xml:space="preserve">
+    <value>F&amp;B</value>
+  </data>
+  <data name="TAB_GOODS" xml:space="preserve">
+    <value>Goods</value>
+  </data>
+  <data name="RENTAL_MGR_TITLE" xml:space="preserve">
+    <value>RENTAL MANAGEMENT</value>
+  </data>
+  <data name="RENTAL_TAB_GIAO" xml:space="preserve">
+    <value>Issue</value>
+  </data>
+  <data name="RENTAL_TAB_TRA" xml:space="preserve">
+    <value>Return</value>
+  </data>
+  <data name="OS_BTN_CLOSE_SHIF" xml:space="preserve">
+    <value>Close Shift</value>
+  </data>
+  <data name="TITLE_DOI_PHONG" xml:space="preserve">
+    <value>Change Room</value>
+  </data>
+  <data name="LBL_PHONG_MOI" xml:space="preserve">
+    <value>New Room:</value>
+  </data>
+  <data name="LBL_LY_DO" xml:space="preserve">
+    <value>Reason:</value>
+  </data>
+  <data name="BTN_XAC_NHAN" xml:space="preserve">
+    <value>Confirm</value>
+  </data>
+  <data name="FRM_MINIBAR_TITLE" xml:space="preserve">
+    <value>Minibar Service</value>
+  </data>
+  <data name="COL_DON_GIA" xml:space="preserve">
+    <value>Unit Price</value>
+  </data>
+  <data name="COL_THANH_TIEN" xml:space="preserve">
+    <value>Total Amount</value>
+  </data>
+  <data name="LBL_TONG_CONG" xml:space="preserve">
+    <value>Total:</value>
+  </data>
+  <data name="BTN_CAMERA" xml:space="preserve">
+    <value>Turn on Camera</value>
+  </data>
+  <data name="PLH_QUET_VE" xml:space="preserve">
+    <value>Please scan ticket...</value>
+  </data>
+  <data name="BTN_LUU_COMBO" xml:space="preserve">
+    <value>Save Combo</value>
+  </data>
+  <data name="BTN_XOA_COMBO" xml:space="preserve">
+    <value>Delete Combo</value>
+  </data>
+  <data name="LBL_KHO_SAN_PHAM" xml:space="preserve">
+    <value>Product Inventory</value>
+  </data>
+  <data name="PLH_TIM_SAN_PHAM" xml:space="preserve">
+    <value>Search product...</value>
+  </data>
+  <data name="BTN_THEM_VAO_RO" xml:space="preserve">
+    <value>Add to Cart</value>
+  </data>
+  <data name="LBL_RO_COMBO" xml:space="preserve">
+    <value>Combo Cart</value>
+  </data>
+  <data name="LBL_TONG_PHAN_BO" xml:space="preserve">
+    <value>Total allocation:</value>
+  </data>
+  <data name="LBL_TONG_GIA_GOC" xml:space="preserve">
+    <value>Total original price:</value>
+  </data>
+  <data name="BTN_CHIA_DEU" xml:space="preserve">
+    <value>Divide equally</value>
+  </data>
+  <data name="CHK_CHO_PHEP_TON_AM" xml:space="preserve">
+    <value>Allow negative inventory</value>
+  </data>
+  <data name="COL_KH_HOTEN" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="COL_KH_MA" xml:space="preserve">
+    <value>Customer Code</value>
+  </data>
+  <data name="COL_KH_SDT" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="COL_KH_LOAI" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="TITLE_QUYEN_CAY" xml:space="preserve">
+    <value>Permissions (Hierarchy Tree)</value>
+  </data>
+  <data name="COL_DANHMUC_QUYEN" xml:space="preserve">
+    <value>Permission Category</value>
+  </data>
+  <data name="MOD_VANHANH" xml:space="preserve">
+    <value>OPERATION</value>
+  </data>
+  <data name="PQ_QUYEN_KIEM_SOAT_CONG" xml:space="preserve">
+    <value>Gate Access Control</value>
+  </data>
+  <data name="MOD_TAICHINH" xml:space="preserve">
+    <value>FINANCE</value>
+  </data>
+  <data name="PQ_QUYEN_DOANH_THU" xml:space="preserve">
+    <value>View Revenue</value>
+  </data>
+  <data name="MSG_RESET_PHONG_TRONG" xml:space="preserve">
+    <value>No active booking found for this room.
+Do you want to RESET the room status to 'Empty'?</value>
+  </data>
+  <data name="COL_MUC_TIEU_DON_VI" xml:space="preserve">
+    <value>Target Unit</value>
+  </data>
+  <data name="COL_TY_LE_CHUYEN_DOI" xml:space="preserve">
+    <value>Conversion Rate</value>
+  </data>
+  <data name="LBL_DIEM_SD" xml:space="preserve">
+    <value>Points to Use:</value>
+  </data>
+  <data name="MSG_KM_AP_DUNG_THANH_CONG" xml:space="preserve">
+    <value>Promotion applied successfully!</value>
+  </data>
+  <data name="MSG_DIEM_VUOT_GIA_PHONG" xml:space="preserve">
+    <value>Points to use exceed room price. Please reduce the points!</value>
+  </data>
+  <data name="MSG_KM_KHONG_TON_TAI" xml:space="preserve">
+    <value>Promotion information not found!</value>
+  </data>
+  <data name="LBL_KHUYEN_MAI_AP_DUNG" xml:space="preserve">
+    <value>Current Promotion Applied:</value>
+  </data>
+  <data name="LBL_TIEN_GIAM_KM" xml:space="preserve">
+    <value>Discount from Promotion:</value>
+  </data>
+  <data name="LBL_TIEN_GIAM_DIEM" xml:space="preserve">
+    <value>Discount from Points:</value>
+  </data>
+  <data name="BTN_AP_DUNG_KM" xml:space="preserve">
+    <value>Apply Promotion</value>
+  </data>
+  <data name="MNU_PHEDUYET" xml:space="preserve">
+    <value>Approve</value>
+  </data>
+  <data name="MNU_HUYPHIEU" xml:space="preserve">
+    <value>Cancel Voucher</value>
+  </data>
+  <data name="TXT_BAMTHEMDONG" xml:space="preserve">
+    <value>Click here to add products...</value>
+  </data>
+  <data name="LBL_PAYMENT_SUCCESS" xml:space="preserve">
+    <value>PAYMENT SUCCESSFUL</value>
+  </data>
+  <data name="LBL_ORDER_ID" xml:space="preserve">
+    <value>Order ID</value>
+  </data>
+  <data name="LBL_CHANGE" xml:space="preserve">
+    <value>Change:</value>
+  </data>
+  <data name="LBL_TICKET_BARCODES" xml:space="preserve">
+    <value>Issued Ticket Barcodes</value>
+  </data>
+  <data name="BTN_PRINT_INVOICE" xml:space="preserve">
+    <value>Print Invoice</value>
+  </data>
+  <data name="BTN_PRINT_TICKET" xml:space="preserve">
+    <value>Print Ticket</value>
+  </data>
+  <data name="BTN_CLOSE" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="BTN_INPHIEU" xml:space="preserve">
+    <value>Print voucher (F4)</value>
+  </data>
+  <data name="TXT_DOUONG_DONGCHAI" xml:space="preserve">
+    <value>Bottled Beverage</value>
+  </data>
+  <data name="TXT_DOAN_TIENLOI" xml:space="preserve">
+    <value>Convenience Food</value>
+  </data>
+  <data name="TXT_DOUONG_PHACHE" xml:space="preserve">
+    <value>Handcrafted Beverage</value>
+  </data>
+  <data name="TXT_DOAN_CHEBIEN" xml:space="preserve">
+    <value>Prepared Food</value>
+  </data>
+  <data name="TXT_VATTU_LUUKHO" xml:space="preserve">
+    <value>Inventory Items</value>
+  </data>
+  <data name="TXT_PHI_VATTU" xml:space="preserve">
+    <value>Non-inventory Items</value>
+  </data>
+  <data name="ERR_SYS_PHU_THU_KHONG_TON_TAI" xml:space="preserve">
+    <value>System product SYS_PHU_THU is not configured in the database. Please contact the administrator.</value>
+  </data>
+  <data name="ERR_CHECKOUT_TIEN_KHONG_DU" xml:space="preserve">
+    <value>Insufficient payment amount. Please verify the payment before checking out.</value>
+  </data>
+  <data name="GRID_COL_LAVATTU" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="LBL_TONG_DIEMBAN" xml:space="preserve">
+    <value>Total POS: {0}</value>
+  </data>
+  <data name="LBL_TONG_MENU" xml:space="preserve">
+    <value>Total items: {0}</value>
+  </data>
+  <data name="ERR_CHON_DIEMBAN" xml:space="preserve">
+    <value>Please select a POS first!</value>
+  </data>
+  <data name="ERR_SP_DA_CO" xml:space="preserve">
+    <value>Product already exists in Menu!</value>
+  </data>
+  <data name="MENU_ITEM_MENUPOS" xml:space="preserve">
+    <value>POS Menu Config</value>
+  </data>
+  <data name="COL_NHOM_SAN_PHAM" xml:space="preserve">
+    <value>Product Group</value>
+  </data>
+  <data name="COL_TEN_SAN_PHAM" xml:space="preserve">
+    <value>Product Name</value>
+  </data>
+  <data name="ERR_NGAY_BAT_DAU_LON_HON_KET_THUC" xml:space="preserve">
+    <value>Start date cannot be later than end date!</value>
+  </data>
+  <data name="ERR_SP_MISSING_PRICE" xml:space="preserve">
+    <value>Product price list is missing!
+
+Please add at least one selling price to make it available for business.</value>
+  </data>
+  <data name="TT_THEM_POS" xml:space="preserve">
+    <value>Create a new POS configuration</value>
+  </data>
+  <data name="TT_LUU_POS" xml:space="preserve">
+    <value>Save changes of current POS</value>
+  </data>
+  <data name="TT_XOA_POS" xml:space="preserve">
+    <value>Delete selected POS</value>
+  </data>
+  <data name="TT_THEM_MON" xml:space="preserve">
+    <value>Add selected product to POS Menu</value>
+  </data>
+  <data name="TT_LUU_MENU" xml:space="preserve">
+    <value>Save Menu changes</value>
+  </data>
+  <data name="MSG_MENU_EMPTY" xml:space="preserve">
+    <value>No items yet.
+Please search and double click/add from Product Warehouse.</value>
+  </data>
+  <data name="MSG_CHON_KHUVUC" xml:space="preserve">
+    <value>Select area...</value>
+  </data>
+  <data name="MSG_DIEMBAN_EMPTY" xml:space="preserve">
+    <value>No POS has been configured yet.</value>
+  </data>
+  <data name="MENU_ITEM_KHUYEN_MAI" xml:space="preserve">
+    <value>Promotion Management</value>
+  </data>
+  <data name="LBL_KM_BANNER" xml:space="preserve">
+    <value>PROMOTION MANAGEMENT</value>
+  </data>
+  <data name="LBL_KM_TAB_INFO" xml:space="preserve">
+    <value>General Info</value>
+  </data>
+  <data name="LBL_KM_TAB_DIEUKIEN" xml:space="preserve">
+    <value>Conditions</value>
+  </data>
+  <data name="LBL_KM_MA" xml:space="preserve">
+    <value>Promo Code:</value>
+  </data>
+  <data name="LBL_KM_TEN" xml:space="preserve">
+    <value>Name:</value>
+  </data>
+  <data name="LBL_KM_LOAI" xml:space="preserve">
+    <value>Discount Type:</value>
+  </data>
+  <data name="LBL_KM_GIA_TRI" xml:space="preserve">
+    <value>Value:</value>
+  </data>
+  <data name="LBL_KM_TU_NGAY" xml:space="preserve">
+    <value>From:</value>
+  </data>
+  <data name="LBL_KM_DEN_NGAY" xml:space="preserve">
+    <value>To:</value>
+  </data>
+  <data name="LBL_KM_DON_TT" xml:space="preserve">
+    <value>Min. Order:</value>
+  </data>
+  <data name="LBL_KM_SO_LAN" xml:space="preserve">
+    <value>Max Uses:</value>
+  </data>
+  <data name="LBL_KM_TRANG_THAI" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="LBL_KM_CHONG_CHEO" xml:space="preserve">
+    <value>Stackable with other promotions</value>
+  </data>
+  <data name="LBL_KM_AND_HINT" xml:space="preserve">
+    <value>Conditions use AND logic. For OR, create separate promotions.</value>
+  </data>
+  <data name="COL_KM_LOAI_DK" xml:space="preserve">
+    <value>Condition Type</value>
+  </data>
+  <data name="COL_KM_PHEP_SO" xml:space="preserve">
+    <value>Operator</value>
+  </data>
+  <data name="COL_KM_GIA_TRI_DK" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="TT_KM_THEM" xml:space="preserve">
+    <value>Create new promotion</value>
+  </data>
+  <data name="TT_KM_LUU" xml:space="preserve">
+    <value>Save promotion info</value>
+  </data>
+  <data name="TT_KM_XOA" xml:space="preserve">
+    <value>Delete selected promotion</value>
+  </data>
+  <data name="TT_KM_THEM_DK" xml:space="preserve">
+    <value>Add new condition</value>
+  </data>
+  <data name="TT_KM_LUU_DK" xml:space="preserve">
+    <value>Save conditions</value>
+  </data>
+  <data name="TIP_KM_MA" xml:space="preserve">
+    <value>Unique identifier for this promotion</value>
+  </data>
+  <data name="TIP_KM_TEN" xml:space="preserve">
+    <value>Short descriptive name for the promotion</value>
+  </data>
+  <data name="TIP_KM_GIA_TRI" xml:space="preserve">
+    <value>Discount value (% or fixed amount)</value>
+  </data>
+  <data name="TIP_KM_DON_TT" xml:space="preserve">
+    <value>Minimum order total required to apply this promotion</value>
+  </data>
+  <data name="TIP_KM_SO_LAN" xml:space="preserve">
+    <value>Leave blank = unlimited uses</value>
+  </data>
+  <data name="TIP_KM_CHONG_CHEO" xml:space="preserve">
+    <value>Can be stacked with other promotions</value>
+  </data>
+  <data name="MSG_KM_GRID_EMPTY" xml:space="preserve">
+    <value>No promotions yet.</value>
+  </data>
+  <data name="MSG_KM_DK_EMPTY" xml:space="preserve">
+    <value>No conditions yet.</value>
+  </data>
+  <data name="MSG_KM_CHON_TRUOC" xml:space="preserve">
+    <value>Please select a promotion first.</value>
+  </data>
+  <data name="MSG_KM_XOA_CONFIRM" xml:space="preserve">
+    <value>Are you sure you want to delete this promotion?</value>
+  </data>
+  <data name="MSG_KM_LUU_OK" xml:space="preserve">
+    <value>Promotion saved successfully!</value>
+  </data>
+  <data name="MSG_KM_XOA_OK" xml:space="preserve">
+    <value>Promotion deleted successfully!</value>
+  </data>
+  <data name="MSG_KM_DK_LUU_OK" xml:space="preserve">
+    <value>Conditions saved successfully!</value>
+  </data>
+  <data name="LBL_KM_TONG" xml:space="preserve">
+    <value>Total: {0}</value>
+  </data>
+  <data name="LBL_KM_ACTIVE" xml:space="preserve">
+    <value>Active: {0}</value>
+  </data>
+  <data name="LBL_KM_EXPIRED" xml:space="preserve">
+    <value>Expired: {0}</value>
+  </data>
+  <data name="FLT_KM_TAT_CA" xml:space="preserve">
+    <value>All</value>
+  </data>
+  <data name="FLT_KM_ACTIVE" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="FLT_KM_EXPIRED" xml:space="preserve">
+    <value>Expired</value>
+  </data>
+  <data name="ERR_KM_MA_RONG" xml:space="preserve">
+    <value>Promo code cannot be empty.</value>
+  </data>
+  <data name="ERR_KM_TEN_RONG" xml:space="preserve">
+    <value>Name cannot be empty.</value>
+  </data>
+  <data name="ERR_KM_GIA_TRI_SAI" xml:space="preserve">
+    <value>Discount value must be greater than 0.</value>
+  </data>
+  <data name="ERR_KM_PHANTRAM_VUOT" xml:space="preserve">
+    <value>Percentage discount cannot exceed 100.</value>
+  </data>
+  <data name="ERR_KM_NGAY_SAI" xml:space="preserve">
+    <value>Start date must be before end date.</value>
+  </data>
+  <data name="ERR_KM_TRUNG_MA" xml:space="preserve">
+    <value>Promo code already exists.</value>
+  </data>
+  <data name="ERR_NO_ROOM_DATA" xml:space="preserve">
+    <value>No room data available for Check-out!</value>
+  </data>
+  <data name="ERR_PRINT_INVOICE" xml:space="preserve">
+    <value>Error printing invoice: </value>
+  </data>
+  <data name="ERR_LOAD_PHIEN_COMBOS" xml:space="preserve">
+    <value>Failed to load warehouse/POS list: </value>
+  </data>
+</root>

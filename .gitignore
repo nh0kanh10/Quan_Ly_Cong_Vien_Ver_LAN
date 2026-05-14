@@ -1,0 +1,32 @@
+# Documentation
+docs/
+*.docx
+*.html
+*.pdf
+*.md
+!README.md
+!PROJECT_STATUS.md
+
+# Binaries & Archives
+*.rar
+*.zip
+*.7z
+*.exe
+!nuget.exe
+
+# .NET artifacts
+bin/
+obj/
+packages/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Temporary / Trash files
+null
+_check.js
+*.tmp
+*.log
+*.py
+seed.cs

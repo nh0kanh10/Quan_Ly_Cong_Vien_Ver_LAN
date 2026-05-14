@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{11111111-AAAA-BBBB-CCCC-000000000001}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ET</RootNamespace>
+    <AssemblyName>ET</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Interfaces\IAuditable.cs" />
+    <Compile Include="Models\DoiTac\DTO_NhanVienChiTiet.cs" />
+    <Compile Include="DTOs\DTO_BaoCaoDoanhThu.cs" />
+    <Compile Include="Interfaces\IEntity.cs" />
+    <Compile Include="Interfaces\ISoftDelete.cs" />
+    <Compile Include="Results\OperationResult.cs" />
+    <Compile Include="Constants\AppConstants.cs" />
+    <Compile Include="Constants\ValidationRules.cs" />
+    <Compile Include="Constants\ProductTypeHelper.cs" />
+    <Compile Include="Models\HeThong\TuDien.cs" />
+    <Compile Include="Models\HeThong\CauHinh.cs" />
+    <Compile Include="Models\HeThong\LuongTrangThai.cs" />
+    <Compile Include="Models\HeThong\LichSuTrangThai.cs" />
+    <Compile Include="Models\HeThong\ET_NhatKyThaoTac.cs" />
+    <Compile Include="Models\DoiTac\ThongTin.cs" />
+    <Compile Include="Models\DoiTac\NhanVien.cs" />
+    <Compile Include="Models\DoiTac\KhachHang.cs" />
+    <Compile Include="Models\DoiTac\NhaCungCap.cs" />
+    <Compile Include="Models\DoiTac\TaiKhoan.cs" />
+    <Compile Include="Models\NhanSu\DTO_LichLamViecChiTiet.cs" />
+    <Compile Include="Models\NhanSu\DTO_HopDong.cs" />
+    <Compile Include="Models\NhanSu\DTO_DanhGiaKPI.cs" />
+    <Compile Include="Models\DanhMuc\ET_SanPham.cs" />
+    <Compile Include="Models\DanhMuc\ET_KhuVuc.cs" />
+    <Compile Include="Models\DanhMuc\ET_DonViTinh.cs" />
+    <Compile Include="Models\DanhMuc\ET_Phong.cs" />
+    <Compile Include="Models\DanhMuc\ET_LoaiPhong.cs" />
+    <Compile Include="Models\DanhMuc\ET_BangGia.cs" />
+    <Compile Include="Models\DanhMuc\ET_SanPham_Ve.cs" />
+    <Compile Include="Models\DanhMuc\ET_MonAn.cs" />
+    <Compile Include="Models\DanhMuc\ET_Ve_QuyenTruyCap.cs" />
+    <Compile Include="Models\DanhMuc\ET_DinhMucNguyenLieu.cs" />
+    <Compile Include="Models\DanhMuc\ET_QuyDoiDonVi.cs" />
+    <Compile Include="Models\DanhMuc\ET_CauHinhThue.cs" />
+    <Compile Include="Models\DanhMuc\ET_DiemBanHang_POS.cs" />
+    <Compile Include="Models\BanHang\ET_DiemBanHang.cs" />
+    <Compile Include="Models\BanHang\ET_MenuPOS.cs" />
+    <Compile Include="Models\DanhMuc\ET_NhaHang.cs" />
+    <Compile Include="Models\DanhMuc\ET_TroChoi.cs" />
+    <Compile Include="Models\BanHang\ET_CartSession.cs" />
+    <Compile Include="Models\BanHang\ET_CartItem.cs" />
+    <Compile Include="Models\BanHang\ET_DonViBanPOS.cs" />
+    <Compile Include="Models\BanHang\ET_PaymentLine.cs" />
+    <Compile Include="Models\BanHang\ET_PhienThuNgan.cs" />
+    <Compile Include="Models\BanHang\ET_VeDienTu.cs" />
+    <Compile Include="Models\BanHang\ET_KetQuaSoatVe.cs" />
+    <Compile Include="Models\BanHang\ET_LichSuQuet.cs" />
+    <Compile Include="DTOs\DTO_CheckoutResult.cs" />
+    <Compile Include="DTOs\DTO_ComboChiTietDisplay.cs" />
+    <Compile Include="DTOs\DTO_ComboPOS.cs" />
+    <Compile Include="Models\DanhMuc\ET_Combo.cs" />
+    <Compile Include="Models\DanhMuc\ET_ComboChiTiet.cs" />
+    <Compile Include="DTOs\DTO_KhachHangPOS.cs" />
+    <Compile Include="DTOs\DTO_MenuPOSItem.cs" />
+    <Compile Include="DTOs\DTO_KhuyenMaiPOS.cs" />
+    <Compile Include="DTOs\DTO_DieuKienKM.cs" />
+    <Compile Include="DTOs\DTO_KetQuaGiamGia.cs" />
+    <Compile Include="DTOs\DTO_ChiTietDonHangHoan.cs" />
+    <Compile Include="DTOs\DTO_DonHangHoan.cs" />
+    <Compile Include="DTOs\DTO_PhuongThucThanhToanDaDung.cs" />
+    <Compile Include="DTOs\DTO_HoanHangRequest.cs" />
+    <Compile Include="DTOs\DTO_Session.cs" />
+    <Compile Include="Models\Kho\ET_KhoHang.cs" />
+    <Compile Include="Models\Kho\ET_ChungTuKho.cs" />
+    <Compile Include="Models\Kho\ET_ChiTietChungTu.cs" />
+    <Compile Include="Models\Kho\ET_ChiTietKiemKe.cs" />
+    <Compile Include="Models\Kho\ET_SoCai.cs" />
+    <Compile Include="Models\Kho\ET_LoHang.cs" />
+    <Compile Include="Models\Kho\ET_MucTonToiThieu.cs" />
+    <Compile Include="Models\Kho\ET_TamGiuTonKho.cs" />
+    <Compile Include="Models\Kho\ET_TonKho.cs" />
+    <Compile Include="Models\DoiTac\DTO_KhachHangChiTiet.cs" />
+    <Compile Include="Models\TaiChinh\ET_ViDienTu.cs" />
+    <Compile Include="Models\TaiChinh\ET_TheRFID.cs" />
+    <Compile Include="Models\TaiChinh\ET_LichSuDiem.cs" />
+    <Compile Include="Models\TaiChinh\ET_LichSuGiaoDich.cs" />
+    <Compile Include="Models\NhanSu\ET_VaiTro.cs" />
+    <Compile Include="Models\NhanSu\ET_QuyenHan.cs" />
+    <Compile Include="Models\DanhMuc\ET_TaiSanChoThue.cs" />
+    <Compile Include="Models\DanhMuc\ET_TuDo.cs" />
+    <Compile Include="Models\DanhMuc\ET_ChoiNghiMat.cs" />
+    <Compile Include="Models\DanhMuc\ET_PhuongTienDiChuyen.cs" />
+    <Compile Include="Models\DanhMuc\ET_BangGiaThueTheoGio.cs" />
+    <Compile Include="Models\VanHanh\ET_VatTuPhongMacDinh.cs" />
+    <Compile Include="Models\BanHang\ET_ThueDoChiTiet.cs" />
+    <Compile Include="DTOs\DTO_RentalCartItem.cs" />
+    <Compile Include="DTOs\DTO_RentalCheckoutRequest.cs" />
+    <Compile Include="DTOs\DTO_PhienChuaTraView.cs" />
+    <Compile Include="DTOs\DTO_ThuHoiRequest.cs" />
+    <Compile Include="DTOs\DTO_NguonChoThueView.cs" />
+    <Compile Include="DTOs\DTO_QuyenLoiDoan.cs" />
+    <Compile Include="DTOs\DTO_PhongLuuTruView.cs" />
+    <Compile Include="DTOs\DTO_DatPhongOnline.cs" />
+    <Compile Include="DTOs\DTO_ThongTinKhachCheckOut.cs" />
+    <Compile Include="DTOs\DTO_TheRFID.cs" />
+    <Compile Include="DTOs\DTO_Dashboard.cs" />
+    <Compile Include="DTOs\DTO_NhatKyView.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
