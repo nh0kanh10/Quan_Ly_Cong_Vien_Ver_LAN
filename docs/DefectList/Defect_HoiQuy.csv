@@ -1,0 +1,188 @@
+﻿Title,Screen,Pre-condition,Steps,Test Data,Expected Results,Actual results,Priority,Serverity,Date,Owner,TC'ID,Build,System,Assign To,Status,Evident
+[DF_HQ_001] Mini-bar không tự động trừ kho khi thanh toán phòng,Màn hình Thanh toán Lưu trú,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Quản lý Đại Nam.
+Bước 2. Đăng nhập tài khoản Quản lý (tên đăng nhập: admin).
+Bước 3. Trên menu chính, chọn thẻ Lưu trú.
+Bước 4. Tại màn hình Sơ đồ phòng, chọn phòng 101 đang có khách.
+Bước 5. Nhấn nút Thanh toán.
+Bước 6. Nhập vào dịch vụ Mini-bar: 2 lon Coca Cola.
+Bước 7. Nhấn Hoàn tất thanh toán.",Dịch vụ mini-bar: 2 lon Coca Cola,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Màn hình thanh toán hiển thị.
+Bước 5. Thông tin dịch vụ được ghi nhận.
+Bước 6. Hóa đơn được in.
+Bước 7. Hệ thống tự động trừ tồn kho của 2 lon Coca Cola tại Kho Khách sạn.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Màn hình thanh toán hiển thị.
+Bước 5. Thông tin dịch vụ được ghi nhận.
+Bước 6. Hóa đơn được in.
+Bước 7. Tồn kho của 2 lon Coca Cola giữ nguyên, hệ thống không tự động trừ kho.",High,High,29/04/2026,Antigravity,TC_HQ_001,Sprint 1,Dai Nam Park Management System,Dev_Inventory,New,
+[DF_HQ_002] Thuê đồ buồng phòng không giảm tồn kho khả dụng,Màn hình Dịch vụ Lưu trú,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Quản lý Đại Nam.
+Bước 2. Đăng nhập tài khoản Quản lý (tên đăng nhập: admin).
+Bước 3. Trên menu chính, chọn thẻ Lưu trú.
+Bước 4. Tại màn hình Sơ đồ phòng, chọn phòng 102.
+Bước 5. Chọn mục Thêm dịch vụ thuê đồ.
+Bước 6. Chọn sản phẩm: Xe đạp địa hình, số lượng: 1.
+Bước 7. Nhấn Xác nhận.",Thuê 1 Xe đạp địa hình,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Màn hình thêm dịch vụ hiển thị.
+Bước 5. Sản phẩm được chọn.
+Bước 6. Ghi nhận thành công.
+Bước 7. Tồn kho khả dụng của Xe đạp giảm đi 1.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Màn hình thêm dịch vụ hiển thị.
+Bước 5. Sản phẩm được chọn.
+Bước 6. Ghi nhận thành công.
+Bước 7. Tồn kho Xe đạp địa hình không đổi (vẫn giữ nguyên số lượng cũ).",High,High,29/04/2026,Antigravity,TC_HQ_002,Sprint 1,Dai Nam Park Management System,Dev_Inventory,New,
+[DF_HQ_003] Trả đồ thuê không cộng lại tồn kho,Màn hình Dịch vụ Lưu trú,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Quản lý Đại Nam.
+Bước 2. Đăng nhập tài khoản Quản lý (tên đăng nhập: admin).
+Bước 3. Trên menu chính, chọn thẻ Lưu trú.
+Bước 4. Tại màn hình Sơ đồ phòng, chọn phòng 102 đang thuê đồ.
+Bước 5. Chọn mục Trả đồ thuê.
+Bước 6. Kiểm tra tình trạng đồ: Bình thường.
+Bước 7. Nhấn Xác nhận trả đồ.",,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Màn hình trả đồ hiển thị.
+Bước 5. Ghi nhận trả đồ thành công.
+Bước 6. Tính toán chi phí thuê.
+Bước 7. Tồn kho của Xe đạp địa hình tăng lại 1, doanh thu thuê đồ được ghi nhận.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Màn hình trả đồ hiển thị.
+Bước 5. Ghi nhận trả đồ thành công.
+Bước 6. Tính toán chi phí thuê.
+Bước 7. Doanh thu ghi nhận nhưng tồn kho Xe đạp không tăng lại.",Medium,Medium,29/04/2026,Antigravity,TC_HQ_003,Sprint 1,Dai Nam Park Management System,Dev_Inventory,New,
+[DF_HQ_004] Lỗi NullReferenceException khi xuất kho đồ tiêu hao rỗng,Màn hình Quản lý Kho,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Quản lý Đại Nam.
+Bước 2. Đăng nhập tài khoản Quản lý (tên đăng nhập: admin).
+Bước 3. Trên menu chính, chọn thẻ Quản lý kho.
+Bước 4. Chọn Phiếu xuất kho.
+Bước 5. Chọn mục đích: Cấp phát buồng phòng.
+Bước 6. Không nhập sản phẩm nào.
+Bước 7. Nhấn Lưu phiếu.",,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Kho.
+Bước 4. Màn hình tạo phiếu xuất kho hiển thị.
+Bước 5. Mục đích được ghi nhận.
+Bước 6. Danh sách trống.
+Bước 7. Hệ thống báo lỗi: 'Vui lòng chọn ít nhất một sản phẩm'.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Kho.
+Bước 4. Màn hình tạo phiếu xuất kho hiển thị.
+Bước 5. Mục đích được ghi nhận.
+Bước 6. Danh sách trống.
+Bước 7. Phát sinh ngoại lệ NullReferenceException tại DAL_Kho và đóng ứng dụng.",High,Critical,29/04/2026,Antigravity,TC_HQ_004,Sprint 1,Dai Nam Park Management System,Dev_Inventory,New,
+[DF_HQ_005] Không trừ kho khách sạn khi khách làm hỏng đồ đền bù,Màn hình Thanh toán Lưu trú,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Quản lý Đại Nam.
+Bước 2. Đăng nhập tài khoản Quản lý (tên đăng nhập: admin).
+Bước 3. Trên menu chính, chọn thẻ Lưu trú.
+Bước 4. Tại màn hình Thanh toán phòng 103.
+Bước 5. Chọn mục Khấu trừ/Đền bù tài sản.
+Bước 6. Chọn sản phẩm: Ly thủy tinh, số lượng: 1.
+Bước 7. Nhấn Hoàn tất.",1 Ly thủy tinh,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Màn hình khấu trừ hiển thị.
+Bước 5. Sản phẩm được chọn.
+Bước 6. Tính tiền đền bù vào hóa đơn phòng.
+Bước 7. Hệ thống trừ 1 Ly thủy tinh khỏi kho khách sạn.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Màn hình khấu trừ hiển thị.
+Bước 5. Sản phẩm được chọn.
+Bước 6. Tính tiền đền bù vào hóa đơn phòng.
+Bước 7. Tiền được tính nhưng tồn kho Ly thủy tinh giữ nguyên.",Medium,Medium,29/04/2026,Antigravity,TC_HQ_005,Sprint 1,Dai Nam Park Management System,Dev_Inventory,New,
+[DF_HQ_006] Lỗi không cho phép cân bằng kho khi số lượng kiểm kê nhỏ hơn,Màn hình Kiểm kho,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Quản lý Đại Nam.
+Bước 2. Đăng nhập tài khoản Quản lý (tên đăng nhập: admin).
+Bước 3. Trên menu chính, chọn thẻ Quản lý kho.
+Bước 4. Chọn màn hình Kiểm kho.
+Bước 5. Tạo phiếu kiểm kho buồng phòng.
+Bước 6. Nhập số lượng thực tế sản phẩm Nước suối: 10 (tồn hệ thống là 12).
+Bước 7. Nhấn Cân bằng kho.","Số lượng thực tế: 10, Hệ thống: 12","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Kho.
+Bước 4. Màn hình kiểm kho hiển thị.
+Bước 5. Phiếu kiểm kho ghi nhận chênh lệch.
+Bước 6. Dữ liệu chênh lệch được lưu.
+Bước 7. Hệ thống trừ 2 sản phẩm Nước suối và tạo phiếu hao hụt.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Kho.
+Bước 4. Màn hình kiểm kho hiển thị.
+Bước 5. Phiếu kiểm kho ghi nhận chênh lệch.
+Bước 6. Dữ liệu chênh lệch được lưu.
+Bước 7. Hệ thống báo lỗi ràng buộc không cho phép cân bằng kho âm.",High,High,29/04/2026,Antigravity,TC_HQ_006,Sprint 1,Dai Nam Park Management System,Dev_Inventory,New,
+[DF_HQ_007] Chuyển kho nội bộ không cập nhật tồn kho nhận,Màn hình Quản lý Kho,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Quản lý Đại Nam.
+Bước 2. Đăng nhập tài khoản Quản lý (tên đăng nhập: admin).
+Bước 3. Trên menu chính, chọn thẻ Quản lý kho.
+Bước 4. Tạo Phiếu chuyển kho.
+Bước 5. Chọn Kho xuất: Kho tổng, Kho nhập: Kho khách sạn.
+Bước 6. Nhập sản phẩm: Bia Heineken, số lượng: 100.
+Bước 7. Nhấn Xác nhận chuyển.",Chuyển 100 lon bia,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Kho.
+Bước 4. Màn hình chuyển kho hiển thị.
+Bước 5. Địa điểm kho được ghi nhận.
+Bước 6. Sản phẩm được chọn.
+Bước 7. Kho tổng giảm 100, Kho khách sạn tăng 100 lon bia.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Kho.
+Bước 4. Màn hình chuyển kho hiển thị.
+Bước 5. Địa điểm kho được ghi nhận.
+Bước 6. Sản phẩm được chọn.
+Bước 7. Kho tổng bị trừ 100 nhưng Kho khách sạn không được cộng.",High,High,29/04/2026,Antigravity,TC_HQ_007,Sprint 1,Dai Nam Park Management System,Dev_Inventory,New,
+[DF_HQ_008] Đổi phòng làm mất lịch sử sử dụng mini-bar,Màn hình Đổi phòng,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Quản lý Đại Nam.
+Bước 2. Đăng nhập tài khoản Quản lý (tên đăng nhập: admin).
+Bước 3. Trên menu chính, chọn thẻ Lưu trú.
+Bước 4. Tại màn hình Sơ đồ phòng, chọn phòng 104 đang có khách.
+Bước 5. Nhấn nút Đổi phòng.
+Bước 6. Chọn phòng đích: Phòng 105.
+Bước 7. Tích chọn: Chuyển toàn bộ dịch vụ mini-bar đã dùng.
+Bước 8. Nhấn Xác nhận.",Chuyển dịch vụ sang phòng 105,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Màn hình đổi phòng hiển thị.
+Bước 5. Phòng đích được xác định.
+Bước 6. Tùy chọn chuyển dịch vụ được lưu.
+Bước 7. Dịch vụ mini-bar được chuyển sang phòng 105, tồn kho giữ nguyên.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Màn hình đổi phòng hiển thị.
+Bước 5. Phòng đích được xác định.
+Bước 6. Tùy chọn chuyển dịch vụ được lưu.
+Bước 7. Toàn bộ dịch vụ mini-bar đã dùng của khách bị xóa mất khi chuyển sang phòng 105.",High,High,29/04/2026,Antigravity,TC_HQ_008,Sprint 1,Dai Nam Park Management System,Dev_LuuTru,New,
+[DF_HQ_009] Hủy đặt phòng không giải phóng tồn kho dự kiến,Màn hình Booking,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Quản lý Đại Nam.
+Bước 2. Đăng nhập tài khoản Quản lý (tên đăng nhập: admin).
+Bước 3. Trên menu chính, chọn thẻ Lưu trú.
+Bước 4. Vào màn hình Danh sách đặt trước (Booking).
+Bước 5. Chọn mã đặt phòng BK001 có kèm dịch vụ đặt trước 5 phần quà lưu niệm.
+Bước 6. Nhấn nút Hủy đặt phòng.",Mã đặt phòng BK001,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Màn hình Booking hiển thị.
+Bước 5. Đơn đặt phòng được chọn.
+Bước 6. Trạng thái chuyển sang Hủy.
+Bước 7. Tồn kho dự kiến của 5 phần quà được giải phóng.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Màn hình Booking hiển thị.
+Bước 5. Đơn đặt phòng được chọn.
+Bước 6. Trạng thái chuyển sang Hủy.
+Bước 7. Tồn kho dự kiến vẫn bị giữ (chế độ Reserved) không thể bán cho khách khác.",Medium,Medium,29/04/2026,Antigravity,TC_HQ_009,Sprint 1,Dai Nam Park Management System,Dev_LuuTru,New,
+[DF_HQ_010] Doanh thu mini-bar không đồng bộ sang phân hệ Kho,Màn hình Báo cáo Doanh thu,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Quản lý Đại Nam.
+Bước 2. Đăng nhập tài khoản Quản lý (tên đăng nhập: admin).
+Bước 3. Trên menu chính, chọn thẻ Lưu trú.
+Bước 4. Thực hiện thanh toán hóa đơn phòng 106 có dùng mini-bar 500,000đ.
+Bước 5. Mở màn hình Báo cáo doanh thu.
+Bước 6. Xem doanh thu mục Lưu trú và mục Kho.","Doanh thu mini-bar 500,000đ","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Thanh toán thành công hóa đơn.
+Bước 5. Màn hình báo cáo mở ra.
+Bước 6. Doanh thu mini-bar hiển thị đúng 500,000đ ở cả hai phân hệ tương ứng.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Hệ thống mở phân hệ Lưu trú.
+Bước 4. Thanh toán thành công hóa đơn.
+Bước 5. Màn hình báo cáo mở ra.
+Bước 6. Doanh thu ghi nhận ở Lưu trú nhưng Báo cáo Kho không ghi nhận (hiển thị 0đ).",Medium,Medium,29/04/2026,Antigravity,TC_HQ_010,Sprint 1,Dai Nam Park Management System,Dev_Inventory,New,

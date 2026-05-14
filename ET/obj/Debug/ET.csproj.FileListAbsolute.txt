@@ -1,0 +1,6 @@
+C:\Users\ADMIN\Desktop\DaiNamNew\ET\bin\Debug\ET.dll
+C:\Users\ADMIN\Desktop\DaiNamNew\ET\bin\Debug\ET.pdb
+C:\Users\ADMIN\Desktop\DaiNamNew\ET\obj\Debug\ET.dll
+C:\Users\ADMIN\Desktop\DaiNamNew\ET\obj\Debug\ET.pdb
+C:\Users\ADMIN\Desktop\DaiNamNew\ET\obj\Debug\ET.csproj.AssemblyReference.cache
+C:\Users\ADMIN\Desktop\DaiNamNew\ET\obj\Debug\ET.csproj.CoreCompileInputs.cache

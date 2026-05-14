@@ -1,0 +1,322 @@
+POS_TAB_FNB|F&&B
+BTN_DONG|ĐÓNG
+BTN_HUY|Hủy (Esc)
+BTN_KHO_CANHBAO| CẢNH BÁO
+BTN_KHO_LICHSU| LỊCH SỬ GIAO DỊCH
+BTN_KHO_TAOPHIEU| TẠO / SỬA PHIẾU
+BTN_KHO_TONKHO| TỒN KHO HIỆN TẠI
+BTN_KH_MO_THE|Mở thẻ
+BTN_KH_NAP_TIEN|Nạp tiền ví
+BTN_LAMMOI|LÀM MỚI
+BTN_LAM_MOI|Làm Mới
+BTN_LUU|Lưu (F2)
+BTN_SUA|Sửa
+BTN_THEM|Thêm Mới
+BTN_THEM_DONG|+ Thêm dòng
+BTN_THEM_MOI|Thêm mới
+BTN_THEM_NGUYEN_LIEU|Thêm nguyên liệu
+BTN_XOA|Xóa
+BacSilver|Bạc
+CHK_ALL_POS|Áp dụng cho tất cả điểm bán
+CHK_DI_UNG|Món ăn chứa thành phần dễ bề dị ứng
+CHK_KHO_AO|Là kho ảo (chỉ trên sổ sách)
+CHK_LO|Có quản lý hạn sử dụng (Lô)
+CHK_TON_AM|Cho phép tồn âm
+CHK_VAT_TU|Là vật tư có quản lý tồn kho
+COL_DEMTHUCTE|Đếm / Nhập
+COL_DVT|ĐVT Gốc
+COL_DVT_DICH|ĐVT Đích
+COL_GIABAN|Giá bán
+COL_GIAPHUTHU|Giá phụ thu
+COL_HESO|Hệ số quy đổi
+COL_HIEULUC_DEN|Hiệu lực đến
+COL_HIEULUC_TU|Hiệu lực từ
+COL_KHO_AO|Kho ảo
+COL_LECH|Lệch
+COL_LOAIGIA|Phân loại
+COL_MAHANG|Mã Hàng
+COL_MA_KHO|Mã kho
+COL_MA_KHU_VUC|Mã KV
+COL_NGUYEN_LIEU|Vật tư / Nguyên liệu
+COL_PHUTBLOCK|Block (phút)
+COL_PHUTTIEP|Phút tiếp
+COL_SO_LUONG|Số lượng
+COL_TENHANG|Tên Hàng
+COL_TEN_KHO|Tên kho
+COL_TEN_KHU_VUC|Tên khu vực
+COL_TIENCOC|Tiền cọc
+COL_TONMAY|Tồn Máy
+COL_TRANG_THAI|Trạng thái
+CTX_CHEN_DONG|Chèn dòng mới
+CTX_HUY_PHIEU|Hủy phiếu
+CTX_IN_PHIEU|In phiếu
+CTX_MO_PHIEU|Mở phiếu xem chi tiết
+CTX_MO_PHIEU_GOC|Mở phiếu gốc
+CTX_SAO_CHEP|Sao chép làm phiếu mới
+CTX_SAO_DONG|Sao chép dòng
+CTX_TAO_PHIEU_XUAT|Tạo phiếu xuất cho SP này
+CTX_THIET_LAP_MUC_CB|Thiết lập mức cảnh báo
+CTX_XEM_LICHSU|Xem lịch sử SP này
+CTX_XEM_TON|Xem tồn kho SP này
+CTX_XOA_DONG|Xóa dòng này
+CTX_XUAT_EXCEL|Xuất Excel
+CUST_BTN_CLEAR|Bỏ
+CUST_BTN_SEARCH|Tìm
+CUST_LBL_POINTS|điểm
+CUST_SEARCH_HINT|SĐT / Mã KH / Quét RFID...
+ERR_COMBO_CHUA_LUU|Vui lòng Lưu Combo trước!
+ERR_CTK_DA_DUYET|Phiếu này đã được duyệt và khóa sổ.
+ERR_DUP_CODE|Mã sản phẩm '{0}' đã tồn tại trên hệ thống.
+ERR_EMPTY_CODE|Mã sản phẩm không được bỏ trống.
+ERR_EMPTY_NAME|Tên sản phẩm không được bỏ trống.
+ERR_EMPTY_TYPE|Vui lòng chọn loại sản phẩm.
+ERR_EMPTY_UNIT|Vui lòng chọn đơn vị tính.
+ERR_LOHANG_TEN_RONG|Tên lô hàng không được để trống
+ERR_PHANQUYEN_FAIL|Cập nhật thất bại. Vui lòng thử lại!
+ERR_POS_CHUA_MO_PHIEN|Chưa mở phiên thu ngân. Vui lòng mở phiên trước khi bán hàng.
+ERR_POS_GIO_RONG|Giỏ hàng đang trống, không có gì để thanh toán.
+ERR_POS_HET_HANG|Sản phẩm '{0}' đã hết hàng trong kho.
+ERR_POS_PHIEN_DANG_MO|Máy POS này đang có phiên mở bởi người khác.
+ERR_POS_RFID_KHONGTIMTHAY|Không tìm thấy thẻ RFID '{0}' trên hệ thống.
+ERR_POS_RFID_KHONG_DU|Số dư ví RFID không đủ để thanh toán khoản này.
+ERR_POS_SOLUONG_AM|Số lượng phải lớn hơn 0.
+ERR_POS_SP_KHONGTIMTHAY|Không tìm thấy sản phẩm với mã '{0}'.
+ERR_POS_TIEN_KHONG_KHOP|Tổng tiền thanh toán chưa khớp với tổng bill. Vui lòng kiểm tra lại.
+ERR_REFUND_NO_ITEMS|Vui lòng nhập định mức cần hoàn cho ít nhất 1 sản phẩm!
+ERR_TICKET_NO_GATE|Sản phẩm loại Vé bắt buộc thiết lập ít nhất 1 quyền quẹt thẻ.
+FILTER_ALL|Tất cả
+FILTER_CHOTHUE|Cho Thuê
+FILTER_DOAN|Đồ Ăn
+FILTER_DOUONG|Đồ Uống
+FILTER_LUUTRU|Lưu Trú
+FILTER_VATTU|Vật Tư
+FILTER_VE|Vé
+FNB_CAT_ANVAT|Ăn vặt
+FNB_CAT_CHAY|Đồ chay
+FNB_CAT_KHAIVI|Khai vị
+FNB_CAT_MONCHINH|Món chính
+FNB_CAT_NUOC|Nước uống
+FNB_CAT_TRANGMIENG|Tráng miệng
+FRM_COMBO_TITLE|QUẢN LÝ COMBO SẢN PHẨM
+FRM_KHO_TITLE|Quản trị danh mục kho
+GRID_COL_DVT|ĐVT
+GRID_COL_HANH_DONG|Hành Động
+GRID_COL_LOAISP|Loại SP
+GRID_COL_MASP|Mã SP
+GRID_COL_TENSP|Tên Sản Phẩm
+GRID_COL_TRANG_THAI|Trạng Thái
+GRP_KHO_CHITIET|Chi Tiết Chứng Từ
+GRP_KHO_NGUON|Kho Nguồn (Click đúp để chuyển)
+KHACH_TRA|Khách trả hàng
+KimCuongDiamond|Kim Cương
+LBL_DIEM_BAN|Điểm bán (POS)
+LBL_DVT|Đơn vị tính (*)
+LBL_GHICHU|Ghi Chú:
+LBL_GIA_UU_TIEN|Giá ưu tiên
+LBL_GRID_TITLE_FNB|Định mức nguyên liệu (R&D BOM):
+LBL_KHONHAP|Kho Nhập:
+LBL_KHOXUAT|Kho Xuất:
+LBL_KHO_DSPHIEU|DS PHIẾU GẦN ĐÂY
+LBL_KHU_VUC|Khu vực
+LBL_KH_CCCD|CCCD
+LBL_KH_DIACHI|Địa chỉ
+LBL_KH_DIEM|Điểm tích lũy
+LBL_KH_EMAIL|Email
+LBL_KH_FIELD_CCCD|CCCD / CMND
+LBL_KH_FIELD_DIACHI|Địa chỉ
+LBL_KH_FIELD_EMAIL|Email
+LBL_KH_FIELD_HANG|Hạng thành viên
+LBL_KH_FIELD_MA|Mã khách hàng
+LBL_KH_FIELD_NGAYTAO|Ngày đăng ký
+LBL_KH_FIELD_SDT|Số điện thoại
+LBL_KH_HANG|Hạng thành viên
+LBL_KH_LOAI|Loại khách
+LBL_KH_MA|Mã KH
+LBL_KH_SDT|Điện thoại (*)
+LBL_KH_SODU|Số dư khả dụng
+LBL_KH_TEN|Họ tên (*)
+LBL_KH_THE_RFID|Thẻ RFID
+LBL_KH_TONGCHI|Tổng chi tiêu
+LBL_LOAIPHIEU|Loại Phiếu:
+LBL_LOAISP|Loại sản phẩm (*)
+LBL_MAPHIEU|Mã Phiếu:
+LBL_MASP|Mã sản phẩm (*)
+LBL_MA_KHO|Mã kho
+LBL_NCC|Nhà Cung Cấp:
+LBL_NGAYLAP|Ngày Lập:
+LBL_NHA_HANG|Bếp / Bar phụ trách:
+LBL_PHAN_LOAI_FNB|Phân loại thêm:
+LBL_QUYENHAN_TITLE|Phân quyền (Hierarchy Tree)
+LBL_TEN_KHO|Tên kho
+LBL_TITLE_FNB|Dành riêng cho: ĐỒ ĂN & THỨC UỐNG
+LBL_TRANG_THAI|Trạng thái
+LBL_TRANG_THAI_KHO|Trạng thái
+LBL_VAITRO_TITLE|Chọn Vai Trò
+LBL_VAT|Thuế VAT
+LOAIGIA_KHUYENMAI|Khuyến mãi
+LOAIGIA_MACDINH|Mặc định
+LOAIGIA_NGAYLE|Ngày lễ
+LOAISP_ANUONG|Đồ ăn
+LOAISP_CHOINGHIMAT|Chòi nghỉ mát
+LOAISP_DATCHOTHUAN|Đặt chỗ thú ăn
+LOAISP_DOCHO|Đồ cho thuê
+LOAISP_DOUONG|Đồ uống
+LOAISP_GUIXE|Gửi xe (Bãi xe định mức)
+LOAISP_HANGHOA|Hàng hoá chung
+LOAISP_LUUTRU|Lưu trú (Phòng)
+LOAISP_NGUYENLIEU|Nguyên liệu
+LOAISP_TUDO|Tủ đồ (Giữ đồ)
+LOAISP_VETROCHOI|Vé trò chơi
+LOAISP_VEVAOKHU|Vé vào khu
+MENU_GRP_DANHMUC|Hệ thống Danh Mục
+MENU_GRP_DASHBOARD|Bảng điều khiển
+MENU_GRP_DOITAC|Quản trị
+MENU_GRP_KHO|Kho & F&B
+MENU_GRP_POS|Bán hàng
+MENU_ITEM_COMBO|Quản lý Combo
+MENU_ITEM_DANH_MUC_KHO|Danh mục Kho
+MENU_ITEM_DASHBOARD|Thống kê tổng quan
+MENU_ITEM_SANPHAM|Sản phẩm, Dịch vụ & Vé
+MENU_ITEM_TRUNG_TAM_KHO|Trung tâm Kho
+MNU_XOADONG|Xóa dòng
+MSG_CTK_DUYET_OK|Chốt sổ phiếu thành công! Số lượng hàng trong kho đã được thay đổi.
+MSG_CTK_LUU_OK|Lưu phiếu kho nháp thành công.
+MSG_CTK_XOA_OK|Xoá phiếu thành công.
+MSG_DIEM_CONG_OK|Cộng điểm thành công!
+MSG_DIEM_TRU_OK|Trừ điểm thành công!
+MSG_GIU_LUU_OK|Xí phần giữ kho thành công
+MSG_GIU_XOA_OK|Thả tự do lượng hàng hoá thành công
+MSG_KHO_LUU_OK|Lưu thông tin kho thành công
+MSG_KHO_MUC_TON_OK|Cập nhật cảnh báo tồn kho thành công
+MSG_KHO_XOA_OK|Xoá kho thành công
+MSG_KH_LUU_OK|Lưu thông tin khách hàng thành công!
+MSG_KH_NHAP_SOTIEN|Nhập số tiền nạp:
+MSG_KH_XOA_OK|Xóa khách hàng thành công!
+MSG_LOHANG_LUU_OK|Cập nhật lô hàng thành công
+MSG_LUU_RO_OK|Lưu rổ combo thành công!
+MSG_NAP_TIEN_OK|Nạp tiền vào ví thành công!
+MSG_PHANQUYEN_SUCCESS|Cập nhật phân quyền thành công!
+MSG_POS_CHECKOUT_OK|Thanh toán đơn hàng thành công.
+MSG_POS_PHIEN_DONG_OK|Đóng phiên thu ngân thành công.
+MSG_POS_PHIEN_MO_OK|Mở phiên thu ngân thành công.
+MSG_RFID_CHUYEN_OK|Chuyển trạng thái thẻ thành công!
+MSG_RFID_KHOA_OK|Khóa thẻ thành công!
+MSG_RFID_KICH_HOAT_OK|Kích hoạt/cấp thẻ thành công!
+NULL_DOITAC|-- Chọn Đối Tác --
+NULL_KHONHAP|-- Chọn Kho Nhập --
+NULL_KHOXUAT|-- Chọn Kho Xuất --
+PAY_USE_POINTS|Dùng {0} điểm (khấu trừ {1}₫)
+POS_COL_THEM|Thêm
+POS_LBL_CA|Ca:
+POS_LBL_CASHIER|Thu ngân
+POS_LBL_GIAMGIA|Giảm giá:
+POS_LBL_GIOHANG|GIỎ HÀNG
+POS_LBL_MACHINE|Máy
+POS_LBL_SESSION|Phiên
+POS_LBL_SHIFT|Ca
+POS_LBL_THUEVAT|Thuế VAT:
+POS_LBL_THUNGAN|Thu ngân:
+POS_LBL_TIENHANG|Tiền hàng:
+POS_LBL_TONGTHANHTOAN|TỔNG:
+POS_MSG_XOAGIO|Xóa toàn bộ giỏ hàng? Hành động này không thể hoàn tác.
+POS_PHIEN_BTN_CHOT|Chốt ca
+POS_PHIEN_BTN_MO|Mở phiên
+POS_PHIEN_LBL_CHENHLECH|Chênh lệch:
+POS_PHIEN_LBL_KHOXUAT|Kho xuất:
+POS_PHIEN_LBL_MAYPOS|Máy POS:
+POS_PHIEN_LBL_MOLUC|Mở lúc:
+POS_PHIEN_LBL_TIENCUOICA|Tiền cuối ca (đếm tay):
+POS_PHIEN_LBL_TIENDAUCA|Tiền đầu ca:
+POS_PHIEN_LBL_TONGTHU|Tổng thu trong ca:
+POS_PHIEN_TITLE_DONG|Đóng phiên thu ngân
+POS_PHIEN_TITLE_MO|Mở phiên thu ngân
+POS_STATUS_KHO|Kho:
+POS_STATUS_MAY|Máy:
+POS_STATUS_PHIEN|Phiên
+POS_TAB_HANGHOA|Hàng hóa
+POS_TAB_THUEDO|Thuê đồ
+POS_TAB_VE|Vé
+POS_TOAST_THANHCONG|Thanh toán thành công
+POS_TOAST_TIENTHUA|Tiền thừa: {0}
+POS_TOAST_VENAPHAT|{0} mã QR vé đã phát
+POS_TT_BTN_THEMDONG|+ Thêm dòng thanh toán
+POS_TT_BTN_VUADU|Vừa đủ
+POS_TT_BTN_XACNHAN|Xác nhận
+POS_TT_COL_MATHERFID|Mã thẻ RFID
+POS_TT_COL_PHUONGTHUC|Phương thức
+POS_TT_COL_SOTIEN|Số tiền
+POS_TT_CONTHIEU|Còn thiếu:
+POS_TT_DATRA|Đã trả:
+POS_TT_LBL_CHUTHE|Chủ thẻ:
+POS_TT_LBL_SAUTRU|Sau trừ:
+POS_TT_LBL_SODU|Số dư ví:
+POS_TT_TIENTHUA|Tiền thừa:
+POS_TT_TITLE|Thanh toán
+POS_TT_TONGPHAITHU|Tổng phải thu:
+POS_WATERMARK_BARCODE|Quét mã hoặc gõ tên sản phẩm...
+PROMPT_TIM_KIEM|Chỉ nhập từ khóa để tìm kiếm...
+PTTT_CHUYENKHOAN|Chuyển khoản
+PTTT_MOMO|MoMo
+PTTT_QR|QR Code
+PTTT_THENGANH|Thẻ ngân hàng
+PTTT_TIENMAT|Tiền mặt
+PTTT_VIRFID|Ví RFID
+REFUND_BTN_CLOSE|ĐÓNG
+REFUND_BTN_CONFIRM|XÁC NHẬN HOÀN
+REFUND_BTN_SEARCH|Tìm Kiếm
+REFUND_COL_BOUGHT|Đã Mua
+REFUND_COL_PRICE|Đơn Giá / Mức Phạt
+REFUND_COL_PRODUCT|Sản Phẩm
+REFUND_COL_REASON|Lý Do
+REFUND_COL_REFUNDED|Đã Hoàn
+REFUND_COL_RETURNQTY|SL Muốn Hoàn
+REFUND_COL_TYPE|Loại
+REFUND_SEARCH_HINT|Mã Đơn Hàng cần hoàn...
+REFUND_TITLE|Nghiệp Vụ - Hoàn Trả Giao Dịch Bán Lẻ
+TAB_BANG_GIA|Bảng giá
+TAB_CAU_HINH|Cấu hình vận hành
+TAB_KH_DIEM|Lịch sử điểm
+TAB_KH_LICHSU|Lịch sử GD
+TAB_KH_LICHSU_GD|Lịch sử giao dịch
+TAB_KH_THE_VI|Thẻ & Ví
+TAB_KH_THONGTIN|Thông tin
+TAB_QUY_DOI|Quy đổi ĐVT
+TAB_THONG_TIN|Thông tin chung
+TITLE_CANHBAO|Cảnh báo mất dữ liệu
+TITLE_REFUND_CONFIRM|Hoàn Khách Hàng
+TITLE_SUA_SP|Chỉnh sửa sản phẩm
+TITLE_THEM_SP|Thêm sản phẩm mới
+TITLE_UNSAVED|Cảnh báo mất dữ liệu
+TOOLTIP_GIAUUTIEN|Giá này là thông tin chỉ đọc. Vui lòng chuyển sang Tab [Bảng giá] để lên lịch thiết lập giá bán mới.
+TOOLTIP_KHOAO_DESC|Không có vị trí vật lý. Dùng để xử lý trung gian hoặc treo đơn hàng. Không hỗ trợ Tồn Âm.
+TOOLTIP_KHOAO_TITLE|Kho Ảo (Tạm)
+TOOLTIP_QUANLYLO|Hàng hóa đặc biệt cần kiểm soát Hạn sử dụng (Date) để báo cáo huỷ hỏng. Chỉ áp dụng nếu đã tích [Có Quản Lý Tồn Kho].
+TOOLTIP_TONAM_DESC|Kho (như Bếp) có thể xuất hàng trước khi làm phiếu Nhập. Hệ thống sẽ báo tồn kho âm (-) cho đến khi bù hàng.
+TOOLTIP_TONAM_TITLE|Cho phép Tồn Âm
+TOOLTIP_VATTU|Sản phẩm vật lý tồn tại ngoài đời thực và cần theo dõi xuất-nhập kho (Ví dụ: Nước suối, Đồ lưu niệm).
+TRANGTHAI_DANGBAN|Đang bán
+TRANGTHAI_HOATDONG|Hoạt động
+TRANGTHAI_NGUNGBAN|Ngừng bán
+TRANGTHAI_NGUNGHOATDONG|Ngưng hoạt động
+TRANGTHAI_TAMNGUNG|Tạm ngưng
+TXT_ALERT_HSD|0 Lô sắp hết HSD
+TXT_ALERT_TON|0 Mặt hàng dưới mức
+ERR_CHITIETRONG|Chưa có chi tiết hàng hóa (hoặc hàng hóa rỗng)!
+ERR_CHONKHO|Vui lòng chọn Kho thao tác!
+ERR_CHONNGAY|Vui lòng chọn ngày lập phiếu hợp lệ!
+ERR_NAP_MAN_HINH|Lỗi nạp màn hình:
+ERR_VI_SO_TIEN_AM|Số tiền phải lớn hơn 0!
+MSG_COMBO_TYLE_CHUA_DU|Tổng tỷ lệ phân bổ chưa đạt 100%.\nHệ thống tự động chuyển Combo về 'BanNhap' để đảm bảo an toàn doanh thu.
+MSG_DUYETTHANHCONG|Đã phê duyệt phiếu!
+MSG_HUYTHANHCONG|Đã hủy phiếu!
+MSG_KM_APPLIED|Đã áp mã {0}: giảm {1:#,##0}₫
+MSG_LOI|Lỗi
+MSG_LUUTHATBAI|Lưu thất bại!
+MSG_REFUND_CONFIRM|Bạn có chắc chắn muốn thực hiện hoàn hàng? Quá trình này không thể phục hồi!
+MSG_WARN_UNSAVED|Phiếu chưa lưu! Chuyển trang sẽ mất dữ liệu nhập dở. Bạn có tiếp tục?
+MSG_XAC_NHAN_XOA|Xác nhận ngưng hoạt động kho này?
+AI_TITLE|AI Assistant
+AI_SETTINGS_TITLE|AI Settings
+AI_SETTINGS_APIKEY|Gemini API Key:
+AI_SETTINGS_MODEL|Model:
+AI_SETTINGS_TEST|Test Connection

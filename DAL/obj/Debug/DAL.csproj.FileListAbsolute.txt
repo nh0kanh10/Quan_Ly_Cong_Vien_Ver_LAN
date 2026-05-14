@@ -1,0 +1,10 @@
+C:\Users\ADMIN\Desktop\DaiNamNew\DAL\bin\Debug\DAL.dll.config
+C:\Users\ADMIN\Desktop\DaiNamNew\DAL\bin\Debug\DAL.dll
+C:\Users\ADMIN\Desktop\DaiNamNew\DAL\bin\Debug\DAL.pdb
+C:\Users\ADMIN\Desktop\DaiNamNew\DAL\bin\Debug\ET.dll
+C:\Users\ADMIN\Desktop\DaiNamNew\DAL\bin\Debug\ET.pdb
+C:\Users\ADMIN\Desktop\DaiNamNew\DAL\obj\Debug\DAL.dll
+C:\Users\ADMIN\Desktop\DaiNamNew\DAL\obj\Debug\DAL.pdb
+C:\Users\ADMIN\Desktop\DaiNamNew\DAL\obj\Debug\DAL.csproj.AssemblyReference.cache
+C:\Users\ADMIN\Desktop\DaiNamNew\DAL\obj\Debug\DAL.csproj.CoreCompileInputs.cache
+C:\Users\ADMIN\Desktop\DaiNamNew\DAL\obj\Debug\DAL.csproj.Up2Date

@@ -1,0 +1,1599 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Use Case & Sequence Diagrams — Hệ thống Đại Nam</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #1a1b2e;
+      color: #e0e0e8;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #22243a;
+      border-bottom: 1px solid #333;
+      padding: 14px 24px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: #a5b4fc;
+    }
+
+    header p {
+      font-size: 11px;
+      color: #888;
+      margin-top: 4px;
+    }
+
+    nav {
+      display: flex;
+      gap: 4px;
+      padding: 10px 24px;
+      background: #1e2030;
+      border-bottom: 1px solid #333;
+      overflow-x: auto;
+    }
+
+    nav button {
+      padding: 7px 16px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      background: transparent;
+      border: 1px solid #333;
+      color: #888;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: .2s;
+      font-family: inherit;
+    }
+
+    nav button:hover {
+      border-color: #666;
+      color: #ccc;
+    }
+
+    nav button.active {
+      background: rgba(165, 180, 252, .1);
+      border-color: #6366f1;
+      color: #a5b4fc;
+    }
+
+    .sub-nav {
+      display: flex;
+      gap: 4px;
+      padding: 8px 24px;
+      background: #1a1b2e;
+      border-bottom: 1px solid #2a2d3e;
+    }
+
+    .sub-nav button {
+      padding: 5px 12px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      background: #22243a;
+      border: 1px solid #333;
+      color: #888;
+      cursor: pointer;
+      transition: .2s;
+      font-family: inherit;
+    }
+
+    .sub-nav button:hover {
+      color: #ccc;
+    }
+
+    .sub-nav button.active {
+      background: #2d3050;
+      border-color: #6366f1;
+      color: #a5b4fc;
+    }
+
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 60px;
+    }
+
+    .svg-wrap {
+      background: #fefcf0;
+      border-radius: 8px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, .4);
+      padding: 32px;
+      min-width: 800px;
+      display: flex;
+      justify-content: center;
+      border: 1px solid #333;
+      overflow: auto;
+    }
+
+    .diagram-container {
+      width: 100%;
+      overflow: auto;
+      padding: 40px;
+      display: flex;
+      justify-content: flex-start;
+      background: #f3f4f6;
+    }
+
+    .legend-wrap {
+      max-width: 800px;
+      margin: 16px auto 0;
+      padding: 12px 20px;
+      background: #fff9c4;
+      border-radius: 8px;
+      border: 1px solid #fbc02d;
+      font-size: 13px;
+      color: #333;
+      text-align: left;
+      line-height: 1.6;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .legend-wrap strong {
+      color: #e65100;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.8.0/dist/mermaid.min.js"></script>
+</head>
+
+<body>
+  <header>
+    <h1>UML 2.5 Diagrams — Hệ thống Quản lý Đại Nam</h1>
+    <p>Use Case & Sequence Diagrams · Tuân thủ nguyên tắc ranh giới hệ thống, tác nhân và phân mảnh tương tác (alt, opt,
+      loop)</p>
+  </header>
+  <nav id="moduleNav"></nav>
+  <div class="sub-nav" id="subNav"></div>
+  <main>
+    <div class="svg-wrap" id="svgWrap">
+      <div class="mermaid" id="mermaid-view"></div>
+    </div>
+
+    <div class="legend-wrap" id="legendWrap">
+      <!-- Dynamic legend -->
+    </div>
+  </main>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'default',
+      flowchart: { htmlLabels: true, curve: 'basis' },
+      sequence: { showSequenceNumbers: true, actorMargin: 50 }
+    });
+
+    const LEGENDS = {
+      uc: "<strong>Quy chuẩn Use Case UML 2.5:</strong> Mũi tên đứt nét <code>&lt;&lt;include&gt;&gt;</code> thể hiện chức năng bắt buộc phụ thuộc. Mũi tên đứt nét <code>&lt;&lt;extend&gt;&gt;</code> thể hiện hành vi mở rộng có điều kiện. Tác nhân chính nằm bên trái, tác nhân hệ thống (bên thứ 3, CSDL) nằm bên phải với nhãn <code>&lt;&lt;system&gt;&gt;</code>.",
+      seq: `<strong>[Giải thích ký hiệu - Sequence Diagram]</strong><br/>
+        <ul style="margin: 4px 0 0 16px; padding:0; list-style-type:square;">
+          <li>Mũi tên nét liền: Gọi hàm / Gửi yêu cầu (đang thực hiện).</li>
+          <li>Mũi tên nét đứt: Trả về kết quả (xử lý xong).</li>
+          <li><code>alt / else</code>: Nếu đúng làm A, sai làm B (giống lệnh If...Else).</li>
+          <li><code>opt</code>: Chỉ làm nếu thỏa mãn điều kiện (giống lệnh If).</li>
+          <li><code>loop</code>: Làm đi làm lại nhiều lần (giống lệnh For/While).</li>
+          <li><code>rect</code>: Tô màu để gom nhóm các giai đoạn cho dễ nhìn.</li>
+        </ul>`
+    };
+
+    const DIAGRAMS = {
+      tongthe: {
+        tabs: [
+          { id: 'uc_tongthe', label: 'Use Case: Tổng Thể Hệ Thống' }
+        ],
+        diagrams: {
+          uc_tongthe: {
+            legend: LEGENDS.uc,
+            isCustom: true,
+            data: {
+              nodes: [
+                { id: 'b1', type: 'boundary', x: 220, y: 50, w: 850, h: 1050, label: 'Hệ thống Quản lý Tổng thể Đại Nam' },
+
+                // --- ACTORS (Dãn cách rộng ra) ---
+                { id: 'tn', type: 'actor', x: 60, y: 150, label: 'Thu ngân / Bán hàng' },
+                { id: 'lt', type: 'actor', x: 60, y: 350, label: 'Lễ tân' },
+                { id: 'tk', type: 'actor', x: 60, y: 550, label: 'Thủ kho' },
+                { id: 'kt', type: 'actor', x: 60, y: 750, label: 'Kế toán' },
+                { id: 'ql', type: 'actor', x: 60, y: 950, label: 'Quản lý Hệ thống' },
+
+                // --- CỘT GIỮA: VẬN HÀNH ---
+                { id: 'uc_p3', type: 'usecase', x: 450, y: 100, label: 'P03: Nghiệp vụ Bán hàng & POS' },
+                { id: 'uc_p4', type: 'usecase', x: 450, y: 200, label: 'P04: Vé & Kiểm soát vào cổng' },
+                { id: 'uc_p8', type: 'usecase', x: 450, y: 350, label: 'P08: Đặt phòng & Lưu trú' },
+                { id: 'uc_p5', type: 'usecase', x: 450, y: 550, label: 'P05: Quản lý Kho hàng' },
+                { id: 'uc_p6', type: 'usecase', x: 450, y: 750, label: 'P06: Tài chính & Thanh toán' },
+
+                // --- CỘT PHẢI: QUẢN TRỊ ---
+                { id: 'uc_p1', type: 'usecase', x: 850, y: 150, label: 'P01: Quản lý Đối tác & Nhân sự' },
+                { id: 'uc_p2', type: 'usecase', x: 850, y: 350, label: 'P02: Danh mục & Cấu hình giá' },
+                { id: 'uc_p7', type: 'usecase', x: 850, y: 550, label: 'P07: Khuyến mãi & Tích điểm' },
+                { id: 'uc_p9', type: 'usecase', x: 850, y: 950, label: 'P09: Hệ thống & Phân quyền' }
+              ],
+              edges: [
+                // Thu ngân
+                { from: 'tn', to: 'uc_p3' }, { from: 'tn', to: 'uc_p4' }, { from: 'tn', to: 'uc_p6' },
+                // Lễ tân
+                { from: 'lt', to: 'uc_p8' },
+                // Thủ kho
+                { from: 'tk', to: 'uc_p5' },
+                // Kế toán
+                { from: 'kt', to: 'uc_p6' }, { from: 'kt', to: 'uc_p5' },
+                // Quản lý
+                { from: 'ql', to: 'uc_p1' }, { from: 'ql', to: 'uc_p2' },
+                { from: 'ql', to: 'uc_p7' }, { from: 'ql', to: 'uc9' },
+
+                // Thừa kế
+                { from: 'ql', to: 'kt', type: 'inherit' },
+                { from: 'kt', to: 'tk', type: 'inherit' },
+                { from: 'tk', to: 'lt', type: 'inherit' },
+                { from: 'lt', to: 'tn', type: 'inherit' }
+              ]
+            }
+          }
+        }
+      },
+      level0: {
+        tabs: [
+          { id: 'uc_level0', label: 'Use Case: Level 0 (Chuẩn)' }
+        ],
+        diagrams: {
+          uc_level0: {
+            legend: LEGENDS.uc,
+            isCustom: true,
+            data: {
+              nodes: [
+                { id: 'b', type: 'boundary', x: 250, y: 50, w: 600, h: 800, label: 'HỆ THỐNG KDL ĐẠI NAM (LEVEL 0)' },
+                { id: 'adm', type: 'actor', x: 60, y: 150, label: 'Quản lý / Admin' },
+                { id: 'hr', type: 'actor', x: 60, y: 280, label: 'HR Nhân sự' },
+                { id: 'kt', type: 'actor', x: 60, y: 400, label: 'Kế toán' },
+                { id: 'tn', type: 'actor', x: 60, y: 520, label: 'Thu ngân' },
+                { id: 'lt', type: 'actor', x: 60, y: 640, label: 'Lễ tân' },
+                { id: 'kho', type: 'actor', x: 60, y: 760, label: 'Nhân viên Kho' },
+                { id: 'kvh', type: 'actor', x: 920, y: 400, label: 'Kỹ thuật / Vận hành' },
+                { id: 'kh', type: 'actor', x: 920, y: 600, label: 'Khách hàng' },
+
+                { id: 'uc1', type: 'usecase', x: 450, y: 100, label: 'UC01: Quản lý Danh mục & Hệ thống' },
+                { id: 'uc2', type: 'usecase', x: 450, y: 180, label: 'UC02: Quản lý Bán hàng POS & Khuyến mãi' },
+                { id: 'uc3', type: 'usecase', x: 450, y: 260, label: 'UC03: Quản lý Lưu trú & Khách sạn' },
+                { id: 'uc4', type: 'usecase', x: 450, y: 340, label: 'UC04: Kiểm soát Vé & Cổng truy cập' },
+                { id: 'uc5', type: 'usecase', x: 450, y: 420, label: 'UC05: Quản lý Kho bãi & Chuỗi cung ứng' },
+                { id: 'uc6', type: 'usecase', x: 450, y: 500, label: 'UC06: Quản lý Tài chính & Ví RFID' },
+                { id: 'uc7', type: 'usecase', x: 450, y: 580, label: 'UC07: Quản lý Nhân sự & Tiền lương' },
+                { id: 'uc8', type: 'usecase', x: 450, y: 660, label: 'UC08: Quản lý Vận hành & Bảo trì' }
+              ],
+              edges: [
+                { from: 'adm', to: 'uc1' }, { from: 'adm', to: 'uc5' }, { from: 'adm', to: 'uc7' }, { from: 'adm', to: 'uc8' },
+                { from: 'tn', to: 'uc2' }, { from: 'tn', to: 'uc6' }, { from: 'tn', to: 'uc4' },
+                { from: 'lt', to: 'uc3' },
+                { from: 'kho', to: 'uc5' },
+                { from: 'kt', to: 'uc6' },
+                { from: 'hr', to: 'uc7' },
+                { from: 'kvh', to: 'uc4' }, { from: 'kvh', to: 'uc8' },
+                { from: 'kh', to: 'uc3' }, { from: 'kh', to: 'uc8' }
+              ]
+            }
+          }
+        }
+      },
+      sanpham: {
+        tabs: [
+          { id: 'uc_doitac', label: 'Use Case: Đối Tác & Nhân Sự' }
+        ],
+        diagrams: {
+          uc_doitac: {
+            legend: LEGENDS.uc,
+            isCustom: true,
+            data: {
+              nodes: [
+                { id: 'b', type: 'boundary', x: 200, y: 50, w: 400, h: 420, label: 'Quản lý Đối tác & Tài khoản' },
+                { id: 'nv', type: 'actor', x: 60, y: 150, label: 'Nhân viên' },
+                { id: 'ql', type: 'actor', x: 60, y: 350, label: 'Quản lý' },
+                { id: 'uc1', type: 'usecase', x: 400, y: 100, label: 'UC01: Quản lý thông tin cá nhân' },
+                { id: 'uc2', type: 'usecase', x: 400, y: 180, label: 'UC02: Gán vai trò (NV/KH/NCC)' },
+                { id: 'uc3', type: 'usecase', x: 400, y: 260, label: 'UC03: Quản lý thông tin nhân viên' },
+                { id: 'uc4', type: 'usecase', x: 400, y: 340, label: 'UC04: Thiết lập quan hệ quản lý' },
+                { id: 'uc5', type: 'usecase', x: 400, y: 420, label: 'UC05: Quản lý tài khoản đăng nhập' }
+              ],
+              edges: [
+                { from: 'nv', to: 'uc1' },
+                { from: 'ql', to: 'uc2' }, { from: 'ql', to: 'uc3' },
+                { from: 'ql', to: 'uc4' }, { from: 'ql', to: 'uc5' },
+                { from: 'ql', to: 'nv', type: 'inherit' }
+              ]
+            }
+          }
+        }
+      },
+      danhmuc: {
+        tabs: [
+          { id: 'uc_danhmuc', label: 'Use Case: Danh mục & Cấu hình' }
+        ],
+        diagrams: {
+          uc_danhmuc: {
+            legend: LEGENDS.uc,
+            isCustom: true,
+            data: {
+              nodes: [
+                { id: 'b', type: 'boundary', x: 200, y: 50, w: 550, h: 480, label: 'Thiết lập Danh mục & Bảng giá' },
+                { id: 'ql', type: 'actor', x: 60, y: 250, label: 'Quản lý' },
+                { id: 'uc6', type: 'usecase', x: 380, y: 100, label: 'UC06: Quản lý khu vực' },
+                { id: 'uc7', type: 'usecase', x: 380, y: 180, label: 'UC07: Quản lý nhà hàng' },
+                { id: 'uc8', type: 'usecase', x: 580, y: 180, label: 'UC08: Quản lý bàn ăn' },
+                { id: 'uc9', type: 'usecase', x: 380, y: 280, label: 'UC09: Quản lý sản phẩm' },
+                { id: 'uc10', type: 'usecase', x: 580, y: 280, label: 'UC10: Quản lý ĐVT' },
+                { id: 'uc11', type: 'usecase', x: 380, y: 380, label: 'UC11: Thiết lập quy đổi ĐVT' },
+                { id: 'uc12', type: 'usecase', x: 580, y: 380, label: 'UC12: Thiết lập bảng giá' },
+                { id: 'uc13', type: 'usecase', x: 380, y: 480, label: 'UC13: Quản lý công thức nguyên liệu' }
+              ],
+              edges: [
+                { from: 'ql', to: 'uc6' }, { from: 'ql', to: 'uc7' }, { from: 'ql', to: 'uc8' },
+                { from: 'ql', to: 'uc9' }, { from: 'ql', to: 'uc10' }, { from: 'ql', to: 'uc11' },
+                { from: 'ql', to: 'uc12' }, { from: 'ql', to: 'uc13' },
+                { from: 'uc7', to: 'uc8', type: 'include' },
+                { from: 'uc9', to: 'uc11', type: 'extend' }
+              ]
+            }
+          }
+        }
+      },
+      banhang: {
+        tabs: [
+          { id: 'uc_banhang', label: 'Use Case: Nghiệp vụ Bán hàng' },
+          { id: 'seq_pos_retail', label: 'Sequence: Bán lẻ POS' }
+        ],
+        diagrams: {
+          uc_banhang: {
+            legend: LEGENDS.uc,
+            isCustom: true,
+            data: {
+              nodes: [
+                { id: 'b', type: 'boundary', x: 200, y: 50, w: 750, h: 580, label: 'Bán hàng (Chuẩn UML)' },
+                { id: 'tn', type: 'actor', x: 60, y: 250, label: 'Thu ngân' },
+                { id: 'uc14', type: 'usecase', x: 380, y: 120, label: 'Tạo đơn hàng' },
+                { id: 'uc15', type: 'usecase', x: 650, y: 120, label: 'Thêm sản phẩm' },
+                { id: 'uc16', type: 'usecase', x: 380, y: 40, label: 'Gán khách hàng' },
+                { id: 'uc18', type: 'usecase', x: 380, y: 320, label: 'Thanh toán đơn hàng' },
+                { id: 'uc17', type: 'usecase', x: 650, y: 320, label: 'Áp dụng khuyến mãi' },
+
+                // Các phương thức thanh toán (Kế thừa)
+                { id: 'uc18a', type: 'usecase', x: 380, y: 450, label: 'Thanh toán tiền mặt' },
+                { id: 'uc18b', type: 'usecase', x: 650, y: 450, label: 'Thanh toán Thẻ/QR' },
+                { id: 'uc18c', type: 'usecase', x: 380, y: 540, label: 'Thanh toán Ví RFID' }
+              ],
+              edges: [
+                { from: 'tn', to: 'uc14' }, { from: 'tn', to: 'uc18' },
+                { from: 'uc14', to: 'uc15', type: 'include' },
+                { from: 'uc14', to: 'uc16', type: 'extend', label: '<<extend>>' },
+                { from: 'uc18', to: 'uc17', type: 'extend', label: '<<extend>>' },
+
+                // Quan hệ kế thừa
+                { from: 'uc18a', to: 'uc18', type: 'inherit' },
+                { from: 'uc18b', to: 'uc18', type: 'inherit' },
+                { from: 'uc18c', to: 'uc18', type: 'inherit' }
+              ]
+            }
+          },
+          seq_themsp: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    actor M as Quản lý
+    participant frm as frmSanPham (GUI)
+    participant uc as ucSanPham_Detail (GUI)
+    participant BUS as BUS_SanPham
+    participant DAL as DAL_SanPham
+    participant EB as EventBus
+    participant Log as BUS_NhatKy
+
+    rect rgb(235, 245, 255)
+        Note over M,uc: GIAI ĐOẠN 1: MỞ FORM THÊM MỚI
+        M->>frm: Click "Thêm mới"
+        activate frm
+        frm->>uc: ChuanBiThemMoi()
+        activate uc
+        uc-->>frm: Reset form & Mở khoá UI
+        deactivate uc
+        frm-->>M: Hiển thị form bên phải
+        deactivate frm
+    end
+    
+    rect rgb(255, 245, 235)
+        Note over M,uc: GIAI ĐOẠN 2: THU THẬP & KIỂM TRA DỮ LIỆU
+        M->>uc: Nhập liệu 4 Tab (Thông tin, Bảng giá, Quy đổi, Cấu hình)
+        M->>uc: Click "Lưu" (hoặc F2)
+        activate uc
+        uc->>uc: LuuSanPham() (Gom dữ liệu từ các lưới và panel động)
+    end
+    
+    alt is F&B nhưng thiếu Định mức (BOM)
+        rect rgba(255, 192, 203, 0.25)
+            uc-->>M: Báo lỗi "BẮT BUỘC KHAI BÁO NGUYÊN LIỆU"
+        end
+    else Dữ liệu hợp lệ
+        rect rgb(235, 255, 235)
+            Note over uc,DAL: GIAI ĐOẠN 3: LƯU VÀO CƠ SỞ DỮ LIỆU
+            uc->>BUS: ThemMoi(sp, dsBangGia, dsQuyDoi, cauHinhVe, cauHinhMonAn, ...)
+            activate BUS
+            
+            BUS->>DAL: KiemTraTrungMa(sp.MaSanPham)
+            activate DAL
+            DAL-->>BUS: isExist
+            deactivate DAL
+            
+            alt isExist == true
+                rect rgba(255, 192, 203, 0.25)
+                    BUS-->>uc: OperationResult(Success=false, MSG=ERR_TRUNG_MASP)
+                    uc-->>M: UIHelper.Loi("Mã sản phẩm đã tồn tại")
+                end
+            else isExist == false
+                BUS->>DAL: ThemMoi(...)
+                activate DAL
+                Note right of DAL: Transaction lưu vào nhiều bảng<br/>(SanPham, BangGia, QuyDoiDonVi, CauHinh_*)
+                DAL-->>BUS: Success, newId
+                deactivate DAL
+                
+                BUS-->>uc: OperationResult(Success=true, Data=newId)
+            end
+        end
+        
+        rect rgb(245, 235, 255)
+            Note over uc,Log: GIAI ĐOẠN 4: HẬU XỬ LÝ (LOG & LÀM MỚI UI)
+            uc-->>M: UIHelper.ThongBao("Lưu thành công")
+            uc->>Log: GhiLog("SanPham", newId, "ThemMoi", ...)
+            uc->>EB: Publish("SanPham_DaLuu")
+            
+            EB->>frm: Trigger _onSanPhamDaLuu
+            activate frm
+            frm->>frm: TaiDuLieu() (Load lại lưới)
+            frm-->>M: Cập nhật danh sách bên trái
+            deactivate frm
+        end
+        deactivate BUS
+    end
+    deactivate uc
+            `
+          }
+        }
+      },
+
+      pos: {
+        tabs: [
+          { id: 'uc_pos', label: 'Use Case: POS Bán Hàng' },
+          { id: 'seq_pos_retail', label: 'Sequence: Quy trình Bán lẻ' },
+          { id: 'seq_tt', label: 'Sequence: Thanh Toán Hỗn Hợp' },
+          { id: 'seq_hoan', label: 'Sequence: Hoàn Hàng' }
+        ],
+        diagrams: {
+          uc_pos: {
+            legend: LEGENDS.uc,
+            isCustom: true,
+            data: {
+              nodes: [
+                { id: 'b1', type: 'boundary', x: 200, y: 50, w: 550, h: 550, label: 'POS Bán Hàng' },
+                { id: 'tn', type: 'actor', x: 60, y: 250, label: 'Thu ngân' },
+                { id: 'ql', type: 'actor', x: 60, y: 450, label: 'Quản lý' },
+                { id: 'uc1', type: 'usecase', x: 380, y: 100, label: 'Mở phiên thu ngân' },
+                { id: 'uc2', type: 'usecase', x: 380, y: 170, label: 'Đóng phiên thu ngân' },
+                { id: 'uc3', type: 'usecase', x: 380, y: 240, label: 'Quét mã vạch / Tìm SP' },
+                { id: 'uc4', type: 'usecase', x: 380, y: 310, label: 'Thanh toán đơn hàng' },
+                { id: 'uc5', type: 'usecase', x: 380, y: 380, label: 'Hoàn hàng / Hoàn vé' },
+                { id: 'uc6', type: 'usecase', x: 380, y: 450, label: 'Nạp tiền ví RFID' },
+                { id: 'uc7', type: 'usecase', x: 580, y: 240, label: 'Gắn khách hàng TV' },
+                { id: 'uc8', type: 'usecase', x: 580, y: 310, label: 'Áp dụng khuyến mãi' },
+                { id: 'uc9', type: 'usecase', x: 380, y: 520, label: 'Xem lịch sử phiên' }
+              ],
+              edges: [
+                { from: 'tn', to: 'uc1' }, { from: 'tn', to: 'uc2' }, { from: 'tn', to: 'uc3' },
+                { from: 'tn', to: 'uc4' }, { from: 'tn', to: 'uc5' }, { from: 'tn', to: 'uc6' },
+                { from: 'tn', to: 'uc7' }, { from: 'ql', to: 'uc9' },
+                { from: 'ql', to: 'tn', type: 'inherit' },
+                { from: 'uc4', to: 'uc3', type: 'include' },
+                { from: 'uc4', to: 'uc7', type: 'extend', label: '[Có thẻ/SĐT]' },
+                { from: 'uc4', to: 'uc8', type: 'extend', label: '[Có mã KM]' }
+              ]
+            }
+          },
+          seq_pos_retail: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    actor TN as Thu ngân
+    participant UI as ucPOS (GUI)
+    participant frmT as frmThanhToan
+    participant BUS as BUS_POS
+    participant DAL as DAL_POS
+    participant EB as EventBus
+
+    rect rgb(235, 245, 255)
+        Note over TN,UI: GIAI ĐOẠN 1: CHỌN MÓN & LÊN ĐƠN
+        alt "Cách 1: Quét mã vạch"
+            TN->>UI: "Quét Barcode (hoặc gõ SL*Mã)"
+            UI->>UI: "XuLyBarcode(code)"
+        else "Cách 2: Chọn từ danh mục"
+            TN->>UI: "Click chọn Sản phẩm trên màn hình"
+        end
+        activate UI
+        UI->>UI: "ThemSanPhamTuDataRow()"
+        UI->>UI: "ThemVaoGioHang()"
+        
+        opt "Có thanh toán Vật tư"
+            UI->>BUS: "GetTonKhoHienTai(idKho, idSP)"
+            BUS->>DAL: "TraCuuTonKho(...)"
+            DAL-->>BUS: "SL_Ton"
+            BUS-->>UI: "tonKho"
+            Note right of UI: "Chặn nếu SL lớn hơn TonKho"
+        end
+        
+        UI->>UI: "CapNhatTong()"
+        UI->>BUS: "TinhTongGiamGia(hangKH, tongHang, ...)"
+        BUS->>BUS: "Tính Chiết khấu & KM"
+        BUS-->>UI: "DTO_KetQuaGiamGia"
+        UI-->>TN: "Cập nhật lưới giỏ hàng & Tổng tiền"
+        deactivate UI
+    end
+
+    rect rgb(255, 245, 235)
+        Note over TN,frmT: GIAI ĐOẠN 2: THANH TOÁN & XỬ LÝ GIAO DỊCH
+        TN->>UI: "Nhấn THANH TOÁN (F2)"
+        activate UI
+        UI->>frmT: "ShowDialog(tongThanhToan)"
+        activate frmT
+        TN->>frmT: "Chọn PTTT (Tiền mặt/Thẻ/Ví/Điểm)"
+        TN->>frmT: "Nhấn Xác nhận"
+        frmT-->>UI: "DialogResult.OK"
+        deactivate frmT
+        
+        UI->>UI: "KhoiTaoPhienThanhToan()"
+        UI->>BUS: "ThanhToanDonHang(cart, idKho)"
+        activate BUS
+        
+        opt "Có thanh toán Ví/Điểm"
+            BUS->>DAL: "Kiểm tra số dư (Ví/Điểm)"
+            DAL-->>BUS: "Đủ số dư"
+        end
+
+        BUS->>DAL: "Checkout(cart, idKho)"
+        activate DAL
+        Note right of DAL: SQL Transaction (ACID): <br/>Lưu đơn, Trừ kho, Ghi nợ, <br/>Trừ ví, Tích điểm
+        DAL-->>BUS: "Kết quả (Thành công/Thất bại)"
+        deactivate DAL
+        
+        alt "Thanh toán thành công"
+            BUS->>DAL: "LayDanhSachMaVachVe(idDonHang)"
+            DAL-->>BUS: "List[QR_Ve]"
+            BUS-->>UI: "DTO_CheckoutResult (Thành công)"
+            
+            rect rgb(235, 255, 235)
+                Note over UI,EB: GIAI ĐOẠN 3: HOÀN TẤT & HẬU XỬ LÝ
+                UI->>UI: "HienThiToastThanhCong()"
+                UI->>UI: "XoaGioHang(false)"
+                UI->>EB: "Publish(OrderCompleted)"
+                Note right of EB: Subscriber: Module Báo cáo & Đồng bộ kho
+                UI-->>TN: "Mở form In hóa đơn (frmKetQuaThanhToan)"
+            end
+        else "Thanh toán thất bại"
+            rect rgba(255, 0, 0, 0.1)
+                BUS-->>UI: "OperationResult (Thất bại, ErrorMsg)"
+                UI-->>TN: "UIHelper.Loi(Thông báo lỗi chi tiết)"
+                Note right of UI: Hệ thống tự động Rollback CSDL
+            end
+        end
+        deactivate BUS
+        deactivate UI
+    end
+
+    Note over TN,DAL: Sơ đồ giải quyết bài toán "Xử lý trạng thái" và "Thanh toán không dùng tiền mặt"
+            `
+          },
+          seq_tt: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    actor TN as Thu ngân
+    participant UI as Màn hình Thanh toán
+    participant BUS as BUS_POS
+    participant DAL as DAL_POS
+
+    TN->>UI: Thêm phương thức Ví RFID
+    activate UI
+    UI-->>TN: Yêu cầu quét thẻ (focus ô nhập RFID)
+    
+    TN->>UI: Quét thẻ vòng tay RFID
+    UI->>BUS: TraCuuTheRFID(maThe)
+    activate BUS
+    BUS->>DAL: LaySoDuVi(idVi)
+    activate DAL
+    DAL-->>BUS: balanceInfo
+    deactivate DAL
+    BUS-->>UI: info (SoDu, MaKH)
+    deactivate BUS
+    
+    alt SoDu >= SoTienCanThanhToan
+        UI-->>TN: Chấp nhận phương thức RFID
+    else SoDu < SoTienCanThanhToan
+        UI-->>TN: Báo lỗi ERR_POS_RFID_INSUFFICIENT_BALANCE
+    end
+    
+    TN->>UI: Thêm dòng Tiền mặt (phần còn thiếu)
+    TN->>UI: Nhấn nút "Xác nhận"
+    
+    UI->>BUS: ThanhToanDonHang(cart, idKho)
+    activate BUS
+    
+    BUS->>DAL: Checkout(cart, idKho)
+    activate DAL
+    
+    Note over DAL: Bắt đầu Transaction (ACID)
+    DAL->>DAL: TaoDonHang()
+    DAL->>DAL: TruTonKhoVaSoCai()
+    DAL->>DAL: TruSoDuViRFID()
+    DAL->>DAL: ProcessSinhVe()
+    Note over DAL: Commit Transaction
+    
+    DAL-->>BUS: donHangData & dsVe
+    deactivate DAL
+    
+    BUS-->>UI: Result(success, dsVe)
+    deactivate BUS
+    
+    UI-->>TN: Thông báo thành công, mở form In hóa đơn / In vé
+    deactivate UI
+            `
+          },
+          seq_hoan: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    actor TN as Thu ngân
+    participant UI as Màn hình Hoàn hàng
+    participant BUS as BUS_HoanHang
+    participant DAL as DAL_HoanHang
+
+    TN->>UI: Nhập mã đơn, nhấn "Tìm" (F9)
+    activate UI
+    UI->>BUS: LayDonHangHoan(maDon)
+    activate BUS
+    BUS->>DAL: LayDonHangHoan(maDon)
+    activate DAL
+    DAL-->>BUS: donHangData
+    deactivate DAL
+    BUS-->>UI: donHangData
+    deactivate BUS
+    UI-->>TN: Hiển thị chi tiết đơn hàng
+    
+    loop Xử lý từng dòng chi tiết
+        TN->>UI: Nhập Số lượng hoàn & Lý do
+    end
+    
+    TN->>UI: Nhấn "Hoàn hàng"
+    UI-->>TN: Cảnh báo "Thao tác không thể phục hồi"
+    TN->>UI: Xác nhận (Có)
+    
+    UI->>BUS: ThucHienHoanHang(dsHoanDTO)
+    activate BUS
+    
+    BUS->>BUS: Kiểm tra quy tắc hoàn (vé đã dùng, hạn giờ)
+    
+    alt Không hợp lệ
+        BUS-->>UI: Exception(ERR_HOAN_QUA_HAN)
+        UI-->>TN: Báo lỗi từ chối hoàn hàng
+    else Hợp lệ
+        BUS->>DAL: ThucHienHoanHang(dsHoanDTO)
+        activate DAL
+        Note over DAL: Bắt đầu Transaction (ACID)
+        DAL->>DAL: Insert LichSuHoanHang
+        DAL->>DAL: Insert ChiTietChungTu (Kho)
+        DAL->>DAL: HuyVeDienTuChuaSuDung()
+        DAL->>DAL: HoanTienViRFID() & ThuHoiDiem()
+        Note over DAL: Commit Transaction
+        DAL-->>BUS: success
+        deactivate DAL
+        
+        BUS-->>UI: Result(success)
+        UI-->>TN: Báo thành công, in phiếu chi tiền hoàn
+    end
+    
+    deactivate BUS
+    deactivate UI
+            `
+          }
+        }
+      },
+
+      khachhang: {
+        tabs: [
+          { id: 'uc_kh', label: 'Use Case: CRM Khách Hàng' },
+          { id: 'seq_naptien', label: 'Sequence: Nạp Tiền Ví' }
+        ],
+        diagrams: {
+          uc_kh: {
+            legend: LEGENDS.uc,
+            isCustom: true,
+            data: {
+              nodes: [
+                { id: 'b1', type: 'boundary', x: 200, y: 50, w: 550, h: 500, label: 'CRM Quản lý Khách Hàng' },
+                { id: 'nv', type: 'actor', x: 60, y: 150, label: 'Nhân viên' },
+                { id: 'ql', type: 'actor', x: 60, y: 350, label: 'Quản lý' },
+                { id: 'uc1', type: 'usecase', x: 380, y: 100, label: 'Tìm kiếm & Xem chi tiết' },
+                { id: 'uc2', type: 'usecase', x: 380, y: 180, label: 'Thêm / Sửa khách hàng' },
+                { id: 'uc3', type: 'usecase', x: 380, y: 260, label: 'Nạp tiền ví điện tử' },
+                { id: 'uc4', type: 'usecase', x: 580, y: 180, label: 'Cấp ví và thẻ RFID' },
+                { id: 'uc5', type: 'usecase', x: 580, y: 260, label: 'Khóa / Mở khóa thẻ' },
+                { id: 'uc6', type: 'usecase', x: 580, y: 340, label: 'Điều chỉnh điểm tích lũy' },
+                { id: 'uc7', type: 'usecase', x: 380, y: 420, label: 'Xóa ẩn khách hàng' }
+              ],
+              edges: [
+                { from: 'nv', to: 'uc1' }, { from: 'nv', to: 'uc2' }, { from: 'nv', to: 'uc3' },
+                { from: 'nv', to: 'uc4' }, { from: 'nv', to: 'uc5' },
+                { from: 'ql', to: 'nv', type: 'inherit' },
+                { from: 'ql', to: 'uc6' }, { from: 'ql', to: 'uc7' },
+                { from: 'uc3', to: 'uc1', type: 'extend' }, { from: 'uc4', to: 'uc1', type: 'extend' },
+                { from: 'uc5', to: 'uc1', type: 'extend' }, { from: 'uc6', to: 'uc1', type: 'extend' }
+              ]
+            }
+          },
+          seq_naptien: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    actor NV as Nhân viên
+    participant UI as Màn hình Khách hàng
+    participant BUS as BUS_KhachHang
+    participant DAL as DAL_ViDienTu
+
+    NV->>UI: Chọn KH, nhấn "Nạp tiền ví"
+    activate UI
+    UI-->>NV: Hiển thị hộp thoại Nạp tiền
+    
+    NV->>UI: Nhập số tiền > 0, chọn phương thức, nhấn Xác nhận
+    
+    UI->>BUS: NapTienVi(maKH, soTien, phuongThuc)
+    activate BUS
+    
+    BUS->>DAL: KiemTraViTonTai(maKH)
+    activate DAL
+    DAL-->>BUS: isExist
+    deactivate DAL
+    
+    alt isExist == false
+        BUS-->>UI: Exception(ERR_VI_CHUA_CO)
+        UI-->>NV: Báo lỗi "Khách chưa có ví"
+    else isExist == true
+        BUS->>DAL: Bắt đầu Transaction
+        DAL->>DAL: TaoButToanNap(maKH, soTien)
+        DAL->>DAL: LapChungTuTaiChinh(phuongThuc)
+        DAL->>DAL: Commit Transaction
+        DAL-->>BUS: success
+        
+        BUS-->>UI: success
+        UI-->>NV: Thông báo nạp tiền thành công, cập nhật số dư
+    end
+    
+    deactivate BUS
+    deactivate UI
+            `
+          }
+        }
+      },
+
+      luutru: {
+        tabs: [
+          { id: 'seq_walkin', label: 'Sequence: Walk-in / Đặt & Check-in' },
+          { id: 'seq_checkin_booking', label: 'Sequence: Check-in từ Booking' },
+          { id: 'seq_checkout', label: 'Sequence: Check-out & Thanh Toán' }
+        ],
+        diagrams: {
+          seq_walkin: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    actor LT as Lễ tân
+    participant UI as ucLuuTru_Main
+    participant BUS as BUS_LuuTru_Booking
+    participant DAL as DAL (LINQ Transaction)
+    participant RFID as DAL_TheRFID
+
+    LT->>UI: Chọn phòng trống, nhấn "Đặt & Check-in ngay"
+    activate UI
+    UI-->>LT: Mở Dialog nhập tên, SĐT, ngày trả phòng, tiền cọc
+
+    LT->>UI: Điền thông tin, nhấn Xác nhận
+    UI->>BUS: DatPhongVaCheckIn(tenKH, sdt, idPhong, checkIn, checkOut, tienCoc, idNV)
+    activate BUS
+
+    Note over BUS: Validation
+    BUS->>DAL: Kiểm tra TrangThai phòng (Trong / ChoDon)
+    activate DAL
+    DAL-->>BUS: phongData
+    deactivate DAL
+
+    alt TrangThai == DangO
+        BUS-->>UI: Fail(ERR_PHONG_DANG_BAN)
+        UI-->>LT: Báo lỗi phòng đã có khách
+    else Phòng hợp lệ
+        BUS->>DAL: GetDynamicPrice(idLoaiPhong, checkIn)
+        activate DAL
+        DAL-->>BUS: giaNiemYet
+        deactivate DAL
+
+        Note over DAL: Bắt đầu Transaction (ACID)
+        DAL->>DAL: Tìm hoặc tạo mới KhachHang (theo SĐT)
+        DAL->>DAL: Insert PhieuDatPhong (TrangThai = DangO)
+        DAL->>DAL: Insert DonHang (Master Bill, TrangThai = DangMo)
+        DAL->>DAL: Insert ChiTietDonHang (tiền phòng x số đêm)
+        DAL->>DAL: Insert ChiTietDatPhong (TrangThai = DaCheckIn)
+        DAL->>DAL: Update Phong.TrangThai = DangO
+        Note over DAL: Commit Transaction
+
+        opt maTheRFID != null
+            BUS->>RFID: GanTheMoi(maTheRFID, idKhachHang)
+        end
+
+        BUS-->>UI: Ok(true)
+        deactivate BUS
+        UI-->>LT: Thông báo Check-in thành công, cập nhật sơ đồ phòng
+    end
+    deactivate UI
+            `
+          },
+          seq_checkin_booking: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    actor LT as Lễ tân
+    participant UI as ucLuuTru_Main
+    participant BUS as BUS_LuuTru_Booking
+    participant DAL as DAL (LINQ Transaction)
+    participant RFID as DAL_TheRFID
+
+    LT->>UI: Tìm và chọn Booking ở trạng thái "Đặt trước"
+    activate UI
+    LT->>UI: Nhấn "Check-in"
+
+    UI->>BUS: XuLyCheckIn(idPhieuDatPhong, idNV, idPhienThuNgan, maTheRFID)
+    activate BUS
+
+    Note over BUS: Validation
+    BUS->>DAL: Lấy PhieuDatPhong (TrangThai = DatTruoc)
+    activate DAL
+    DAL-->>BUS: phieuData
+    deactivate DAL
+
+    alt TrangThai != DatTruoc
+        BUS-->>UI: Fail(ERR_PHIEU_DA_CHECKIN_HUY)
+        UI-->>LT: Báo lỗi phiếu không hợp lệ
+    else Hợp lệ
+        Note over DAL: Bắt đầu Transaction (ACID)
+        DAL->>DAL: Update PhieuDatPhong.TrangThai = DangO
+
+        loop Mỗi ChiTietDatPhong
+            DAL->>DAL: Check TrangThai phòng (chốt chặn race condition)
+            alt Phòng đã có người khác
+                DAL->>DAL: Throw ERR_PHONG_DANG_BAN → Rollback
+            else Phòng còn trống
+                DAL->>DAL: Update ChiTietDatPhong.TrangThai = DaCheckIn
+                DAL->>DAL: Update Phong.TrangThai = DangO
+            end
+        end
+
+        Note over DAL: Commit Transaction
+
+        opt maTheRFID != null
+            BUS->>RFID: GanTheMoi(maTheRFID, idKhachHang)
+        end
+
+        BUS-->>UI: Ok(true)
+        deactivate BUS
+        UI-->>LT: Check-in thành công, cập nhật sơ đồ phòng
+    end
+    deactivate UI
+            `
+          },
+          seq_checkout: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    actor LT as Lễ tân
+    participant UI as frmCheckOut
+    participant BUS_T as BUS_LuuTru_TinhToan
+    participant BUS_B as BUS_LuuTru_Booking
+    participant BUS_KM as BUS_KhuyenMai
+    participant DAL as DAL (LINQ Transaction)
+
+    LT->>UI: Right-click phòng "Đang ở", chọn "Check-out"
+    activate UI
+
+    UI->>BUS_T: TinhTienPhongVaPhatLoGio(idChiTietDatPhong)
+    activate BUS_T
+    BUS_T-->>UI: tienPhong, tienPhat, ghiChuPhat
+    deactivate BUS_T
+
+    UI->>BUS_B: LayThongTinKhachHangCheckOut(idChiTietDatPhong)
+    activate BUS_B
+    BUS_B-->>UI: tienCoc, diemKhaDung, hangThanhVien
+    deactivate BUS_B
+
+    UI->>BUS_KM: TimToHopBestDeal(tongTien, hangThanhVien)
+    activate BUS_KM
+    BUS_KM-->>UI: khuyenMaiUuTien (nếu có)
+    deactivate BUS_KM
+
+    UI-->>LT: Hiển thị tổng hóa đơn = Tiền phòng + Phạt + Phụ thu - Cọc - Giảm giá
+
+    Note over LT: Lễ tân chọn: PTTT, KM, dùng điểm, phụ thu thủ công
+    LT->>UI: Nhấn "Trả Phòng"
+
+    alt tienKhachTra < soTienConLai
+        UI-->>LT: Validate lỗi ERR_CHECKOUT_TIEN_KHONG_DU
+    else Hợp lệ
+        UI->>BUS_B: XuLyCheckOut_MotPhong(idChiTietDatPhong, idNV, idPhien, phuThu, pttt, giamGia, diemQuyDoi, idKM, tienKhachTra)
+        activate BUS_B
+
+        Note over DAL: Bắt đầu Transaction (ACID)
+        DAL->>DAL: Insert ChiTietDonHang (phụ thu lố giờ + thủ công)
+        DAL->>DAL: Update ChiTietDatPhong.TrangThai = DaCheckOut
+        DAL->>DAL: Update Phong.TrangThai = ChoDon
+
+        alt Còn phòng khác trong cùng Booking đang ở
+            DAL->>DAL: Update DonHang.TrangThai = MotPhan
+        else Tất cả đã trả
+            DAL->>DAL: Update PhieuDatPhong.TrangThai = DaTra
+            DAL->>DAL: Update DonHang.TrangThai = DaThanhToan
+        end
+
+        DAL->>DAL: Insert ChungTuTC (phiếu thu)
+        DAL->>DAL: Insert ChiTietThanhToan
+
+        opt Có Khuyến mãi
+            DAL->>DAL: Insert KhuyenMai_LichSu
+        end
+
+        opt Có Khách hàng
+            DAL->>DAL: Insert LichSuDiem (trừ điểm & cộng điểm mới)
+        end
+
+        Note over DAL: Commit Transaction
+        DAL-->>BUS_B: success
+        deactivate BUS_B
+
+        BUS_B-->>UI: Ok(true)
+        UI-->>LT: Thông báo trả phòng thành công, in hóa đơn
+    end
+    deactivate UI
+            `
+          }
+        }
+      },
+
+      kho: {
+        tabs: [
+          { id: 'uc_kho', label: 'Use Case: Trung Tâm Kho' },
+          { id: 'seq_luu_phieu', label: 'Sequence: Lập & Lưu Phiếu Kho' },
+          { id: 'seq_duyet', label: 'Sequence: Phê Duyệt Phiếu' }
+        ],
+        diagrams: {
+          uc_kho: {
+            legend: LEGENDS.uc,
+            isCustom: true,
+            data: {
+              nodes: [
+                { id: 'b1', type: 'boundary', x: 200, y: 50, w: 550, h: 450, label: 'Trung Tâm Kho' },
+                { id: 'tk', type: 'actor', x: 60, y: 150, label: 'Thủ kho' },
+                { id: 'qk', type: 'actor', x: 60, y: 350, label: 'Quản lý kho' },
+                { id: 'uc1', type: 'usecase', x: 380, y: 100, label: 'Tạo phiếu kho (Nh/X/C)' },
+                { id: 'uc2', type: 'usecase', x: 580, y: 100, label: 'Tra cứu tồn kho' },
+                { id: 'uc3', type: 'usecase', x: 380, y: 180, label: 'Xem lịch sử giao dịch' },
+                { id: 'uc4', type: 'usecase', x: 380, y: 260, label: 'Xem cảnh báo HSD & Tồn' },
+                { id: 'uc5', type: 'usecase', x: 380, y: 340, label: 'Phê duyệt phiếu kho' },
+                { id: 'uc6', type: 'usecase', x: 380, y: 420, label: 'Hủy phiếu kho' }
+              ],
+              edges: [
+                { from: 'tk', to: 'uc1' }, { from: 'tk', to: 'uc2' }, { from: 'tk', to: 'uc3' },
+                { from: 'tk', to: 'uc4' }, { from: 'tk', to: 'uc6' },
+                { from: 'qk', to: 'tk', type: 'inherit' },
+                { from: 'qk', to: 'uc5' },
+                { from: 'uc1', to: 'uc2', type: 'include' }
+              ]
+            }
+          },
+          seq_luu_phieu: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    actor TK as Thủ kho
+    participant UI as frmTrungTamKho
+    participant DAL as DAL_ChungTuKho
+
+    TK->>UI: Chọn loại phiếu (Nhập/Xuất/Chuyển), nhấn "Thêm mới"
+    activate UI
+    UI-->>TK: Hiển thị form phiếu trắng
+
+    TK->>UI: Điền ngày, đối tác, và từng dòng chi tiết (SP, Lô, Kho Xuất, Kho Nhập, Số lượng)
+    TK->>UI: Nhấn "Lưu"
+
+    UI->>DAL: LuuChungTu(ET_ChungTuKho)
+    activate DAL
+
+    alt Id == 0 (Phiếu mới)
+        DAL->>DAL: Insert ChungTu (TrangThai = Moi)
+        DAL->>DAL: Insert từng ChiTietChungTu (IdKhoXuat, IdKhoNhap riêng từng dòng)
+    else Id > 0 (Sửa phiếu)
+        DAL->>DAL: Kiểm tra TrangThai (chặn nếu DaDuyet / DaHuy)
+        DAL->>DAL: Delete ChiTietChungTu cũ
+        DAL->>DAL: Insert lại ChiTietChungTu mới
+        DAL->>DAL: Update header ChungTu
+    end
+
+    DAL->>DAL: SubmitChanges()
+    DAL-->>UI: Hoàn thành
+    deactivate DAL
+
+    UI-->>TK: Lưu phiếu thành công (TrangThai = "Mới", chờ duyệt)
+    deactivate UI
+            `
+          },
+          seq_duyet: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    actor QK as Quản lý kho
+    participant UI as frmTrungTamKho
+    participant DAL as DAL_ChungTuKho
+
+    QK->>UI: Right-click phiếu trạng thái "Mới", chọn "Phê duyệt"
+    activate UI
+
+    UI->>DAL: DuyetChungTu(idChungTu, idNguoiDuyet)
+    activate DAL
+
+    DAL->>DAL: FirstOrDefault(Id == idChungTu AND TrangThai == "Moi")
+
+    alt Phiếu null (đã duyệt / hủy bởi người khác)
+        DAL-->>UI: Throw InvalidOperationException (Phiếu đã được duyệt/hủy)
+        UI-->>QK: Báo lỗi, yêu cầu tải lại danh sách
+    else Phiếu hợp lệ
+        DAL->>DAL: Update TrangThai = DaDuyet
+        DAL->>DAL: Update IdNguoiDuyet1 = idNguoiDuyet
+        DAL->>DAL: Update NgayDuyet1 = Now
+        DAL->>DAL: SubmitChanges()
+        DAL-->>UI: Thành công
+        deactivate DAL
+
+        UI-->>QK: Thông báo phê duyệt thành công, làm mới danh sách
+    end
+
+    deactivate UI
+            `
+          }
+        }
+      },
+
+      thuedo: {
+        tabs: [
+          { id: 'uc_thuedo', label: 'Use Case: Dịch vụ Thuê Đồ' },
+          { id: 'seq_giaodo', label: 'Sequence: Giao Đồ Thuê' },
+          { id: 'seq_trado', label: 'Sequence: Nhận Trả Đồ' }
+        ],
+        diagrams: {
+          uc_thuedo: {
+            legend: LEGENDS.uc,
+            isCustom: true,
+            data: {
+              nodes: [
+                { id: 'b', type: 'boundary', x: 200, y: 50, w: 550, h: 450, label: 'Quản lý Dịch vụ Thuê Đồ' },
+                { id: 'tn', type: 'actor', x: 60, y: 250, label: 'Thu ngân / Lễ tân' },
+                { id: 'uc1', type: 'usecase', x: 380, y: 100, label: 'Tìm & Chọn đồ thuê' },
+                { id: 'uc2', type: 'usecase', x: 580, y: 100, label: 'Quét RFID khách hàng' },
+                { id: 'uc3', type: 'usecase', x: 380, y: 180, label: 'Giao đồ & Lập biên lai' },
+                { id: 'uc4', type: 'usecase', x: 580, y: 180, label: 'Thu tiền cọc' },
+                { id: 'uc5', type: 'usecase', x: 380, y: 260, label: 'Giám sát đồ chưa trả' },
+                { id: 'uc6', type: 'usecase', x: 380, y: 340, label: 'Nhận trả đồ' },
+                { id: 'uc7', type: 'usecase', x: 580, y: 340, label: 'Hoàn cọc' },
+                { id: 'uc8', type: 'usecase', x: 580, y: 420, label: 'Phạt mất/hỏng, lố giờ' }
+              ],
+              edges: [
+                { from: 'tn', to: 'uc1' }, { from: 'tn', to: 'uc3' },
+                { from: 'tn', to: 'uc5' }, { from: 'tn', to: 'uc6' },
+                { from: 'uc1', to: 'uc2', type: 'extend', label: '[Ví RFID]' },
+                { from: 'uc3', to: 'uc4', type: 'include' },
+                { from: 'uc6', to: 'uc7', type: 'include' },
+                { from: 'uc6', to: 'uc8', type: 'extend', label: '[Nếu mất/lố giờ]' }
+              ]
+            }
+          },
+          seq_giaodo: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    autonumber
+    actor TN as ThuNgan
+    participant UI as ucGiaoDo
+    participant BUS as BUS_ThueDo
+    participant DAL as DAL_ThueDo
+
+    TN->>UI: nhapThongTinThu(maVach, soLuong)
+    activate UI
+    UI->>UI: themVaoGio(sanPham, tienThue, tienCoc)
+    UI-->>TN: capNhatGioHang
+
+    opt phuongThucTT == RFID
+        TN->>UI: quetTheRFID(maThe)
+        UI->>BUS: timTheoRFID(maThe)
+        activate BUS
+        BUS-->>UI: kh = DTO_KhachHangPOS
+        deactivate BUS
+    end
+
+    TN->>UI: clickXacNhan(phuongThucTT)
+    UI->>BUS: xuLyGiaoDo(req)
+    activate BUS
+
+    BUS->>BUS: validate(req)
+
+    BUS->>DAL: giaoDo(req)
+    activate DAL
+
+    alt Transaction thanh cong
+        DAL->>DAL: beginTransaction()
+        DAL->>DAL: insert(DonHang)
+
+        loop tung item trong req.GioThue
+            DAL->>DAL: insert(ThueDoChiTiet)
+            opt item.IsDinhDanh == true
+                DAL->>DAL: update(TaiSanChoThue, DangThue)
+            end
+        end
+
+        DAL->>DAL: insert(ChungTuTC, THU_COC)
+
+        opt phuongThucTT == RFID
+            DAL->>DAL: insert(SoCaiVi, TruTien)
+        end
+
+        DAL->>DAL: commitTransaction()
+        DAL-->>BUS: maDonHang
+    else Transaction that bai
+        DAL->>DAL: rollbackTransaction()
+        DAL-->>BUS: Exception
+    end
+    deactivate DAL
+
+    alt GiaoDo thanh cong
+        BUS-->>UI: OperationResult.Ok(maDonHang)
+        UI->>UI: copyToClipboard(maDonHang)
+        UI-->>TN: Thong bao thanh cong
+    else Loi nghiep vu
+        BUS-->>UI: OperationResult.Fail(msg)
+        UI-->>TN: Bao loi
+    end
+    deactivate BUS
+    deactivate UI
+            `
+          },
+          seq_trado: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    autonumber
+    actor TN as ThuNgan
+    participant UI as ucNhanTra
+    participant BUS as BUS_ThueDo
+    participant DAL as DAL_ThueDo
+
+    TN->>UI: timPhienThue(maDonHang)
+    activate UI
+    UI->>BUS: layPhienTheoMaDon(maDonHang)
+    activate BUS
+    BUS->>DAL: layTheoMaDon(maDonHang)
+    activate DAL
+    DAL-->>BUS: List ThueDoChiTiet
+    deactivate DAL
+    BUS-->>UI: dsPhien
+    deactivate BUS
+    UI-->>TN: hienThiGridTraDo
+
+    TN->>UI: nhapSoLuongTraMat(soLuongTra, soLuongMat)
+    opt soLuongMat > 0
+        UI->>UI: showPopupPhatMatDo()
+    end
+
+    TN->>UI: clickXacNhanTra()
+    UI->>BUS: xuLyTraDo(dsTraDo, maDonHang)
+    activate BUS
+
+    BUS->>BUS: validate(dsTraDo)
+
+    BUS->>DAL: traDo(dsTraDo, maDonHang)
+    activate DAL
+
+    alt Transaction thanh cong
+        DAL->>DAL: beginTransaction()
+
+        loop tung item trong dsTraDo
+            DAL->>DAL: tinhPhiLoGio(item)
+
+            alt item.SoLuongTra > 0
+                DAL->>DAL: update(ThueDoChiTiet, DaTra)
+                opt item.IsDinhDanh == true
+                    DAL->>DAL: update(TaiSanChoThue, SanSang)
+                    DAL->>DAL: update(PhuongTienDiChuyen, IdKhuVuc)
+                end
+            else item.SoLuongMat > 0
+                DAL->>DAL: update(ThueDoChiTiet, MatDo)
+                opt item.IsDinhDanh == true
+                    DAL->>DAL: update(TaiSanChoThue, HuHong)
+                end
+            end
+        end
+
+        opt tongHoanCoc > 0
+            DAL->>DAL: insert(ChungTuTC, HOAN_COC)
+        end
+
+        opt tongTienPhat > 0
+            DAL->>DAL: insert(ChungTuTC, THU_PHAT)
+        end
+
+        DAL->>DAL: commitTransaction()
+        DAL-->>BUS: thanh cong
+    else Transaction that bai
+        DAL->>DAL: rollbackTransaction()
+        DAL-->>BUS: Exception
+    end
+    deactivate DAL
+
+    alt TraDo thanh cong
+        BUS-->>UI: OperationResult.Ok()
+        UI->>UI: clearGridVaResetKhachHang()
+        UI-->>TN: Thong bao thanh cong
+    else Loi nghiep vu
+        BUS-->>UI: OperationResult.Fail(msg)
+        UI-->>TN: Bao loi
+    end
+    deactivate BUS
+    deactivate UI
+            `
+          }
+        }
+      },
+
+      kiemsoat: {
+        tabs: [
+          { id: 'uc_kiemsoat', label: 'Use Case: Kiểm Soát Cổng' },
+          { id: 'seq_soatve', label: 'Sequence: Thuật toán Soát Vé' }
+        ],
+        diagrams: {
+          uc_kiemsoat: {
+            legend: LEGENDS.uc,
+            isCustom: true,
+            data: {
+              nodes: [
+                { id: 'b', type: 'boundary', x: 200, y: 50, w: 400, h: 350, label: 'Kiểm Soát Vào Cổng' },
+                { id: 'ks', type: 'actor', x: 60, y: 200, label: 'NV Kiểm Soát' },
+                { id: 'uc1', type: 'usecase', x: 380, y: 100, label: 'Thiết lập trạm kiểm soát' },
+                { id: 'uc2', type: 'usecase', x: 380, y: 180, label: 'Quét mã vạch vé (Barcode)' },
+                { id: 'uc3', type: 'usecase', x: 380, y: 260, label: 'Xem lịch sử / Thống kê cổng' }
+              ],
+              edges: [
+                { from: 'ks', to: 'uc1' },
+                { from: 'ks', to: 'uc2' },
+                { from: 'ks', to: 'uc3' }
+              ]
+            }
+          },
+          seq_soatve: {
+            legend: LEGENDS.seq,
+            code: `
+sequenceDiagram
+    autonumber
+    actor KS as NhanVienKiemSoat
+    participant UI as ucKiemSoatCong
+    participant BUS as BUS_KiemSoatVe
+    participant DAL as DAL_KiemSoatVe
+
+    KS->>UI: quetMaVach(maVach)
+    activate UI
+
+    UI->>BUS: soatVe(maVach, idKhuVuc, idTroChoi)
+    activate BUS
+
+    BUS->>DAL: timVeTheoMaVach(maVach)
+    activate DAL
+    DAL-->>BUS: ve = ET_VeDienTu
+    deactivate DAL
+
+    alt ve == null
+        BUS-->>UI: OperationResult(3, VE_KHONG_TON_TAI)
+    else ve.TrangThai == DaHuy
+        BUS-->>UI: OperationResult(6, VE_DA_HUY)
+    else ve het han
+        BUS-->>UI: OperationResult(5, VE_HET_HAN)
+    else ve.SoLuotConLai == 0
+        BUS-->>UI: OperationResult(2, HET_LUOT)
+    else Ve hop le so bo
+        BUS->>DAL: layQuyenTruyCap(ve.IdSanPham)
+        activate DAL
+        DAL-->>BUS: dsQuyen = List QuyenTruyCap
+        deactivate DAL
+
+        BUS->>BUS: locQuyenTheoKhuVuc(dsQuyen, idKhuVuc)
+
+        alt khong co quyen vao khu vuc
+            BUS->>DAL: truLuotVaGhiLog(ve.Id, SaiVe)
+            activate DAL
+            DAL-->>BUS: void
+            deactivate DAL
+            BUS-->>UI: OperationResult(1, SAI_VE)
+        else co quyen vao
+            BUS->>DAL: truLuotVaGhiLog(ve.Id, ThanhCong)
+            activate DAL
+
+            alt Transaction thanh cong
+                DAL->>DAL: beginTransaction()
+                DAL->>DAL: update(VeDienTu, SoLuotConLai - 1)
+                DAL->>DAL: insert(ChiTietLuotQuet)
+                DAL->>DAL: commitTransaction()
+                DAL-->>BUS: void
+            else Transaction that bai
+                DAL->>DAL: rollbackTransaction()
+                DAL-->>BUS: Exception
+            end
+            deactivate DAL
+
+            BUS->>BUS: ve.SoLuotConLai-- (cap nhat RAM)
+            BUS-->>UI: OperationResult(0, HOP_LE)
+        end
+    end
+    deactivate BUS
+
+    alt KetQua == 0
+        UI->>UI: triggerSuccessFeedback()
+    else KetQua != 0
+        UI->>UI: triggerFailureFeedback(thongBaoKey)
+    end
+
+    UI->>UI: updateTicketUI()
+    UI-->>KS: San sang quet ve tiep theo
+    deactivate UI
+            `
+          }
+        }
+      }
+    };
+
+    let curMod = 'tongthe', curSub = 'uc_tongthe';
+
+    function initTabs() {
+      const modules = [
+        { id: 'tongthe', label: '00. TỔNG THỂ' },
+        { id: 'level0', label: 'LEVEL 0 (MỚI)' },
+        { id: 'sanpham', label: '01. ĐỐI TÁC & NHÂN SỰ' },
+        { id: 'danhmuc', label: '02. DANH MỤC & GIÁ' },
+        { id: 'banhang', label: '03. BÁN HÀNG' },
+        { id: 'pos', label: '04. POS & THANH TOÁN' },
+        { id: 'khachhang', label: '05. KHÁCH HÀNG CRM' },
+        { id: 'luutru', label: '06. LƯU TRÚ & ĐẶT PHÒNG' },
+        { id: 'kho', label: '07. KHO & VẬT TƯ' },
+        { id: 'thuedo', label: '08. THUÊ ĐỒ' },
+        { id: 'kiemsoat', label: '09. KIỂM SOÁT CỔNG' }
+      ];
+      const nav = document.getElementById('moduleNav');
+      nav.innerHTML = modules.map(m => `<button data-mod="${m.id}" class="${m.id === curMod ? 'active' : ''}">${m.label}</button>`).join('');
+
+      nav.querySelectorAll('button').forEach(btn => {
+        btn.onclick = () => {
+          nav.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          curMod = btn.dataset.mod;
+          renderSubTabs();
+        };
+      });
+      renderSubTabs();
+    }
+
+    async function renderSubTabs() {
+      const mod = DIAGRAMS[curMod];
+      const sn = document.getElementById('subNav');
+      sn.innerHTML = mod.tabs.map((t, i) => `<button data-sub="${t.id}" class="${i === 0 ? 'active' : ''}">${t.label}</button>`).join('');
+
+      curSub = mod.tabs[0].id;
+      await drawMermaid();
+
+      sn.querySelectorAll('button').forEach(btn => {
+        btn.onclick = async () => {
+          sn.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          curSub = btn.dataset.sub;
+          await drawMermaid();
+        };
+      });
+    }
+
+    async function drawMermaid() {
+      const d = DIAGRAMS[curMod].diagrams[curSub];
+      const wrap = document.getElementById('svgWrap');
+      const legend = document.getElementById('legendWrap');
+
+      legend.innerHTML = d.legend || '';
+
+      if (d.isCustom) {
+        renderUseCaseSVG(wrap, d.data);
+      } else {
+        wrap.innerHTML = `<div class="mermaid" id="mermaid-view">${d.code.trim()}</div>`;
+        try {
+          await mermaid.run({ nodes: [document.getElementById('mermaid-view')] });
+        } catch (e) {
+          console.error('Mermaid render error:', e);
+        }
+      }
+    }
+
+    let currentUcData = null;
+    let isDragging = false;
+    let dragNode = null;
+    let startX, startY;
+    let initialNodeX, initialNodeY;
+
+    function renderUseCaseSVG(wrap, data) {
+      currentUcData = data;
+      const svgW = 1000, svgH = 800;
+      let svgHTML = `<svg id="ucSvg" width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" style="background:#fefcf0; user-select:none;">
+        <defs>
+          <marker id="open-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+            <path d="M0,0 L10,5 L0,10" fill="none" stroke="#555" stroke-width="1.5" />
+          </marker>
+          <marker id="hollow-triangle" markerWidth="12" markerHeight="12" refX="11" refY="6" orient="auto">
+            <path d="M0,2 L10,6 L0,10 Z" fill="#fefcf0" stroke="#333" stroke-width="1.5" />
+          </marker>
+        </defs>
+        <g id="edgesLayer"></g>
+        <g id="nodesLayer"></g>
+      </svg>`;
+      wrap.innerHTML = svgHTML;
+
+      const svg = document.getElementById('ucSvg');
+      const bg = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      bg.setAttribute('width', svgW);
+      bg.setAttribute('height', svgH);
+      bg.setAttribute('fill', '#fffdf2');
+      svg.insertBefore(bg, svg.firstChild);
+
+      svg.addEventListener('mousedown', e => {
+        const g = e.target.closest('.draggable');
+        if (!g) return;
+        isDragging = true;
+        dragNode = currentUcData.nodes.find(n => n.id === g.dataset.id);
+        startX = e.clientX;
+        startY = e.clientY;
+        initialNodeX = dragNode.x;
+        initialNodeY = dragNode.y;
+        g.style.cursor = 'grabbing';
+      });
+
+      window.addEventListener('mousemove', e => {
+        if (!isDragging || !dragNode) return;
+        const ctm = svg.getScreenCTM();
+        const dx = (e.clientX - startX) / ctm.a;
+        const dy = (e.clientY - startY) / ctm.d;
+        dragNode.x = initialNodeX + dx;
+        dragNode.y = initialNodeY + dy;
+        drawElements();
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (isDragging) {
+          isDragging = false;
+          dragNode = null;
+          console.log("--- TỌA ĐỘ MỚI ---");
+          currentUcData.nodes.forEach(n => console.log(`{ id: '${n.id}', x: ${Math.round(n.x)}, y: ${Math.round(n.y)} }`));
+        }
+      });
+
+      drawElements();
+    }
+
+    function drawElements() {
+      if (!currentUcData) return;
+      const edgesLayer = document.getElementById('edgesLayer');
+      const nodesLayer = document.getElementById('nodesLayer');
+      edgesLayer.innerHTML = '';
+      nodesLayer.innerHTML = '';
+
+      currentUcData.edges.forEach(edge => {
+        const fn = currentUcData.nodes.find(n => n.id === edge.from);
+        const tn = currentUcData.nodes.find(n => n.id === edge.to);
+        if (!fn || !tn) return;
+
+        let fx = fn.x, fy = fn.y;
+        let tx = tn.x, ty = tn.y;
+
+        let fx_adj = fx, fy_adj = fy;
+        let tx_adj = tx, ty_adj = ty;
+
+        if (fn.type === 'boundary') { fx_adj += fn.w / 2; fy_adj += fn.h / 2; }
+        if (tn.type === 'boundary') { tx_adj += tn.w / 2; ty_adj += tn.h / 2; }
+        if (fn.type === 'actor' && tn.type === 'actor') { fy_adj -= 15; ty_adj -= 15; }
+
+        let strokeDash = (edge.type === 'include' || edge.type === 'extend') ? 'stroke-dasharray="6,4"' : '';
+        let marker = '';
+        if (edge.type === 'include' || edge.type === 'extend') marker = 'marker-end="url(#open-arrow)"';
+        else if (edge.type === 'inherit') marker = 'marker-end="url(#hollow-triangle)"';
+
+        let dx = tx_adj - fx_adj, dy = ty_adj - fy_adj;
+        let len = Math.sqrt(dx * dx + dy * dy);
+        let r1 = 0, r2 = 0;
+
+        if (edge.type === 'include' || edge.type === 'extend') { r1 = 80; r2 = 80; }
+        else if (edge.type === 'inherit') { r1 = 20; r2 = 25; }
+
+        if (len > r1 + r2) {
+          let n_fx = fx_adj + dx * (r1 / len);
+          let n_fy = fy_adj + dy * (r1 / len);
+          let n_tx = tx_adj - dx * (r2 / len);
+          let n_ty = ty_adj - dy * (r2 / len);
+          fx_adj = n_fx; fy_adj = n_fy;
+          tx_adj = n_tx; ty_adj = n_ty;
+        }
+
+        if (edge.type === 'extend') {
+          let tmpX = fx_adj, tmpY = fy_adj;
+          fx_adj = tx_adj; fy_adj = ty_adj;
+          tx_adj = tmpX; ty_adj = tmpY;
+        }
+
+        let strokeCol = edge.type === 'inherit' ? '#333' : '#555';
+        let pathObj = `<path d="M${fx_adj},${fy_adj} L${tx_adj},${ty_adj}" stroke="${strokeCol}" stroke-width="1.5" fill="none" ${strokeDash} ${marker}/>`;
+        edgesLayer.innerHTML += pathObj;
+
+        if (edge.type) {
+          const mx = (fx_adj + tx_adj) / 2;
+          const my = (fy_adj + ty_adj) / 2;
+          const lbl = `&lt;&lt;${edge.type}&gt;&gt;` + (edge.label ? `<br/>${edge.label}` : '');
+          edgesLayer.innerHTML += `<foreignObject x="${mx - 60}" y="${my - 20}" width="120" height="40" style="pointer-events:none;">
+               <div xmlns="http://www.w3.org/1999/xhtml" style="font-size:11px; color:#555; text-align:center; background:rgba(254,252,240,0.8); line-height:1.2;">${lbl}</div>
+            </foreignObject>`;
+        }
+      });
+
+      currentUcData.nodes.forEach(node => {
+        let group = `<g class="draggable" data-id="${node.id}" transform="translate(${node.x}, ${node.y})" style="cursor: grab;">`;
+        if (node.type === 'boundary') {
+          const w = node.w || 400, h = node.h || 500;
+          group += `<rect x="0" y="0" width="${w}" height="${h}" fill="transparent" stroke="#2a2d3e" stroke-width="1.5" stroke-dasharray="8,4" />`;
+          group += `<text x="${w / 2}" y="20" fill="#2a2d3e" font-weight="bold" font-size="14" text-anchor="middle">${node.label}</text>`;
+        } else if (node.type === 'actor') {
+          group += `<svg x="-12" y="-35" width="24" height="30" viewBox="0 0 24 30" stroke="#333" stroke-width="2" fill="none" stroke-linecap="round"><circle cx="12" cy="5" r="3"/><path d="M12 8v10M12 18l-4 9M12 18l4 9M5 11h14"/></svg>`;
+          group += `<text x="0" y="10" fill="#333" font-size="12" font-weight="bold" text-anchor="middle">${node.label}</text>`;
+        } else if (node.type === 'usecase') {
+          group += `<ellipse cx="0" cy="0" rx="75" ry="30" fill="#eef2ff" stroke="#6366f1" stroke-width="2" />`;
+          group += `<foreignObject x="-65" y="-15" width="130" height="30" style="pointer-events:none;">
+            <div xmlns="http://www.w3.org/1999/xhtml" style="font-size:12px; color:#1e2030; text-align:center; font-weight:500; display:flex; align-items:center; justify-content:center; height:100%;">${node.label}</div>
+          </foreignObject>`;
+        }
+        group += `</g>`;
+        nodesLayer.innerHTML += group;
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', initTabs);
+  </script>
+</body>
+
+</html>

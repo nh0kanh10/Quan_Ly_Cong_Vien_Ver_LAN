@@ -1,0 +1,734 @@
+"REQ ID","TC ID","Title","Est. (phút)","Test Type","Area","Precondition","Procedure / Steps","Expected Results","Priority","Result","Change TC","Author","Remark"
+"UC_POS_001","TC_POS_001","Nhập mã vạch sản phẩm hợp lệ vào giỏ hàng","5","Functional","POS Bán Hàng","Sản phẩm mã vạch TC-DQ-001 tồn tại.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhập TC-DQ-001 vào ô Nhập mã vạch và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Sản phẩm Vé Đu Quay Khổng Lồ thêm vào giỏ hàng.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_002","Nhập sản phẩm có số lượng nhân SL*Mã","5","Functional","POS Bán Hàng","Sản phẩm mã TC-DQ-001 tồn tại.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhập 5*TC-DQ-001 vào ô Nhập mã vạch và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Sản phẩm Vé Đu Quay Khổng Lồ thêm vào giỏ hàng với số lượng 5.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_003","Thêm sản phẩm bằng cách chọn từ danh mục","5","Functional","POS Bán Hàng","Danh mục có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp chọn hình ảnh sản phẩm Vé Đu Quay trên lưới.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Sản phẩm Vé Đu Quay Khổng Lồ thêm vào giỏ hàng.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_004","Tăng số lượng sản phẩm bằng nút dấu cộng","5","Functional","POS Bán Hàng","Giỏ hàng đang có 1 sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp chuột vào nút dấu cộng (+) tại dòng sản phẩm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Số lượng sản phẩm tăng lên thành 2.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_005","Giảm số lượng sản phẩm bằng nút dấu trừ","5","Functional","POS Bán Hàng","Giỏ hàng đang có 2 sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp chuột vào nút dấu trừ (-) tại dòng sản phẩm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Số lượng sản phẩm giảm xuống còn 1.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_006","Giảm số lượng sản phẩm về 0 bằng nút trừ","5","Functional","POS Bán Hàng","Giỏ hàng đang có 1 sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp chuột vào nút dấu trừ (-) tại dòng sản phẩm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Dòng sản phẩm tự động bị xóa khỏi giỏ hàng.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_007","Xóa sản phẩm khỏi giỏ hàng bằng nút X","5","Functional","POS Bán Hàng","Giỏ hàng đang có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp chuột vào nút biểu tượng Xóa (X) ở cuối dòng.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Sản phẩm bị xóa khỏi giỏ hàng.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_008","Nhập số lượng trực tiếp trên ô số lượng","5","Functional","POS Bán Hàng","Giỏ hàng đang có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp đúp chuột vào ô số lượng, nhập số 10 và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Số lượng cập nhật thành 10, tổng tiền tự tính lại.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_009","Nhập số lượng bằng 0 trực tiếp","5","Negative","POS Bán Hàng","Giỏ hàng đang có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp đúp chuột vào ô số lượng, nhập số 0 và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Sản phẩm bị xóa khỏi giỏ hàng.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_010","Nhập số lượng âm khi sửa giỏ hàng","5","Negative","POS Bán Hàng","Giỏ hàng đang có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp đúp chuột vào ô số lượng, nhập số -5 và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hệ thống phải cảnh báo và không cho lưu giá trị âm.","High","Fail","","Antigravity","Lỗi: Hệ thống không chặn và cho phép nhập số lượng âm, tổng tiền thành âm."
+"UC_POS_001","TC_POS_011","Nhập số lượng là ký tự chữ cái","5","Negative","POS Bán Hàng","Giỏ hàng đang có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp đúp chuột vào ô số lượng, nhập chữ abc và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hệ thống không cho nhập chữ và giữ nguyên số lượng cũ.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_012","Bán sản phẩm vượt tồn kho tối đa","5","Negative","POS Bán Hàng","Sản phẩm lon Coca chỉ còn 2 lon trong kho.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhập Coca vào ô mã vạch, nhập SL là 5 và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hệ thống cảnh báo Tồn kho không đủ và đưa về SL bằng 2.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_013","Lọc danh mục theo Tab Vé","5","Functional","POS Bán Hàng","Hệ thống có danh mục vé.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp chuột chọn Tab Vé phía trên danh mục.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Danh mục chỉ hiển thị các loại vé vào cổng, vé trò chơi.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_014","Lọc danh mục theo Tab Đồ ăn và Nước uống","5","Functional","POS Bán Hàng","Hệ thống có danh mục ẩm thực.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp chuột chọn Tab Ẩm thực.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Danh mục chỉ hiển thị các mặt hàng ăn uống.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_015","Xóa toàn bộ giỏ hàng bằng nút Xóa Giỏ","5","Functional","POS Bán Hàng","Giỏ hàng đang có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp chuột vào nút Xóa giỏ (Esc).","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hộp thoại xác nhận hiện lên, chọn Yes, giỏ hàng trống trơn.","High","Fail","","Antigravity","Lỗi: Hệ thống xóa sạch luôn mà không hiển thị hộp thoại xác nhận Yes/No."
+"UC_POS_001","TC_POS_016","Bật/Tắt Camera Scanner","5","UI/UX","POS Bán Hàng","Máy tính có gắn camera.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp chuột vào nút Bật Cam tại ô mã vạch.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Khung camera hiện ra, nút đổi thành Tắt Cam.","Low","","","Antigravity",""
+"UC_POS_001","TC_POS_017","Xem chi tiết thành phần của sản phẩm Combo","5","Functional","POS Bán Hàng","Có sản phẩm Combo Vé + Nước.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Rê chuột vào sản phẩm Combo trên danh mục.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Tooltip hiện danh sách các món có trong combo.","Low","","","Antigravity",""
+"UC_POS_001","TC_POS_018","Thêm combo vào giỏ hàng","5","Functional","POS Bán Hàng","Có sản phẩm Combo.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp chuột chọn Combo Vé + Nước.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Combo được thêm vào giỏ hàng với giá cố định.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_019","Đổi đơn vị tính của sản phẩm trong giỏ","5","Functional","POS Bán Hàng","SP có cấu hình đơn vị quy đổi.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Click ô ĐVT tại dòng Bia Heineken, đổi từ Lon sang Thùng.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Đơn giá đổi thành giá Thùng, tổng tiền tự tính lại.","High","Fail","","Antigravity","Lỗi: Đổi đơn vị tính nhưng đơn giá vẫn giữ nguyên giá của 1 lon."
+"UC_POS_001","TC_POS_020","Tính toán thuế VAT tự động","5","Functional","POS Bán Hàng","Sản phẩm chịu thuế VAT 10%.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Thêm sản phẩm chịu thuế vào giỏ hàng.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Mục Thuế VAT hiển thị đúng 10% giá trị đơn.","Medium","","","Antigravity",""
+"UC_POS_002","TC_POS_021","Nhập mã thẻ RFID khách hàng hợp lệ","5","Functional","POS Khách Hàng","Thẻ RFID RF-001 đã được tạo.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhập mã RF-001 vào ô mã vạch và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Thông tin khách hàng Nguyễn Văn A hiện trên thẻ tên.","High","","","Antigravity",""
+"UC_POS_002","TC_POS_022","Tìm kiếm khách hàng bằng SĐT hợp lệ","5","Functional","POS Khách Hàng","Khách hàng SĐT 0987654321 tồn tại.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhập 0987654321 vào ô Tìm khách và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hiển thị tên khách và Hạng thành viên tương ứng.","High","","","Antigravity",""
+"UC_POS_002","TC_POS_023","Bỏ chọn khách hàng","5","Functional","POS Khách Hàng","Đã gắn khách hàng vào đơn.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấn nút X tại vùng hiển thị thông tin khách hàng.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Thông tin khách hàng biến mất, ô tìm kiếm mở khóa lại.","Medium","","","Antigravity",""
+"UC_POS_002","TC_POS_024","Tìm khách hàng bằng chuỗi ký tự trống","5","Negative","POS Khách Hàng","Hệ thống có nhiều khách hàng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Không nhập gì vào ô Tìm khách và nhấn nút Tìm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hệ thống phải báo lỗi không tìm thấy.","Medium","Fail","","Antigravity","Lỗi: Đổ ra toàn bộ dữ liệu khách hàng thay vì cảnh báo chuỗi rỗng."
+"UC_POS_002","TC_POS_025","Nhập mã vạch sản phẩm không tồn tại","5","Negative","POS Bán Hàng","Hệ thống chưa có sản phẩm mã 99999.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhập 99999 vào ô Nhập mã vạch và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hiện cảnh báo Không tìm thấy sản phẩm.","High","Fail","","Antigravity","Lỗi: Phần mềm bị văng (Crash) ra màn hình Desktop."
+"UC_POS_003","TC_POS_026","Áp dụng mã Khuyến mãi hợp lệ","5","Functional","POS Khuyến Mãi","Có mã KM-GIAM10 còn hạn.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhập KM-GIAM10 vào ô mã vạch và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hệ thống báo áp mã thành công và trừ tiền chiết khấu.","High","","","Antigravity",""
+"UC_POS_003","TC_POS_027","Áp dụng mã Khuyến mãi đã hết hạn","5","Negative","POS Khuyến Mãi","Mã KM-HETHAN đã hết hạn.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhập KM-HETHAN vào ô mã vạch và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Báo lỗi Mã khuyến mãi đã hết thời gian sử dụng.","High","Fail","","Antigravity","Lỗi: Vẫn cho phép áp dụng mã và giảm trừ tiền thành công."
+"UC_POS_003","TC_POS_028","Tự động giảm giá theo hạng thẻ VIP","5","Functional","POS Khuyến Mãi","Khách hạng thẻ VIP Gold (giảm 10%).","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Gắn khách hàng hạng Gold vào đơn và thêm sản phẩm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Tiền hàng tự động giảm 10% tại mục Giảm giá.","Medium","","","Antigravity",""
+"UC_POS_003","TC_POS_029","Xóa mã khuyến mãi thủ công","5","Functional","POS Khuyến Mãi","Đơn hàng đã được áp mã KM.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Click chuột vào nút Xóa KM.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Tiền giảm giá trở về 0, tổng thanh toán cập nhật lại.","Medium","","","Antigravity",""
+"UC_POS_003","TC_POS_030","Áp dụng mã suất ăn đoàn khách BK-","5","Functional","POS Khuyến Mãi","Mã BK-100 có 5 suất ăn chưa dùng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhập BK-100 vào ô mã vạch và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hiển thị thông báo xác nhận đưa 5 suất ăn 0đ vào giỏ.","High","","","Antigravity",""
+"UC_POS_004","TC_POS_031","Thanh toán hóa đơn bằng Tiền mặt","5","Functional","POS Thanh Toán","Giỏ hàng có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Bấm F2, chọn Tiền mặt, nhập tiền khách đưa và Lưu.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Thanh toán thành công, in hóa đơn và xóa giỏ hàng.","High","","","Antigravity",""
+"UC_POS_004","TC_POS_032","Thanh toán hóa đơn khi giỏ hàng đang trống","5","Negative","POS Thanh Toán","Giỏ hàng không có sản phẩm nào.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấp chuột chọn nút THANH TOÁN (F2).","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hệ thống cảnh báo Giỏ hàng trống, không cho tiếp tục.","High","Fail","","Antigravity","Lỗi: Form thanh toán vẫn mở ra dù giỏ hàng đang trống."
+"UC_POS_004","TC_POS_033","Thanh toán tiền mặt nhưng thiếu tiền","5","Negative","POS Thanh Toán","Đơn hàng giá trị 100.000đ.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Bấm F2, chọn Tiền mặt, nhập số tiền khách đưa là 50.000đ.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hệ thống báo lỗi số tiền thanh toán chưa đủ.","High","Fail","","Antigravity","Lỗi: Bấm Lưu vẫn hoàn tất đơn hàng dù tiền khách đưa bị thiếu."
+"UC_POS_004","TC_POS_034","Thanh toán qua ví điện tử RFID nội bộ","5","Functional","POS Thanh Toán","Khách hàng gắn ví có số dư 500.000đ.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Bấm F2, chọn hình thức Ví điện tử RFID và Lưu.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Trừ tiền số dư trong ví thành công.","High","","","Antigravity",""
+"UC_POS_005","TC_POS_035","Mở ca làm việc đầu ngày","5","Functional","POS Ca Làm Việc","Tài khoản chưa có ca mở.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập số tiền bàn giao đầu ca và bấm Mở ca.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Form mở ca hiện ra, hoàn tất vào màn hình chính.","High","","","Antigravity",""
+"UC_POS_005","TC_POS_036","Đóng ca làm việc khi giỏ hàng còn SP","5","Negative","POS Ca Làm Việc","Giỏ hàng hiện đang có 3 sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Trên menu bên trái chọn Bán Hàng.
+Bước 4. Nhấn nút Đóng phiên (F8).","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Thông báo hỏi ý kiến xóa giỏ hàng để đóng ca Yes/No.","High","Fail","","Antigravity","Lỗi: Hệ thống tự ý đóng ca luôn, làm mất đơn hàng đang dở."
+"UC_POS_005","TC_POS_037","Đổi ngôn ngữ sang tiếng Trung (ZH)","5","UI/UX","POS Giao Diện","Giao diện đang chạy tiếng Việt.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Chọn biểu tượng ngôn ngữ tiếng Trung Quốc.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình đổi sang chữ Hán phù hợp.","Medium","","","Antigravity",""
+"UC_POS_005","TC_POS_038","Nhấn phím tắt Esc để xóa giỏ hàng","5","Functional","POS Phím Tắt","Giỏ hàng có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhấn nút Escape (Esc) trên bàn phím.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Hộp thoại xác nhận xóa giỏ hàng hiện ra.","Low","","","Antigravity",""
+"UC_POS_005","TC_POS_039","Nhấn phím tắt F4 mở lịch sử đơn hàng","5","Functional","POS Phím Tắt","Đã phát sinh giao dịch trong ca.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhấn phím F4 trên bàn phím.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Form Lịch sử giao dịch đơn hàng hiển thị.","Medium","","","Antigravity",""
+"UC_POS_005","TC_POS_040","Nhấn phím tắt F5 mở form nạp ví RFID","5","Functional","POS Phím Tắt","Có khách hàng đang chọn.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhấn phím F5 trên bàn phím.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Form Nạp tiền vào ví RFID hiện lên.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_041","Nhập số lượng thập phân cho hàng cân ký","5","Functional","POS Bán Hàng","Có SP Hàng hóa bán theo kg.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Chọn Bán Hàng, nhập mã SP hàng cân ký.
+Bước 4. Click ô số lượng, nhập 1.5 và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Số lượng nhận 1.5 và tính tiền tương ứng.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_042","Thêm sản phẩm từ danh mục bằng Double Click","5","Functional","POS Bán Hàng","Danh mục có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhấp đúp chuột vào sản phẩm trên danh mục.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Sản phẩm được thêm vào giỏ hàng (SL = 1).","Low","","","Antigravity",""
+"UC_POS_001","TC_POS_043","Xóa sản phẩm bằng phím Delete trên lưới","5","Functional","POS Bán Hàng","Giỏ hàng đang có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Click chọn dòng sản phẩm và nhấn phím Delete.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Dòng sản phẩm bị xóa khỏi lưới.","Low","","","Antigravity",""
+"UC_POS_001","TC_POS_044","Thêm ghi chú cho sản phẩm trong giỏ","5","Functional","POS Bán Hàng","Giỏ hàng có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Click ô Ghi chú tại dòng sản phẩm, nhập Không đá.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Ghi chú được lưu trữ đi kèm sản phẩm.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_045","Tìm kiếm nhanh sản phẩm trên danh mục","5","Functional","POS Bán Hàng","Danh mục có nhiều sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập từ khóa Nước suối vào ô tìm kiếm danh mục.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Danh mục lọc hiển thị các sản phẩm Nước suối.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_046","Nhập số lượng cực lớn lên tới 10,000","5","Edge Case","POS Bán Hàng","Giỏ hàng có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Sửa ô số lượng sản phẩm thành 10000 và Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hệ thống tính đúng số tiền mà không bị lỗi tràn số.","Low","","","Antigravity",""
+"UC_POS_001","TC_POS_047","Thêm nhiều sản phẩm khác nhau vào giỏ","5","Functional","POS Bán Hàng","Hệ thống có nhiều mặt hàng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Lần lượt click chọn 5 sản phẩm khác nhau.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Giỏ hàng hiển thị đủ 5 dòng sản phẩm tương ứng.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_048","Cuộn lưới giỏ hàng khi danh sách dài","5","UI/UX","POS Bán Hàng","Giỏ hàng có trên 20 sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Dùng chuột cuộn lên cuộn xuống trên lưới giỏ hàng.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Thanh cuộn hoạt động mượt mà, không đơ giật.","Low","","","Antigravity",""
+"UC_POS_001","TC_POS_049","Click chọn dòng sản phẩm trên giỏ hàng","5","UI/UX","POS Bán Hàng","Giỏ hàng có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhấp chuột trái vào một dòng bất kỳ trên lưới.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Dòng sản phẩm được bôi xanh làm nổi bật.","Low","","","Antigravity",""
+"UC_POS_001","TC_POS_050","Kiểm tra định dạng tiền tệ VNĐ hiển thị","5","UI/UX","POS Bán Hàng","Giỏ hàng có sản phẩm tổng tiền triệu.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Quan sát ô Tổng tiền trên màn hình.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Số tiền hiển thị dạng 1,000,000đ (có dấu phẩy).","Medium","","","Antigravity",""
+"UC_POS_002","TC_POS_051","Nhập thẻ RFID khách hàng không tồn tại","5","Negative","POS Khách Hàng","Thẻ RFID RF-999 chưa đăng ký.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập RF-999 vào ô mã vạch và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Cảnh báo Thẻ RFID chưa được liên kết khách hàng.","Medium","","","Antigravity",""
+"UC_POS_002","TC_POS_052","Tìm kiếm khách hàng bằng tên","5","Functional","POS Khách Hàng","Khách hàng Nguyễn Văn A tồn tại.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập Nguyễn Văn A vào ô Tìm khách, nhấn Tìm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Khách hàng tương ứng được gán vào đơn hàng.","High","","","Antigravity",""
+"UC_POS_002","TC_POS_053","Tìm khách hàng ra nhiều kết quả trùng tên","5","Edge Case","POS Khách Hàng","Có 3 khách hàng tên Trần Văn B.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập Trần Văn B vào ô tìm kiếm và nhấn Tìm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hiện danh sách cho thu ngân chọn đúng người.","Medium","","","Antigravity",""
+"UC_POS_002","TC_POS_054","Tìm khách hàng theo Mã Khách Hàng","5","Functional","POS Khách Hàng","Mã khách hàng KH000123 tồn tại.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập KH000123 vào ô Tìm khách và nhấn Tìm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Định danh đúng tài khoản khách hàng.","Medium","","","Antigravity",""
+"UC_POS_002","TC_POS_055","Nhập SĐT khách hàng sai định dạng chữ cái","5","Negative","POS Khách Hàng","Hệ thống kiểm tra tính hợp lệ.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập 0987abc123 vào ô Tìm khách và nhấn Tìm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hệ thống báo lỗi Số điện thoại không hợp lệ.","Low","","","Antigravity",""
+"UC_POS_002","TC_POS_056","Hiển thị đúng số dư Ví RFID khi gắn khách","5","UI/UX","POS Khách Hàng","Khách có ví RFID số dư 200k.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Gắn khách hàng bằng cách nhập thẻ RF-001.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Ô thông tin hiện đúng số dư ví: 200,000 đ.","High","","","Antigravity",""
+"UC_POS_002","TC_POS_057","Hiển thị đúng Hạng thành viên khi gắn khách","5","UI/UX","POS Khách Hàng","Khách hàng hạng thẻ Silver.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập SĐT khách hàng Silver và nhấn Tìm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Thẻ khách hàng hiển thị biểu tượng 🏅 Silver.","Medium","","","Antigravity",""
+"UC_POS_002","TC_POS_058","Tự động xóa thông tin khách khi đơn hoàn tất","5","Functional","POS Khách Hàng","Đang có khách hàng gắn vào đơn.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Thực hiện thanh toán hóa đơn hiện tại.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Sau khi in bill, thông tin khách được gỡ tự động.","High","","","Antigravity",""
+"UC_POS_002","TC_POS_059","Tìm kiếm khách hàng khi mất kết nối máy chủ","5","Edge Case","POS Khách Hàng","Máy tính bị tuột dây mạng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập SĐT khách hàng và nhấn nút Tìm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hệ thống báo lỗi kết nối máy chủ thất bại.","High","","","Antigravity",""
+"UC_POS_002","TC_POS_060","Tải dữ liệu điểm tích lũy khách hàng","5","UI/UX","POS Khách Hàng","Khách có tích lũy 1,500 điểm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Gắn khách hàng bằng thẻ hoặc SĐT.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Màn hình hiện chính xác thông tin 1,500 điểm.","Medium","","","Antigravity",""
+"UC_POS_003","TC_POS_061","Áp mã giảm giá phần trăm (KM-GIAM20)","5","Functional","POS Khuyến Mãi","Mã KM-GIAM20 hợp lệ (giảm 20%).","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập KM-GIAM20 vào ô mã vạch và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Giảm trừ 20% trên tổng tiền đơn hàng.","High","","","Antigravity",""
+"UC_POS_003","TC_POS_062","Áp mã giảm giá số tiền thẳng (KM-50K)","5","Functional","POS Khuyến Mãi","Mã KM-50K giảm thẳng 50.000đ.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập KM-50K vào ô mã vạch và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Khấu trừ trực tiếp 50,000đ vào hóa đơn.","High","","","Antigravity",""
+"UC_POS_003","TC_POS_063","Nhập mã khuyến mãi không hợp lệ","5","Negative","POS Khuyến Mãi","Mã KM-XYZ không có thực.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập KM-XYZ vào ô mã vạch và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hiện thông báo lỗi Mã không tồn tại.","High","","","Antigravity",""
+"UC_POS_003","TC_POS_064","Áp dụng KM cho sản phẩm không thuộc diện","5","Negative","POS Khuyến Mãi","Ngành hàng F&B không được giảm giá.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Giỏ hàng có món Phở bò, áp mã giảm 10%.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Tiền giảm giá bằng 0 vì mặt hàng bị loại trừ.","Medium","","","Antigravity",""
+"UC_POS_003","TC_POS_065","Áp mã KM khi tổng tiền chưa đạt tối thiểu","5","Negative","POS Khuyến Mãi","Mã áp dụng cho đơn từ 500,000đ.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Đơn hàng có giá trị 100k, áp mã giảm giá.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hệ thống báo chưa đủ điều kiện áp dụng.","High","","","Antigravity",""
+"UC_POS_003","TC_POS_066","Đổi điểm tích lũy trừ vào tiền đơn hàng","5","Functional","POS Khuyến Mãi","Khách muốn dùng 100 điểm (100k).","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập 100 điểm vào ô Quy đổi điểm, Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Trừ 100k tương ứng vào phần thanh toán.","Medium","","","Antigravity",""
+"UC_POS_003","TC_POS_067","Nhập số điểm đổi vượt quá điểm hiện có","5","Negative","POS Khuyến Mãi","Khách chỉ có 50 điểm tích lũy.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập 100 điểm vào ô Đổi điểm và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Cảnh báo Số điểm không đủ để thực hiện.","High","","","Antigravity",""
+"UC_POS_003","TC_POS_068","Kiểm tra gộp khuyến mãi VIP và Coupon","5","Functional","POS Khuyến Mãi","Đã có VIP 5% + mã giảm 10%.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Tiến hành áp mã giảm 10% cho đơn hàng.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Tính đúng số tiền được giảm gộp là 15%.","Medium","","","Antigravity",""
+"UC_POS_003","TC_POS_069","Áp mã booking suất ăn đã sử dụng hết","5","Negative","POS Khuyến Mãi","Mã BK-101 đã dùng hết suất.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập mã BK-101 và nhấn phím Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Thông báo Suất ăn của booking đã dùng hết.","High","Fail","","Antigravity","Lỗi: Vẫn cho lấy suất ăn dù hệ thống báo hết suất."
+"UC_POS_003","TC_POS_070","Áp mã khuyến mãi viết thường (km-giam10)","5","Functional","POS Khuyến Mãi","Hệ thống tự chuyển sang chữ hoa.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập km-giam10 chữ thường vào ô mã vạch.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Hệ thống nhận diện và áp dụng giảm giá tốt.","Low","","","Antigravity",""
+"UC_POS_004","TC_POS_071","Thanh toán hóa đơn bằng thẻ Ngân hàng","5","Functional","POS Thanh Toán","Có máy POS quẹt thẻ ngân hàng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bấm F2, chọn thẻ Ngân hàng, quẹt thẻ và Lưu.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Giao dịch thành công, kết thúc đơn.","High","","","Antigravity",""
+"UC_POS_004","TC_POS_072","Khách đưa dư tiền mặt, tính tiền thừa","5","Functional","POS Thanh Toán","Đơn hàng 80k, khách đưa 100k.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bấm F2, nhập Tiền khách đưa 100,000.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hiển thị Tiền thừa trả khách: 20,000₫.","High","","","Antigravity",""
+"UC_POS_004","TC_POS_073","Hủy giao dịch thanh toán quay lại giỏ","5","Functional","POS Thanh Toán","Đang mở form Thanh toán.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bấm nút Hủy bỏ trên form thanh toán.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Form đóng, quay lại giao diện giỏ hàng cũ.","Medium","","","Antigravity",""
+"UC_POS_004","TC_POS_074","Thanh toán ví RFID nhưng số dư không đủ","5","Negative","POS Thanh Toán","Hóa đơn 200k, ví khách còn 50k.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bấm F2, chọn hình thức Ví RFID và Lưu.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Báo lỗi Số dư ví không đủ để thanh toán.","High","","","Antigravity",""
+"UC_POS_004","TC_POS_075","In lại hóa đơn gần nhất","5","Functional","POS Thanh Toán","Vừa hoàn thành 1 đơn hàng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Vào Lịch sử (F4), chọn đơn và bấm In lại.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Máy in xuất lệnh in bản sao hóa đơn.","Medium","","","Antigravity",""
+"UC_POS_004","TC_POS_076","Chia tiền thanh toán (Tiền mặt + Thẻ)","5","Functional","POS Thanh Toán","Đơn hàng tổng 500.000đ.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập Tiền mặt 200k, thẻ Ngân hàng 300k.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Hoàn tất giao dịch kết hợp thành công.","Medium","","","Antigravity",""
+"UC_POS_004","TC_POS_077","Thanh toán đơn hàng giá trị 0 đồng","5","Edge Case","POS Thanh Toán","Giỏ hàng toàn Suất ăn miễn phí BK.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Tiến hành bấm F2 và nhấn Lưu thanh toán.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Cho phép xuất hóa đơn 0đ mà không đòi tiền.","High","","","Antigravity",""
+"UC_POS_004","TC_POS_078","Mở ngăn kéo đựng tiền tự động","5","Functional","POS Thanh Toán","Két tiền có kết nối với máy in.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bấm Lưu thanh toán đơn hàng tiền mặt.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Két đựng tiền tự động bật ra để cất tiền.","Low","","","Antigravity",""
+"UC_POS_004","TC_POS_079","Hiển thị thông báo Toast khi thanh toán xong","5","UI/UX","POS Thanh Toán","Hoàn thành đơn hàng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Quan sát góc màn hình sau khi Lưu hóa đơn.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện POS hiển thị.
+Bước 4. Thông báo nhỏ màu xanh hiện lên báo thành công.","Low","","","Antigravity",""
+"UC_POS_004","TC_POS_080","Đồng bộ trừ tồn kho sau khi thanh toán","5","Functional","POS Thanh Toán","Kho ban đầu có 100 lon nước.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bán 5 lon nước và thực hiện thanh toán.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Số lượng tồn kho tự động giảm còn 95 lon.","High","","","Antigravity",""
+"UC_POS_005","TC_POS_081","Mở ca khi nhập tiền đầu ca chữ cái","5","Negative","POS Ca Làm Việc","Bắt buộc nhập số tiền là số.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập xyz vào ô Tiền bàn giao và Mở ca.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Báo lỗi Số tiền không đúng định dạng số.","Medium","","","Antigravity",""
+"UC_POS_005","TC_POS_082","Mở ca với số tiền bàn giao bằng 0","5","Functional","POS Ca Làm Việc","Đầu ngày két rỗng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập số 0 vào ô Tiền bàn giao và Mở ca.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Ca làm việc vẫn được khởi tạo bình thường.","Low","","","Antigravity",""
+"UC_POS_005","TC_POS_083","Bàn giao kết ca thu ngân","5","Functional","POS Ca Làm Việc","Cuối ngày chốt doanh thu.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bấm Đóng ca (F8), nhập tiền kiểm kê và Lưu.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Hệ thống chốt ca và in biên bản bàn giao ca.","High","","","Antigravity",""
+"UC_POS_005","TC_POS_084","Đóng ca khi mất điện đột ngột","5","Edge Case","POS Ca Làm Việc","Rủi ro vận hành.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bật lại máy sau sự cố và kiểm tra trạng thái.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Ca làm việc vẫn treo mở để tiếp tục thao tác.","Medium","","","Antigravity",""
+"UC_POS_005","TC_POS_085","Đổi ngôn ngữ sang tiếng Anh (EN)","5","UI/UX","POS Giao Diện","Giao diện đang chạy tiếng Việt.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Chọn biểu tượng cờ nước Anh.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Các nhãn chữ đổi sang tiếng Anh chuẩn xác.","Medium","","","Antigravity",""
+"UC_POS_005","TC_POS_086","Thao tác chuyển đổi liên tục các Tab danh mục","5","Edge Case","POS Giao Diện","Kiểm tra độ ổn định UI.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Click liên tục qua lại giữa 4 Tab sản phẩm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giao diện không bị đơ hay lỗi hiển thị dữ liệu.","Low","","","Antigravity",""
+"UC_POS_005","TC_POS_087","Nhấn F9 mở form Hoàn trả sản phẩm","5","Functional","POS Phím Tắt","Khách muốn trả lại hàng lỗi.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhấn phím F9 trên bàn phím máy tính.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình Hoàn trả hàng hóa xuất hiện.","Medium","","","Antigravity",""
+"UC_POS_005","TC_POS_088","Nhấn Enter thay cho nút Tìm Khách","5","Functional","POS Phím Tắt","Nhập SĐT khách xong.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập SĐT vào ô Tìm và gõ Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Hệ thống tự kích hoạt tìm kiếm giống nút click.","Low","","","Antigravity",""
+"UC_POS_005","TC_POS_089","Thoát màn hình POS quay lại Trang chủ","5","Functional","POS Giao Diện","Đang ở màn hình bán hàng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bấm nút Trang chủ ở thanh menu góc trên.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Hệ thống thoát POS và hiển thị giao diện dashboard.","Medium","","","Antigravity",""
+"UC_POS_005","TC_POS_090","Đăng xuất tài khoản ngay tại POS","5","Functional","POS Giao Diện","Muốn đổi tài khoản thu ngân.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Click vào Tên người dùng, chọn Đăng xuất.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Thoát phiên và quay lại màn hình Login ban đầu.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_091","Nhập mã QR Combo tự động phân rã thành phần","5","Functional","POS Bán Hàng","Có mã QR combo Vé+Bữa sáng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập mã QR combo tại ô nhập mã vạch.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Thêm Combo và hiển thị danh sách con trên bill.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_092","Bán sản phẩm đã ngừng kinh doanh","5","Negative","POS Bán Hàng","SP Nước ngọt ABC đã tắt trạng thái Bán.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Gõ mã SP Nước ngọt ABC và Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Cảnh báo Sản phẩm đã ngừng kinh doanh.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_093","Thêm sản phẩm dịch vụ không cần quản lý kho","5","Functional","POS Bán Hàng","Vé tham quan không tính tồn kho.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Chọn Vé người lớn thêm vào giỏ.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Cho phép bán vô hạn số lượng không bị chặn.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_094","Đổi giá bán sản phẩm trực tiếp nếu có quyền","5","Functional","POS Bán Hàng","Tài khoản Thu ngân được cấp quyền sửa giá.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Sửa ô Đơn giá của SP từ 20k thành 25k.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 4. Đơn giá thay đổi và tổng tiền tăng lên.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_095","Không cho sửa đơn giá nếu không có quyền","5","Negative","POS Bán Hàng","Tài khoản nhân viên thử việc.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan_trial).
+Bước 3. Click vào ô đơn giá trên lưới giỏ hàng.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Ô đơn giá bị khóa (read-only), không sửa được.","High","","","Antigravity",""
+"UC_POS_004","TC_POS_096","Tự động in 2 liên hóa đơn khi hoàn tất","5","Functional","POS Thanh Toán","Cài đặt in 2 liên cho Bếp + Khách.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Hoàn tất thanh toán 1 đơn hàng ăn uống.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Máy in chạy ra đúng 2 bản hóa đơn.","Low","","","Antigravity",""
+"UC_POS_004","TC_POS_097","Áp dụng voucher giảm giá giấy (nhập mã)","5","Functional","POS Khuyến Mãi","Voucher VOUCHER100K hợp lệ.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập VOUCHER100K vào ô mã vạch.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giảm ngay 100,000đ tiền mặt trên bill.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_098","Kiểm tra hiển thị tên Thu ngân trên Banner","5","UI/UX","POS Giao Diện","Thu ngân Trần Văn C đang trực ca.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Nhìn lên thanh Banner góc trên bên phải.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Hiện chữ Thu ngân: admin chính xác.","Low","","","Antigravity",""
+"UC_POS_004","TC_POS_099","Thanh toán tiền mặt số tiền âm","5","Negative","POS Thanh Toán","Phòng tránh lỗi logic nghiệp vụ.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bấm F2, nhập Tiền khách đưa là -100k.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Không cho bấm Lưu và báo Số tiền phải > 0.","High","","","Antigravity",""
+"UC_POS_005","TC_POS_100","Kiểm tra hoạt động phím Enter khi nhập nhanh","5","Functional","POS Phím Tắt","Nhập mã SP liên tục bằng máy đọc.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập liên tiếp 3 mã sản phẩm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giỏ hàng nhảy 3 sản phẩm chuẩn, không sót.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_101","Lưu tạm đơn hàng đang bán","5","Functional","POS Bán Hàng","Giỏ hàng đang có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Chọn Bán Hàng, bấm nút Lưu tạm (F6).","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Đơn hàng chuyển vào trạng thái Chờ, giỏ hàng trống.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_102","Mở lại đơn hàng đã lưu tạm","5","Functional","POS Bán Hàng","Có đơn hàng đang lưu tạm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Chọn Bán Hàng, click nút Đơn tạm (F7).
+Bước 4. Chọn đơn hàng trong danh sách và bấm Mở.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Danh sách đơn tạm hiện ra.
+Bước 4. Đơn hàng được tải lại đầy đủ vào giỏ.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_103","In hóa đơn tạm tính cho khách kiểm tra","5","Functional","POS Bán Hàng","Giỏ hàng đang có sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Chọn Bán Hàng, click nút In tạm tính.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Máy in xuất hóa đơn có dòng chữ HÓA ĐƠN TẠM TÍNH.","Medium","","","Antigravity",""
+"UC_POS_001","TC_POS_104","Xóa đơn tạm trong danh sách","5","Functional","POS Bán Hàng","Có đơn hàng đang lưu tạm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Chọn Bán Hàng, click nút Đơn tạm (F7).
+Bước 4. Chọn đơn hàng và click nút Xóa đơn tạm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Danh sách đơn tạm hiện ra.
+Bước 4. Đơn tạm bị loại bỏ vĩnh viễn khỏi hệ thống.","Medium","","","Antigravity",""
+"UC_POS_002","TC_POS_105","Cập nhật số điện thoại khách hàng tại POS","5","Functional","POS Khách Hàng","Có khách hàng đã gắn vào đơn.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhấp chuột vào ô SĐT của khách hàng.
+Bước 4. Sửa SĐT thành 0912345678 và nhấn Enter.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Ô SĐT chuyển sang chế độ chỉnh sửa.
+Bước 4. Thông tin khách hàng cập nhật SĐT mới.","Medium","","","Antigravity",""
+"UC_POS_002","TC_POS_106","Phân biệt đơn hàng cho Khách đoàn (Đoàn lữ hành)","5","Functional","POS Khách Hàng","Hệ thống cấu hình Đoàn lữ hành A.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Tại ô Tìm khách hàng, gõ mã đoàn DOAN-A.
+Bước 4. Tiến hành thêm suất ăn vào giỏ hàng.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Hệ thống nhận diện Khách đoàn, áp giá chiết khấu đoàn.
+Bước 4. Giỏ hàng hiển thị giá ưu đãi theo chính sách.","High","","","Antigravity",""
+"UC_POS_002","TC_POS_107","Cập nhật thông tin khách khi chưa có SĐT","5","Functional","POS Khách Hàng","Khách hàng mới toanh chưa có hồ sơ.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhấp nút Thêm nhanh khách hàng (+).
+Bước 4. Nhập Tên: Lê Văn C, SĐT: 0909090909 và Lưu.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Form Thêm khách hàng mở ra.
+Bước 4. Lưu thành công, tự động gắn khách vào đơn.","Medium","","","Antigravity",""
+"UC_POS_003","TC_POS_108","Tự động nâng hạng thành viên sau khi đủ chi tiêu","5","Functional","POS Khuyến Mãi","Khách Silver tích lũy thiếu 50k để lên Gold.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bán đơn hàng 100k cho khách Silver.
+Bước 4. Thực hiện thanh toán hóa đơn.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Thanh toán đơn hàng thành công.
+Bước 4. Hệ thống tự động nâng hạng khách lên VIP Gold.","High","","","Antigravity",""
+"UC_POS_003","TC_POS_109","Tích lũy điểm sai cấu hình khi mua hàng","5","Negative","POS Khuyến Mãi","Cấu hình tích lũy 10k = 1 điểm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bán hóa đơn 100,000đ cho khách hàng A.
+Bước 4. Thanh toán đơn hàng.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Thanh toán hoàn tất.
+Bước 4. Hệ thống ghi nhận cộng 1,000 điểm thay vì 10 điểm.","Medium","Fail","","Antigravity","Lỗi: Tính sai tỷ lệ tích lũy điểm thưởng gấp 100 lần."
+"UC_POS_003","TC_POS_110","Áp dụng voucher đã sử dụng ở chi nhánh khác","5","Negative","POS Khuyến Mãi","Mã VC-DADUNG đã dùng tại quầy 1.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập mã VC-DADUNG vào ô mã vạch.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Báo lỗi Voucher đã được sử dụng trước đó.","High","","","Antigravity",""
+"UC_POS_004","TC_POS_111","Thanh toán qua VietQR (Tạo QR động)","5","Functional","POS Thanh Toán","Hệ thống kết nối ngân hàng tạo QR.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bấm F2, chọn phương thức QRCode.
+Bước 4. Nhấn nút Tạo mã QR trên form.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Form thanh toán hiển thị.
+Bước 4. Mã QR hiển thị chứa đúng số tiền đơn hàng.","High","","","Antigravity",""
+"UC_POS_004","TC_POS_112","Thanh toán QRCode động nhưng khách hủy","5","Functional","POS Thanh Toán","Đang hiển thị mã QR thanh toán.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Click nút Hủy giao dịch QR Code.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Quay về trạng thái giỏ hàng, không trừ tiền.","Medium","","","Antigravity",""
+"UC_POS_004","TC_POS_113","Thanh toán bằng ngoại tệ (USD)","5","Functional","POS Thanh Toán","Đơn giá 235.000đ, Tỷ giá 23.500đ/USD.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bấm F2, chọn thanh toán Ngoại tệ USD.
+Bước 4. Nhập số tiền 10 USD khách đưa.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Form đổi ngoại tệ quy đổi số tiền tương ứng.
+Bước 4. Hệ thống ghi nhận thanh toán 235,000đ đủ.","Low","","","Antigravity",""
+"UC_POS_004","TC_POS_114","Hủy đơn hàng đang thanh toán dở dang","5","Functional","POS Thanh Toán","Đơn hàng đang ở màn hình Thanh toán.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhấn nút Hủy đơn (F11).
+Bước 4. Chọn Yes xác nhận hủy bỏ.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Hộp thoại cảnh báo hủy đơn hiện ra.
+Bước 4. Đơn hàng bị hủy bỏ toàn bộ, về màn hình trống.","High","","","Antigravity",""
+"UC_POS_005","TC_POS_115","Phím tắt F10 tra cứu nhanh tồn kho","5","Functional","POS Phím Tắt","Hệ thống có sản phẩm tồn kho.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhấn phím F10 trên bàn phím.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Form Tra cứu tồn kho tức thời mở ra.","Medium","","","Antigravity",""
+"UC_POS_005","TC_POS_116","Phím tắt chuyển đổi giữa các Tab danh mục","5","Functional","POS Phím Tắt","Đang ở giao diện bán hàng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhấn tổ hợp phím Ctrl + Tab.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Lưới danh mục chuyển qua Tab kế tiếp.","Low","","","Antigravity",""
+"UC_POS_001","TC_POS_117","Nhập trùng 1 mã vạch 3 lần liên tiếp","5","Functional","POS Bán Hàng","Sản phẩm TC-DQ-001 tồn tại.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhập mã TC-DQ-001 lần 1.
+Bước 4. Nhập mã TC-DQ-001 lần 2.
+Bước 5. Nhập mã TC-DQ-001 lần 3.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Sản phẩm vào giỏ hàng với SL = 1.
+Bước 4. Số lượng sản phẩm tăng lên thành 2.
+Bước 5. Số lượng sản phẩm tăng lên thành 3.","High","","","Antigravity",""
+"UC_POS_001","TC_POS_118","Xóa giỏ hàng khi hệ thống đang tính tiền","5","Edge Case","POS Bán Hàng","Hệ thống đang chạy xử lý nặng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Nhấn Esc liên tục 5 lần khi máy đang đơ.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Giỏ hàng xóa 1 lần, không sinh thêm lỗi trùng lặp.","Low","","","Antigravity",""
+"UC_POS_004","TC_POS_119","Thanh toán hóa đơn có số tiền lớn (>100 triệu)","5","Edge Case","POS Thanh Toán","Khách hàng mua combo sự kiện lớn.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Tạo đơn hàng 150,000,000đ.
+Bước 4. Bấm F2 thanh toán qua Thẻ ngân hàng.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Hiển thị đầy đủ số tiền không bị lỗi cắt chuỗi.
+Bước 4. Giao dịch thanh toán thành công.","High","","","Antigravity",""
+"UC_POS_005","TC_POS_120","Báo cáo nhanh doanh thu ca làm việc","5","Functional","POS Ca Làm Việc","Ca làm việc đang phát sinh doanh thu.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (thungan1).
+Bước 3. Bấm phím F12 xem báo cáo nhanh.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Đăng nhập thành công.
+Bước 3. Bảng tóm tắt doanh thu tiền mặt/thẻ hiện ra.","Medium","","","Antigravity",""

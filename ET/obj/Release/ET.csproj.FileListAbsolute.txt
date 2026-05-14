@@ -1,0 +1,6 @@
+c:\Users\ADMIN\Desktop\DaiNamNew\ET\bin\Release\ET.dll
+c:\Users\ADMIN\Desktop\DaiNamNew\ET\bin\Release\ET.pdb
+c:\Users\ADMIN\Desktop\DaiNamNew\ET\obj\Release\ET.csproj.AssemblyReference.cache
+c:\Users\ADMIN\Desktop\DaiNamNew\ET\obj\Release\ET.csproj.CoreCompileInputs.cache
+c:\Users\ADMIN\Desktop\DaiNamNew\ET\obj\Release\ET.dll
+c:\Users\ADMIN\Desktop\DaiNamNew\ET\obj\Release\ET.pdb

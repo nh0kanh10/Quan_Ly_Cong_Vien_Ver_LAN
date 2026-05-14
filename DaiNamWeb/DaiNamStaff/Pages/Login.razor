@@ -1,0 +1,49 @@
+@page "/"
+@page "/login"
+@inject StaffAuthService Auth
+@inject NavigationManager Nav
+
+@if (!Auth.IsLoggedIn)
+{
+    <div class="login-screen">
+        <div class="login-logo">
+            <i class="bi bi-shield-check"></i>
+            <h2>Đại Nam Staff</h2>
+            <p>Đăng nhập cho nhân viên</p>
+        </div>
+
+        @if (!string.IsNullOrEmpty(message))
+        {
+            <div class="alert @(success ? "alert-ok" : "alert-err")">@message</div>
+        }
+
+        <label>Số điện thoại</label>
+        <input type="tel" @bind="sdt" placeholder="0901234567" />
+
+        <label>Mật khẩu</label>
+        <input type="password" @bind="pass" />
+
+        <button class="btn-staff" @onclick="DoLogin" disabled="@loading">
+            @if (loading) { <i class="bi bi-arrow-repeat spin"></i> <span> Đang xử lý...</span> }
+            else { <i class="bi bi-box-arrow-in-right"></i> <span> Đăng nhập</span> }
+        </button>
+    </div>
+}
+
+@code {
+    string sdt = "", pass = "", message = "";
+    bool loading, success;
+
+    protected override void OnInitialized()
+    {
+        if (Auth.IsLoggedIn) Nav.NavigateTo("/gate");
+    }
+
+    async Task DoLogin()
+    {
+        loading = true;
+        var (ok, msg) = await Auth.Login(sdt, pass);
+        message = msg; success = ok; loading = false;
+        if (ok) Nav.NavigateTo("/gate");
+    }
+}

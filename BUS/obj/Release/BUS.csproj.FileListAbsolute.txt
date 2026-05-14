@@ -1,0 +1,12 @@
+c:\Users\ADMIN\Desktop\DaiNamNew\BUS\bin\Release\BUS.dll
+c:\Users\ADMIN\Desktop\DaiNamNew\BUS\bin\Release\BUS.pdb
+c:\Users\ADMIN\Desktop\DaiNamNew\BUS\bin\Release\DAL.dll
+c:\Users\ADMIN\Desktop\DaiNamNew\BUS\bin\Release\ET.dll
+c:\Users\ADMIN\Desktop\DaiNamNew\BUS\bin\Release\ET.pdb
+c:\Users\ADMIN\Desktop\DaiNamNew\BUS\bin\Release\DAL.pdb
+c:\Users\ADMIN\Desktop\DaiNamNew\BUS\bin\Release\DAL.dll.config
+c:\Users\ADMIN\Desktop\DaiNamNew\BUS\obj\Release\BUS.csproj.AssemblyReference.cache
+c:\Users\ADMIN\Desktop\DaiNamNew\BUS\obj\Release\BUS.csproj.CoreCompileInputs.cache
+c:\Users\ADMIN\Desktop\DaiNamNew\BUS\obj\Release\BUS.csproj.Up2Date
+c:\Users\ADMIN\Desktop\DaiNamNew\BUS\obj\Release\BUS.dll
+c:\Users\ADMIN\Desktop\DaiNamNew\BUS\obj\Release\BUS.pdb

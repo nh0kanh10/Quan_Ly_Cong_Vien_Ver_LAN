@@ -1,0 +1,100 @@
+@page "/kitchen"
+@inject KitchenService KitchenSvc
+@implements IDisposable
+
+<div class="kitchen-page">
+    <div class="kitchen-header">
+        <h2><i class="bi bi-fire"></i> Lệnh bếp</h2>
+        <div class="kitchen-stats">
+            @if (stats != null)
+            {
+                <span class="stat-badge cho">@stats.SoMonCho chờ</span>
+                <span class="stat-badge nau">@stats.SoMonDangNau đang nấu</span>
+                <span class="stat-badge xong">@stats.SoMonXongHomNay xong</span>
+            }
+        </div>
+    </div>
+
+    @if (!orders.Any())
+    {
+        <div class="kitchen-empty">
+            <i class="bi bi-check-circle"></i>
+            <p>Không có món nào đang chờ</p>
+        </div>
+    }
+    else
+    {
+        <div class="kitchen-list">
+            @foreach (var order in orders)
+            {
+                <div class="kitchen-card @(order.TrangThai == "DangNau" ? "cooking" : "") @(order.PhutCho > 15 ? "urgent" : "")">
+                    <div class="kc-header">
+                        <span class="kc-order"><i class="bi bi-receipt"></i> @order.MaDonHang</span>
+                        <span class="kc-time">
+                            <i class="bi bi-clock"></i> @order.PhutCho phút
+                        </span>
+                    </div>
+
+                    <div class="kc-body">
+                        <h3>@order.TenSanPham</h3>
+                        <span class="kc-qty">× @order.SoLuong</span>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(order.GhiChuMon))
+                    {
+                        <p class="kc-note"><i class="bi bi-chat-text"></i> @order.GhiChuMon</p>
+                    }
+
+                    <div class="kc-actions">
+                        @if (order.TrangThai == "ChoNau")
+                        {
+                            <button class="btn-cooking" @onclick="() => StartCooking(order.IdLenhBep)">
+                                <i class="bi bi-fire"></i> Bắt đầu nấu
+                            </button>
+                        }
+                        else if (order.TrangThai == "DangNau")
+                        {
+                            <button class="btn-done" @onclick="() => MarkDone(order.IdLenhBep)">
+                                <i class="bi bi-check-lg"></i> Xong
+                            </button>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    List<KitchenOrderItem> orders = new();
+    KitchenStats? stats;
+    Timer? timer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Refresh();
+        // Polling mỗi 3 giây
+        timer = new Timer(async _ =>
+        {
+            await Refresh();
+            await InvokeAsync(StateHasChanged);
+        }, null, 3000, 3000);
+    }
+
+    async Task Refresh()
+    {
+        orders = await KitchenSvc.GetPendingOrders();
+        stats = await KitchenSvc.GetStats();
+    }
+
+    async Task UpdateStatus(int id, string status)
+    {
+        await KitchenSvc.UpdateStatus(id, status);
+        await Refresh();
+    }
+
+    Task StartCooking(int id) => UpdateStatus(id, "DangNau");
+    Task MarkDone(int id) => UpdateStatus(id, "DaXong");
+
+    public void Dispose() => timer?.Dispose();
+}

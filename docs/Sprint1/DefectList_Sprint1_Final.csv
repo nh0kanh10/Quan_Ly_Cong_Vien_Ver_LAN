@@ -1,0 +1,381 @@
+﻿Title,Screen,Pre-condition,Steps,Test Data,Expected Results,Actual results,Priority,Serverity,Date,Owner,TC'ID,Build,System,Assign To,Status,Evident (Hình ảnh lỗi)
+[DF_001] Lưu phân quyền khi chưa chọn vai trò,Màn hình Phân Quyền,"Hệ thống đang chạy bình thường, danh sách vai trò có dữ liệu nhưng người dùng chưa chọn.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Không chọn vai trò nào trên lưới bên trái, tích chọn một vài quyền bên phải.
+Bước 5. Nhấn nút Lưu thay đổi.",,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Các quyền được tích chọn trên cây.
+Bước 5. Hệ thống từ chối lưu và hiển thị cảnh báo: 'Vui lòng chọn một vai trò trước khi lưu'.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Các quyền được tích chọn trên cây.
+Bước 5. Hệ thống không hiển thị thông báo cảnh báo nào, nút Lưu không có tác dụng nhưng không báo lỗi rõ ràng cho người dùng.",High,Medium,24/04/2026,QA Team,TC_PQ_012,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_002] Cảnh báo mất dữ liệu khi chuyển vai trò (Chọn Không),Màn hình Phân Quyền,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý.
+Bước 5. Tích thêm quyền bất kỳ.
+Bước 6. Nhấn sang vai trò Thu ngân.
+Bước 7. Trên hộp thoại cảnh báo, nhấn Không.",,"Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây hiển thị quyền Quản lý.
+Bước 5. Cây thay đổi trạng thái tích.
+Bước 6. Hiển thị hộp thoại cảnh báo.
+Bước 7. Hệ thống bỏ qua các thay đổi vừa thao tác ở Quản lý, và nạp danh sách quyền của Thu ngân. Lần sau xem lại Quản lý, quyền sẽ không thay đổi.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây hiển thị quyền Quản lý.
+Bước 5. Cây thay đổi trạng thái tích.
+Bước 6. Hiển thị hộp thoại cảnh báo.
+Bước 7. Hệ thống không có cảnh báo mất dữ liệu (Dirty Tracking). Khi chuyển vai trò, các phân quyền chưa lưu bị xóa trắng mà không hỏi xác nhận.",High,Medium,24/04/2026,QA Team,TC_PQ_024,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_003] Cảnh báo mất dữ liệu khi đóng form (Chọn Có),Màn hình Phân Quyền,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý.
+Bước 5. Tích thêm 1 quyền bất kỳ.
+Bước 6. Nhấn nút [X] ở góc phải trên để đóng form Phân quyền.
+Bước 7. Trên hộp thoại cảnh báo 'Dữ liệu chưa được lưu...', nhấn Có.",,"Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây hiển thị quyền Quản lý.
+Bước 5. Cây thay đổi trạng thái tích.
+Bước 6. Hiển thị hộp thoại cảnh báo.
+Bước 7. Hệ thống lưu thành công và sau đó đóng màn hình Phân quyền.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây hiển thị quyền Quản lý.
+Bước 5. Cây thay đổi trạng thái tích.
+Bước 6. Hiển thị hộp thoại cảnh báo.
+Bước 7. Hệ thống đóng màn hình ngay lập tức mà không kiểm tra trạng thái dữ liệu dở dang chưa lưu.",High,Medium,24/04/2026,QA Team,TC_PQ_026,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_004] Không hiển thị nhóm quyền rỗng,Màn hình Phân Quyền,Trong CSDL có một nhóm quyền nhưng chưa có quyền con nào thuộc nhóm đó.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Tìm kiếm nhóm quyền rỗng trên cây phân quyền.",,"Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Hệ thống tự động lọc bỏ các nhóm quyền rỗng, không hiển thị trên cây để tránh rối mắt.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Hệ thống vẫn hiển thị các nhóm quyền rỗng (không có quyền con nào) trên cây phân quyền, gây rối giao diện.",High,Medium,24/04/2026,QA Team,TC_PQ_032,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_005] Bỏ trống Tên Combo bị hệ thống chặn lưu,Màn hình Combo,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, chọn Combo sản phẩm.
+Bước 4. Nhấn nút Thêm Combo.
+Bước 5. Để trống ô Tên Combo.
+Bước 6. Nhập vào ô Giá Combo giá trị: 100000.
+Bước 7. Nhấn nút Lưu Combo.",,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Form chuyển sang thêm mới.
+Bước 5. Ghi nhận ô Tên Combo trống.
+Bước 6. Ghi nhận ô giá.
+Bước 7. Hệ thống hiển thị cảnh báo: 'Tên combo không được để trống'.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Form chuyển sang thêm mới.
+Bước 5. Ghi nhận ô Tên Combo trống.
+Bước 6. Ghi nhận ô giá.
+Bước 7. Hệ thống vẫn cho phép lưu Combo với tên bỏ trống mà không hiển thị cảnh báo đỏ hoặc chặn lại.",High,Medium,24/04/2026,QA Team,TC_CB_014,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_006] Label Tổng phân bổ báo lỗi đỏ khi vượt quá 100%,Màn hình Combo,Rổ combo có 2 sản phẩm.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, chọn Combo sản phẩm.
+Bước 4. Nhập Phân bổ (%) cho SP thứ nhất là 60.
+Bước 5. Nhập Phân bổ (%) cho SP thứ hai là 50.
+Bước 6. Quan sát dòng chữ 'Phân bổ' ở góc phải dưới.",,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Ghi nhận 60%.
+Bước 5. Ghi nhận 50%.
+Bước 6. Hệ thống hiển thị 'Phân bổ: 110.00% / 100%' với chữ màu đỏ.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Ghi nhận 60%.
+Bước 5. Ghi nhận 50%.
+Bước 6. Label Tổng phân bổ không đổi màu đỏ và vẫn cho phép lưu khi tổng lớn hơn 100%, gây sai lệch logic nghiệp vụ.",High,High,24/04/2026,QA Team,TC_CB_052,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_007] Tự động ép về Bản nháp khi muốn Hoạt động nhưng phân bổ vượt quá 100%,Màn hình Combo,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, chọn Combo sản phẩm.
+Bước 4. Nhấn nút Thêm Combo.
+Bước 5. Nhập Tên Combo: 'Combo C'.
+Bước 6. Nhập Giá Combo: 100000.
+Bước 7. Thêm 1 SP vào rổ và nhập phân bổ 110%.
+Bước 8. Chọn trạng thái là Hoạt động.
+Bước 9. Nhấn nút Lưu Combo.",,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Form trống.
+Bước 5. Ghi nhận tên.
+Bước 6. Ghi nhận giá.
+Bước 7. Phân bổ là 110%.
+Bước 8. Trạng thái Hoạt động.
+Bước 9. Hệ thống tự động chuyển trạng thái về Bản nháp, lưu combo và hiển thị cảnh báo: 'Tổng tỷ lệ phân bổ chưa đạt 100%, combo tự chuyển về trạng thái Bản nháp'.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Form trống.
+Bước 5. Ghi nhận tên.
+Bước 6. Ghi nhận giá.
+Bước 7. Phân bổ là 110%.
+Bước 8. Trạng thái Hoạt động.
+Bước 9. Hệ thống không tự động ép về Bản nháp mà vẫn giữ trạng thái Hoạt động dù tổng phân bổ vượt quá 100%, vi phạm quy trình duyệt Combo.",High,Medium,24/04/2026,QA Team,TC_CB_059,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_008] Lưu combo khi Rổ combo trống hoàn toàn,Màn hình Combo,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, chọn Combo sản phẩm.
+Bước 4. Nhấn nút Thêm Combo.
+Bước 5. Nhập Tên Combo: 'Combo Rỗng'.
+Bước 6. Nhập Giá Combo: 150000.
+Bước 7. Không thêm bất kỳ sản phẩm nào vào rổ.
+Bước 8. Chọn trạng thái là Bản nháp.
+Bước 9. Nhấn nút Lưu Combo.",,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Form trống.
+Bước 5. Ghi nhận tên.
+Bước 6. Ghi nhận giá.
+Bước 7. Rổ rỗng.
+Bước 8. Trạng thái Bản nháp.
+Bước 9. Hệ thống lưu combo thành công với rổ trống.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Form trống.
+Bước 5. Ghi nhận tên.
+Bước 6. Ghi nhận giá.
+Bước 7. Rổ rỗng.
+Bước 8. Trạng thái Bản nháp.
+Bước 9. Hệ thống cho phép lưu Combo thành công ngay cả khi chưa chọn bất kỳ sản phẩm nào vào Rổ combo, dẫn đến dữ liệu rác.",High,Medium,24/04/2026,QA Team,TC_CB_062,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_009] Không thể lưu Rổ trống nếu chọn trạng thái Hoạt động,Màn hình Combo,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, chọn Combo sản phẩm.
+Bước 4. Nhấn nút Thêm Combo.
+Bước 5. Nhập Tên Combo: 'Combo Rỗng 2'.
+Bước 6. Nhập Giá Combo: 150000.
+Bước 7. Không thêm bất kỳ sản phẩm nào vào rổ.
+Bước 8. Chọn trạng thái là Hoạt động.
+Bước 9. Nhấn nút Lưu Combo.",,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Form trống.
+Bước 5. Ghi nhận tên.
+Bước 6. Ghi nhận giá.
+Bước 7. Rổ rỗng.
+Bước 8. Trạng thái Hoạt động.
+Bước 9. Hệ thống ép về Bản nháp, hiển thị cảnh báo: 'Tổng tỷ lệ phân bổ chưa đạt 100%, combo tự chuyển về trạng thái Bản nháp'.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Form trống.
+Bước 5. Ghi nhận tên.
+Bước 6. Ghi nhận giá.
+Bước 7. Rổ rỗng.
+Bước 8. Trạng thái Hoạt động.
+Bước 9. Hệ thống cho phép lưu Combo ở trạng thái Hoạt động dù lưới chi tiết rổ Combo trống hoàn toàn.",High,Medium,24/04/2026,QA Team,TC_CB_063,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_010] Mô tả combo nhập quá nhiều text,Màn hình Combo,Hệ thống đang chạy bình thường.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, chọn Combo sản phẩm.
+Bước 4. Nhấn Thêm Combo.
+Bước 5. Copy một đoạn văn bản dài 5000 ký tự và dán (Ctrl+V) vào ô Mô tả.",,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Form chuyển sang chế độ thêm mới.
+Bước 5. Hệ thống hiển thị thanh cuộn dọc (scrollbar) trong ô Mô tả, không bị văng lỗi vượt giới hạn (Nvarchar max).","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Form chuyển sang chế độ thêm mới.
+Bước 5. Hệ thống phát sinh lỗi SqlException (String or binary data would be truncated) do không giới hạn độ dài textbox Mô tả ở giao diện.",High,High,24/04/2026,QA Team,TC_CB_079,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_011] Nhập trùng Tên Combo đã tồn tại,Màn hình Combo,Hệ thống đã có combo tên 'Combo Tết'.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, chọn Combo sản phẩm.
+Bước 4. Nhấn Thêm Combo.
+Bước 5. Nhập Tên Combo: 'Combo Tết'.
+Bước 6. Nhập Giá: 100000.
+Bước 7. Nhấn nút Lưu Combo.",,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Form Thêm mới.
+Bước 5. Ghi nhận tên.
+Bước 6. Ghi nhận giá.
+Bước 7. Hệ thống lưu thành công (hệ thống cho phép trùng tên vì Mã Combo tự sinh và là duy nhất).","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Form Thêm mới.
+Bước 5. Ghi nhận tên.
+Bước 6. Ghi nhận giá.
+Bước 7. Giao diện không báo lỗi trùng lặp khi người dùng nhập, hệ thống đẩy thẳng xuống DB và bị phát sinh lỗi SqlException Unique Key Constraint.",High,High,24/04/2026,QA Team,TC_CB_087,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_012] Xóa toàn bộ số lượng SP trong rổ về trống,Màn hình Combo,Rổ có 1 SP đang có SL = 1.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, chọn Combo sản phẩm.
+Bước 4. Nhấp chuột vào ô SL.
+Bước 5. Xóa sạch dữ liệu trong ô (xóa số 1).
+Bước 6. Nhấn Enter.",,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Mở ô nhập liệu.
+Bước 5. Ghi nhận ô trống.
+Bước 6. Hệ thống tự động khôi phục số lượng về 1, không cho phép số lượng rỗng.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Mở ô nhập liệu.
+Bước 5. Ghi nhận ô trống.
+Bước 6. Hệ thống không chặn việc xóa số lượng, cho phép lưu số lượng trống (null) dẫn đến lỗi NullReferenceException khi tính toán doanh thu.",High,High,24/04/2026,QA Team,TC_CB_099,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_013] Xóa toàn bộ Phân bổ (%) trong rổ về trống,Màn hình Combo,Rổ có 1 SP.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, chọn Combo sản phẩm.
+Bước 4. Nhấp chuột vào ô Phân bổ (%).
+Bước 5. Xóa sạch dữ liệu trong ô.
+Bước 6. Nhấn Enter.",,"Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Mở ô nhập liệu.
+Bước 5. Ghi nhận ô trống.
+Bước 6. Hệ thống tự động khôi phục giá trị về 0, không cho phép tỷ lệ rỗng.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình danh sách Combo mở ra.
+Bước 4. Mở ô nhập liệu.
+Bước 5. Ghi nhận ô trống.
+Bước 6. Hệ thống cho phép nhập và lưu tỷ lệ phân bổ trống (0%), dẫn đến lỗi DivideByZeroException ở các hàm tính giá.",High,High,24/04/2026,QA Team,TC_CB_100,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_014] Thông báo lỗi khi bỏ trống Mã SP,Màn hình Sản phẩm,"Đang ở Thêm mới, để trống các ô.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, chọn Sản phẩm, Dịch vụ & Vé.
+Bước 4. Nhấn Thêm mới.
+Bước 5. Xóa trắng nội dung ô Mã SP.
+Bước 6. Nhấn nút Lưu.",,"Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở màn hình danh sách SP.
+Bước 4. Mở panel Thêm mới.
+Bước 5. Mã SP trống.
+Bước 6. Hệ thống từ chối lưu. Hiển thị thông báo: Bắt buộc có mã sản phẩm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở màn hình danh sách SP.
+Bước 4. Mở panel Thêm mới.
+Bước 5. Mã SP trống.
+Bước 6. Hệ thống không có validation Required Field cho Mã SP, cho phép lưu xuống DB và phát sinh lỗi ràng buộc Not Null.",High,Medium,24/04/2026,QA Team,TC_SP_031,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_015] Thông báo lỗi khi bỏ trống Tên SP,Màn hình Sản phẩm,"Đang ở Thêm mới, điền Mã SP, trống Tên SP.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, chọn Sản phẩm, Dịch vụ & Vé.
+Bước 4. Nhấn Thêm mới.
+Bước 5. Nhập Mã SP là VE_TEST.
+Bước 6. Để trống ô Tên SP và nhấn Lưu.",,"Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở màn hình danh sách SP.
+Bước 4. Mở panel Thêm mới.
+Bước 5. Đã nhập Mã SP.
+Bước 6. Hệ thống từ chối lưu. Hiển thị thông báo: Bắt buộc nhập tên sản phẩm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở màn hình danh sách SP.
+Bước 4. Mở panel Thêm mới.
+Bước 5. Đã nhập Mã SP.
+Bước 6. Hệ thống không báo lỗi khi bỏ trống Tên SP, vẫn hiển thị popup Lưu thành công với Tên trống.",High,Medium,24/04/2026,QA Team,TC_SP_032,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_016] Lỗi trùng mã sản phẩm,Màn hình Sản phẩm,Hệ thống đã có mã VE_001.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, chọn Sản phẩm, Dịch vụ & Vé.
+Bước 4. Nhấn Thêm mới.
+Bước 5. Nhập Mã SP: VE_001, điền đầy đủ các thông tin bắt buộc khác.
+Bước 6. Nhấn nút Lưu.",,"Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở màn hình danh sách SP.
+Bước 4. Mở panel Thêm mới.
+Bước 5. Thông tin đã điền.
+Bước 6. Hệ thống từ chối lưu. Hiển thị thông báo: Mã sản phẩm đã tồn tại: VE_001.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở màn hình danh sách SP.
+Bước 4. Mở panel Thêm mới.
+Bước 5. Thông tin đã điền.
+Bước 6. Hệ thống phát sinh lỗi SqlException thay vì hiển thị thông báo lỗi thân thiện trên giao diện do trùng Mã sản phẩm.",High,High,24/04/2026,QA Team,TC_SP_035,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_017] Báo lỗi hệ số quy đổi âm,Màn hình Sản phẩm,Đang ở tab Quy đổi ĐVT.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Danh mục, chọn SP, sang tab Quy đổi ĐVT.
+Bước 4. Nhấn Thêm dòng, nhập hệ số: -5.
+Bước 5. Nhấn Lưu.",,"Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Tab Quy đổi ĐVT hiển thị.
+Bước 4. Hệ số âm.
+Bước 5. Hệ thống từ chối lưu, hiển thị thông báo: Tỷ lệ quy đổi phải là số dương hợp lệ.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Tab Quy đổi ĐVT hiển thị.
+Bước 4. Hệ số âm.
+Bước 5. Hệ thống cho phép lưu hệ số quy đổi là số âm mà không có ErrorProvider cảnh báo trên TextBox.",High,High,24/04/2026,QA Team,TC_SP_052,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_018] Báo lỗi ĐVT quy đổi đích trùng với ĐVT gốc,Màn hình Sản phẩm,Đang ở Tab Quy đổi ĐVT.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, Sản phẩm, Dịch vụ & Vé, chọn SP có ĐVT gốc là Lon.
+Bước 4. Sang Tab Quy đổi ĐVT, nhấn Thêm dòng.
+Bước 5. Chọn ĐVT đích là Lon.
+Bước 6. Nhấn Lưu.",,"Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở Tab Quy đổi ĐVT.
+Bước 4. Lưới thêm dòng.
+Bước 5. Chọn trùng ĐVT gốc.
+Bước 6. Hệ thống từ chối lưu, hiển thị thông báo: Đơn vị quy đổi không được trùng với đơn vị gốc.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở Tab Quy đổi ĐVT.
+Bước 4. Lưới thêm dòng.
+Bước 5. Chọn trùng ĐVT gốc.
+Bước 6. Hệ thống cho phép lưu ĐVT quy đổi trùng với ĐVT gốc, gây sai lệch logic tính toán tồn kho.",High,High,24/04/2026,QA Team,TC_SP_077,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_019] Thêm nguyên liệu trùng trong BOM,Màn hình Sản phẩm,Đang ở Tab Cấu hình F&B.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Danh mục, Thêm mới Đồ ăn, sang tab F&B.
+Bước 4. Thêm dòng 1: Đường, Số lượng 1.
+Bước 5. Thêm dòng 2: Đường, Số lượng 2.
+Bước 6. Nhấn Lưu.",,"Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở Tab Cấu hình F&B.
+Bước 4. Thêm thành công.
+Bước 5. Thêm thành công.
+Bước 6. Hệ thống từ chối lưu, thông báo: Nguyên liệu trong công thức bị trùng lặp. Vui lòng gộp chung số lượng.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở Tab Cấu hình F&B.
+Bước 4. Thêm thành công.
+Bước 5. Thêm thành công.
+Bước 6. Lưới BOM (Định mức) cho phép thêm nhiều lần cùng một nguyên liệu mà không gộp số lượng hoặc cảnh báo trùng lặp.",High,Medium,24/04/2026,QA Team,TC_SP_081,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_020] Báo lỗi nếu VAT nhỏ hơn 0,Màn hình Sản phẩm,Đang ở Thêm mới.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, Sản phẩm, Dịch vụ & Vé, Thêm mới SP.
+Bước 4. Cố gắng nhập số âm (-5) vào VAT.
+Bước 5. Nhấn Lưu.",,"Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở panel Thêm mới.
+Bước 4. Số âm được gõ (nếu UI cho phép) hoặc bị chặn.
+Bước 5. Nếu gửi xuống, hệ thống báo: Thuế VAT phải từ 0 đến 100.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở panel Thêm mới.
+Bước 4. Số âm được gõ (nếu UI cho phép) hoặc bị chặn.
+Bước 5. Ô nhập VAT không được thiết lập giới hạn MinValue=0, hệ thống cho phép lưu giá trị thuế VAT âm.",High,High,24/04/2026,QA Team,TC_SP_096,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_021] Báo lỗi nếu VAT lớn hơn 100,Màn hình Sản phẩm,Đang ở Thêm mới.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Hệ thống Danh Mục, Sản phẩm, Dịch vụ & Vé, Thêm mới SP.
+Bước 4. Nhập số 150 vào VAT.
+Bước 5. Nhấn Lưu.",,"Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở panel Thêm mới.
+Bước 4. Giá trị 150 được gõ.
+Bước 5. Hệ thống báo: Thuế VAT phải từ 0 đến 100.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở panel Thêm mới.
+Bước 4. Giá trị 150 được gõ.
+Bước 5. Ô nhập VAT không được thiết lập giới hạn MaxValue=100, hệ thống cho phép lưu giá trị thuế VAT vượt quá 100%.",High,Medium,24/04/2026,QA Team,TC_SP_097,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_022] Tiền cọc bị âm,Màn hình Sản phẩm,Đang Thêm mới SP Cho thuê.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Danh mục, Thêm mới SP loại Cho thuê.
+Bước 4. Sang tab Bảng giá, nhập Tiền cọc: -50000.
+Bước 5. Nhấn Lưu.",,"Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở panel Thêm mới.
+Bước 4. Ô nhận giá trị hoặc chặn.
+Bước 5. Hệ thống báo: Tiền đặt cọc không được âm.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở panel Thêm mới.
+Bước 4. Ô nhận giá trị hoặc chặn.
+Bước 5. Hệ thống không kiểm tra logic nghiệp vụ, cho phép lưu mức tiền cọc âm hoặc tiền cọc lớn hơn giá trị thực tế của sản phẩm.",High,High,24/04/2026,QA Team,TC_SP_104,Sprint 1,Đại Nam POS,Dev Team,New,
+[DF_023] Ràng buộc ngày tháng bằng text (gõ tay) ở Bảng giá sai định dạng,Màn hình Sản phẩm,Đang ở Tab Bảng giá.,"Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (admin).
+Bước 3. Vào Danh mục, Thêm SP, sang tab Bảng giá.
+Bước 4. Thêm dòng, nhấp thẳng vào ô Ngày hiệu lực từ.
+Bước 5. Gõ chuỗi '35/13/2025' rồi nhấn phím Tab.",,"Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở Tab Bảng giá.
+Bước 4. Dòng mới được focus.
+Bước 5. TextBox tự động chặn ngày không tồn tại, tự revert lại giá trị rỗng hoặc báo lỗi icon đỏ: Ngày tháng không hợp lệ.","Bước 1. Màn hình đăng nhập xuất hiện.
+Bước 2. Vào màn hình chính.
+Bước 3. Mở Tab Bảng giá.
+Bước 4. Dòng mới được focus.
+Bước 5. Hệ thống phát sinh lỗi FormatException khi nhập tay chuỗi ngày tháng sai định dạng thay vì dùng ErrorProvider cảnh báo.",High,High,24/04/2026,QA Team,TC_SP_132,Sprint 1,Đại Nam POS,Dev Team,New,

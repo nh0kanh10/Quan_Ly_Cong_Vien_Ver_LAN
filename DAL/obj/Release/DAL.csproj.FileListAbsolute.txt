@@ -1,0 +1,10 @@
+c:\Users\ADMIN\Desktop\DaiNamNew\DAL\bin\Release\DAL.dll.config
+c:\Users\ADMIN\Desktop\DaiNamNew\DAL\bin\Release\DAL.dll
+c:\Users\ADMIN\Desktop\DaiNamNew\DAL\bin\Release\DAL.pdb
+c:\Users\ADMIN\Desktop\DaiNamNew\DAL\bin\Release\ET.dll
+c:\Users\ADMIN\Desktop\DaiNamNew\DAL\bin\Release\ET.pdb
+c:\Users\ADMIN\Desktop\DaiNamNew\DAL\obj\Release\DAL.csproj.AssemblyReference.cache
+c:\Users\ADMIN\Desktop\DaiNamNew\DAL\obj\Release\DAL.csproj.CoreCompileInputs.cache
+c:\Users\ADMIN\Desktop\DaiNamNew\DAL\obj\Release\DAL.csproj.Up2Date
+c:\Users\ADMIN\Desktop\DaiNamNew\DAL\obj\Release\DAL.dll
+c:\Users\ADMIN\Desktop\DaiNamNew\DAL\obj\Release\DAL.pdb

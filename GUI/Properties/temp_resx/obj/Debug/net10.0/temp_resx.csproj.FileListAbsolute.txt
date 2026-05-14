@@ -1,0 +1,14 @@
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\bin\Debug\net10.0\temp_resx.exe
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\bin\Debug\net10.0\temp_resx.deps.json
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\bin\Debug\net10.0\temp_resx.runtimeconfig.json
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\bin\Debug\net10.0\temp_resx.dll
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\bin\Debug\net10.0\temp_resx.pdb
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\obj\Debug\net10.0\temp_resx.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\obj\Debug\net10.0\temp_resx.AssemblyInfoInputs.cache
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\obj\Debug\net10.0\temp_resx.AssemblyInfo.cs
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\obj\Debug\net10.0\temp_resx.csproj.CoreCompileInputs.cache
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\obj\Debug\net10.0\temp_resx.dll
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\obj\Debug\net10.0\refint\temp_resx.dll
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\obj\Debug\net10.0\temp_resx.pdb
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\obj\Debug\net10.0\temp_resx.genruntimeconfig.cache
+C:\Users\ADMIN\Desktop\DaiNamNew\GUI\Properties\temp_resx\obj\Debug\net10.0\ref\temp_resx.dll

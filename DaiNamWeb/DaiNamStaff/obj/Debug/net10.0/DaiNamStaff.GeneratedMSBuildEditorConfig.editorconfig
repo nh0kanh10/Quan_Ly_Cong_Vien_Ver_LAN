@@ -1,0 +1,53 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.VerifyReferenceTrimCompatibility = 
+build_property.VerifyReferenceAotCompatibility = 
+build_property.TargetFramework = net10.0
+build_property.TargetFrameworkIdentifier = .NETCoreApp
+build_property.TargetFrameworkVersion = v10.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = DaiNamStaff
+build_property.RootNamespace = DaiNamStaff
+build_property.ProjectDir = C:\Users\ADMIN\Desktop\DaiNamNew\DaiNamWeb\DaiNamStaff\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 9.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\ADMIN\Desktop\DaiNamNew\DaiNamWeb\DaiNamStaff
+build_property._RazorSourceGeneratorDebug = 
+build_property.EffectiveAnalysisLevelStyle = 10.0
+build_property.EnableCodeStyleSeverity = 
+
+[C:/Users/ADMIN/Desktop/DaiNamNew/DaiNamWeb/DaiNamStaff/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/Desktop/DaiNamNew/DaiNamWeb/DaiNamStaff/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/Desktop/DaiNamNew/DaiNamWeb/DaiNamStaff/Pages/GateScan.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2F0ZVNjYW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/Desktop/DaiNamNew/DaiNamWeb/DaiNamStaff/Pages/Kitchen.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcS2l0Y2hlbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/Desktop/DaiNamNew/DaiNamWeb/DaiNamStaff/Pages/Login.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/ADMIN/Desktop/DaiNamNew/DaiNamWeb/DaiNamStaff/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 

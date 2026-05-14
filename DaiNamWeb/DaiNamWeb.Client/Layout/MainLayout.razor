@@ -1,0 +1,42 @@
+@inherits LayoutComponentBase
+@inject AuthService Auth
+@inject NavigationManager Nav
+
+<div class="app-layout">
+    <nav class="top-nav">
+        <a class="brand" href="/">
+            <i class="bi bi-stars brand-icon"></i> Đại Nam Resort
+        </a>
+        <div class="nav-links">
+            <a href="/buy-ticket"><i class="bi bi-ticket-perforated"></i> Mua vé</a>
+            <a href="/book-hotel"><i class="bi bi-building"></i> Đặt phòng</a>
+            @if (Auth.IsLoggedIn)
+            {
+                <a href="/my-tickets"><i class="bi bi-collection"></i> Của tôi</a>
+                <span class="user-badge" @onclick="DoLogout">
+                    <i class="bi bi-person-circle"></i> @Auth.CurrentUser?.HoTen
+                </span>
+            }
+            else
+            {
+                <a href="/login" class="btn-login"><i class="bi bi-box-arrow-in-right"></i> Đăng nhập</a>
+            }
+        </div>
+    </nav>
+
+    <main class="page-body">
+        @Body
+    </main>
+
+    <footer class="app-footer">
+        <p>© 2026 Đại Nam Resort — Hệ thống đặt vé & khách sạn trực tuyến</p>
+    </footer>
+</div>
+
+@code {
+    private void DoLogout()
+    {
+        Auth.Logout();
+        Nav.NavigateTo("/");
+    }
+}

@@ -1,0 +1,318 @@
+﻿"REQ ID","TC ID","Title","Est. (phút)","Test Type","Area","Precondition","Procedure / Steps","Expected Results","Priority","Result","Change TC","Author","Remark"
+"UC_PQ_001","TC_PQ_001","Mở màn hình phân quyền thành công và hiển thị giao diện chia đôi","5","UI/UX","3.1 Màn hình thiết lập phân quyền","Hệ thống đang chạy bình thường, chưa có dữ liệu đặc biệt.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Trên menu bên trái, chọn Hệ thống.
+Bước 4. Chọn mục Phân quyền.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Menu mở rộng, hiển thị các mục con.
+Bước 4. Màn hình phân quyền hiển thị với giao diện chia đôi: bên trái là danh sách vai trò, bên phải là cây phân quyền.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_002","Cây phân quyền mở rộng tất cả các nhóm mặc định","5","UI/UX","3.1 Màn hình thiết lập phân quyền","Hệ thống đang chạy bình thường, chưa có dữ liệu đặc biệt.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Quan sát cây phân quyền bên phải.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Tất cả các nhóm quyền trên cây đều ở trạng thái mở rộng, hiển thị toàn bộ các quyền con bên trong.","Medium","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_003","Chặn chỉnh sửa tên quyền trực tiếp trên cây phân quyền","5","Negative","3.1 Màn hình thiết lập phân quyền","Hệ thống đang chạy bình thường.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn đúp chuột vào một tên quyền trên cây phân quyền.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, chuyển sang màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Hệ thống không cho phép chỉnh sửa, tên quyền giữ nguyên trạng thái chỉ đọc.","Low","","","Bùi Trí Nguyên",""
+"UC_PQ_002","TC_PQ_004","Xem danh sách quyền của một vai trò","5","Functional","3.2 Xem quyền theo vai trò","Trong hệ thống đã có vai trò Quản lý đang được gán quyền Thêm sản phẩm.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý trên danh sách bên trái.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra, danh sách vai trò bên trái được nạp.
+Bước 4. Cây phân quyền bên phải tự động bỏ chọn tất cả, sau đó tích chọn vào quyền Thêm sản phẩm thuộc nhóm Quản lý Sản Phẩm.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_002","TC_PQ_005","Chuyển đổi hiển thị quyền giữa các vai trò khác nhau","5","Functional","3.2 Xem quyền theo vai trò","Trong hệ thống có vai trò Thu ngân (có quyền Tạo đơn hàng) và Kế toán (có quyền Nhập kho).","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Thu ngân trên danh sách bên trái.
+Bước 5. Nhấn chọn vai trò Kế toán trên danh sách bên trái.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây phân quyền tự động tích chọn quyền Tạo đơn hàng.
+Bước 5. Cây phân quyền xóa các tích chọn cũ, chuyển sang tích chọn quyền Nhập kho.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_006","Tích chọn nhóm quyền tự động tích tất cả nút con","5","Functional","3.3 Cập nhật quyền","Hệ thống có nhóm Quản lý Bán Hàng gồm 3 quyền con.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý.
+Bước 5. Trên cây phân quyền, tích chọn vào nhóm quyền Quản lý Bán Hàng.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây phân quyền hiển thị quyền hiện tại của Quản lý.
+Bước 5. Nút cha được tích, đồng thời cả 3 quyền con bên trong nhóm Quản lý Bán Hàng đều tự động được tích chọn theo.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_007","Bỏ tích nhóm quyền tự động bỏ tích tất cả nút con","5","Functional","3.3 Cập nhật quyền","Vai trò Quản lý đang được gán toàn bộ nhóm quyền Báo Cáo.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý.
+Bước 5. Trên cây phân quyền, bỏ tích chọn khỏi nhóm quyền Báo Cáo.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Nhóm Báo Cáo đang ở trạng thái được tích.
+Bước 5. Nút cha bị bỏ tích, đồng thời toàn bộ các quyền con bên trong đều tự động bị bỏ tích theo.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_008","Bỏ tích một quyền con làm nhóm quyền chuyển trạng thái nửa tích","5","Functional","3.3 Cập nhật quyền","Vai trò Kế toán đang được gán toàn bộ nhóm Quản lý Kho (gồm 3 quyền con).","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Kế toán.
+Bước 5. Trong nhóm Quản lý Kho, bỏ tích chọn quyền Nhập kho.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Nhóm Quản lý Kho đang ở trạng thái được tích đầy đủ.
+Bước 5. Quyền Nhập kho bị bỏ tích, hệ thống tự động cập nhật nhóm Quản lý Kho sang trạng thái nửa tích.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_009","Tích đủ các quyền con làm nhóm quyền chuyển trạng thái tích đầy đủ","5","Functional","3.3 Cập nhật quyền","Nhóm Quản lý Kho có 2 quyền con. Vai trò Kế toán đang chỉ có 1 quyền con trong nhóm này.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Kế toán.
+Bước 5. Tích chọn nốt quyền con còn lại trong nhóm Quản lý Kho.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Nhóm Quản lý Kho đang ở trạng thái nửa tích.
+Bước 5. Khi tất cả quyền con đều được chọn, hệ thống tự động cập nhật nhóm Quản lý Kho sang trạng thái tích đầy đủ.","Medium","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_010","Lưu phân quyền thành công (Gán thêm quyền)","5","Functional","3.3 Cập nhật quyền","Vai trò Nhân viên đang trống quyền.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Nhân viên.
+Bước 5. Tích chọn quyền Xem danh sách Sản phẩm.
+Bước 6. Nhấn nút Lưu thay đổi.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây phân quyền đang trống.
+Bước 5. Quyền Xem danh sách Sản phẩm được tích chọn.
+Bước 6. Hệ thống lưu dữ liệu và hiển thị thông báo: 'Cập nhật phân quyền thành công'.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_011","Lưu phân quyền thành công (Thu hồi quyền)","5","Functional","3.3 Cập nhật quyền","Vai trò Thu ngân đang có quyền Hủy đơn hàng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Thu ngân.
+Bước 5. Bỏ tích chọn quyền Hủy đơn hàng.
+Bước 6. Nhấn nút Lưu thay đổi.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây phân quyền hiển thị quyền Hủy đơn hàng đang được tích.
+Bước 5. Quyền Hủy đơn hàng bị bỏ tích.
+Bước 6. Hệ thống lưu dữ liệu và hiển thị thông báo: 'Cập nhật phân quyền thành công'.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_012","Lưu phân quyền khi chưa chọn vai trò","5","Negative","3.3 Cập nhật quyền","Hệ thống đang chạy bình thường, danh sách vai trò có dữ liệu nhưng người dùng chưa chọn.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Không chọn vai trò nào trên lưới bên trái, tích chọn một vài quyền bên phải.
+Bước 5. Nhấn nút Lưu thay đổi.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Các quyền được tích chọn trên cây.
+Bước 5. Hệ thống từ chối lưu và hiển thị cảnh báo: 'Vui lòng chọn một vai trò trước khi lưu'.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_013","Làm mới dữ liệu hủy bỏ thay đổi chưa lưu","5","Functional","3.3 Cập nhật quyền","Vai trò Thu ngân đang có quyền Tạo đơn hàng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Thu ngân.
+Bước 5. Tích thêm quyền Hủy đơn hàng trên cây.
+Bước 6. Nhấn nút Làm mới thay vì Lưu thay đổi.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây phân quyền hiển thị quyền Tạo đơn hàng đang được tích.
+Bước 5. Quyền Hủy đơn hàng được tích thêm nhưng chưa lưu.
+Bước 6. Cây phân quyền tự động bỏ tích quyền Hủy đơn hàng, quay trở về trạng thái gốc là chỉ có quyền Tạo đơn hàng.","Medium","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_014","Giao diện cây phân quyền khi chưa chọn vai trò","5","UI/UX","3.1 Màn hình thiết lập phân quyền","Hệ thống đang chạy bình thường.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Quan sát cây phân quyền bên phải khi danh sách bên trái chưa được chọn dòng nào.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây phân quyền bên phải bị mờ đi cho đến khi chọn vai trò.","Medium","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_015","Hiển thị đa ngôn ngữ - Tiếng Anh","5","UI/UX","3.1 Màn hình thiết lập phân quyền","Hệ thống đang chạy bình thường, tài khoản có quyền đổi ngôn ngữ.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Tại thanh trạng thái, đổi ngôn ngữ sang Tiếng Anh (English).
+Bước 4. Vào Hệ thống, chọn Phân quyền.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Giao diện chuyển sang Tiếng Anh.
+Bước 4. Tiêu đề form, tên nút (Save, Refresh), cột danh mục quyền và các nhóm quyền trên cây đều được dịch sang Tiếng Anh tương ứng.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_016","Hiển thị đa ngôn ngữ - Tiếng Trung","5","UI/UX","3.1 Màn hình thiết lập phân quyền","Hệ thống đang chạy bình thường.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Tại thanh trạng thái, đổi ngôn ngữ sang Tiếng Trung (中文).
+Bước 4. Vào Hệ thống, chọn Phân quyền.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Giao diện chuyển sang Tiếng Trung.
+Bước 4. Màn hình phân quyền hiển thị đúng font chữ, không bị vỡ layout, các từ khóa được dịch sang Tiếng Trung.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_017","Nhấn nút Làm mới khi không có thay đổi nào","5","Functional","3.3 Cập nhật quyền","Hệ thống đang chạy bình thường.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý.
+Bước 5. Nhấn nút Làm mới.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây phân quyền hiển thị quyền của Quản lý.
+Bước 5. Dữ liệu nháy nhẹ, tải lại danh sách vai trò và cây phân quyền giữ nguyên trạng thái như bước 4.","Low","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_018","Phân quyền truy cập màn hình - Tài khoản Quản lý","5","Edge Case","3.1 Màn hình thiết lập phân quyền","Tài khoản Quản lý (manager) đang hoạt động và không có quyền Thiết lập Phân quyền.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản lý (manager).
+Bước 3. Tìm menu Hệ thống trên thanh điều hướng bên trái.
+Bước 4. Tìm mục Phân quyền.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Menu bên trái hiển thị.
+Bước 4. Mục Phân quyền bị ẩn hoàn toàn trên menu.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_019","Phân quyền truy cập màn hình - Tài khoản Thu ngân","5","Edge Case","3.1 Màn hình thiết lập phân quyền","Tài khoản Thu ngân (cashier) đang hoạt động.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Thu ngân (cashier).
+Bước 3. Quan sát thanh điều hướng bên trái.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Menu Hệ thống không hiển thị.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_020","Lưu thành công khi thu hồi TOÀN BỘ quyền của vai trò","5","Functional","3.3 Cập nhật quyền","Vai trò Quản lý đang được gán nhiều quyền.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý.
+Bước 5. Bỏ tích chọn tại tất cả các nhóm quyền trên cây, để cây phân quyền trắng hoàn toàn.
+Bước 6. Nhấn nút Lưu thay đổi.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây hiển thị các quyền đang có.
+Bước 5. Cây phân quyền mất toàn bộ tích chọn.
+Bước 6. Hệ thống lưu thành công và hiển thị thông báo: 'Cập nhật phân quyền thành công'. Lần tải lại tiếp theo vai trò Quản lý không còn quyền nào.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_021","Lưu thành công khi gán TOÀN BỘ quyền hệ thống cho vai trò","5","Functional","3.3 Cập nhật quyền","Vai trò Nhân viên đang có quyền hạn chế.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Nhân viên.
+Bước 5. Tích chọn toàn bộ các nhóm quyền trên cây.
+Bước 6. Nhấn nút Lưu thay đổi.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây hiển thị quyền hiện tại.
+Bước 5. Toàn bộ cây phân quyền đều được tích xanh.
+Bước 6. Hệ thống lưu thành công và hiển thị thông báo: 'Cập nhật phân quyền thành công'.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_022","Nhóm quyền 'Khác' tự động hiển thị đúng dữ liệu","5","UI/UX","3.1 Màn hình thiết lập phân quyền","Trong CSDL có ít nhất 1 quyền không được gán nhóm nào.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Cuộn cây phân quyền xuống cuối để tìm nhóm Khác.","Bước 1. Phần mềm khởi động, hiển thị màn hình đăng nhập.
+Bước 2. Đăng nhập thành công, vào màn hình chính.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Nhóm 'Khác' hiển thị trên cây, chứa các quyền con chưa được phân nhóm cụ thể.","Medium","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_023","Cảnh báo mất dữ liệu khi chuyển vai trò (Chọn Có)","5","Functional","3.3 Cập nhật quyền","Vai trò Quản lý và Thu ngân đều có dữ liệu.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý.
+Bước 5. Tích thêm 1 quyền bất kỳ (thay đổi dữ liệu).
+Bước 6. Chưa nhấn Lưu, nhấn ngay sang vai trò Thu ngân ở danh sách bên trái.
+Bước 7. Trên hộp thoại cảnh báo 'Dữ liệu chưa được lưu! Bạn có muốn lưu trước khi chuyển?', nhấn Có.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây hiển thị quyền Quản lý.
+Bước 5. Cây thay đổi trạng thái tích.
+Bước 6. Hệ thống chặn lại và hiện hộp thoại cảnh báo.
+Bước 7. Hệ thống tự động lưu quyền mới cho vai trò Quản lý, hiển thị thông báo thành công, sau đó nạp danh sách quyền của Thu ngân.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_024","Cảnh báo mất dữ liệu khi chuyển vai trò (Chọn Không)","5","Functional","3.3 Cập nhật quyền","Hệ thống đang chạy bình thường.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý.
+Bước 5. Tích thêm quyền bất kỳ.
+Bước 6. Nhấn sang vai trò Thu ngân.
+Bước 7. Trên hộp thoại cảnh báo, nhấn Không.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây hiển thị quyền Quản lý.
+Bước 5. Cây thay đổi trạng thái tích.
+Bước 6. Hiển thị hộp thoại cảnh báo.
+Bước 7. Hệ thống bỏ qua các thay đổi vừa thao tác ở Quản lý, và nạp danh sách quyền của Thu ngân. Lần sau xem lại Quản lý, quyền sẽ không thay đổi.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_025","Cảnh báo mất dữ liệu khi chuyển vai trò (Chọn Hủy)","5","Functional","3.3 Cập nhật quyền","Hệ thống đang chạy bình thường.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý.
+Bước 5. Tích thêm quyền bất kỳ.
+Bước 6. Nhấn sang vai trò Thu ngân.
+Bước 7. Trên hộp thoại cảnh báo, nhấn Hủy (Cancel).","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây hiển thị quyền Quản lý.
+Bước 5. Cây thay đổi trạng thái tích.
+Bước 6. Hiển thị hộp thoại cảnh báo.
+Bước 7. Hộp thoại đóng lại, lưới bên trái vẫn chọn vai trò Quản lý, các thao tác tích chọn trên cây được giữ nguyên.","Medium","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_026","Cảnh báo mất dữ liệu khi đóng form (Chọn Có)","5","Functional","3.3 Cập nhật quyền","Hệ thống đang chạy bình thường.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý.
+Bước 5. Tích thêm 1 quyền bất kỳ.
+Bước 6. Nhấn nút [X] ở góc phải trên để đóng form Phân quyền.
+Bước 7. Trên hộp thoại cảnh báo 'Dữ liệu chưa được lưu...', nhấn Có.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây hiển thị quyền Quản lý.
+Bước 5. Cây thay đổi trạng thái tích.
+Bước 6. Hiển thị hộp thoại cảnh báo.
+Bước 7. Hệ thống lưu thành công và sau đó đóng màn hình Phân quyền.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_027","Cảnh báo mất dữ liệu khi đóng form (Chọn Không)","5","Functional","3.3 Cập nhật quyền","Hệ thống đang chạy bình thường.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý.
+Bước 5. Tích thêm 1 quyền bất kỳ.
+Bước 6. Nhấn nút [X] ở góc phải trên để đóng form.
+Bước 7. Trên hộp thoại cảnh báo, nhấn Không.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây hiển thị quyền Quản lý.
+Bước 5. Cây thay đổi trạng thái tích.
+Bước 6. Hiển thị hộp thoại cảnh báo.
+Bước 7. Hệ thống không lưu thay đổi và đóng màn hình Phân quyền ngay lập tức.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_028","Cảnh báo mất dữ liệu khi đóng form (Chọn Hủy)","5","Functional","3.3 Cập nhật quyền","Hệ thống đang chạy bình thường.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn chọn vai trò Quản lý.
+Bước 5. Tích thêm 1 quyền bất kỳ.
+Bước 6. Nhấn nút X ở góc phải trên để đóng form.
+Bước 7. Trên hộp thoại cảnh báo, nhấn Hủy.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cây hiển thị quyền Quản lý.
+Bước 5. Cây thay đổi trạng thái tích.
+Bước 6. Hiển thị hộp thoại cảnh báo.
+Bước 7. Hộp thoại đóng lại, màn hình Phân quyền vẫn mở và giữ nguyên trạng thái chưa lưu.","Medium","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_029","Giao diện không bị vỡ khi phóng to / thu nhỏ","5","UI/UX","3.1 Màn hình thiết lập phân quyền","Hệ thống đang chạy bình thường.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Nhấn nút phóng to (Maximize) form. Sau đó nhấn thu nhỏ (Restore Down).","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Cả danh sách vai trò và cây phân quyền tự động co giãn tỷ lệ tương ứng, không bị vỡ layout, các nút vẫn nằm đúng vị trí.","Medium","","","Bùi Trí Nguyên",""
+"UC_PQ_003","TC_PQ_030","Sử dụng phím Space để tích quyền trên cây","5","Functional","3.3 Cập nhật quyền","Hệ thống đang chạy bình thường.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Chọn vai trò Quản lý.
+Bước 5. Nhấn chuột để focus vào 1 quyền con bất kỳ trên cây, sau đó nhấn phím Space trên bàn phím.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Nạp quyền của Quản lý.
+Bước 5. Quyền con đang focus sẽ được tích chọn giống hệt như khi click chuột. Nút cha tự cập nhật theo.","Medium","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_031","Hiển thị tên quyền cực dài không bị lỗi giao diện","5","UI/UX","3.1 Màn hình thiết lập phân quyền","Trong hệ thống có một quyền tên dài khoảng 100 ký tự.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Quan sát dòng quyền có tên dài trên cây.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Tên quyền dài được hiển thị bằng cách cắt ngắn và thêm dấu ba chấm kèm tooltip, không chèn đè sang các ô khác.","Low","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_032","Không hiển thị nhóm quyền rỗng","5","UI/UX","3.1 Màn hình thiết lập phân quyền","Trong CSDL có một nhóm quyền nhưng chưa có quyền con nào thuộc nhóm đó.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Tìm kiếm nhóm quyền rỗng trên cây phân quyền.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Hệ thống tự động lọc bỏ các nhóm quyền rỗng, không hiển thị trên cây để tránh rối mắt.","Medium","","","Bùi Trí Nguyên",""
+"UC_PQ_002","TC_PQ_033","Lỗi mất kết nối mạng khi tải quyền vai trò","5","Negative","3.2 Xem quyền theo vai trò","Hệ thống đang chạy bình thường.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Ngắt kết nối mạng (Tắt WiFi/Rút dây LAN).
+Bước 5. Nhấn chọn vai trò Quản lý.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Mạng bị ngắt.
+Bước 5. Hệ thống báo lỗi kết nối và cây phân quyền giữ nguyên trạng thái cũ, không bị văng phần mềm.","High","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_034","Hiển thị thanh cuộn khi danh sách vai trò dài","5","UI/UX","3.1 Màn hình thiết lập phân quyền","Hệ thống có nhiều hơn 20 vai trò.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Cuộn danh sách vai trò bên trái.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Thanh cuộn dọc (Scrollbar) xuất hiện, người dùng cuộn mượt mà để xem các vai trò phía dưới.","Low","","","Bùi Trí Nguyên",""
+"UC_PQ_001","TC_PQ_035","Hiển thị thanh cuộn trên cây phân quyền","5","UI/UX","3.1 Màn hình thiết lập phân quyền","Hệ thống có hàng trăm quyền con mở rộng.","Bước 1. Mở phần mềm Đại Nam POS.
+Bước 2. Đăng nhập tài khoản Quản trị viên (admin).
+Bước 3. Vào Hệ thống, chọn Phân quyền.
+Bước 4. Cuộn cây phân quyền bên phải xuống.","Bước 1. Phần mềm khởi động.
+Bước 2. Đăng nhập thành công.
+Bước 3. Màn hình phân quyền mở ra.
+Bước 4. Thanh cuộn dọc xuất hiện trên cây, cuộn mượt mà không làm mất focus.","Low","","","Bùi Trí Nguyên",""
